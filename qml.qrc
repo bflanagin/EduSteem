@@ -1,0 +1,30 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Task.qml</file>
+        <file>Stickerbook.qml</file>
+        <file>Childselect.qml</file>
+        <file>Chores.qml</file>
+        <file>Settings.qml</file>
+        <file>graphics/border1.png</file>
+        <file>graphics/bg1.png</file>
+        <file>graphics/name1.png</file>
+        <file>graphics/stickers1/1.png</file>
+        <file>graphics/stickers1/2.png</file>
+        <file>graphics/stickers1/3.png</file>
+        <file>graphics/blank.png</file>
+        <file>graphics/settings.png</file>
+        <file>graphics/sticker1.png</file>
+        <file>graphics/settingsbg.png</file>
+        <file>main.js</file>
+        <file>Adder.qml</file>
+        <file>Scheduler.qml</file>
+        <file>graphics/stickers1/4.png</file>
+        <file>graphics/stickers1/5.png</file>
+        <file>graphics/stickers1/6.png</file>
+        <file>openseed.js</file>
+        <file>Auth.qml</file>
+        <file>graphics/OpenSeed.png</file>
+        <file>Familyselect.qml</file>
+    </qresource>
+</RCC>
