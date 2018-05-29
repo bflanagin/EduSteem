@@ -1,0 +1,27 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Login.qml</file>
+        <file>EducatorUI.qml</file>
+        <file>StudentUI.qml</file>
+        <file>SchoolWizard.qml</file>
+        <file>UnitWizard.qml</file>
+        <file>CourseWizard.qml</file>
+        <file>LessonPlanWizard.qml</file>
+        <file>LessonPlanEditor.qml</file>
+        <file>CourseEditor.qml</file>
+        <file>Settings.qml</file>
+        <file>UnitEditor.qml</file>
+        <file>ESborder.qml</file>
+        <file>img/Banner.png</file>
+        <file>img/banner.svg</file>
+        <file>img/lines.png</file>
+        <file>Infoblock.qml</file>
+        <file>NewAccount.qml</file>
+        <file>NewStudentAccount.qml</file>
+        <file>img/steem-steem.svg</file>
+        <file>img/OpenSeed.png</file>
+        <file>img/steem.png</file>
+        <file>theme/ESTextField.qml</file>
+    </qresource>
+</RCC>
