@@ -52,6 +52,20 @@ Window {
         state:"inActive"
     }
 
+    SchoolWizard {
+        id:schoolSetup
+        width:1000
+        height: 650
+        state:"inActive"
+    }
+
+    EducatorUI {
+        id:educatorHome
+        width:parent.width
+        height:parent.height
+        state:"inActive"
+    }
+
 
     /* End Loaded Items */
 

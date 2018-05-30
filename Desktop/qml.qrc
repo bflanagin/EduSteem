@@ -23,5 +23,7 @@
         <file>img/OpenSeed.png</file>
         <file>img/steem.png</file>
         <file>theme/ESTextField.qml</file>
+        <file>plugins/markdown.js</file>
+        <file>plugins/MarkDown.qml</file>
     </qresource>
 </RCC>

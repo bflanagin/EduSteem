@@ -10,8 +10,8 @@ Rectangle {
     color:"white"
     visible: false
     anchors.centerIn: parent
-    width:parent.width * 0.98
-    height:parent.height * 0.98
+    width:parent.width * 0.99
+    height:parent.height * 0.99
 
     RadialGradient {
 
@@ -24,8 +24,6 @@ Rectangle {
            }
        }
 }
-
-
 
 DropShadow {
     anchors.fill: bg

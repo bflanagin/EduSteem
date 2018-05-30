@@ -3,6 +3,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 
 import "./theme"
+import "./plugins"
 
 ESborder {
     id:thisWindow
@@ -85,12 +86,10 @@ ESborder {
                 padding: 10
                 spacing: thisWindow.width * 0.03
 
-                Text {
+                MarkDown {
                     width:parent.width
                     height: thisWindow.height * 0.67
-                    wrapMode: Text.WordWrap
-                    text:"Account"
-
+                    thedata: ""
                 }
 
                 Row {
@@ -140,7 +139,7 @@ ESborder {
 
                 width:parent.width * 0.48
                 padding:10
-                spacing: thisWindow.width * 0.03
+                spacing: thisWindow.width * 0.04
                 Text {
                     text:"Info"
                 }
@@ -148,15 +147,10 @@ ESborder {
                 TextField {
                     width:parent.width * 0.98
                     anchors.horizontalCenter: parent.horizontalCenter
-                    placeholderText:qsTr("First Name")
+                    placeholderText:qsTr("User Name")
                     background:ESTextField{}
                 }
-                TextField {
-                    width:parent.width * 0.98
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    placeholderText:qsTr("Last Name")
-                    background:ESTextField{}
-                }
+
                 TextField {
                     width:parent.width * 0.98
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -168,6 +162,30 @@ ESborder {
                     anchors.horizontalCenter: parent.horizontalCenter
                     placeholderText:qsTr("Passphase")
                     background:ESTextField{}
+                }
+                Text {
+                   // width:parent.width * 0.98
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text:qsTr("New User")
+
+                }
+
+                Rectangle {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            width:parent.width * 0.94
+                            height:4
+                            color:seperatorColor
+                        }
+
+                Button {
+                    anchors.right: parent.right
+                    text:qsTr("Next")
+                    width:parent.width * 0.20
+                    background: ESTextField{}
+
+                    onClicked: { schoolSetup.state = "Active"
+                                 thisWindow.state = "inActive"
+                                }
                 }
 
             }

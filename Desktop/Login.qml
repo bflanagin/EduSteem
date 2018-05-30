@@ -45,7 +45,7 @@ ESborder {
             NumberAnimation {
                 target: thisWindow
                 properties: "opacity,anchors.verticalCenterOffset"
-                duration: 550
+                duration: 700
                 easing.type: Easing.InOutElastic
             }
         }
