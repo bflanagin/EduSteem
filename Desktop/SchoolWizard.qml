@@ -426,9 +426,10 @@ ESborder {
         anchors.left: parent.left
         anchors.bottom:parent.bottom
         anchors.margins: 20
-        text:"Back"
+        text:if(view.currentIndex> 0) {qsTr("Back")} else {qsTr("Cancel")}
         background: ESTextField{}
-        onClicked: if(view.currentIndex> 0) {view.currentIndex = view.currentIndex -1}
+        onClicked: if(view.currentIndex> 0) {view.currentIndex = view.currentIndex -1} else {thisWindow.state = "inActive"
+                                                                                                    login.state = "Active"}
     }
 
     Button {

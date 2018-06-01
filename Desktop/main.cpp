@@ -1,11 +1,14 @@
 #include <QGuiApplication>
+#include <QtQuick/QQuickView>
+#include <QtWidgets/QApplication>
+#include <QtCore/QDir>
 #include <QQmlApplicationEngine>
 
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));

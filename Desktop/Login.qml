@@ -3,6 +3,8 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import "./theme"
 
+import "./OSAuth.js" as Auth
+
 ESborder {
     id:thisWindow
     anchors.horizontalCenter: parent.horizontalCenter
@@ -133,6 +135,10 @@ ESborder {
             height:50
 
             background: ESTextField{}
+
+            onClicked: {thisWindow.state = "inActive"
+                        educatorHome.state = "Active"
+                        }
 
         }
     }

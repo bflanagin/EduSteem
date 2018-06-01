@@ -24,6 +24,15 @@ Window {
     /* End Theme Variables */
 
 
+    /* System Wide Variables */
+
+    property var courses: ["101 - Math","102 - Algebra","103 - Geometry","104 - Calculus","105 - Trigonometry","201 - Science","202 - Life Science","203 - Earth Science","204 - Chemestry","205 - Physics"]
+
+    property var languages: ["English","Spainish"]
+
+
+    /* End System Wide Variables */
+
     Component.onCompleted: login.state = "Active"
 
     /* Items to load */

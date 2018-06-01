@@ -25,5 +25,15 @@
         <file>theme/ESTextField.qml</file>
         <file>plugins/markdown.js</file>
         <file>plugins/MarkDown.qml</file>
+        <file>icons/add.svg</file>
+        <file>icons/back.svg</file>
+        <file>icons/edit-text.svg</file>
+        <file>icons/minus.svg</file>
+        <file>icons/Next.svg</file>
+        <file>StudentDashBoard.qml</file>
+        <file>CourseDashBoard.qml</file>
+        <file>GeneralInfoDashBoard.qml</file>
+        <file>schoolwizard.js</file>
+        <file>OSAuth.js</file>
     </qresource>
 </RCC>
