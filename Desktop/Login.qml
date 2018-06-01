@@ -1,6 +1,8 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
+import QtQuick.LocalStorage 2.0 as Sql
+
 import "./theme"
 
 import "./OSAuth.js" as Auth
@@ -9,6 +11,14 @@ ESborder {
     id:thisWindow
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.verticalCenter: parent.verticalCenter
+
+    property bool newaccount: false
+     property int uniqueemail: 0
+     property int uniquename: 0
+     property int uniqueaccount: 0
+     property string uniqueid: '0'
+     property string message: " "
+
 
     states: [
 
@@ -104,28 +114,39 @@ ESborder {
 
 
         TextField {
+            id:name
             anchors.horizontalCenter: parent.horizontalCenter
             width:parent.width * 0.95
             placeholderText: qsTr("Name")
+            onFocusChanged: Auth.checkcreds("name",text)
 
             background: ESTextField{}
 
         }
         TextField {
+             id:email
             anchors.horizontalCenter: parent.horizontalCenter
             width:parent.width * 0.95
             placeholderText: qsTr("Email Address")
-
+            onFocusChanged: Auth.checkcreds("email",text)
             background: ESTextField{}
 
         }
         TextField {
+            id:password
             anchors.horizontalCenter: parent.horizontalCenter
             width:parent.width * 0.95
             placeholderText: qsTr("Passphrase")
-
+            onFocusChanged: if(text.length > 0) {Auth.checkcreds("passphrase",name.text+":,:"+email.text+":,:"+password.text);} else {message = "Please Enter Password"}
+            echoMode:TextInput.Password
             background: ESTextField{}
+            onTextChanged: if(text.length > 0) {Auth.checkcreds("passphrase",name.text+":,:"+email.text+":,:"+password.text);}  else {message = "Please Enter Password" }
 
+        }
+
+        Text {
+            anchors.horizontalCenter: parent.horizontalCenter
+            text:message
         }
 
         Button {

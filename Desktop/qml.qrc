@@ -35,5 +35,6 @@
         <file>GeneralInfoDashBoard.qml</file>
         <file>schoolwizard.js</file>
         <file>OSAuth.js</file>
+        <file>network.js</file>
     </qresource>
 </RCC>

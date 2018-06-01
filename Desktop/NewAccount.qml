@@ -89,7 +89,9 @@ ESborder {
                 MarkDown {
                     width:parent.width
                     height: thisWindow.height * 0.67
-                    thedata: ""
+                    thedata: "### Creating an account \\n
+EduSteem uses OpenSeed for user authentication and the general functionality of the software. \\n \\n **If you already have an OpenSeed account, please login with your account on the previous page.  \\n \\n
+Funding for both Educators and students is handled by STEEM and the accounts for that system will need to be configured after the setup is complete.\\n"
                 }
 
                 Row {
@@ -177,6 +179,21 @@ ESborder {
                             color:seperatorColor
                         }
 
+                Item {
+                    width:parent.width
+                    height: thisWindow.height * 0.1
+
+                    Button {
+                        anchors.left: parent.left
+                        text:qsTr("Back")
+                        width:parent.width * 0.20
+                        background: ESTextField{}
+
+                        onClicked: { login.state = "Active"
+                                     thisWindow.state = "inActive"
+                                    }
+                    }
+
                 Button {
                     anchors.right: parent.right
                     text:qsTr("Next")
@@ -186,6 +203,8 @@ ESborder {
                     onClicked: { schoolSetup.state = "Active"
                                  thisWindow.state = "inActive"
                                 }
+                }
+
                 }
 
             }

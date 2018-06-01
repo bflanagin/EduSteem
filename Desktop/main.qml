@@ -1,5 +1,8 @@
 import QtQuick 2.11
 import QtQuick.Window 2.11
+import QtQuick.LocalStorage 2.0 as Sql
+import "network.js" as Network
+
 
 Window {
     id:mainView
@@ -10,15 +13,20 @@ Window {
     color:"#FFFFFF"
 
     /*App setup Variables */
-   property string devId: ""
-    property string appId: ""
+    property string devId: "Vag-01001011"
+    property string appId: "vagEduST-052308"
     property string version: "0.01"
+
+    property string userid:""
+    property var db: Sql.LocalStorage.openDatabaseSync("UserInfo", "1.0", "Local UserInfo", 1);
+
 
 
     /*Theme Variables */
 
     property string seperatorColor:"#5c9dd5"
     property string selectedHighlightColor:"#165098"
+    property string highLightColor1:"#165098"
 
 
     /* End Theme Variables */
@@ -29,11 +37,30 @@ Window {
     property var courses: ["101 - Math","102 - Algebra","103 - Geometry","104 - Calculus","105 - Trigonometry","201 - Science","202 - Life Science","203 - Earth Science","204 - Chemestry","205 - Physics"]
 
     property var languages: ["English","Spainish"]
-
+    property string heart: "Offline"
 
     /* End System Wide Variables */
 
+
+
+
+
     Component.onCompleted: login.state = "Active"
+
+
+
+    /* Timed events */
+
+    Timer {
+        id:beat
+        interval: 1000
+        running: true
+        repeat: true
+        onTriggered: Network.heartbeat()
+    }
+
+
+    /* End Timed Events */
 
     /* Items to load */
 

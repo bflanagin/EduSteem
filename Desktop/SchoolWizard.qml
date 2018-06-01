@@ -117,6 +117,12 @@ ESborder {
                             background: ESTextField{}
                         }
 
+                        Switch {
+                            id:isEducator
+                            anchors.right:parent.right
+                            text:"Educator"
+                        }
+
                         Text {
                             text:qsTr("Optional:")
                         }
@@ -138,6 +144,9 @@ ESborder {
                         }
 
                     }
+
+
+
 
                 }
 
@@ -178,6 +187,11 @@ ESborder {
         Item {
             id: secondPage
 
+            Item {
+                width:parent.width
+                height:parent.height
+                visible: if(isEducator.checked == true) {true} else {false}
+
             /* School Info */
 
             Column {
@@ -185,7 +199,7 @@ ESborder {
                 spacing: parent.width * 0.02
             Text {
                 anchors.horizontalCenter: parent.horizontalCenter
-                text:qsTr("Educational Organization")
+                text:qsTr("Educational Institution")
                 font.pointSize: 20
 
             }
@@ -277,109 +291,10 @@ ESborder {
             }
 
             }
-        }
-        Item {
-            id: thirdPage
-
-            /* Courses */
-
-            Column {
-                width:parent.width
-                spacing: parent.width * 0.02
-            Text {
-                anchors.horizontalCenter: parent.horizontalCenter
-                text:qsTr("Courses Offered")
-                font.pointSize: 20
-            }
-
-            Text {
-                anchors.horizontalCenter: parent.horizontalCenter
-                width:parent.width
-                wrapMode: Text.WordWrap
-                font.pointSize: 10
-                horizontalAlignment: Text.AlignHCenter
-                text:qsTr("Here you can setup some or all of the courses your school offers. You can also setup courses within the main interface if you would like to skip this page.")
-
-            }
-            Rectangle {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        width:parent.width * 0.94
-                        height:4
-                        color:seperatorColor
-                    }
-
-            Row {
-                width:parent.width
-                height:parent.height * 0.7
-
-
-                Item {
-                    width:thisWindow.width * 0.48
-                    height:parent.height
-
-                    ListView {
-                        anchors.centerIn: parent
-                        width:parent.width * 0.98
-                        height:parent.height * 0.90
-                        spacing: width * 0.01
-                        clip:true
-                        model: courseList
-
-                        delegate: Item {
-                                    width:parent.width
-                                    height:thisWindow.width * 0.06
-                                Rectangle {
-                                    anchors.centerIn: parent
-                                    width:parent.width * 0.99
-                                    height:parent.height * 0.99
-                                    border.color: seperatorColor
-                                    border.width: 1
-                                    radius: 5
-                                }
-
-                                Text {
-                                    anchors.left:parent.left
-                                    anchors.leftMargin: 10
-                                    text:name
-                                }
-
-                        }
-
-                    }
-
-                }
-
-                Rectangle {
-                           anchors.verticalCenter: parent.verticalCenter
-                            width:1
-                            height:parent.height * 0.85
-                            color:seperatorColor
-                        }
-
-                Item {
-                    width:thisWindow.width * 0.48
-                    height:parent.height
-
-                    Text {
-                        id:aboutCourseTitle
-                        anchors.left:parent.left
-                        anchors.leftMargin: 10
-                        text:qsTr("About:")
-                    }
-
-                    TextArea {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.top:aboutCourseTitle.bottom
-                        anchors.bottom:parent.bottom
-                        width:parent.width * 0.95
-                        background: ESTextField{}
-                    }
-                }
-
-            }
 
             }
         }
+
 
         Item {
             id: forthPage

@@ -113,7 +113,7 @@ function checkcreds(field,info) {
 
                 if(field === "passphrase") {
                     uniqueid = http.responseText;
-                    console.log = uniqueid;
+
 
                     if(uniqueid != '0') {
                         message = "Login granted";

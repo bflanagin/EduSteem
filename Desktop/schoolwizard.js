@@ -1,6 +1,8 @@
 function saveSchool() {
     /*saves school */
 
+
+
 }
 
 function findSchools() {

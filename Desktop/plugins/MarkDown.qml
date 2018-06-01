@@ -43,7 +43,7 @@ Item {
                 wrapMode: Text.WordWrap
                 clip: true
                 horizontalAlignment: Text.AlignLeft
-                font.pixelSize: postbg.width * 0.04
+                font.pixelSize: thisWindow.width * 0.04
                 text: "<div>" + thepost + "</div>"
             }
             /* If the data is an Image the Image Item is displayed */
