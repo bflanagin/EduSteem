@@ -36,5 +36,6 @@
         <file>schoolwizard.js</file>
         <file>OSAuth.js</file>
         <file>network.js</file>
+        <file>course.js</file>
     </qresource>
 </RCC>

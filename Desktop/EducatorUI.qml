@@ -8,6 +8,8 @@ import QtGraphicalEffects 1.0
 import "./theme"
 import "./plugins"
 
+import "./course.js" as Courses
+
 
 Item {
     id:thisWindow
@@ -59,6 +61,9 @@ Item {
     ]
 
     state:"inActive"
+
+
+    onStateChanged: if(state == "Active") {Courses.loadCourses(userid)}
 
     Rectangle {
         anchors.fill: parent
@@ -158,7 +163,7 @@ Item {
 
             MouseArea {
                 anchors.fill: parent
-                onClicked: cWizard.state = "Active"
+                onClicked: { cWizard.state = "Active"}
             }
         }
 
@@ -217,7 +222,9 @@ Item {
                             MouseArea {
                                 anchors.fill: parent
                                 onClicked: { rightMenu.state = "inActive"
+                                             course.coursenumber = cdate
                                              course.state = "Active"
+
                                              general.state = "inActive"
                                              student.state = "inActive"
                                             }
@@ -247,6 +254,7 @@ Item {
             //width:parent.height
             text: "Add"
             background: ESTextField{}
+            onClicked: {newStudent.state = "Active" }
         }
 
         }
@@ -549,38 +557,10 @@ state: "inActive"
     ListModel {
         id:courseList
 
-        ListElement {
-            name:"Course 1"
-        }
-
-        ListElement {
-            name:"Course 2"
-        }
-        ListElement {
-            name:"Course 3"
-        }
-
-        ListElement {
-            name:"Course 4"
-        }
-        ListElement {
-            name:"Course 5"
-        }
-
-
-
     }
 
     ListModel {
         id:studentList
-
-        ListElement {
-            name:"Student 1"
-        }
-
-        ListElement {
-            name:"Student 2"
-        }
     }
 
     GeneralInfoDashBoard {
@@ -603,7 +583,8 @@ state: "inActive"
 
     CourseDashBoard {
         id:course
-        anchors.right:rightMenu.left
+       // anchors.right:rightMenu.left
+        anchors.right:parent.right
         anchors.left:leftMenu.right
         anchors.verticalCenter: parent.verticalCenter
         height:parent.height
@@ -616,9 +597,18 @@ state: "inActive"
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.horizontalCenterOffset: leftMenu.width / 2
         state:"inActive"
-        width: 500
+        width: 800
         //height:300
 
+    }
+
+    NewStudentAccount {
+        id:newStudent
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.horizontalCenterOffset: leftMenu.width / 2
+        state:"inActive"
+        width: 800
     }
 
 }

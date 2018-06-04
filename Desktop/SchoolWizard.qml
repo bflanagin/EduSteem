@@ -1,12 +1,25 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.2
+import QtQuick.LocalStorage 2.0 as Sql
+
 import "./theme"
 import "./plugins"
+
+import "./OSAuth.js" as Auth
+import "./schoolwizard.js" as Scripts
+
+
 
 ESborder {
     id:thisWindow
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.verticalCenter: parent.verticalCenter
+    onStateChanged: if(state == "Active") {if(Scripts.checklocal("user") === true) {
+
+                            view.currentIndex = 1;
+                        }
+
+                    } else {}
 
     states: [
 
@@ -102,16 +115,19 @@ ESborder {
                         }
 
                         TextField {
+                            id:firstnameBox
                             width:parent.width
                             placeholderText: qsTr("First Name")
                             background: ESTextField{}
                         }
                         TextField {
+                            id:lastnameBox
                             width:parent.width
                             placeholderText: qsTr("Last Name")
                             background: ESTextField{}
                         }
                         TextField {
+                            id:emailBox
                             width:parent.width
                             placeholderText: qsTr("Email Address")
                             background: ESTextField{}
@@ -121,6 +137,7 @@ ESborder {
                             id:isEducator
                             anchors.right:parent.right
                             text:"Educator"
+                            checked:atype
                         }
 
                         Text {
@@ -128,16 +145,19 @@ ESborder {
                         }
 
                         TextField {
+                            id:phoneBox
                             width:parent.width
                             placeholderText: qsTr("Phone #")
                             background: ESTextField{}
                         }
                         TextField {
+                            id:countryBox
                             width:parent.width
                             placeholderText: qsTr("Country")
                             background: ESTextField{}
                         }
                         TextField {
+                            id:stateBox
                             width:parent.width
                             placeholderText: qsTr("State")
                             background: ESTextField{}
@@ -170,10 +190,13 @@ ESborder {
                     }
 
                     TextArea {
+                        id:aboutBox
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.top:aboutTitle.bottom
                         anchors.bottom:parent.bottom
                         width:parent.width * 0.95
+                        wrapMode: Text.WordWrap
+                        padding: 10
                         background: ESTextField{}
                     }
 
@@ -197,12 +220,28 @@ ESborder {
             Column {
                 width:parent.width
                 spacing: parent.width * 0.02
-            Text {
-                anchors.horizontalCenter: parent.horizontalCenter
-                text:qsTr("Educational Institution")
-                font.pointSize: 20
 
-            }
+                Row {
+                    width:parent.width
+                    height: title.height
+                    clip:true
+                    Text {
+                        id:title
+                        width:parent.width * 0.80
+                        text:qsTr("Educational Institution")
+                        font.pointSize: 20
+
+                    }
+
+                    Switch {
+                        id:isFreeLance
+                        anchors.verticalCenter: parent.verticalCenter
+                        width:parent.width * 0.20
+                        text:"Free Lance"
+                    }
+                }
+
+
             Rectangle {
                         anchors.horizontalCenter: parent.horizontalCenter
                         width:parent.width * 0.94
@@ -228,6 +267,7 @@ ESborder {
                     }
 
                     TextArea {
+                        id:schoolaboutBox
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.top:aboutSchoolTitle.bottom
                         anchors.bottom:parent.bottom
@@ -258,27 +298,37 @@ ESborder {
                         }
 
                         TextField {
+                            id:schoolNameBox
                             width:parent.width
                             placeholderText: qsTr("School Name")
                             background: ESTextField{}
                         }
 
+                        TextField {
+                            id:schoolEmailBox
+                            width:parent.width
+                            placeholderText: qsTr("School Email Address")
+                            background: ESTextField{}
+                        }
 
                         Text {
                             text:qsTr("Optional:")
                         }
 
                         TextField {
+                            id:schoolphoneBox
                             width:parent.width
                             placeholderText: qsTr("Phone #")
                             background: ESTextField{}
                         }
                         TextField {
+                            id:schoolcountryBox
                             width:parent.width
                             placeholderText: qsTr("Country")
                             background: ESTextField{}
                         }
                         TextField {
+                            id:schoolstateBox
                             width:parent.width
                             placeholderText: qsTr("State")
                             background: ESTextField{}
@@ -354,7 +404,17 @@ ESborder {
         anchors.margins: 20
         text:if(view.currentIndex < view.count-1) {"Next"} else {"Finish"}
         background: ESTextField{}
-        onClicked: if(view.currentIndex < view.count-1) {view.currentIndex = view.currentIndex + 1} else {educatorHome.state = "Active" }
+        onClicked: if(view.currentIndex < view.count-1) {
+                       if(view.currentIndex == 0 && firstnameBox.length > 1 && lastnameBox.length > 1 && emailBox.length > 1) {
+                           Auth.save_local(userid,isEducator.checked,firstnameBox.text,lastnameBox.text,emailBox.text,phoneBox.text,countryBox.text,stateBox.text,aboutBox.text)
+
+                       } else if (view.currentIndex == 1 && schoolNameBox.length > 1 && schoolEmailBox.length > 1 || isFreeLance.checked === 1) {
+                            Scripts.saveSchool(userid,isFreelance.checked,schoolNameBox.text,schoolEmailBox.text,schoolphoneBox.text,schoolcountryBox.text,schoolstateBox.text,schoolaboutBox.text)
+                       }
+                       view.currentIndex = view.currentIndex + 1
+                   } else {
+                       educatorHome.state = "Active"
+                   }
 
     }
 

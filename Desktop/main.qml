@@ -34,10 +34,12 @@ Window {
 
     /* System Wide Variables */
 
-    property var courses: ["101 - Math","102 - Algebra","103 - Geometry","104 - Calculus","105 - Trigonometry","201 - Science","202 - Life Science","203 - Earth Science","204 - Chemestry","205 - Physics"]
+    property var courses: ["101 - Math","201 - Science","301 - Humanities", "302 - Literature", "303 - Writing", "304 - Grammar", "401 - Art", "501 - Music","601 - Vocational", "601 - Projects"]
 
     property var languages: ["English","Spainish"]
     property string heart: "Offline"
+    property int atype: 0 /* Account Type */
+    property int etype: 0 /* Educator Type */
 
     /* End System Wide Variables */
 

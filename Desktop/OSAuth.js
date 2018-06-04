@@ -1,5 +1,8 @@
+ /* general OpenSeed authentication */
 
 function oseed_auth(name,email,passphrase) {
+
+    /*send the data to get authentication from the server. This is a simpler version of checkcreds and may be removed */
 
     var http = new XMLHttpRequest();
     //var url = "https://openseed.vagueentertainment.com:8675/corescripts/auth.php?devid=" + devId + "&appid=" + appId + "&username="+ name + "&email=" + email ;
@@ -32,6 +35,8 @@ function oseed_auth(name,email,passphrase) {
 
 
 function heartbeat() {
+
+    /* This is a simple heart beat function to verify that data can be sent to the server. This is needed for the asyncronious nature of the program */
 
     var http = new XMLHttpRequest();
     var url = "https://openseed.vagueentertainment.com:8675/corescripts/heartbeat.php";
@@ -78,6 +83,8 @@ function heartbeat() {
 
 
 function checkcreds(field,info) {
+
+    /* User for quick checks to the server to verify new accounts and validate old ones. */
 
     var http = new XMLHttpRequest();
     //var url = "https://openseed.vagueentertainment.com:8675/corescripts/auth.php?devid=" + devId + "&appid=" + appId + "&username="+ name + "&email=" + email ;
@@ -135,7 +142,10 @@ function checkcreds(field,info) {
 
 }
 
+
 function account_type(userid) {
+
+    /* Checks to see if the user id is an admin or a normal user good for programs that have multiple layers of account */
 
     var http = new XMLHttpRequest();
     //var url = "https://openseed.vagueentertainment.com:8675/corescripts/auth.php?devid=" + devId + "&appid=" + appId + "&username="+ name + "&email=" + email ;
@@ -168,5 +178,31 @@ function account_type(userid) {
     //http.send(null);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.send("devid=" + devId + "&appid=" + appId + "&type=admin&info=" + userid);
+
+}
+
+
+/* End General functions */
+
+
+function save_local(userid,type,firstname,lastname,email,phone,country,state,about) {
+
+   db.transaction(function (tx){
+        var data = [userid,type,firstname,lastname,email,phone,country,state,about];
+        var dtable = "INSERT INTO Users VALUES(?,?,?,?,?,?,?,?,?)"
+        var update = "UPDATE Users SET type="+type+", firstname='"+firstname+"', lastname='"+lastname+"', email='"+email+"', phone='"+phone+"', country='"+country+"', state='"+state+"', about='"+about+"' WHERE id='"+userid+"'"
+
+       tx.executeSql('CREATE TABLE IF NOT EXISTS Users (id TEXT, type INT,firstname TEXT,lastname TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT)')
+
+            var dataSTR = "SELECT * FROM Users WHERE id ='"+userid+"'";
+
+            var pull = tx.executeSql(dataSTR);
+            if(pull.rows.length !== 1) {
+                tx.executeSql(dtable,data);
+            } else {
+                 tx.executeSql(update);
+            }
+
+   });
 
 }

@@ -6,6 +6,7 @@ import QtQuick.LocalStorage 2.0 as Sql
 import "./theme"
 
 import "./OSAuth.js" as Auth
+import "./schoolwizard.js" as Scripts
 
 ESborder {
     id:thisWindow
@@ -19,51 +20,6 @@ ESborder {
      property string uniqueid: '0'
      property string message: " "
 
-
-    states: [
-
-            State {
-                name:"Active"
-                    PropertyChanges {
-
-                        target:thisWindow
-                        opacity:1
-                        anchors.verticalCenterOffset: 0
-
-                    }
-
-                },
-
-        State {
-            name:"inActive"
-                PropertyChanges {
-
-                    target:thisWindow
-                    opacity:0
-                    anchors.verticalCenterOffset: parent.height + 500
-
-                }
-
-            }
-
-    ]
-
-    transitions: [
-        Transition {
-            from: "inActive"
-            to: "Active"
-            reversible: true
-
-            NumberAnimation {
-                target: thisWindow
-                properties: "opacity,anchors.verticalCenterOffset"
-                duration: 700
-                easing.type: Easing.InOutElastic
-            }
-        }
-    ]
-
-    state:"inActive"
 
     Image {
         id:banner
@@ -154,12 +110,20 @@ ESborder {
             text:qsTr("Login")
             width:parent.width * 0.50
             height:50
-
+            enabled:if(userid != '') {true} else {false}
             background: ESTextField{}
 
             onClicked: {thisWindow.state = "inActive"
-                        educatorHome.state = "Active"
+                        if(Scripts.checklocal("user") === true) {
+                                    if(Scripts.checklocal("school") === true) {
+                                    educatorHome.state = "Active"
+                                    } else {
+                                        schoolSetup.state = "Active"
+                                    }
+                        } else {
+                            schoolSetup.state = "Active"
                         }
+            }
 
         }
     }
