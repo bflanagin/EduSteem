@@ -1,14 +1,13 @@
-function saveSchool(userid,type,name,email,phone,country,state,about) {
+function saveSchool(userid,type,name,email,phone,country,state,about,schoolcode) {
     /*saves school */
 
 
-
     db.transaction(function (tx){
-         var data = [userid,type,name.replace(/ /g,"_"),email,phone,country,state,about];
-         var dtable = "INSERT INTO Schools VALUES(?,?,?,?,?,?,?,?)"
+         var data = [userid,type,name.replace(/ /g,"_"),email,phone,country,state,about,schoolcode];
+         var dtable = "INSERT INTO Schools VALUES(?,?,?,?,?,?,?,?,?)"
          var update = "UPDATE Schools SET type="+type+", name='"+name.replace(/ /,"_")+"',  email='"+email+"', phone='"+phone+"', country='"+country+"', state='"+state+"', about='"+about+"' WHERE id='"+userid+"'"
 
-        tx.executeSql('CREATE TABLE IF NOT EXISTS Schools (id TEXT, type INT,name TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT)')
+        tx.executeSql('CREATE TABLE IF NOT EXISTS Schools (id TEXT, type INT,name TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT,code TEXT)')
 
              var dataSTR = "SELECT * FROM Schools WHERE id ='"+userid+"'";
 
@@ -57,8 +56,8 @@ function checklocal(type) {
         var exists = false;
     db.transaction(function (tx) {
 
-        tx.executeSql('CREATE TABLE IF NOT EXISTS Users (id TEXT, type INT,firstname TEXT,lastname TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT)')
-        tx.executeSql('CREATE TABLE IF NOT EXISTS Schools (id TEXT, type INT,name TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT)')
+        tx.executeSql('CREATE TABLE IF NOT EXISTS Users (id TEXT, type INT,firstname TEXT,lastname TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT)')
+        tx.executeSql('CREATE TABLE IF NOT EXISTS Schools (id TEXT, type INT,name TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT)')
 
 
         switch(type) {

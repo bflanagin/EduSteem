@@ -8,13 +8,17 @@ import "./course.js" as Scripts
 
 ESborder {
     id: thisWindow
-
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.verticalCenter: parent.verticalCenter
     height: cColumn.height * 1.5 + buttonRow.height
+
+    property int type: 0
 
     Text {
         id: title
+
         anchors.horizontalCenter: parent.horizontalCenter
-        text: "Unit"
+        text: "Question"
         font.pointSize: 18
     }
 
@@ -33,54 +37,45 @@ ESborder {
         height: cColumn.height
         Column {
             id: cColumn
-
-            width: parent.width * 0.50
-
-            spacing: thisWindow.width * 0.02
+            //anchors.centerIn: parent
+            width: if(type == 1) {parent.width * 0.50} else {parent.width}
+            //height: parent.height * 0.95
+            spacing: thisWindow.width * 0.01
             Text {
+                visible: if(type == 1) {true} else {false}
                 anchors.left: parent.left
-                anchors.leftMargin: 10
-                text: qsTr("General Info:")
-            }
-            TextField {
-                id: unitNameBox
-                anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width * 0.95
-                placeholderText: qsTr("Unit Name")
-                background: ESTextField {
-                }
-            }
-
-            Text {
-                anchors.left: parent.left
-                anchors.leftMargin: 10
-                text: qsTr("Primary Objective:")
+                anchors.leftMargin: 20
+                text: qsTr("Question")
             }
             TextArea {
-                id: unitObjectiveBox
-                anchors.left: parent.left
-                anchors.leftMargin: 10
-                padding:10
-                width: parent.width * 0.96
+                id: questionBox
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width * 0.95
+                height: 200
                 wrapMode: Text.WordWrap
-                height: 210
+                placeholderText: qsTr("What is happening?")
                 background: ESTextField {
                 }
             }
+
         }
 
         Column {
+            visible: if(type == 1) {true} else {false}
             width: parent.width * 0.50
             height: cColumn.height
-
+            spacing: thisWindow.width * 0.01
             Text {
-                text: qsTr("About")
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                text: qsTr("Answer")
             }
             TextArea {
-                id: unitAboutBox
+                id: questionAnswerBox
                 width: parent.width * 0.98
-                height: cColumn.height * 0.94
+                height: 200
                 wrapMode: Text.WordWrap
+                placeholderText: qsTr("You're adding a question.")
                 background: ESTextField {
                 }
             }
@@ -94,6 +89,7 @@ ESborder {
         width: parent.width * 0.98
         anchors.horizontalCenter: parent.horizontalCenter
         spacing: parent.width * 0.39
+
         Button {
 
             width: parent.width * 0.30
@@ -115,8 +111,17 @@ ESborder {
             text: qsTr("Okay")
 
             onClicked: {
-                Scripts.saveUnit(userid,coursenumber,unitNameBox.text,
-                                 unitObjectiveBox.text, unitAboutBox.text, 0)
+                if(type == 0) {
+
+                    guidedQuestions.push(questionBox.text)
+                    Scripts.loadQuestions(type);
+
+
+                } else {
+
+                    reviewQuestions.push(questionBox.text+":::"+questionAnswerBox.text)
+                    Scripts.loadQuestions(type);
+                }
 
                 thisWindow.state = "inActive"
             }

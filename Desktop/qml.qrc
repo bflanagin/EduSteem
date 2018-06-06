@@ -37,5 +37,11 @@
         <file>OSAuth.js</file>
         <file>network.js</file>
         <file>course.js</file>
+        <file>QuestionWizard.js</file>
+        <file>QuestionWizard.qml</file>
+        <file>CDBUnit.qml</file>
+        <file>general.js</file>
+        <file>RightMenu.qml</file>
+        <file>FieldEdit.qml</file>
     </qresource>
 </RCC>

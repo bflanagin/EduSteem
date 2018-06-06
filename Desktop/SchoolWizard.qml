@@ -7,6 +7,7 @@ import "./plugins"
 
 import "./OSAuth.js" as Auth
 import "./schoolwizard.js" as Scripts
+import "./general.js" as Standard
 
 
 
@@ -272,6 +273,7 @@ ESborder {
                         anchors.top:aboutSchoolTitle.bottom
                         anchors.bottom:parent.bottom
                         width:parent.width * 0.95
+                        wrapMode: Text.WordWrap
                         background: ESTextField{}
                     }
 
@@ -406,10 +408,10 @@ ESborder {
         background: ESTextField{}
         onClicked: if(view.currentIndex < view.count-1) {
                        if(view.currentIndex == 0 && firstnameBox.length > 1 && lastnameBox.length > 1 && emailBox.length > 1) {
-                           Auth.save_local(userid,isEducator.checked,firstnameBox.text,lastnameBox.text,emailBox.text,phoneBox.text,countryBox.text,stateBox.text,aboutBox.text)
+                           Auth.save_local(userid,isEducator.checked,firstnameBox.text,lastnameBox.text,emailBox.text,phoneBox.text,countryBox.text,stateBox.text,aboutBox.text,Standard.oneTime(userid,1))
 
                        } else if (view.currentIndex == 1 && schoolNameBox.length > 1 && schoolEmailBox.length > 1 || isFreeLance.checked === 1) {
-                            Scripts.saveSchool(userid,isFreelance.checked,schoolNameBox.text,schoolEmailBox.text,schoolphoneBox.text,schoolcountryBox.text,schoolstateBox.text,schoolaboutBox.text)
+                            Scripts.saveSchool(userid,isFreeLance.checked,schoolNameBox.text,schoolEmailBox.text,schoolphoneBox.text,schoolcountryBox.text,schoolstateBox.text,schoolaboutBox.text,Standard.oneTime(userid,1))
                        }
                        view.currentIndex = view.currentIndex + 1
                    } else {

@@ -2,8 +2,10 @@
   currently supports most of the things I have used in my own posts but I'm sure others will need to be added for maxium support */
 function md2qml(text) {
 
-    var splittext = text.split("\\n")
+    var splittext = text.split(/\n/)
     var formatted = ""
+
+    markdown.clear()
 
     for (var num = 0; num < splittext.length; num = num + 1) {
 
@@ -12,7 +14,7 @@ function md2qml(text) {
         /* here we search for code breaks I'd like to add color highlighting based on what kind of code is present but that will come later */
         if (splittext[num].search("```") !== -1) {
             changeformat = splittext[num].replace(/```/,
-                                                  "<br><br>").replace(/\\n/, "")
+                                                  "<br><br>").replace(/\n/, "")
 
             markdown.append({
                                 type: "code",
@@ -47,7 +49,8 @@ function replace_linestarters(line) {
 
     /* Here we take the information in the array and run it through the text that is given. The nested array is broken into three parts [What to lookfor, What to replace it with,
             and how to end the line] */
-    var linestarters = [["#### ", "<h4>", "</h4>"], ["### ", "<h3>", "</h3>"], ["## ", "<h2>", "</h2>"], ["# ", "<h1>", "</h1>"], ["- ", "<ul><li>", "</li></ul>"], [/ \*\*/g, "<b>", ""], [/\*\*/g, "<b>", ""], [/\*\* /g, "</b>", ""], ["\\+ ", "<ul><li>", "</li></ul>"]]
+    var linestarters = [["#### ", "<h4>", "</h4>"], ["### ", "<h3>", "</h3>"], ["## ", "<h2>", "</h2>"], ["# ", "<h1>", "</h1>"], ["- ", "<ul><li>", "</li></ul>"], [/ \*\*/g, " <b>", ""], [/\*\*/g, " <b>", ""], [/\*\* /g, "</b>", ""], ["\\+ ", "<ul><li>", "</li></ul>"],
+            [/\* /g, "<ul><li>", "</li></ul>"]]
 
     for (var rnum = 0; linestarters.length > rnum; rnum = rnum + 1) {
 
@@ -61,5 +64,5 @@ function replace_linestarters(line) {
         }
     }
 
-    return formatedline.replace(/\\n/, "<br>")
+    return formatedline.replace(/\\n/g, "<br>").replace(/\n/g, "<br>")
 }

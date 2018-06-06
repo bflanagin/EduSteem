@@ -24,7 +24,7 @@ Item {
 
                     target:thisWindow
                     opacity:0
-                    anchors.verticalCenterOffset: parent.height + 500
+                    anchors.verticalCenterOffset: parent.height + height * 1.1
 
                 }
 
@@ -41,8 +41,8 @@ Item {
             NumberAnimation {
                 target: thisWindow
                 properties: "opacity,anchors.verticalCenterOffset"
-                duration: 550
-                easing.type: Easing.InOutElastic
+                duration: 300
+                easing.type: Easing.InOutQuad
             }
         }
     ]
@@ -66,8 +66,8 @@ Rectangle {
            width:parent.width * 0.99
            height:parent.height * 0.99
            gradient: Gradient {
-               GradientStop { position: 0.3; color: "#FFFFFF" }
-               GradientStop { position: 0.98; color: "#F7F7F7" }
+               GradientStop { position: 0.3; color: "#FFFFFFFF" }
+               GradientStop { position: 0.98; color: "#11F7F7F7" }
            }
        }
 }

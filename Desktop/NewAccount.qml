@@ -89,9 +89,9 @@ ESborder {
                 MarkDown {
                     width:parent.width
                     height: thisWindow.height * 0.67
-                    thedata: "### Creating an account \\n
-EduSteem uses OpenSeed for user authentication and the general functionality of the software. \\n \\n **If you already have an OpenSeed account, please login with your account on the previous page.  \\n \\n
-Funding for both Educators and students is handled by STEEM and the accounts for that system will need to be configured after the setup is complete.\\n"
+                    thedata: "### Creating an account \n
+EduSteem uses OpenSeed for user authentication and the general functionality of the software. \n  **If you already have an OpenSeed account, please login with your account on the previous page.  \n
+Funding for both Educators and students is handled by STEEM and the accounts for that system will need to be configured after the setup is complete.\n"
                 }
 
                 Row {

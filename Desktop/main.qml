@@ -3,6 +3,7 @@ import QtQuick.Window 2.11
 import QtQuick.LocalStorage 2.0 as Sql
 import "network.js" as Network
 
+import "./general.js" as Standard
 
 Window {
     id:mainView
@@ -20,8 +21,6 @@ Window {
     property string userid:""
     property var db: Sql.LocalStorage.openDatabaseSync("UserInfo", "1.0", "Local UserInfo", 1);
 
-
-
     /*Theme Variables */
 
     property string seperatorColor:"#5c9dd5"
@@ -36,10 +35,14 @@ Window {
 
     property var courses: ["101 - Math","201 - Science","301 - Humanities", "302 - Literature", "303 - Writing", "304 - Grammar", "401 - Art", "501 - Music","601 - Vocational", "601 - Projects"]
 
-    property var languages: ["English","Spainish"]
+    property var languages: ["English","Spanish"]
     property string heart: "Offline"
     property int atype: 0 /* Account Type */
     property int etype: 0 /* Educator Type */
+
+    property string userName: ""
+    property string schoolName: ""
+    property string schoolCode: ""
 
     /* End System Wide Variables */
 
@@ -47,7 +50,13 @@ Window {
 
 
 
-    Component.onCompleted: login.state = "Active"
+    Component.onCompleted: { login.state = "Active"
+
+                            }
+
+    onUseridChanged: if(userid.length > 2) { Standard.loadschool(userid)
+                                                 Standard.loaduser(userid)
+                                            }
 
 
 
@@ -103,6 +112,8 @@ Window {
         height:parent.height
         state:"inActive"
     }
+
+
 
 
     /* End Loaded Items */

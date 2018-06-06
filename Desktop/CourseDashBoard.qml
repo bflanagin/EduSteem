@@ -57,16 +57,52 @@ property string courseName: "Course Name"
 
     state:"inActive"
 
-    onStateChanged: if(state == "Active") {Scripts.loadCourse(userid,coursenumber)} else {}
+    onStateChanged: if(state == "Active") {Scripts.loadCourse(userid,coursenumber)
+                                            Scripts.loadUnits(userid,coursenumber)} else {}
 
     Text {
         id:title
         text: courseName
         anchors.top:parent.top
-        anchors.left: parent.left
+        anchors.left: backbutton.right
         anchors.margins: 20
         font.bold: true
         font.pointSize: 15
+
+        Image {
+            anchors.left:parent.right
+            anchors.bottom:parent.bottom
+            source:"./icons/edit-text.svg"
+            width:parent.height * 0.5
+            height:parent.height * 0.5
+            fillMode: Image.PreserveAspectFit
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {editthis.field = "Title"
+                            editthis.where = "course"
+                            editthis.itemId = coursenumber
+                            editthis.state = "Active" }
+            }
+        }
+    }
+
+    Rectangle {
+        id:backbutton
+        anchors.top:parent.top
+        anchors.left:parent.left
+        anchors.margins: 20
+        height:title.height
+        width:title.height
+        radius:width /2
+        color:seperatorColor
+        MouseArea {
+            anchors.fill: parent
+            onClicked: { thisWindow.state = "inActive"
+                         general.state = "Active"
+
+                        }
+        }
     }
 
     Button {
@@ -76,6 +112,7 @@ property string courseName: "Course Name"
         anchors.margins: 20
         text:qsTr("Add Unit")
         background:ESTextField {}
+        onClicked: {newUnit.state = "Active" }
     }
 
 
@@ -88,13 +125,13 @@ property string courseName: "Course Name"
         color: seperatorColor
     }
 
-    Flickable {
+    Item {
         anchors.top:title.bottom
         anchors.topMargin: 24
         anchors.bottom:parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         width:parent.width * 0.98
-        contentHeight: cColumn.height * 1.02
+       // contentHeight: cColumn.height * 1.02
         clip: true
         Column {
             anchors.top: parent.top
@@ -107,25 +144,24 @@ property string courseName: "Course Name"
             ListView {
                 anchors.horizontalCenter: parent.horizontalCenter
                 width:thisWindow.width * 0.98
-                height:contentHeight
+                height:contentHeight * 1.1
                 clip:true
                 spacing: thisWindow.height * 0.02
 
-                model:3
+                model:unitList
 
                 delegate: ESborder {
                             anchors.horizontalCenter: parent.horizontalCenter
                             width:thisWindow.width * 0.98
-                            height:lessons.height * 1.03
+                            height:if(lessons.height > unitColumn.height) {lessons.height * 1.05} else {unitColumn.height* 1.05}
 
-                           /* Rectangle {anchors.fill: parent
-                                    color:if(index % 2) {"#FFFFFF"} else {"#FAFAFA"}
-                                    border.width: 1
-                            } */
+
                             Row {
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 width:parent.width * 0.98
-                                height:lessons.height
+                                height:if(lessons.height > unitColumn.height) {lessons.height} else {unitColumn.height}
+
+
 
                             Column {
                                 id:unitColumn
@@ -135,15 +171,24 @@ property string courseName: "Course Name"
 
                                 Text {
                                     padding: 10
-                                    text:"Unit "+index
+                                    text:name
                                     font.bold: true
+                                    font.pointSize: 12
+                                }
+
+                                Rectangle {
+
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    width: parent.width * 0.95
+                                    height: 2
+                                    color: seperatorColor
                                 }
 
                                 Text {
 
-                                    text: "This unit goes over things and stuff"
+                                    text: about
                                     padding: 15
-                                    width:parent.width
+                                    width:parent.width * 0.8
                                     wrapMode: Text.WordWrap
                                 }
 
@@ -155,37 +200,95 @@ property string courseName: "Course Name"
                                 width:parent.width * 0.60
                                 spacing:thisWindow.height * 0.02
 
-                                model: 3
+
+
+                                model: CDBUnit{thedate: cdate}
 
                                 delegate: ESborder {
                                                 width:thisWindow.width * 0.58
-                                                height:lessonColumn.height * 1.02
+                                                height:lessonColumn.height * 1.1
 
 
                                             Column {
                                                 id:lessonColumn
                                                 width:parent.width * 0.99
-                                                spacing:thisWindow.height * 0.02
+                                                spacing:thisWindow.height * 0.01
 
                                                 anchors.centerIn: parent
 
                                                 Text {
-                                                    text:"Title"
+                                                    text:name
                                                     padding: 10
                                                 }
+
+                                                Rectangle {
+
+                                                    anchors.horizontalCenter: parent.horizontalCenter
+                                                    width: parent.width * 0.98
+                                                    height: 1
+                                                    color: seperatorColor
+                                                }
+
                                                 Text {
-                                                    text:"Other stuff"
+                                                    text:about
                                                     padding: 10
+                                                    width:parent.width * 0.9
+                                                    wrapMode: Text.WordWrap
                                                 }
                                             }
                                 }
 
                             }
 
+
+
                          }
+
+                      MouseArea {
+                          anchors.fill:parent
+                          z:2
+                          onClicked: {
+                              editUnit.unitNumber = cdate
+                              editUnit.state = "Active"
+
+                          }
+                      }
+
+
+
+
                 }
             }
         }
+
+    }
+
+    ListModel {
+        id:unitList
+    }
+
+
+
+    UnitWizard {
+        id:newUnit
+        anchors.horizontalCenter:thisWindow.horizontalCenter
+        anchors.verticalCenter: thisWindow.verticalCenter
+
+        width: 800
+        state: "inActive"
+
+        onStateChanged: {
+                Scripts.loadUnits(userid,coursenumber)
+        }
+    }
+
+    UnitEditor {
+        id:editUnit
+        anchors.horizontalCenter:thisWindow.horizontalCenter
+        anchors.verticalCenter: thisWindow.verticalCenter
+        height:parent.height
+        width:parent.width
+        state: "inActive"
 
     }
 
