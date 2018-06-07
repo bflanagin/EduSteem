@@ -14,6 +14,11 @@ Item {
         text:"Status: "+heart
     }
 
+    Text {
+        text:"School Code: "+schoolCode
+    }
+
+
     }
 
 }

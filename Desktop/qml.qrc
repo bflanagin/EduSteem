@@ -43,5 +43,6 @@
         <file>general.js</file>
         <file>RightMenu.qml</file>
         <file>FieldEdit.qml</file>
+        <file>theme/CircleButton.qml</file>
     </qresource>
 </RCC>

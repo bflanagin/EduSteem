@@ -21,7 +21,15 @@ As the student works through their lessons a tally is generated based on their o
 
 #Build Instructions
 
-1. Install Qt from your repositories (if you are on a modern Linux Distro) or download the software from  [https://www.qt.io/developers/](url)
+ **for all clients** Install Qt from your repositories (if you are on a modern Linux Distro) or download the software from  [https://www.qt.io/developers/](url)
+
+#Desktop Version
+1. Make your way to the Desktop folder
+2. open the .pro file within Qt Creator
+3. Build
+
+#Mobile Version
+1. Make your way to the Mobile folder
 2. open the .pro file within Qt Creator
 3. Build
 

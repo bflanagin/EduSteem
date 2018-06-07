@@ -43,4 +43,42 @@ function heartbeat() {
 
 }
 
+function checkOpenSeed(userid,code,type) {
+
+    console.log("Checking for "+code)
+
+    var http = new XMLHttpRequest();
+    var url = "https://openseed.vagueentertainment.com:8675/devs/Vag-01001011/vagEdu-053018/scripts/check.php";
+
+
+    http.onreadystatechange = function() {
+
+       if(http.status === 200) {
+        if (http.readyState === 4) {
+           // console.log(http.responseText);
+            //userid = http.responseText;
+            if(http.responseText == "100") {
+                console.log("Incorrect DevID");
+            } else if(http.responseText == "101") {
+                console.log("Incorrect AppID");
+            } else {
+
+                console.log(http.responseText)
+
+            }
+
+        }
+
+       }
+
+    }
+    http.open('POST', url.trim(), true);
+
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.send("devid=" + devId + "&appid=" + appId + "&userid="+ userid + "&code="+ code +"&type="+ type);
+
+
+
+}
+
 
