@@ -313,6 +313,15 @@ ESborder {
                             background: ESTextField{}
                         }
 
+                        Button {
+                            anchors.right:parent.right
+
+                            text:qsTr("Join Existing School")
+                            background: ESTextField{}
+
+                            onClicked: joinSchool.state = "Active"
+                        }
+
                         Text {
                             text:qsTr("Optional:")
                         }
@@ -438,6 +447,47 @@ ESborder {
            type: 1
            name: "Add Course"
         }
+    }
+
+    ESborder {
+        id: joinSchool
+        state:"inActive"
+        width: 400
+        height: 200
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        Column {
+            anchors.centerIn: parent
+            width:parent.width * 0.98
+            height:parent.height * 0.8
+            spacing: thisWindow.width * 0.03
+
+            Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.bold: true
+                font.pointSize: 12
+                text: qsTr("Join existing school")
+            }
+
+            Rectangle {
+
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width * 0.95
+                height: 3
+                color: seperatorColor
+            }
+
+            TextField {
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width * 0.6
+                background: ESTextField{}
+                placeholderText: qsTr("Enter School Code")
+            }
+        }
+
+
+
     }
 
 }

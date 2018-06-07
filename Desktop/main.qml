@@ -1,7 +1,7 @@
 import QtQuick 2.11
 import QtQuick.Window 2.11
 import QtQuick.LocalStorage 2.0 as Sql
-import "network.js" as Network
+import "./network.js" as Network
 
 import "./general.js" as Standard
 
@@ -41,6 +41,7 @@ Window {
     property int etype: 0 /* Educator Type */
 
     property string userName: ""
+    property string userCode: ""
     property string schoolName: ""
     property string schoolCode: ""
 

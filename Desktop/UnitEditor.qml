@@ -47,15 +47,14 @@ ESborder {
         }
     }
 
-    Rectangle {
-        id: backbutton
-        anchors.top: parent.top
-        anchors.left: parent.left
+    CircleButton {
+        id:backbutton
+        anchors.top:parent.top
+        anchors.left:parent.left
         anchors.margins: 20
-        height: title.height
-        width: title.height
-        radius: width / 2
-        color: seperatorColor
+        height:title.height
+        width:title.height
+
         MouseArea {
             anchors.fill: parent
             onClicked: {

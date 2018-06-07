@@ -9,6 +9,7 @@ import "./theme"
 import "./plugins"
 
 import "./course.js" as Courses
+import "./network.js" as Network
 
 
 Item {
@@ -63,7 +64,8 @@ Item {
     state:"inActive"
 
 
-    onStateChanged: if(state == "Active") {Courses.loadCourses(userid)}
+    onStateChanged: if(state == "Active") {Courses.loadCourses(userid)
+                                            Network.checkOpenSeed(userid,schoolCode,"School")}
 
     Rectangle {
         anchors.fill: parent
@@ -103,10 +105,17 @@ Item {
 
             Text {
                 width:parent.width
-                font.pointSize: 12
+                font.pointSize: 9
                 font.bold: true
                 text: schoolName.replace(/_/g, " ").trim()
                 wrapMode: Text.WordWrap
+
+                Text {
+                    anchors.bottom:parent.bottom
+                    anchors.right:parent.right
+                    text:schoolCode
+                    font.pointSize: 6
+                }
 
                 MouseArea {
                     anchors.fill: parent
@@ -121,6 +130,7 @@ Item {
 
             Text {
                 text: userName
+                font.pointSize: 8
                 wrapMode: Text.WordWrap
                 width:parent.width
             }
@@ -133,11 +143,11 @@ Item {
 
         Column {
             Text {
-                font.pointSize: 6
+                font.pointSize: 7
                 text: "Courses: "+courseList.count
             }
             Text {
-                font.pointSize: 6
+                font.pointSize: 7
                 text: "Students: "+studentList.count
             }
         }
