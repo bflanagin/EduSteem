@@ -52,7 +52,7 @@ Window {
 
 
     Component.onCompleted: { login.state = "Active"
-
+                                Standard.loadschool(userid)
                             }
 
     onUseridChanged: if(userid.length > 2) { Standard.loadschool(userid)

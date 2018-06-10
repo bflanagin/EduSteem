@@ -98,12 +98,12 @@ function checkcreds(field,info) {
             } else {
 
                 if(field === "email") {
-                   console.log (http.responseText);
+                  // console.log (http.responseText);
                     uniqueemail = http.responseText;
                 }
                 if(field === "username") {
                     uniquename = http.responseText;
-                    console.log (http.responseText);
+                  //  console.log (http.responseText);
 
                 }
 
@@ -154,7 +154,7 @@ function account_type(userid) {
 
                 console.log("Incorrect AppID");
             } else {
-               console.log(http.responseText);
+              // console.log(http.responseText);
                 if(http.responseText === "1") {
                     connection_type = "Admin";
                 } else {

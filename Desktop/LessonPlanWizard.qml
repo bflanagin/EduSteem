@@ -568,7 +568,7 @@ ESborder {
 
                 Text {
                     anchors.horizontalCenter: parent.horizontalCenter
-                    text: qsTr("Student Product")
+                    text: qsTr("Student Activity")
                     font.pointSize: 20
                 }
                 Rectangle {

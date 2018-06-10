@@ -76,6 +76,14 @@ ESborder {
         }
     }
 
+    Button {
+        anchors.top: parent.top
+        anchors.right:parent.right
+        anchors.margins: 20
+        text:qsTr("Student View")
+        background: ESTextField{}
+    }
+
     Rectangle {
         anchors.top: title.bottom
         anchors.topMargin: 20
@@ -470,7 +478,7 @@ ESborder {
                     Text {
                         anchors.left: parent.left
                         anchors.margins: 10
-                        text: qsTr("Student Product:")
+                        text: qsTr("Student Activity:")
                     }
 
                     Rectangle {

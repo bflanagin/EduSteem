@@ -8,7 +8,12 @@ db.transaction(function (tx) {
 
     tx.executeSql('CREATE TABLE IF NOT EXISTS Schools (id TEXT, type INT,name TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT)')
 
+    if(userid !== "") {
      pull = tx.executeSql("SELECT * FROM Schools WHERE id='"+userid+"'");
+     } else {
+        pull = tx.executeSql("SELECT * FROM Schools WHERE 1");
+    }
+
     if(pull.rows.length === 1) {
 
 
@@ -20,7 +25,16 @@ db.transaction(function (tx) {
         schoolName = pull.rows.item(0).name
         schoolCode = pull.rows.item(0).code
 
-        }
+    } else {
+
+        //if(pull.rows.item(0).code === null || pull.rows.item(0).code.length < 2) {
+         //   tx.executeSql("UPDATE Schools SET code='"+schoolCode+"' WHERE id='"+userid+"'")
+        //    oneTime(userid,1,"school")
+       // }
+
+       // schoolName = pull.rows.item(0).name
+      //  schoolCode = pull.rows.item(0).code
+    }
 
 
 });
@@ -49,6 +63,7 @@ db.transaction(function (tx) {
         }
 
         userName = pull.rows.item(0).firstname+" "+pull.rows.item(0).lastname
+        userCode = pull.rows.item(0).code
 
     }
 
