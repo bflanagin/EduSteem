@@ -65,6 +65,7 @@ Item {
 
 
     onStateChanged: if(state == "Active") {Courses.loadCourses(userid)
+
                                             Network.checkOpenSeed(userid,schoolCode,"School")
                                             Network.checkOpenSeed(userid,userid,"Educator")
                                             }
@@ -200,6 +201,7 @@ Item {
 
                             Component.onCompleted: {
                                Network.checkOpenSeed(userid,cdate,"Courses")
+
                             }
 
                             Rectangle {

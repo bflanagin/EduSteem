@@ -57,9 +57,13 @@ Window {
 
     onUseridChanged: if(userid.length > 2) { Standard.loadschool(userid)
                                                  Standard.loaduser(userid)
+                         if(schoolCode.length > 2) {
+
+                                                      Network.sync("Courses",schoolCode)
+                                                      Network.sync("Units",schoolCode)
+                                                      Network.sync("Lessons",schoolCode)
+                                                  }
                                             }
-
-
 
     /* Timed events */
 
