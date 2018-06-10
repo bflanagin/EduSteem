@@ -178,15 +178,15 @@ function account_type(userid) {
 function save_local(userid,type,firstname,lastname,email,phone,country,state,about,teachercode) {
 
 
-
+    var d = new Date()
 
 
    db.transaction(function (tx){
-        var data = [userid,type,firstname,lastname,email,phone,country,state,about,teachercode];
-        var dtable = "INSERT INTO Users VALUES(?,?,?,?,?,?,?,?,?,?)"
-        var update = "UPDATE Users SET type="+type+", firstname='"+firstname+"', lastname='"+lastname+"', email='"+email+"', phone='"+phone+"', country='"+country+"', state='"+state+"', about='"+about+"' WHERE id='"+userid+"'"
+        var data = [userid,type,firstname,lastname,email,phone,country,state,about,teachercode,d.getTime()];
+        var dtable = "INSERT INTO Users VALUES(?,?,?,?,?,?,?,?,?,?,?)"
+        var update = "UPDATE Users SET type="+type+", firstname='"+firstname+"', lastname='"+lastname+"', email='"+email+"', phone='"+phone+"', country='"+country+"', state='"+state+"', about='"+about+"', editdate="+d.getTime()+" WHERE id='"+userid+"'"
 
-       tx.executeSql('CREATE TABLE IF NOT EXISTS Users (id TEXT, type INT,firstname TEXT,lastname TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT,code TEXT)')
+       tx.executeSql('CREATE TABLE IF NOT EXISTS Users (id TEXT, type INT,firstname TEXT,lastname TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT,code TEXT,editdate MEDIUMINT)')
 
             var dataSTR = "SELECT * FROM Users WHERE id ='"+userid+"'";
 

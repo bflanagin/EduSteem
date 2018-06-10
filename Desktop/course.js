@@ -4,18 +4,15 @@ function saveCourse(userid,name,subject,language,about,creationdate) {
 
     db.transaction(function (tx){
          var data = [userid,name.replace(/ /g,"_"),subject.split(" - ")[0],language,about,d.getTime()];
-         var dtable = "INSERT INTO Courses VALUES(?,?,?,?,?,?)"
-        // var update = "UPDATE Courses SET name='"+name.replace(/ /g,"_")+"', subject='"+subject.split(" - ")[0]+"', language='"+language+"', about='"+about+"' WHERE id='"+userid+"' AND creationdate ="+creationdate
+         var dtable = "INSERT INTO Courses VALUES(?,?,?,?,?,?,?)"
 
-        tx.executeSql('CREATE TABLE IF NOT EXISTS Courses (id TEXT, name TEXT, subject TEXT,language TEXT, about MEDIUMTEXT, creationdate MEDIUMINT)')
+        tx.executeSql('CREATE TABLE IF NOT EXISTS Courses (id TEXT, name TEXT, subject TEXT,language TEXT, about MEDIUMTEXT, creationdate MEDIUMINT,editdate MEDIUMINT)')
 
              var dataSTR = "SELECT * FROM Courses WHERE id ='"+userid+"' AND creationdate ="+creationdate;
 
              var pull = tx.executeSql(dataSTR);
              if(pull.rows.length !== 1) {
                  tx.executeSql(dtable,data);
-             } else {
-               //   tx.executeSql(update);
              }
 
     });
@@ -27,18 +24,15 @@ function saveUnit(userid,coursenumber,name,objective,about,creationdate) {
 
     db.transaction(function (tx){
          var data = [userid,coursenumber,name.replace(/ /g,"_"),objective,about,d.getTime()];
-         var dtable = "INSERT INTO Units VALUES(?,?,?,?,?,?)"
-        // var update = "UPDATE Units SET name='"+name.replace(/ /g,"_")+"', objective='"+objective+"', about='"+about+"' WHERE id='"+userid+"' AND creationdate ="+creationdate
+         var dtable = "INSERT INTO Units VALUES(?,?,?,?,?,?,?)"
 
-        tx.executeSql('CREATE TABLE IF NOT EXISTS Units (id TEXT, coursenumber MEDIUMINT, name TEXT, objective MEDIUMTEXT, about MEDIUMTEXT, creationdate MEDIUMINT)')
+        tx.executeSql('CREATE TABLE IF NOT EXISTS Units (id TEXT, coursenumber MEDIUMINT, name TEXT, objective MEDIUMTEXT, about MEDIUMTEXT, creationdate MEDIUMINT,editdate MEDIUMINT)')
 
              var dataSTR = "SELECT * FROM Units WHERE id ='"+userid+"' AND creationdate ="+creationdate;
 
              var pull = tx.executeSql(dataSTR);
              if(pull.rows.length !== 1) {
                  tx.executeSql(dtable,data);
-             } else {
-                 // tx.executeSql(update);
              }
 
     });
@@ -51,19 +45,16 @@ function saveLesson(userid,coursenumber,unitnumber,name,lessonNum,duration,about
 
     db.transaction(function (tx){
          var data = [userid,coursenumber,unitnumber,name.replace(/ /g,"_"),lessonNum,duration,about,objective,supplies,resources,guidingQuestions,lessonSequence,studentProduct,reviewQuestions,d.getTime()];
-         var dtable = "INSERT INTO Lessons VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-        // var update = "UPDATE Lessons SET name='"+name.replace(/ /g,"_")+"', objective='"+objective+"', about='"+about+"' WHERE id='"+userid+"' AND creationdate ="+creationdate
+         var dtable = "INSERT INTO Lessons VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
 
         tx.executeSql('CREATE TABLE IF NOT EXISTS Lessons (id TEXT, coursenumber MEDIUMINT,unitnumber MEDIUMINT, name TEXT, lessonNum INT, duration INT, about MEDIUMTEXT, objective MEDIUMTEXT, supplies MEDIUMTEXT, resources MEDIUMTEXT, \
-guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEXT, reviewQuestions MEDIUMTEXT,creationdate MEDIUMINT)')
+guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEXT, reviewQuestions MEDIUMTEXT,creationdate MEDIUMINT,editdate MEDIUMINT)')
 
              var dataSTR = "SELECT * FROM Lessons WHERE id ='"+userid+"' AND creationdate ="+creationdate;
 
              var pull = tx.executeSql(dataSTR);
              if(pull.rows.length !== 1) {
                  tx.executeSql(dtable,data);
-             } else {
-                 // tx.executeSql(update);
              }
 
     });
@@ -73,7 +64,7 @@ guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEX
 function loadCourses(userid) {
      db.transaction(function (tx){
             courseList.clear();
-         tx.executeSql('CREATE TABLE IF NOT EXISTS Courses (id TEXT, name TEXT, subject TEXT,language TEXT, about MEDIUMTEXT, creationdate MEDIUMINT)')
+         tx.executeSql('CREATE TABLE IF NOT EXISTS Courses (id TEXT, name TEXT, subject TEXT,language TEXT, about MEDIUMTEXT, creationdate MEDIUMINT,editdate MEDIUMINT)')
 
               var dataSTR = "SELECT * FROM Courses WHERE id ='"+userid+"'";
 
@@ -127,7 +118,7 @@ function loadUnits(userid,coursenumber) {
 
      db.transaction(function (tx){
             unitList.clear();
-         tx.executeSql('CREATE TABLE IF NOT EXISTS Units (id TEXT, coursenumber MEDIUMINT, name TEXT, objective MEDIUMTEXT, about MEDIUMTEXT, creationdate MEDIUMINT)')
+         tx.executeSql('CREATE TABLE IF NOT EXISTS Units (id TEXT, coursenumber MEDIUMINT, name TEXT, objective MEDIUMTEXT, about MEDIUMTEXT, creationdate MEDIUMINT,editdate MEDIUMINT)')
 
               var dataSTR = "SELECT * FROM Units WHERE id ='"+userid+"' AND coursenumber ="+coursenumber;
 
@@ -156,7 +147,7 @@ function loadLessons(userid,unitnumber) {
      db.transaction(function (tx){
             lessonList.clear();
          tx.executeSql('CREATE TABLE IF NOT EXISTS Lessons (id TEXT, coursenumber MEDIUMINT,unitnumber MEDIUMINT, name TEXT, lessonNum INT, duration INT, about MEDIUMTEXT, objective MEDIUMTEXT, supplies MEDIUMTEXT, resources MEDIUMTEXT, \
- guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEXT, reviewQuestions MEDIUMTEXT,creationdate MEDIUMINT)')
+ guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEXT, reviewQuestions MEDIUMTEXT,creationdate MEDIUMINT,editdate MEDIUMINT)')
 
               var dataSTR = "SELECT * FROM Lessons WHERE id ='"+userid+"' AND unitnumber ="+unitnumber;
 
@@ -188,7 +179,7 @@ function loadCourse(userid,coursenumber) {
 
      db.transaction(function (tx){
 
-         tx.executeSql('CREATE TABLE IF NOT EXISTS Courses (id TEXT, name TEXT, subject TEXT,language TEXT, about MEDIUMTEXT, creationdate MEDIUMINT)')
+         tx.executeSql('CREATE TABLE IF NOT EXISTS Courses (id TEXT, name TEXT, subject TEXT,language TEXT, about MEDIUMTEXT, creationdate MEDIUMINT,editdate MEDIUMINT)')
 
               var dataSTR = "SELECT * FROM Courses WHERE id ='"+userid+"' AND creationdate ="+coursenumber;
 
@@ -197,6 +188,9 @@ function loadCourse(userid,coursenumber) {
             if(pull.rows.length === 1) {
 
                courseName = pull.rows.item(0).name.replace(/_/g, " ")
+               courseAbout =  pull.rows.item(0).about
+               courseSubject =  pull.rows.item(0).subject
+               courseDate = new Date(pull.rows.item(0).creationdate).toLocaleDateString()
 
 
             }
@@ -210,7 +204,7 @@ function loadUnit(userid,unitnumber) {
 
      db.transaction(function (tx){
 
-         tx.executeSql('CREATE TABLE IF NOT EXISTS Units (id TEXT, coursenumber MEDIUMINT, name TEXT, objective MEDIUMTEXT, about MEDIUMTEXT, creationdate MEDIUMINT)')
+         tx.executeSql('CREATE TABLE IF NOT EXISTS Units (id TEXT, coursenumber MEDIUMINT, name TEXT, objective MEDIUMTEXT, about MEDIUMTEXT, creationdate MEDIUMINT,editdate MEDIUMINT)')
 
 
               var dataSTR = "SELECT * FROM Units WHERE id ='"+userid+"' AND creationdate ="+unitnumber;
@@ -236,7 +230,7 @@ function loadLesson(userid,lessonnumber) {
      db.transaction(function (tx){
 
          tx.executeSql('CREATE TABLE IF NOT EXISTS Lessons (id TEXT, coursenumber MEDIUMINT,unitnumber MEDIUMINT, name TEXT, lessonNum INT, duration INT, about MEDIUMTEXT, objective MEDIUMTEXT, supplies MEDIUMTEXT, resources MEDIUMTEXT, \
- guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEXT, reviewQuestions MEDIUMTEXT,creationdate MEDIUMINT)')
+ guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEXT, reviewQuestions MEDIUMTEXT,creationdate MEDIUMINT,editdate MEDIUMINT)')
 
 
               var dataSTR = "SELECT * FROM Lessons WHERE id ='"+userid+"' AND creationdate ="+lessonnumber;
@@ -276,6 +270,8 @@ function editField(type,where,id,change) {
     var table = ""
     var field = ""
 
+    var d = new Date()
+
 
     switch(type) {
     case "Title": field = "name";break;
@@ -303,7 +299,7 @@ function editField(type,where,id,change) {
         if(pull.rows.length === 1) {
             console.log(pull.rows.item(0).name)
 
-            tx.executeSql("UPDATE "+table+" SET "+field+"='"+change+"' WHERE id ='"+userid+"' AND creationdate ="+id)
+            tx.executeSql("UPDATE "+table+" SET "+field+"='"+change+"', editdate="+d.getTime()+" WHERE id ='"+userid+"' AND creationdate ="+id)
         }
 
     })

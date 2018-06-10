@@ -71,6 +71,18 @@ Item {
                                             }
 
 
+    Timer {
+        id:checkforUpdates
+        interval: 4000
+        repeat: true
+        onTriggered: if(state == "Active") {
+            Network.sync("Courses",schoolCode)
+            Network.sync("Units",schoolCode)
+            Network.sync("Lessons",schoolCode)
+            checkforUpdates.interval = 20000
+        }
+    }
+
 
     Rectangle {
         anchors.fill: parent
@@ -268,7 +280,6 @@ Item {
         }
         Button {
             height:parent.height
-            //width:parent.height
             text: "Add"
             background: ESTextField{}
             onClicked: {newStudent.state = "Active" }

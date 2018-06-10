@@ -6,7 +6,7 @@ function loadschool(userid) {
 db.transaction(function (tx) {
 
 
-    tx.executeSql('CREATE TABLE IF NOT EXISTS Schools (id TEXT, type INT,name TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT)')
+    tx.executeSql('CREATE TABLE IF NOT EXISTS Schools (id TEXT, type INT,name TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT,editdate MEDIUMINT)')
 
     if(userid !== "") {
      pull = tx.executeSql("SELECT * FROM Schools WHERE id='"+userid+"'");
@@ -49,7 +49,7 @@ function loaduser(userid) {
     var exists = false;
 db.transaction(function (tx) {
 
-    tx.executeSql('CREATE TABLE IF NOT EXISTS Users (id TEXT, type INT,firstname TEXT,lastname TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT)')
+    tx.executeSql('CREATE TABLE IF NOT EXISTS Users (id TEXT, type INT,firstname TEXT,lastname TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT,editdate MEDIUMINT)')
 
 
     pull = tx.executeSql("SELECT * FROM Users WHERE id='"+userid+"'");
@@ -105,7 +105,7 @@ function oneTime(id,action,forwhat) {
                     db.transaction(function (tx) {
 
 
-                        tx.executeSql('CREATE TABLE IF NOT EXISTS Schools (id TEXT, type INT,name TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT)')
+                        tx.executeSql('CREATE TABLE IF NOT EXISTS Schools (id TEXT, type INT,name TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT,editdate MEDIUMINT)')
 
                          pull = tx.executeSql("SELECT * FROM Schools WHERE id='"+userid+"'");
                         if(pull.rows.length === 1) {
@@ -126,7 +126,7 @@ function oneTime(id,action,forwhat) {
                         db.transaction(function (tx) {
 
 
-                            tx.executeSql('CREATE TABLE IF NOT EXISTS Users (id TEXT, type INT,name TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT)')
+                            tx.executeSql('CREATE TABLE IF NOT EXISTS Users (id TEXT, type INT,name TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT,editdate MEDIUMINT)')
 
                              pull = tx.executeSql("SELECT * FROM Users WHERE id='"+userid+"'");
                             if(pull.rows.length === 1) {
