@@ -52,7 +52,8 @@ function checkOpenSeed(userid, code, type) {
                 } else if (http.responseText == "101") {
                     console.log("Incorrect AppID")
                 } else {
-                    if (http.responseText.trim() < 1) {
+
+                    if (parseInt(http.responseText.trim()) == 0) {
                         console.log("Sending to Openseed")
                         sendToOpenSeed(userid, code, type)
                     } else if (type === "Educator"
@@ -84,7 +85,7 @@ function sendToOpenSeed(userid, code, type) {
     db.transaction(function (tx) {
 
         tx.executeSql(
-                    'CREATE TABLE IF NOT EXISTS Schools (id TEXT, type INT,name TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT)')
+                    'CREATE TABLE IF NOT EXISTS Schools (id TEXT, type INT,name TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT,editdate MEDIUMINT)')
 
         switch (type) {
         case "School":
@@ -139,7 +140,7 @@ function sendToOpenSeed(userid, code, type) {
                           + "&phone=" + pull.rows.item(0).phone + "&country="
                           + pull.rows.item(0).country + "&state=" + pull.rows.item(
                               0).state + "&about=" + pull.rows.item(0).about
-                          + "&code=" + pull.rows.item(0).code + "&type=" + type)
+                          + "&code=" + pull.rows.item(0).code +"&editdate="+pull.rows.item(0).editdate +"&type=" + type)
                 break
             case "Educator":
                 http.send("devid=" + devId + "&appid=" + appId
@@ -149,7 +150,7 @@ function sendToOpenSeed(userid, code, type) {
                           + pull.rows.item(0).phone + "&country=" + pull.rows.item(
                               0).country + "&state=" + pull.rows.item(0).state
                           + "&about=" + pull.rows.item(0).about + "&code="
-                          + pull.rows.item(0).code + "&type=" + type)
+                          + pull.rows.item(0).code + "&editdate="+pull.rows.item(0).editdate +"&type=" + type)
                 break
             case "Courses":
                 http.send("devid=" + devId + "&appid=" + appId
@@ -158,7 +159,7 @@ function sendToOpenSeed(userid, code, type) {
                           + "&about=" + pull.rows.item(0).about + "&code="
                           + pull.rows.item(0).creationdate + "&language=" + pull.rows.item(
                               0).language + "&schoolCode=" + schoolCode + "&educatorCode="
-                          + userCode + "&type=" + type)
+                          + userCode + "&editdate="+pull.rows.item(0).editdate +"&type=" + type)
                 break
             case "Units":
                 http.send("devid=" + devId + "&appid=" + appId
@@ -167,12 +168,12 @@ function sendToOpenSeed(userid, code, type) {
                           + "&objective=" + pull.rows.item(0).objective + "&code="
                           + pull.rows.item(0).creationdate + "&course=" + pull.rows.item(
                               0).coursenumber + "&schoolCode=" + schoolCode + "&educatorCode="
-                          + userCode + "&type=" + type)
+                          + userCode + "&editdate="+pull.rows.item(0).editdate +"&type=" + type)
                 break
             case "Lessons":
                 http.send("devid=" + devId + "&appid=" + appId + "&userid=" + userid + "&course=" + pull.rows.item(
                               0).coursenumber + "&unit=" + pull.rows.item(0).unitnumber + "&name=" + pull.rows.item(0).name + "&lessonNum=" + pull.rows.item(0).lessonNum + "&duration=" + pull.rows.item(0).duration + "&about=" + pull.rows.item(0).about + "&objective=" + pull.rows.item(0).objective + "&supplies=" + pull.rows.item(0).supplies + "&resources=" + pull.rows.item(
-                              0).resources + "&guidingQuestions=" + pull.rows.item(0).guidingQuestions + "&lessonSequence=" + pull.rows.item(0).lessonSequence + "&studentProduct=" + pull.rows.item(0).studentProduct + "&reviewQuestions=" + pull.rows.item(0).reviewQuestions + "&code=" + pull.rows.item(0).creationdate + "&schoolCode=" + schoolCode + "&educatorCode=" + userCode + "&type=" + type)
+                              0).resources + "&guidingQuestions=" + pull.rows.item(0).guidingQuestions + "&lessonSequence=" + pull.rows.item(0).lessonSequence + "&studentProduct=" + pull.rows.item(0).studentProduct + "&reviewQuestions=" + pull.rows.item(0).reviewQuestions + "&code=" + pull.rows.item(0).creationdate + "&schoolCode=" + schoolCode + "&educatorCode=" + userCode + "&editdate="+pull.rows.item(0).editdate +"&type=" + type)
                 break
             }
         }
@@ -206,24 +207,24 @@ function retrieveFromOpenSeed(id, code, type) {
                         db.transaction(function (tx) {
 
                             tx.executeSql(
-                                        'CREATE TABLE IF NOT EXISTS Schools (id TEXT, type INT,name TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT)')
+                                        'CREATE TABLE IF NOT EXISTS Schools (id TEXT, type INT,name TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT,editdate MEDIUMINT)')
 
                             tx.executeSql(
-                                        'CREATE TABLE IF NOT EXISTS Users (id TEXT, type INT,firstname TEXT,lastname TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT)')
+                                        'CREATE TABLE IF NOT EXISTS Users (id TEXT, type INT,firstname TEXT,lastname TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT,editdate MEDIUMINT)')
                             tx.executeSql(
-                                        'CREATE TABLE IF NOT EXISTS Units (id TEXT, coursenumber MEDIUMINT, name TEXT, objective MEDIUMTEXT, about MEDIUMTEXT, creationdate MEDIUMINT)')
+                                        'CREATE TABLE IF NOT EXISTS Units (id TEXT, coursenumber MEDIUMINT, name TEXT, objective MEDIUMTEXT, about MEDIUMTEXT, creationdate MEDIUMINT,editdate MEDIUMINT)')
                             tx.executeSql(
                                         'CREATE TABLE IF NOT EXISTS Lessons (id TEXT, coursenumber MEDIUMINT,unitnumber MEDIUMINT, name TEXT, lessonNum INT, duration INT, about MEDIUMTEXT, objective MEDIUMTEXT, supplies MEDIUMTEXT, resources MEDIUMTEXT, \
-guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEXT, reviewQuestions MEDIUMTEXT,creationdate MEDIUMINT)')
+guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEXT, reviewQuestions MEDIUMTEXT,creationdate MEDIUMINT,editdate MEDIUMINT)')
                             tx.executeSql(
-                                        'CREATE TABLE IF NOT EXISTS Courses (id TEXT, name TEXT, subject TEXT,language TEXT, about MEDIUMTEXT, creationdate MEDIUMINT)')
+                                        'CREATE TABLE IF NOT EXISTS Courses (id TEXT, name TEXT, subject TEXT,language TEXT, about MEDIUMTEXT, creationdate MEDIUMINT,editdate MEDIUMINT)')
 
                             switch (type) {
                             case "School":
                                 pull = tx.executeSql(
                                             "SELECT * FROM Schools WHERE code='" + id + "'")
                                 break
-                            case "Users":
+                            case "Educator":
                                 pull = tx.executeSql(
                                             "SELECT * FROM Users WHERE id='" + id + "'")
                                 break
@@ -240,14 +241,14 @@ guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEX
                                 case "School":
                                     schoolName = info[1]
                                     tx.executeSql(
-                                                "INSERT INTO Schools VALUES (?,?,?,?,?,?,?,?,?)",
-                                                [userid, 1, info[1], info[2], info[3], info[4], info[5], info[6], info[0]])
+                                                "INSERT INTO Schools VALUES (?,?,?,?,?,?,?,?,?,?)",
+                                                [userid, 1, info[1], info[2], info[3], info[4], info[5], info[6], info[0], info[7]])
                                     break
-                                case "Users":
+                                case "Educator":
                                     userName = info[2] + " " + info[3]
                                     tx.executeSql(
-                                                "INSERT INTO Users VALUES (?,?,?,?,?,?,?,?,?,?)",
-                                                [userid, 1, info[2], info[3], info[4], info[5], info[6], info[7], info[8], info[0]])
+                                                "INSERT INTO Users VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+                                                [userid, 1, info[2], info[3], info[4], info[5], info[6], info[7], info[8], info[0], info[9]])
 
                                     if (schoolSetup.state == "Active") {
                                         isEducator.checked = 1
@@ -257,21 +258,21 @@ guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEX
 
                                   case "Courses":
                                       tx.executeSql(
-                                                  "INSERT INTO Courses VALUES(?,?,?,?,?,?)",
-                                                  [userid, info[1], info[3], info[4], info[2], info[0]])
+                                                  "INSERT INTO Courses VALUES(?,?,?,?,?,?,?)",
+                                                  [userid, info[1], info[3], info[4], info[2], info[0], info[5]])
                                       break
 
                                   case "Units":
                                       tx.executeSql(
-                                                  "INSERT INTO Units VALUES(?,?,?,?,?,?)",
-                                                  [userid, info[4], info[1], info[2], info[3], info[0]])
+                                                  "INSERT INTO Units VALUES(?,?,?,?,?,?,?)",
+                                                  [userid, info[4], info[1], info[2], info[3], info[0], info[5]])
                                       break
 
                                   case "Lessons":
 
                                       tx.executeSql(
-                                                  "INSERT INTO Lessons VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                                                  [userid, info[4], info[5], info[1], info[6], info[7], info[2], info[3],info[9], info[8], info[10], info[11], info[12], info[13], info[0]])
+                                                  "INSERT INTO Lessons VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                                                  [userid, info[4], info[5], info[1], info[6], info[7], info[2], info[3],info[9], info[8], info[10], info[11], info[12], info[13], info[0], info[14]])
                                       break
 
 
@@ -315,12 +316,12 @@ function sync (type,code) {
                     db.transaction(function (tx) {
 
                         tx.executeSql(
-                                    'CREATE TABLE IF NOT EXISTS Units (id TEXT, coursenumber MEDIUMINT, name TEXT, objective MEDIUMTEXT, about MEDIUMTEXT, creationdate MEDIUMINT)')
+                                    'CREATE TABLE IF NOT EXISTS Units (id TEXT, coursenumber MEDIUMINT, name TEXT, objective MEDIUMTEXT, about MEDIUMTEXT, creationdate MEDIUMINT,editdate MEDIUMINT)')
                         tx.executeSql(
                                     'CREATE TABLE IF NOT EXISTS Lessons (id TEXT, coursenumber MEDIUMINT,unitnumber MEDIUMINT, name TEXT, lessonNum INT, duration INT, about MEDIUMTEXT, objective MEDIUMTEXT, supplies MEDIUMTEXT, resources MEDIUMTEXT, \
-guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEXT, reviewQuestions MEDIUMTEXT,creationdate MEDIUMINT)')
+guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEXT, reviewQuestions MEDIUMTEXT,creationdate MEDIUMINT,editdate MEDIUMINT)')
                         tx.executeSql(
-                                    'CREATE TABLE IF NOT EXISTS Courses (id TEXT, name TEXT, subject TEXT,language TEXT, about MEDIUMTEXT, creationdate MEDIUMINT)')
+                                    'CREATE TABLE IF NOT EXISTS Courses (id TEXT, name TEXT, subject TEXT,language TEXT, about MEDIUMTEXT, creationdate MEDIUMINT,editdate MEDIUMINT)')
                             var ids = http.responseText.split("\n");
                         while(ids.length > num) {
 

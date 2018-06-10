@@ -13,6 +13,9 @@ id:thisWindow
 
 property real coursenumber: 0
 property string courseName: "Course Name"
+property string courseAbout: "About"
+property string courseSubject: "Subject"
+property string courseDate:""
 
     states: [
 
@@ -141,6 +144,33 @@ property string courseName: "Course Name"
             width: parent.width
             spacing: mainView.width * 0.01
 
+            ESborder {
+                anchors.horizontalCenter: parent.horizontalCenter
+                width:thisWindow.width * 0.98
+                height:about.height + 100
+                Text {
+                    id:about
+                    anchors.top:parent.top
+                    anchors.left:parent.left
+                    anchors.margins: 20
+                    text:courseAbout
+                    wrapMode: Text.WordWrap
+                    width:parent.width * 0.85
+                }
+
+                Text {
+                    anchors.bottom:parent.bottom
+                    anchors.right:parent.right
+                    anchors.margins: 20
+                    text:courseSubject
+                }
+                Text {
+                    anchors.top:parent.top
+                    anchors.right:parent.right
+                    anchors.margins: 20
+                    text:courseDate
+                }
+            }
 
             ListView {
                 anchors.horizontalCenter: parent.horizontalCenter

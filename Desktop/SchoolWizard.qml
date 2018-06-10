@@ -516,7 +516,7 @@ ESborder {
                 background: ESTextField {
                 }
                 placeholderText: qsTr("Enter School Code")
-                onTextChanged: Network.retrieveFromOpenSeed(text, "School")
+                onTextChanged: Network.retrieveFromOpenSeed(text, text, "School")
             }
 
             Row {
