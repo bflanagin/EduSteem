@@ -7,6 +7,7 @@ import "./theme"
 
 import "./OSAuth.js" as Auth
 import "./schoolwizard.js" as Scripts
+import "./network.js" as Network
 
 ESborder {
     id:thisWindow
@@ -119,6 +120,8 @@ ESborder {
                                     educatorHome.state = "Active"
                                     } else {
                                         schoolSetup.state = "Active"
+
+
                                     }
                         } else {
                             schoolSetup.state = "Active"

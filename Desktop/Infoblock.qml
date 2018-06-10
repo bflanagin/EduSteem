@@ -6,11 +6,6 @@ Item {
         width:parent.width
 
     Text {
-        text:"Server Info:"
-
-    }
-
-    Text {
         text:"Status: "+heart
     }
 

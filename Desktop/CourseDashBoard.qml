@@ -6,6 +6,8 @@ import "./plugins"
 
 import "./course.js" as Scripts
 
+import "./network.js" as Network
+
 Item {
 id:thisWindow
 
@@ -154,7 +156,9 @@ property string courseName: "Course Name"
                             width:thisWindow.width * 0.98
                             height:if(lessons.height > unitColumn.height) {lessons.height * 1.05} else {unitColumn.height* 1.05}
 
-
+                            Component.onCompleted: {
+                               Network.checkOpenSeed(userid,cdate,"Units")
+                            }
                             Row {
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 width:parent.width * 0.98
@@ -207,6 +211,9 @@ property string courseName: "Course Name"
                                                 width:thisWindow.width * 0.58
                                                 height:lessonColumn.height * 1.1
 
+                                                Component.onCompleted: {
+                                                   Network.checkOpenSeed(userid,cdate,"Lessons")
+                                                }
 
                                             Column {
                                                 id:lessonColumn
@@ -288,6 +295,9 @@ property string courseName: "Course Name"
         height:parent.height
         width:parent.width
         state: "inActive"
+        onStateChanged: {
+                Scripts.loadUnits(userid,coursenumber)
+        }
 
     }
 

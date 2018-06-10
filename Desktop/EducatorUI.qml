@@ -65,7 +65,12 @@ Item {
 
 
     onStateChanged: if(state == "Active") {Courses.loadCourses(userid)
-                                            Network.checkOpenSeed(userid,schoolCode,"School")}
+
+                                            Network.checkOpenSeed(userid,schoolCode,"School")
+                                            Network.checkOpenSeed(userid,userid,"Educator")
+                                            }
+
+
 
     Rectangle {
         anchors.fill: parent
@@ -110,12 +115,7 @@ Item {
                 text: schoolName.replace(/_/g, " ").trim()
                 wrapMode: Text.WordWrap
 
-                Text {
-                    anchors.bottom:parent.bottom
-                    anchors.right:parent.right
-                    text:schoolCode
-                    font.pointSize: 6
-                }
+
 
                 MouseArea {
                     anchors.fill: parent
@@ -198,6 +198,11 @@ Item {
             delegate: Item {
                             width:parent.width
                             height:leftMenu.width * 0.3
+
+                            Component.onCompleted: {
+                               Network.checkOpenSeed(userid,cdate,"Courses")
+
+                            }
 
                             Rectangle {
                                 anchors.fill: parent
@@ -404,6 +409,7 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         height:parent.height
         state:"inActive"
+        onStateChanged: if(state == "inActive") {Courses.loadCourses(userid)}
     }
 
     CourseWizard {
