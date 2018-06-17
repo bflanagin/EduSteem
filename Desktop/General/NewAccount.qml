@@ -2,8 +2,8 @@ import QtQuick 2.11
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 
-import "./theme"
-import "./plugins"
+import "../theme"
+import "../plugins"
 
 ESborder {
     id:thisWindow
@@ -106,7 +106,7 @@ Funding for both Educators and students is handled by STEEM and the accounts for
                         height: parent.height * 0.9
                         width: parent.height * 0.9
                         fillMode: Image.PreserveAspectFit
-                        source:"./img/steem.png"
+                        source:"/img/steem.png"
                     }
 
 
@@ -121,7 +121,7 @@ Funding for both Educators and students is handled by STEEM and the accounts for
                         height: parent.height * 0.9
                         width: parent.height * 0.9
                         fillMode: Image.PreserveAspectFit
-                        source:"./img/OpenSeed.png"
+                        source:"/img/OpenSeed.png"
                     }
 
                    }

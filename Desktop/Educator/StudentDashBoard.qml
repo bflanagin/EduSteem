@@ -4,8 +4,18 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.0
 
+import "./students.js" as Students
+import "../theme"
+
 Item {
     id: thisWindow
+
+    property string studentCode: ""
+    property string studentname:"Student"
+
+    onStudentCodeChanged:Students.loadStudent(studentCode)
+
+
     states: [
 
         State {
@@ -14,7 +24,7 @@ Item {
 
                 target: thisWindow
                 opacity: 1
-                anchors.verticalCenterOffset: 0
+                x:leftMenu.width
             }
         },
 
@@ -24,7 +34,7 @@ Item {
 
                 target: thisWindow
                 opacity: 0
-                anchors.verticalCenterOffset: parent.height + 500
+                x: -parent.width
             }
         }
     ]
@@ -37,8 +47,8 @@ Item {
 
             NumberAnimation {
                 target: thisWindow
-                properties: "opacity,anchors.verticalCenterOffset"
-                duration: 40
+                properties: "opacity,x"
+                duration: 100
                 easing.type: Easing.InOutQuad
             }
         }
@@ -46,14 +56,35 @@ Item {
 
     state: "inActive"
 
+    Rectangle {
+        anchors.fill: parent
+    }
+
     Text {
         id:title
-        text: "Student Name"
+        text: studentname
         anchors.top:parent.top
-        anchors.left: parent.left
+        anchors.left: backbutton.right
         anchors.margins: 20
         font.bold: true
         font.pointSize: 15
+    }
+
+    CircleButton {
+        id:backbutton
+        anchors.top:parent.top
+        anchors.left:parent.left
+        anchors.margins: 20
+        height:title.height
+        width:title.height
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: { thisWindow.state = "inActive"
+                         general.state = "Active"
+
+                        }
+        }
     }
 
     Text {

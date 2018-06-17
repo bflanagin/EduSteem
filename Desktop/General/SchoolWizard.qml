@@ -2,8 +2,8 @@ import QtQuick 2.11
 import QtQuick.Controls 2.2
 import QtQuick.LocalStorage 2.0 as Sql
 
-import "./theme"
-import "./plugins"
+import "../theme"
+import "../plugins"
 
 import "./OSAuth.js" as Auth
 import "./schoolwizard.js" as Scripts
@@ -374,7 +374,7 @@ ESborder {
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: parent.width * 0.6
                     fillMode: Image.PreserveAspectFit
-                    source: "./img/Banner.png"
+                    source: "/img/Banner.png"
                     opacity: 1
                     z: -1
                 }

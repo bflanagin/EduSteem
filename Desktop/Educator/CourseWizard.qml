@@ -1,16 +1,22 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.2
 
-import "./theme"
-import "./plugins"
+import "../theme"
+import "../plugins"
 
 import "./course.js" as Scripts
+import "../plugins/text.js" as Scrubber
 
 ESborder {
     id: thisWindow
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.verticalCenter: parent.verticalCenter
     height: cColumn.height * 1.5 + buttonRow.height
+
+    onStateChanged: if(state == "inActive") {
+                        courseNameBox.text = " "
+                        courseAboutBox.text = " "
+                    }
 
     Text {
         id: title
@@ -100,13 +106,18 @@ ESborder {
             Text {
                 text: qsTr("About")
             }
-            TextArea {
-                id: courseAboutBox
+
+            ScrollView {
                 width: parent.width * 0.98
                 height: cColumn.height * 0.98
-                wrapMode:Text.WordWrap
                 background: ESTextField {
                 }
+            TextArea {
+                id: courseAboutBox
+                anchors.fill: parent
+                wrapMode:Text.WordWrap
+
+            }
             }
         }
     }
@@ -140,10 +151,10 @@ ESborder {
             text: qsTr("Okay")
 
             onClicked: {
-                Scripts.saveCourse(userid, courseNameBox.text,
+                Scripts.saveCourse(userid, Scrubber.replaceSpecials(courseNameBox.text),
                                    coursesBox.currentText,
                                    languageBox.currentText,
-                                   courseAboutBox.text, 0)
+                                   Scrubber.replaceSpecials(courseAboutBox.text), 0)
                 thisWindow.state = "inActive"
             }
         }

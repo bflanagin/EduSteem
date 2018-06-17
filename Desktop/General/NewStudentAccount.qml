@@ -3,7 +3,8 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtQuick.LocalStorage 2.0 as Sql
 
-import "./theme"
+import "../theme"
+import "../Educator/students.js" as Scripts
 
 ESborder {
         id:thisWindow
@@ -33,6 +34,7 @@ ESborder {
                     }
 
             TextField {
+                id:firstNameBox
                 width:parent.width * 0.95
                 anchors.horizontalCenter: parent.horizontalCenter
                 placeholderText: qsTr("First Name")
@@ -40,6 +42,7 @@ ESborder {
 
             }
             TextField {
+                id:lastNameBox
                 width:parent.width * 0.95
                 anchors.horizontalCenter: parent.horizontalCenter
                 placeholderText: qsTr("Last Name")
@@ -47,6 +50,7 @@ ESborder {
 
             }
             TextField {
+                id:ageBox
                 width:parent.width * 0.15
                 anchors.left:parent.left
                 anchors.leftMargin: 20
@@ -64,6 +68,7 @@ ESborder {
             }
 
             TextField {
+                id:steemPostToken
                 width:parent.width * 0.95
                 anchors.horizontalCenter: parent.horizontalCenter
                 placeholderText: qsTr("Steem Post Token")
@@ -77,10 +82,12 @@ ESborder {
                 font.bold: true
             }
             TextField {
+                id:schoolID
                 width:parent.width * 0.95
                 anchors.horizontalCenter: parent.horizontalCenter
                 placeholderText: qsTr("School ID")
                 background: ESTextField{}
+                text:if(schoolCode.length > 2) {schoolCode}
 
             }
 
@@ -93,6 +100,7 @@ ESborder {
             }
 
             TextField {
+                id:contactNumber
                 width:parent.width * 0.95
                 anchors.horizontalCenter: parent.horizontalCenter
                 placeholderText: qsTr("Contact Number")
@@ -100,6 +108,7 @@ ESborder {
             }
 
             TextField {
+                id:emailAddress
                 width:parent.width * 0.95
                 anchors.horizontalCenter: parent.horizontalCenter
                 placeholderText: qsTr("Email Address")
@@ -135,7 +144,7 @@ ESborder {
                 text:qsTr("Okay")
 
                 onClicked: {
-                        Scripts.saveCourse(userid,courseNameBox.text,coursesBox.currentText,languageBox.currentText,courseAboutBox.text,0)
+                        Scripts.saveStudent(userid,firstNameBox.text,lastNameBox.text,ageBox.text,schoolID.text,contactNumber.text,emailAddress.text,steemPostToken.text)
                     thisWindow.state = "inActive"}
             }
 

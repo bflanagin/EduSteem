@@ -3,7 +3,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtQuick.LocalStorage 2.0 as Sql
 
-import "./theme"
+import "../theme"
 
 import "./OSAuth.js" as Auth
 import "./schoolwizard.js" as Scripts
@@ -30,7 +30,7 @@ ESborder {
 
         width:parent.width * 0.90
         fillMode: Image.PreserveAspectFit
-        source:"./img/Banner.png"
+        source:"/img/Banner.png"
         opacity: 1
 
     }
@@ -55,7 +55,7 @@ ESborder {
                 width:thisWindow.width * 0.9
                 //fillMode: Image.PreserveAspectFit
                 z:-1
-                source: "./img/lines.png"
+                source: "/img/lines.png"
             }
         }
 

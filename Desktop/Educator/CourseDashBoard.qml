@@ -1,12 +1,13 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.2
 
-import "./theme"
-import "./plugins"
+import "../theme"
+import "../plugins"
 
 import "./course.js" as Scripts
 
-import "./network.js" as Network
+import "../General/network.js" as Network
+import "../plugins/text.js" as Scrubber
 
 Item {
 id:thisWindow
@@ -24,8 +25,8 @@ property string courseDate:""
                     PropertyChanges {
 
                         target:thisWindow
-                        opacity:1
-                        anchors.verticalCenterOffset: 0
+                        //opacity:1
+                        x: leftMenu.width
 
                     }
 
@@ -36,9 +37,8 @@ property string courseDate:""
                 PropertyChanges {
 
                     target:thisWindow
-                    opacity:0
-                    anchors.verticalCenterOffset: parent.height + 500
-
+                    //opacity:0
+                    x: -parent.width
                 }
 
             }
@@ -53,8 +53,8 @@ property string courseDate:""
 
             NumberAnimation {
                 target: thisWindow
-                properties: "opacity,anchors.verticalCenterOffset"
-                duration: 40
+                properties: "x"
+                duration: 100
                 easing.type: Easing.InOutQuad
             }
         }
@@ -64,6 +64,15 @@ property string courseDate:""
 
     onStateChanged: if(state == "Active") {Scripts.loadCourse(userid,coursenumber)
                                             Scripts.loadUnits(userid,coursenumber)} else {}
+
+    onCoursenumberChanged: if(state == "Active") {Scripts.loadCourse(userid,coursenumber)
+                                            Scripts.loadUnits(userid,coursenumber)} else {}
+
+
+
+    Rectangle {
+        anchors.fill: parent
+    }
 
     Text {
         id:title
@@ -77,7 +86,7 @@ property string courseDate:""
         Image {
             anchors.left:parent.right
             anchors.bottom:parent.bottom
-            source:"./icons/edit-text.svg"
+            source:"/icons/edit-text.svg"
             width:parent.height * 0.5
             height:parent.height * 0.5
             fillMode: Image.PreserveAspectFit
@@ -187,7 +196,7 @@ property string courseDate:""
                             height:if(lessons.height > unitColumn.height) {lessons.height * 1.05} else {unitColumn.height* 1.05}
 
                             Component.onCompleted: {
-                               Network.checkOpenSeed(userid,cdate,"Units")
+                               Network.checkOpenSeed(userid,cdate,edate,"Units")
                             }
                             Row {
                                 anchors.horizontalCenter: parent.horizontalCenter
@@ -204,7 +213,7 @@ property string courseDate:""
 
                                 Text {
                                     padding: 10
-                                    text:name
+                                    text:Scrubber.recoverSpecial(name)
                                     font.bold: true
                                     font.pointSize: 12
                                 }
@@ -217,12 +226,12 @@ property string courseDate:""
                                     color: seperatorColor
                                 }
 
-                                Text {
+                                MarkDown {
 
-                                    text: about
-                                    padding: 15
+                                   thedata: Scrubber.recoverSpecial(about)
+                                    //padding: 15
                                     width:parent.width * 0.8
-                                    wrapMode: Text.WordWrap
+                                    //wrapMode: Text.WordWrap
                                 }
 
                             }
@@ -242,7 +251,7 @@ property string courseDate:""
                                                 height:lessonColumn.height * 1.1
 
                                                 Component.onCompleted: {
-                                                   Network.checkOpenSeed(userid,cdate,"Lessons")
+                                                   Network.checkOpenSeed(userid,cdate,edate,"Lessons")
                                                 }
 
                                             Column {
@@ -253,7 +262,7 @@ property string courseDate:""
                                                 anchors.centerIn: parent
 
                                                 Text {
-                                                    text:name
+                                                    text:Scrubber.recoverSpecial(name)
                                                     padding: 10
                                                 }
 
@@ -265,11 +274,11 @@ property string courseDate:""
                                                     color: seperatorColor
                                                 }
 
-                                                Text {
-                                                    text:about
-                                                    padding: 10
+                                                MarkDown {
+                                                    thedata:Scrubber.recoverSpecial(about)
+                                                    //padding: 10
                                                     width:parent.width * 0.9
-                                                    wrapMode: Text.WordWrap
+                                                    //wrapMode: Text.WordWrap
                                                 }
                                             }
                                 }

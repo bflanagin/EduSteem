@@ -32,7 +32,7 @@ function heartbeat() {
     http.send("devid=" + devId + "&appid=" + appId + "&userid=" + userid)
 }
 
-function checkOpenSeed(userid, code, type) {
+function checkOpenSeed(userid, code, editdate, type) {
 
 
     // console.log(userid, code, type);
@@ -52,9 +52,10 @@ function checkOpenSeed(userid, code, type) {
                 } else if (http.responseText == "101") {
                     console.log("Incorrect AppID")
                 } else {
+                      //  console.log(http.responseText.trim());
 
-                    if (parseInt(http.responseText.trim()) == 0) {
-                        console.log("Sending to Openseed")
+                    if (parseInt(http.responseText.trim()) === 0) {
+                        console.log("Sending "+type+" to Openseed: "+editdate)
                         sendToOpenSeed(userid, code, type)
                     } else if (type === "Educator"
                                && schoolSetup.state == "Active") {
@@ -69,7 +70,7 @@ function checkOpenSeed(userid, code, type) {
 
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
     http.send("devid=" + devId + "&appid=" + appId + "&userid=" + userid
-              + "&code=" + code + "&type=" + type)
+              + "&code=" + code +"&editdate="+editdate+ "&type=" + type)
 }
 
 function sendToOpenSeed(userid, code, type) {
@@ -80,7 +81,7 @@ function sendToOpenSeed(userid, code, type) {
     var url = "https://openseed.vagueentertainment.com:8675/devs/Vag-01001011/vagEdu-053018/scripts/update.php"
     var pull = ""
 
-    console.log("Sending " + type + " " + code)
+
 
     db.transaction(function (tx) {
 
@@ -122,7 +123,8 @@ function sendToOpenSeed(userid, code, type) {
                         } else if (http.responseText == "101") {
                             console.log("Incorrect AppID")
                         } else {
-                            console.log(http.responseText)
+
+
                         }
                     }
                 }
@@ -199,7 +201,7 @@ function retrieveFromOpenSeed(id, code, type) {
                 } else {
 
 
-                    //console.log("From Retrive "+http.responseText.trim())
+                   // console.log("From Retrive "+http.responseText.trim())
                     if (http.responseText.length > 3) {
 
                         var info = http.responseText.split(";&;")
@@ -259,20 +261,20 @@ guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEX
                                   case "Courses":
                                       tx.executeSql(
                                                   "INSERT INTO Courses VALUES(?,?,?,?,?,?,?)",
-                                                  [userid, info[1], info[3], info[4], info[2], info[0], info[5]])
+                                                  [userid, info[1], info[3], info[4], info[2], info[0], info[7]])
                                       break
 
                                   case "Units":
                                       tx.executeSql(
                                                   "INSERT INTO Units VALUES(?,?,?,?,?,?,?)",
-                                                  [userid, info[4], info[1], info[2], info[3], info[0], info[5]])
+                                                  [userid, info[4], info[1], info[2], info[3], info[0], info[7]])
                                       break
 
                                   case "Lessons":
 
                                       tx.executeSql(
                                                   "INSERT INTO Lessons VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                                                  [userid, info[4], info[5], info[1], info[6], info[7], info[2], info[3],info[9], info[8], info[10], info[11], info[12], info[13], info[0], info[14]])
+                                                  [userid, info[4], info[5], info[1], info[6], info[7], info[2], info[3],info[9], info[8], info[10], info[11], info[12], info[13], info[0], info[16]])
                                       break
 
 
@@ -280,7 +282,7 @@ guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEX
                             }
                         })
                     } else {
-                        schoolName = qsTr("No school found")
+                        //schoolName = qsTr("No school found")
                     }
                 }
             }
@@ -304,7 +306,7 @@ function sync (type,code) {
 
         if (http.status === 200) {
             if (http.readyState === 4) {
-                // console.log(http.responseText);
+                //
                 //userid = http.responseText;
                 if (http.responseText == "100") {
                     console.log("Incorrect DevID")
@@ -313,6 +315,8 @@ function sync (type,code) {
                 } else {
                         var pull = ""
                         var num = 0
+
+                  //          console.log(code+" "+ type+" on server: "+http.responseText);
                     db.transaction(function (tx) {
 
                         tx.executeSql(
@@ -328,6 +332,7 @@ guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEX
                             pull = tx.executeSql("SELECT * FROM " + type+ " WHERE creationdate=" + ids[num] + "")
 
                             if(pull.rows.length === 0) {
+                                console.log("Grabbing from Server"+ids[num]);
                                 retrieveFromOpenSeed(ids[num],code,type)
                             }
 

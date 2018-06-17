@@ -2,10 +2,12 @@ import QtQuick 2.11
 import QtQuick.Controls 2.2
 import QtQuick.LocalStorage 2.0 as Sql
 
-import "./theme"
-import "./plugins"
+import "../theme"
+import "../plugins"
+import "../General"
 
 import "./course.js" as Scripts
+import "../plugins/text.js" as Scrubber
 
 ESborder {
     id: thisWindow
@@ -26,13 +28,13 @@ ESborder {
         anchors.top: parent.top
         anchors.left: backbutton.right
         anchors.margins: 20
-        text: unitTitle
+        text: Scrubber.recoverSpecial(unitTitle)
         font.bold: true
         font.pointSize: 15
         Image {
             anchors.left:parent.right
             anchors.bottom:parent.bottom
-            source:"./icons/edit-text.svg"
+            source:"/icons/edit-text.svg"
             width:parent.height * 0.5
             height:parent.height * 0.5
             fillMode: Image.PreserveAspectFit
@@ -82,8 +84,8 @@ ESborder {
 
         Flickable {
             width: thisWindow.width * 0.50
-            height: parent.height - (title.height + 20)
-            contentHeight: infoColumn.height
+            height: parent.height - (title.height + 10)
+            contentHeight: infoColumn.height + 100
             clip: true
 
             Column {
@@ -118,19 +120,19 @@ ESborder {
                             color: seperatorColor
                         }
 
-                        Text {
+                        MarkDown {
                             id: objText
-                            padding: 10
-                            text: unitObjective
+                            //padding: 10
+                            thedata: Scrubber.recoverSpecial(unitObjective)
                             width: parent.width
-                            wrapMode: Text.WordWrap
+                           // wrapMode: Text.WordWrap
                         }
                     }
                     Image {
                         anchors.right:parent.right
                         anchors.bottom:parent.bottom
                         anchors.margins: 10
-                        source:"./icons/edit-text.svg"
+                        source:"/icons/edit-text.svg"
                         width:24
                         height:24
                         fillMode: Image.PreserveAspectFit
@@ -147,12 +149,14 @@ ESborder {
 
                 ESborder {
                     width: parent.width * 0.95
-                    height: aboutColumn.height * 1.2
+                    height: aboutColumn.height + 50
 
                     Column {
                         id: aboutColumn
                         width: parent.width
-                        anchors.centerIn: parent
+                        anchors.top: parent.top
+                        anchors.left: parent.left
+                        anchors.margins: 10
                         spacing: thisWindow.width * 0.01
 
                         Text {
@@ -168,20 +172,20 @@ ESborder {
                             color: seperatorColor
                         }
 
-                        Text {
+                        MarkDown {
                             id: aboutText
-                            padding: 10
+                            //padding: 10
 
-                            text: unitAbout
-                            width: parent.width
-                            wrapMode: Text.WordWrap
+                            thedata: Scrubber.recoverSpecial(unitAbout)
+                            width: parent.width * 0.98
+                            //wrapMode: Text.WordWrap
                         }
                    }
                     Image {
                         anchors.right:parent.right
                         anchors.bottom:parent.bottom
                         anchors.margins: 10
-                        source:"./icons/edit-text.svg"
+                        source:"/icons/edit-text.svg"
                         width:24
                         height:24
                         fillMode: Image.PreserveAspectFit
@@ -240,12 +244,9 @@ ESborder {
                 height: contentHeight * 1.04
                 width: parent.width * 0.98
                 spacing: thisWindow.height * 0.02
-
                 clip: true
 
-                model: CDBUnit {
-                    thedate: unitNumber
-                }
+                model: lessonList
 
                 delegate: ESborder {
                     width: thisWindow.width * 0.45
@@ -259,7 +260,7 @@ ESborder {
                         anchors.centerIn: parent
 
                         Text {
-                            text: name
+                            text: Scrubber.recoverSpecial(name)
                             padding: 10
                         }
 
@@ -271,11 +272,11 @@ ESborder {
                             color: seperatorColor
                         }
 
-                        Text {
-                            text: about
+                        MarkDown {
+                            thedata: Scrubber.recoverSpecial(about)
                             width:parent.width * 0.80
-                            wrapMode: Text.WordWrap
-                            padding: 10
+                           // wrapMode: Text.WordWrap
+                            //padding: 10
                         }
                     }
 
@@ -298,6 +299,8 @@ ESborder {
         width: 1000
         height: 650
         state: "inActive"
+        onStateChanged: if(state == "inActive") {Scripts.loadLessons(userid,unitNumber)}
+
     }
 
     LessonPlanEditor {
@@ -317,4 +320,9 @@ ESborder {
         state:"inActive"
         onStateChanged: if(state == "inActive") {Scripts.loadUnit(userid, unitNumber) }
     }
+
+    CDBUnit {
+            id:lessonList
+            thedate: unitNumber
+                    }
 }
