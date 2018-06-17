@@ -3,10 +3,11 @@ import QtQuick.Controls 2.2
 import QtQuick.LocalStorage 2.0 as Sql
 import QtGraphicalEffects 1.0
 
-import "./theme"
-import "./plugins"
+import "../theme"
+import "../plugins"
 
 import "./course.js" as Scripts
+import "../plugins/text.js" as Scrubber
 
 ESborder {
     id: thisWindow
@@ -145,7 +146,7 @@ ESborder {
                                 id: numberIn
                                 anchors.left: parent.left
                                 anchors.leftMargin: 40
-                                width: parent.width * 0.10
+                                width: parent.width * 0.15
 
                                 down.indicator: Item {
                                     anchors.right: parent.left
@@ -162,7 +163,7 @@ ESborder {
                                             visible: false
                                             anchors.centerIn: parent
                                             width: parent.width * 0.5
-                                            source: "./icons/minus.svg"
+                                            source: "/icons/minus.svg"
                                             fillMode: Image.PreserveAspectFit
                                         }
 
@@ -196,7 +197,7 @@ ESborder {
                                             visible: false
                                             anchors.centerIn: parent
                                             width: parent.width * 0.5
-                                            source: "./icons/add.svg"
+                                            source: "/icons/add.svg"
                                             fillMode: Image.PreserveAspectFit
                                         }
 
@@ -225,9 +226,20 @@ ESborder {
                                 id: duration
                                 anchors.left: parent.left
                                 anchors.leftMargin: 40
-                                width: parent.width * 0.10
+                                width: parent.width * 0.15
+                                editable: true
                                 from: 1
                                 to: 120
+                                value:0
+
+                                background: ESTextField {}
+
+                                validator: IntValidator {
+                                        locale: duration.locale.name
+                                        bottom: Math.min(duration.from, duration.to)
+                                        top: Math.max(duration.from, duration.to)
+                                    }
+
                                 down.indicator: Item {
                                     anchors.right: parent.left
                                     anchors.rightMargin: 4
@@ -243,7 +255,7 @@ ESborder {
                                             visible: false
                                             anchors.centerIn: parent
                                             width: parent.width * 0.5
-                                            source: "./icons/minus.svg"
+                                            source: "/icons/minus.svg"
                                             fillMode: Image.PreserveAspectFit
                                         }
 
@@ -276,7 +288,7 @@ ESborder {
                                             visible: false
                                             anchors.centerIn: parent
                                             width: parent.width * 0.5
-                                            source: "./icons/add.svg"
+                                            source: "/icons/add.svg"
                                             fillMode: Image.PreserveAspectFit
                                         }
 
@@ -289,11 +301,23 @@ ESborder {
                                     MouseArea {
                                         anchors.fill: parent
                                         onClicked: duration.value = duration.value + 1
+
                                     }
                                 }
 
-                                background: ESTextField {
-                                }
+                                contentItem: TextInput {
+                                        z: 2
+                                        text: duration.textFromValue(duration.value, duration.locale)
+                                        font: duration.font
+                                        color: "black"
+
+                                        horizontalAlignment: Qt.AlignHCenter
+                                        verticalAlignment: Qt.AlignVCenter
+                                        width:duration.width
+                                        readOnly: !duration.editable
+                                        validator: duration.validator
+                                        inputMethodHints: Qt.ImhFormattedNumbersOnly
+                                    }
                             }
                         }
                     }
@@ -315,17 +339,21 @@ ESborder {
                             anchors.leftMargin: 10
                             text: qsTr("Introduction:")
                         }
-
-                        TextArea {
-                            id: aboutBox
+                        ScrollView {
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.top: aboutTitle.bottom
                             anchors.bottom: parent.bottom
                             width: parent.width * 0.95
-                            wrapMode: Text.WordWrap
-                            padding: 10
                             background: ESTextField {
                             }
+                        TextArea {
+                            id: aboutBox
+                            anchors.fill: parent
+                            wrapMode: Text.WordWrap
+                            padding: 10
+
+                        }
+
                         }
                     }
                 }
@@ -350,15 +378,20 @@ ESborder {
                     color: seperatorColor
                 }
 
-                TextArea {
-                    id: objectiveBox
+                ScrollView {
                     anchors.horizontalCenter: parent.horizontalCenter
                     height: thisWindow.height * 0.70
                     width: parent.width * 0.95
-                    wrapMode: Text.WordWrap
-                    padding: 10
                     background: ESTextField {
                     }
+                TextArea {
+                    id: objectiveBox
+                    anchors.fill: parent
+                    wrapMode: Text.WordWrap
+                    padding: 10
+
+                }
+
                 }
             }
         }
@@ -402,15 +435,19 @@ ESborder {
                                 text: qsTr("Supplies:")
                             }
 
-                            TextArea {
-                                id: resourceBox
+                            ScrollView {
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 anchors.top: aboutSchoolTitle.bottom
                                 anchors.bottom: parent.bottom
                                 width: parent.width * 0.95
-                                wrapMode: Text.WordWrap
                                 background: ESTextField {
                                 }
+                            TextArea {
+                                id: resourceBox
+                                anchors.fill: parent
+                                wrapMode: Text.WordWrap
+                            }
+
                             }
                         }
 
@@ -432,16 +469,21 @@ ESborder {
                                 text: qsTr("Other Resources:")
                             }
 
-                            TextArea {
-                                id: otherResourcesBox
+                            ScrollView {
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 anchors.top: otherResourcesTitle.bottom
                                 anchors.bottom: parent.bottom
                                 width: parent.width * 0.95
-                                wrapMode: Text.WordWrap
                                 background: ESTextField {
                                 }
+                            TextArea {
+                                id: otherResourcesBox
+                                anchors.fill: parent
+                                wrapMode: Text.WordWrap
+
                             }
+
+                        }
                         }
                     }
                 }
@@ -502,6 +544,7 @@ ESborder {
                     width: parent.width * 0.98
                     height: thisWindow.height * 0.40
                     spacing: thisWindow.width * 0.02
+                    clip:true
 
                     model: gqList
 
@@ -546,15 +589,19 @@ ESborder {
                     height: 4
                     color: seperatorColor
                 }
-
-                TextArea {
-                    id: lessonSequence
+                ScrollView {
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: parent.width * 0.98
-                    wrapMode: Text.WordWrap
                     height: thisWindow.height * 0.70
                     background: ESTextField {
                     }
+                TextArea {
+                    id: lessonSequence
+                    anchors.fill: parent
+                    wrapMode: Text.WordWrap
+
+                }
+
                 }
             }
         }
@@ -578,15 +625,21 @@ ESborder {
                     color: seperatorColor
                 }
 
-                TextArea {
-                    id: studentProduct
+                ScrollView {
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: parent.width * 0.98
-                    wrapMode: Text.WordWrap
                     height: thisWindow.height * 0.70
                     background: ESTextField {
-                    }
+                            }
+                TextArea {
+                    id: studentProduct
+                    anchors.fill: parent
+                    wrapMode: Text.WordWrap
+
+
                 }
+
+            }
             }
         }
 
@@ -658,7 +711,7 @@ ESborder {
                     width: parent.width
                     height: thisWindow.height * 0.40
                     spacing: thisWindow.width * 0.02
-
+                    clip:true
                     model: rqList
 
                     delegate: ESborder {
@@ -801,13 +854,13 @@ ESborder {
                 view.currentIndex = view.currentIndex + 1
             } else {
                 Scripts.saveLesson(userid, coursenumber,
-                                   unitNumber, nameBox.text,
+                                   unitNumber, Scrubber.replaceSpecials(nameBox.text),
                                    numberIn.value, duration.value,
-                                   aboutBox.text, objectiveBox.text,
-                                   resourceBox.text, otherResourcesBox.text,
-                                   guidedQuestions.toString(),
-                                   lessonSequence.text, studentProduct.text,
-                                   reviewQuestions.toString(), 0)
+                                   Scrubber.replaceSpecials(aboutBox.text), Scrubber.replaceSpecials(objectiveBox.text),
+                                   Scrubber.replaceSpecials(resourceBox.text), Scrubber.replaceSpecials(otherResourcesBox.text),
+                                   Scrubber.replaceSpecials(guidedQuestions.toString()),
+                                   Scrubber.replaceSpecials(lessonSequence.text), Scrubber.replaceSpecials(studentProduct.text),
+                                   Scrubber.replaceSpecials(reviewQuestions.toString()), 0)
                 thisWindow.state = "inActive"
             }
         }

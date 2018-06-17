@@ -1,22 +1,29 @@
 import QtQuick 2.11
 import QtQuick.Window 2.11
 import QtQuick.LocalStorage 2.0 as Sql
-import "./network.js" as Network
 
-import "./general.js" as Standard
+import "./General"
+import "./Educator"
+import "./Student"
+import "./theme"
+import "./plugins"
+
+import "./General/network.js" as Network
+
+import "./General/general.js" as Standard
 
 Window {
     id:mainView
     visible: true
-    width: 1366
-    height: 768
+    width: 1336
+    height: 800
     title: qsTr("EduSteem")
     color:"#FFFFFF"
 
     /*App setup Variables */
     property string devId: "Vag-01001011"
     property string appId: "vagEduST-052308"
-    property string version: "0.01"
+    property string version: "0.05"
 
     property string userid:""
     property var db: Sql.LocalStorage.openDatabaseSync("UserInfo", "1.0", "Local UserInfo", 1);
@@ -42,8 +49,15 @@ Window {
 
     property string userName: ""
     property string userCode: ""
+    property int userEditDate: 0
     property string schoolName: ""
     property string schoolCode: ""
+    property int schoolEditDate: 0
+    property int starttime: 8
+    property var d: new Date()
+    property int theday: d.getDate()
+    property int selected_month: d.getMonth()
+    property int selected_year: d.getFullYear()
 
     /* End System Wide Variables */
 

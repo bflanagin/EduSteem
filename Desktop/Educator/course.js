@@ -3,7 +3,7 @@ function saveCourse(userid,name,subject,language,about,creationdate) {
     var d = new Date();
 
     db.transaction(function (tx){
-         var data = [userid,name.replace(/ /g,"_"),subject.split(" - ")[0],language,about,d.getTime()];
+         var data = [userid,name.replace(/ /g,"_"),subject.split(" - ")[0],language,about,d.getTime(),d.getTime()];
          var dtable = "INSERT INTO Courses VALUES(?,?,?,?,?,?,?)"
 
         tx.executeSql('CREATE TABLE IF NOT EXISTS Courses (id TEXT, name TEXT, subject TEXT,language TEXT, about MEDIUMTEXT, creationdate MEDIUMINT,editdate MEDIUMINT)')
@@ -23,7 +23,7 @@ function saveUnit(userid,coursenumber,name,objective,about,creationdate) {
     var d = new Date();
 
     db.transaction(function (tx){
-         var data = [userid,coursenumber,name.replace(/ /g,"_"),objective,about,d.getTime()];
+         var data = [userid,coursenumber,name.replace(/ /g,"_"),objective,about,d.getTime(),d.getTime()];
          var dtable = "INSERT INTO Units VALUES(?,?,?,?,?,?,?)"
 
         tx.executeSql('CREATE TABLE IF NOT EXISTS Units (id TEXT, coursenumber MEDIUMINT, name TEXT, objective MEDIUMTEXT, about MEDIUMTEXT, creationdate MEDIUMINT,editdate MEDIUMINT)')
@@ -44,7 +44,7 @@ function saveLesson(userid,coursenumber,unitnumber,name,lessonNum,duration,about
     var d = new Date();
 
     db.transaction(function (tx){
-         var data = [userid,coursenumber,unitnumber,name.replace(/ /g,"_"),lessonNum,duration,about,objective,supplies,resources,guidingQuestions,lessonSequence,studentProduct,reviewQuestions,d.getTime()];
+         var data = [userid,coursenumber,unitnumber,name.replace(/ /g,"_"),lessonNum,duration,about,objective,supplies,resources,guidingQuestions,lessonSequence,studentProduct,reviewQuestions,d.getTime(),d.getTime()];
          var dtable = "INSERT INTO Lessons VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
 
         tx.executeSql('CREATE TABLE IF NOT EXISTS Lessons (id TEXT, coursenumber MEDIUMINT,unitnumber MEDIUMINT, name TEXT, lessonNum INT, duration INT, about MEDIUMTEXT, objective MEDIUMTEXT, supplies MEDIUMTEXT, resources MEDIUMTEXT, \
@@ -74,8 +74,8 @@ function loadCourses(userid) {
 
                 courseList.append ({
                                    name:pull.rows.item(num).name.replace(/_/g, " "),
-                                   cdate: pull.rows.item(num).creationdate
-
+                                   cdate: pull.rows.item(num).creationdate,
+                                   edate: pull.rows.item(num).editdate
                                    })
 
 
@@ -129,6 +129,7 @@ function loadUnits(userid,coursenumber) {
                 unitList.append ({
                                    name:pull.rows.item(num).name.replace(/_/g," "),
                                    cdate: pull.rows.item(num).creationdate,
+                                   edate: pull.rows.item(num).editdate,
                                    about:pull.rows.item(num).objective
 
                                    })
@@ -159,6 +160,7 @@ function loadLessons(userid,unitnumber) {
                 lessonList.append ({
                                    name:pull.rows.item(num).name.replace(/_/g," "),
                                    cdate: pull.rows.item(num).creationdate,
+                                   edate: pull.rows.item(num).editdate,
                                    about:pull.rows.item(num).objective
 
                                    })
@@ -191,6 +193,7 @@ function loadCourse(userid,coursenumber) {
                courseAbout =  pull.rows.item(0).about
                courseSubject =  pull.rows.item(0).subject
                courseDate = new Date(pull.rows.item(0).creationdate).toLocaleDateString()
+
 
 
             }

@@ -2,10 +2,12 @@ import QtQuick 2.11
 import QtQuick.Controls 2.2
 import QtQuick.LocalStorage 2.0 as Sql
 
-import "./theme"
-import "./plugins"
+import "../theme"
+import "../plugins"
+import "../General"
 
 import "./course.js" as Scripts
+import "../plugins/text.js" as Scrubber
 
 ESborder {
     id: thisWindow
@@ -45,7 +47,7 @@ ESborder {
         Image {
             anchors.left:parent.right
             anchors.bottom:parent.bottom
-            source:"./icons/edit-text.svg"
+            source:"/icons/edit-text.svg"
             width:parent.height * 0.5
             height:parent.height * 0.5
             fillMode: Image.PreserveAspectFit
@@ -179,7 +181,7 @@ ESborder {
 
                 MarkDown {
                     id: aboutText
-                    thedata: lessonAbout
+                    thedata: Scrubber.recoverSpecial(lessonAbout)
                     width: parent.width
 
                 }
@@ -188,7 +190,7 @@ ESborder {
                 anchors.right:parent.right
                 anchors.bottom:parent.bottom
                 anchors.margins: 15
-                source:"./icons/edit-text.svg"
+                source:"/icons/edit-text.svg"
                 width:24
                 height:24
                 fillMode: Image.PreserveAspectFit
@@ -231,7 +233,7 @@ ESborder {
 
                         MarkDown {
                             id: objText
-                            thedata: lessonObjective
+                            thedata: Scrubber.recoverSpecial(lessonObjective)
                             width: parent.width
 
                         }
@@ -240,7 +242,7 @@ ESborder {
                         anchors.right:parent.right
                         anchors.bottom:parent.bottom
                         anchors.margins: 15
-                        source:"./icons/edit-text.svg"
+                        source:"/icons/edit-text.svg"
                         width:24
                         height:24
                         fillMode: Image.PreserveAspectFit
@@ -288,14 +290,14 @@ ESborder {
                     MarkDown {
                         id: supplyText
                         width: parent.width
-                        thedata: lessonSupplies
+                        thedata: Scrubber.recoverSpecial(lessonSupplies)
                     }
                }
                 Image {
                     anchors.right:parent.right
                     anchors.bottom:parent.bottom
                     anchors.margins: 15
-                    source:"./icons/edit-text.svg"
+                    source:"/icons/edit-text.svg"
                     width:24
                     height:24
                     fillMode: Image.PreserveAspectFit
@@ -335,7 +337,7 @@ ESborder {
 
                     MarkDown {
                         id: resourceText
-                        thedata: lessonResources
+                        thedata: Scrubber.recoverSpecial(lessonResources)
                         width: parent.width
 
                     }
@@ -344,7 +346,7 @@ ESborder {
                     anchors.right:parent.right
                     anchors.bottom:parent.bottom
                     anchors.margins: 15
-                    source:"./icons/edit-text.svg"
+                    source:"/icons/edit-text.svg"
                     width:24
                     height:24
                     fillMode: Image.PreserveAspectFit
@@ -389,7 +391,7 @@ ESborder {
 
                     MarkDown {
                         id: sequenceText
-                        thedata: lessonSequence
+                        thedata: Scrubber.recoverSpecial(lessonSequence)
                         width: parent.width
 
                     }
@@ -398,7 +400,7 @@ ESborder {
                     anchors.right:parent.right
                     anchors.bottom:parent.bottom
                     anchors.margins: 15
-                    source:"./icons/edit-text.svg"
+                    source:"/icons/edit-text.svg"
                     width:24
                     height:24
                     fillMode: Image.PreserveAspectFit
@@ -440,7 +442,7 @@ ESborder {
 
                     MarkDown {
                         id: gqText
-                        thedata: lessonGQ
+                        thedata: Scrubber.recoverSpecial(lessonGQ)
                         width: parent.width
 
                     }
@@ -449,7 +451,7 @@ ESborder {
                     anchors.right:parent.right
                     anchors.bottom:parent.bottom
                     anchors.margins: 15
-                    source:"./icons/edit-text.svg"
+                    source:"/icons/edit-text.svg"
                     width:24
                     height:24
                     fillMode: Image.PreserveAspectFit
@@ -491,7 +493,7 @@ ESborder {
 
                     MarkDown {
                         id: productText
-                        thedata: lessonSP
+                        thedata: Scrubber.recoverSpecial(lessonSP)
                         width: parent.width
 
                     }
@@ -500,7 +502,7 @@ ESborder {
                     anchors.right:parent.right
                     anchors.bottom:parent.bottom
                     anchors.margins: 15
-                    source:"./icons/edit-text.svg"
+                    source:"/icons/edit-text.svg"
                     width:24
                     height:24
                     fillMode: Image.PreserveAspectFit
@@ -564,13 +566,13 @@ ESborder {
                                     Text {
                                         anchors.left:parent.left
                                         anchors.leftMargin: 10
-                                       text:qsTr("Question: ")+lessonRQ.split(",")[index].split(":::")[0]
+                                       text:qsTr("Question: ")+Scrubber.recoverSpecial(lessonRQ.split(",")[index].split(":::")[0])
                                     }
 
                                     Text {
                                         anchors.left:parent.left
                                         anchors.leftMargin: 30
-                                       text:qsTr("Answer: ")+lessonRQ.split(",")[index].split(":::")[1]
+                                       text:qsTr("Answer: ")+Scrubber.recoverSpecial(lessonRQ.split(",")[index].split(":::")[1])
                                     }
 
                                     }
@@ -582,7 +584,7 @@ ESborder {
                     anchors.right:parent.right
                     anchors.bottom:parent.bottom
                     anchors.margins: 15
-                    source:"./icons/edit-text.svg"
+                    source:"/icons/edit-text.svg"
                     width:24
                     height:24
                     fillMode: Image.PreserveAspectFit

@@ -1,10 +1,11 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.2
 
-import "./theme"
-import "./plugins"
+import "../theme"
+import "../plugins"
 
-import "./course.js" as Scripts
+import "../Educator/course.js" as Scripts
+import "../plugins/text.js" as Scrubber
 
 ESborder {
     id: thisWindow
@@ -45,21 +46,28 @@ ESborder {
         height: 3
         color: seperatorColor
     }
+        ScrollView {
+        id: view
+         anchors.horizontalCenter: parent.horizontalCenter
+         width:parent.width * 0.90
+        height:switch(field) {
+               case "Title": contentHeight + 10;break;
+               default: 400;break;
+               }
+        background: ESTextField{}
 
         TextArea {
-            anchors.horizontalCenter: parent.horizontalCenter
-            id:changeBox
-            width:parent.width * 0.90
-            height:switch(field) {
-                   case "Title": contentHeight + 10;break;
-                   default: 400;break;
-                   }
 
+            id:changeBox
+            anchors.fill: parent
+            horizontalAlignment: Text.AlignLeft
             wrapMode: Text.WordWrap
-            background: ESTextField{}
-            text:existing
+
+            text:Scrubber.recoverSpecial(existing)
             padding: 5
 
+
+        }
 
         }
     }
@@ -98,7 +106,7 @@ ESborder {
                 if(field =="Title") {
                     Scripts.editField(field,where,itemId,changeBox.text.replace(/ /g,"_").trim())
                 } else {
-                    Scripts.editField(field,where,itemId,changeBox.text)
+                    Scripts.editField(field,where,itemId,Scrubber.replaceSpecials(changeBox.text))
                 }
 
                 thisWindow.state = "inActive"

@@ -1,8 +1,8 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.2
 
-import "./theme"
-import "./plugins"
+import "../theme"
+import "../plugins"
 
 import "./course.js" as Scripts
 

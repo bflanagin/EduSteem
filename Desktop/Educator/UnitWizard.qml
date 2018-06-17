@@ -1,10 +1,12 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.2
 
-import "./theme"
-import "./plugins"
+import "../theme"
+import "../plugins"
 
 import "./course.js" as Scripts
+
+import "../plugins/text.js" as Scrubber
 
 ESborder {
     id: thisWindow
@@ -42,6 +44,8 @@ ESborder {
                 anchors.leftMargin: 10
                 text: qsTr("General Info:")
             }
+
+
             TextField {
                 id: unitNameBox
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -56,16 +60,23 @@ ESborder {
                 anchors.leftMargin: 10
                 text: qsTr("Primary Objective:")
             }
-            TextArea {
-                id: unitObjectiveBox
+
+            ScrollView {
                 anchors.left: parent.left
                 anchors.leftMargin: 10
-                padding:10
                 width: parent.width * 0.96
-                wrapMode: Text.WordWrap
                 height: 210
                 background: ESTextField {
                 }
+            TextArea {
+                id: unitObjectiveBox
+                anchors.fill: parent
+                padding:10
+
+                wrapMode: Text.WordWrap
+
+            }
+
             }
         }
 
@@ -76,13 +87,19 @@ ESborder {
             Text {
                 text: qsTr("About")
             }
-            TextArea {
-                id: unitAboutBox
+
+            ScrollView {
                 width: parent.width * 0.98
                 height: cColumn.height * 0.94
-                wrapMode: Text.WordWrap
                 background: ESTextField {
                 }
+            TextArea {
+                id: unitAboutBox
+                anchors.fill: parent
+                wrapMode: Text.WordWrap
+
+            }
+
             }
         }
     }
@@ -115,8 +132,8 @@ ESborder {
             text: qsTr("Okay")
 
             onClicked: {
-                Scripts.saveUnit(userid,coursenumber,unitNameBox.text,
-                                 unitObjectiveBox.text, unitAboutBox.text, 0)
+                Scripts.saveUnit(userid,coursenumber,Scrubber.replaceSpecials(unitNameBox.text),
+                                 Scrubber.replaceSpecials(unitObjectiveBox.text), Scrubber.replaceSpecials(unitAboutBox.text), 0)
 
                 thisWindow.state = "inActive"
             }

@@ -1,8 +1,8 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.2
 
-import "./theme"
-import "./plugins"
+import "../theme"
+import "../plugins"
 
 import "./course.js" as Scripts
 
@@ -47,14 +47,17 @@ ESborder {
                 anchors.leftMargin: 20
                 text: qsTr("Question")
             }
-            TextArea {
-                id: questionBox
+            ScrollView {
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width * 0.95
                 height: 200
+                background: ESTextField {}
+            TextArea {
+                id: questionBox
+                anchors.fill: parent
                 wrapMode: Text.WordWrap
                 placeholderText: qsTr("What is happening?")
-                background: ESTextField {
+
                 }
             }
 
@@ -70,14 +73,19 @@ ESborder {
                 anchors.leftMargin: 10
                 text: qsTr("Answer")
             }
-            TextArea {
-                id: questionAnswerBox
+            ScrollView {
                 width: parent.width * 0.98
                 height: 200
-                wrapMode: Text.WordWrap
-                placeholderText: qsTr("You're adding a question.")
                 background: ESTextField {
                 }
+            TextArea {
+                id: questionAnswerBox
+                anchors.fill: parent
+                wrapMode: Text.WordWrap
+                placeholderText: qsTr("You're adding a question.")
+
+            }
+
             }
         }
     }

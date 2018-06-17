@@ -1,6 +1,8 @@
 import QtQuick 2.11
 import QtQuick.LocalStorage 2.0 as Sql
 
+import "../theme"
+
 ESborder {
     id:thisWindow
 

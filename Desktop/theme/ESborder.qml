@@ -11,7 +11,7 @@ Item {
                     PropertyChanges {
 
                         target:thisWindow
-                        opacity:1
+                       // opacity:1
                         anchors.verticalCenterOffset: 0
 
                     }
@@ -23,7 +23,7 @@ Item {
                 PropertyChanges {
 
                     target:thisWindow
-                    opacity:0
+                   // opacity:0
                     anchors.verticalCenterOffset: parent.height + height * 1.1
 
                 }
@@ -40,7 +40,8 @@ Item {
 
             NumberAnimation {
                 target: thisWindow
-                properties: "opacity,anchors.verticalCenterOffset"
+               // properties: "opacity,anchors.verticalCenterOffset"
+                properties: "anchors.verticalCenterOffset"
                 duration: 300
                 easing.type: Easing.InOutQuad
             }
@@ -82,4 +83,8 @@ DropShadow {
     color: "#80000000"
 }
 
+MouseArea {
+    anchors.fill: parent
+    onClicked: {}
+}
 }

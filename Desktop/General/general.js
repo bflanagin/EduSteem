@@ -21,9 +21,11 @@ db.transaction(function (tx) {
             tx.executeSql("UPDATE Schools SET code='"+schoolCode+"' WHERE id='"+userid+"'")
             oneTime(userid,1,"school")
         }
+        console.log(pull.rows.item(0).name)
 
         schoolName = pull.rows.item(0).name
         schoolCode = pull.rows.item(0).code
+        schoolEditDate = pull.rows.item(0).editdate
 
     } else {
 
@@ -64,6 +66,7 @@ db.transaction(function (tx) {
 
         userName = pull.rows.item(0).firstname+" "+pull.rows.item(0).lastname
         userCode = pull.rows.item(0).code
+        userEditDate = pull.rows.item(0).editdate
 
     }
 
@@ -83,7 +86,7 @@ function oneTime(id,action,forwhat) {
 
          url = "https://openseed.vagueentertainment.com:8675/corescripts/onetime.php?devid=" + devId + "&appid=" + appId + "&cardid="+id+"&create="+action;
 
-
+            var d = new Date()
         http.onreadystatechange = function() {
             if (http.readyState == 4) {
                     carddata = http.responseText;
@@ -112,12 +115,13 @@ function oneTime(id,action,forwhat) {
 
 
                             if(pull.rows.item(0).code === null || pull.rows.item(0).code.length < 2) {
-                                tx.executeSql("UPDATE Schools SET code='"+code+"' WHERE id='"+userid+"'")
+                                tx.executeSql("UPDATE Schools SET code='"+code+"', editdate="+d.getTime()+" WHERE id='"+userid+"'")
 
                             }
                         }
 
-                   schoolCode = code
+                    schoolCode = code
+                    schoolEditDate = d.getTime()
                         })
 
 
@@ -133,13 +137,13 @@ function oneTime(id,action,forwhat) {
 
 
                                 if(pull.rows.item(0).code === null || pull.rows.item(0).code.length < 2) {
-                                    tx.executeSql("UPDATE Users SET code='"+code+"' WHERE id='"+userid+"'")
+                                    tx.executeSql("UPDATE Users SET code='"+code+"', editdate="+d.getTime()+" WHERE id='"+userid+"'")
 
                                 }
                             }
 
                         userCode = code
-
+                        userEditDate = d.getTime()
                         })
                     }
 

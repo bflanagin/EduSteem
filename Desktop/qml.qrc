@@ -1,24 +1,9 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>Login.qml</file>
-        <file>EducatorUI.qml</file>
-        <file>StudentUI.qml</file>
-        <file>SchoolWizard.qml</file>
-        <file>UnitWizard.qml</file>
-        <file>CourseWizard.qml</file>
-        <file>LessonPlanWizard.qml</file>
-        <file>LessonPlanEditor.qml</file>
-        <file>CourseEditor.qml</file>
-        <file>Settings.qml</file>
-        <file>UnitEditor.qml</file>
-        <file>ESborder.qml</file>
         <file>img/Banner.png</file>
         <file>img/banner.svg</file>
         <file>img/lines.png</file>
-        <file>Infoblock.qml</file>
-        <file>NewAccount.qml</file>
-        <file>NewStudentAccount.qml</file>
         <file>img/steem-steem.svg</file>
         <file>img/OpenSeed.png</file>
         <file>img/steem.png</file>
@@ -30,19 +15,39 @@
         <file>icons/edit-text.svg</file>
         <file>icons/minus.svg</file>
         <file>icons/Next.svg</file>
-        <file>StudentDashBoard.qml</file>
-        <file>CourseDashBoard.qml</file>
-        <file>GeneralInfoDashBoard.qml</file>
-        <file>schoolwizard.js</file>
-        <file>OSAuth.js</file>
-        <file>network.js</file>
-        <file>course.js</file>
-        <file>QuestionWizard.js</file>
-        <file>QuestionWizard.qml</file>
-        <file>CDBUnit.qml</file>
-        <file>general.js</file>
-        <file>RightMenu.qml</file>
-        <file>FieldEdit.qml</file>
         <file>theme/CircleButton.qml</file>
+        <file>theme/ESSwitch.qml</file>
+        <file>plugins/text.js</file>
+        <file>Educator/CDBUnit.qml</file>
+        <file>Educator/course.js</file>
+        <file>Educator/CourseDashBoard.qml</file>
+        <file>Educator/CourseEditor.qml</file>
+        <file>Educator/CourseWizard.qml</file>
+        <file>Educator/EducatorUI.qml</file>
+        <file>Educator/Infoblock.qml</file>
+        <file>Educator/LessonPlanEditor.qml</file>
+        <file>Educator/LessonPlanWizard.qml</file>
+        <file>Educator/QuestionWizard.js</file>
+        <file>Educator/QuestionWizard.qml</file>
+        <file>Educator/students.js</file>
+        <file>Educator/UnitEditor.qml</file>
+        <file>Educator/UnitWizard.qml</file>
+        <file>General/FieldEdit.qml</file>
+        <file>General/general.js</file>
+        <file>General/GeneralInfoDashBoard.qml</file>
+        <file>General/Login.qml</file>
+        <file>General/network.js</file>
+        <file>General/NewAccount.qml</file>
+        <file>General/NewStudentAccount.qml</file>
+        <file>General/OSAuth.js</file>
+        <file>General/RightMenu.qml</file>
+        <file>General/schoolwizard.js</file>
+        <file>General/SchoolWizard.qml</file>
+        <file>General/Settings.qml</file>
+        <file>Student/StudentUI.qml</file>
+        <file>Educator/StudentDashBoard.qml</file>
+        <file>theme/ESborder.qml</file>
+        <file>Educator/Scheduler.qml</file>
+        <file>Educator/ClassEdit.qml</file>
     </qresource>
 </RCC>
