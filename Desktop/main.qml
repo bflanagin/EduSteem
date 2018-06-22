@@ -40,7 +40,18 @@ Window {
 
     /* System Wide Variables */
 
-    property var courses: ["101 - Math","201 - Science","301 - Humanities", "302 - Literature", "303 - Writing", "304 - Grammar", "401 - Art", "501 - Music","601 - Vocational", "601 - Projects"]
+    property var courses: ["101 - Math",
+                           "201 - Science",
+                           "301 - Humanities",
+                           "302 - Literature",
+                           "303 - Writing",
+                           "304 - Grammar",
+                           "401 - Art",
+                           "501 - Music",
+                           "601 - Vocational",
+                           "701 - Social Sciences",
+                           "801 - Languages Studies",
+                           "901 - Projects"]
 
     property var languages: ["English","Spanish"]
     property string heart: "Offline"
@@ -161,5 +172,12 @@ Window {
         z:-1
     }
 
+    Rectangle {
+        id:mask
+        width:parent.width
+        height:parent.width
+        radius: width /2
+        visible: false
+    }
 
 }

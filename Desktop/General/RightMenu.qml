@@ -7,8 +7,9 @@ import QtGraphicalEffects 1.0
 
 import "../theme"
 import "../plugins"
-
+import "../Educator/scheduler.js" as Schedule
 import "../Educator/course.js" as Courses
+import "../Educator/students.js" as Students
 
 Item {
     id:thisWindow
@@ -97,6 +98,17 @@ state: "inActive"
                                   "December"
                                   break
                               }
+    property real studentID: 0
+    property string studentname: ""
+    property int studentage: 0
+    property string studentBday: "0"
+    property string studentAbout: ""
+
+
+onStudentIDChanged: {Students.loadStudent(studentID)
+                        if(studentImage.flipped) {studentImage.flipped = false} else {studentImage.flipped = true}
+                    }
+
 ESborder{
     anchors.fill: parent
     state:"Active"
@@ -285,6 +297,7 @@ ESborder{
             background: ESTextField {}
 
             onClicked: {
+                classEdit.month = monthselect.value
                 classEdit.state = "Active"
             }
 
@@ -365,8 +378,15 @@ ESborder{
                         anchors.left: parent.left
                         anchors.leftMargin: 2
 
+
                         height:if ((thisWindow.height * 0.15) * (duration / 60) < classname.height + 15) {classname.height + 15}
                                     else {(thisWindow.height * 0.15) * (duration / 60)}
+
+                        Item {
+                            width:parent.width * 0.98
+                            height:parent.height * 0.98
+                            anchors.centerIn: parent
+                            clip:true
 
                         Text {
                             id:classname
@@ -390,12 +410,155 @@ ESborder{
                             height:1
                         }
 
+                        Column {
+                            anchors.topMargin: 10
+                            anchors.top:classname.bottom
+                            anchors.bottom:parent.bottom
+                            clip:true
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            width:parent.width * 0.98
+                            spacing: 5
+                            Text {
+
+
+                                anchors.margins: 10
+                                text:unit
+                            }
+
+                            Text {
+
+
+                                anchors.margins: 10
+                                text:about
+                            }
+
+                        }
+
+                    }
+
                     }
                 }
 
                 }
             }
         }
+    }
+
+    Column {
+        id:studentAAG
+        visible: if(studentRoster.state == "Active" && studentID != 0 ) {true} else {false}
+        anchors.fill: parent
+        anchors.top:parent.top
+        anchors.topMargin: 20
+        spacing: 10
+
+        Flipable {
+            id:studentImage
+            width:parent.width
+            height:baseImage.height
+
+             property bool flipped: false
+
+
+            transform: Rotation {
+                    id: rotation
+                    origin.x: studentImage.width/2
+                    origin.y: studentImage.height/2
+                    axis.x: 0; axis.y: 1; axis.z: 0     // set axis.y to 1 to rotate around y-axis
+                    angle: 0    // the default angle
+                }
+
+                states: State {
+                    name: "back"
+                    PropertyChanges { target: rotation; angle: 180 }
+                    when: studentImage.flipped
+                }
+
+                transitions: Transition {
+                    NumberAnimation { target: rotation; property: "angle"; duration: 500 }
+                }
+
+       front:
+       Image {
+            id:baseImage
+            anchors.horizontalCenter: parent.horizontalCenter
+            width:parent.width * 0.6
+            height:parent.width * 0.6
+            fillMode: Image.PreserveAspectCrop
+            source: "../icons/frontC.png"
+            visible: false
+        }
+
+        OpacityMask {
+            source:baseImage
+            anchors.fill: baseImage
+            maskSource: mask
+        }
+
+        back: Image {
+            id:baseImage1
+            anchors.horizontalCenter: parent.horizontalCenter
+            width:parent.width * 0.6
+            height:parent.width * 0.6
+            fillMode: Image.PreserveAspectCrop
+            source: "../icons/frontC.png"
+            visible: false
+        }
+
+        OpacityMask {
+            source:baseImage
+            anchors.fill: baseImage
+            maskSource: mask
+        }
+
+        }
+
+        Rectangle {
+            anchors.horizontalCenter: parent.horizontalCenter
+            width:parent.width * 0.95
+            color:seperatorColor
+            height:1
+        }
+
+        Text {
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            font.bold: true
+            text:studentname
+        }
+        Text {
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            text:"Age: "+studentage
+        }
+        Text {
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            text:"Birthday: "+studentBday
+        }
+
+        Rectangle {
+            anchors.horizontalCenter: parent.horizontalCenter
+            width:parent.width * 0.95
+            color:seperatorColor
+            height:1
+        }
+        Text {
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            text:"About:"
+        }
+        Text {
+            anchors.left:parent.left
+            anchors.leftMargin: 10
+            width:parent.width * 0.95
+            wrapMode: Text.WordWrap
+            horizontalAlignment: Text.AlignLeft
+            text:studentAbout
+        }
+
+
+
     }
 
 }
@@ -406,19 +569,27 @@ ListModel {
     ListElement {
         name:"Class 0"
         duration: 45
+        unit:"Unit Number"
+        about:"About the class"
     }
 
     ListElement {
         name:"Class 1"
         duration: 60
+        unit:"Unit Number"
+        about:"About the class"
     }
     ListElement {
         name:"Class 2"
         duration: 10
+        unit:"Unit Number"
+        about:"About the class"
     }
     ListElement {
         name:"Class 3"
         duration: 120
+        unit:"Unit Number"
+        about:"About the class"
     }
 
 }

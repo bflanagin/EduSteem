@@ -49,5 +49,11 @@
         <file>theme/ESborder.qml</file>
         <file>Educator/Scheduler.qml</file>
         <file>Educator/ClassEdit.qml</file>
+        <file>Educator/scheduler.js</file>
+        <file>General/DayList.qml</file>
+        <file>Educator/Roster.qml</file>
+        <file>Educator/roster.js</file>
+        <file>icons/contact.svg</file>
+        <file>icons/frontC.png</file>
     </qresource>
 </RCC>

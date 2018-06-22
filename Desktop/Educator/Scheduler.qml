@@ -4,7 +4,7 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.0
 import Qt.labs.calendar 1.0
-
+import "./scheduler.js" as Schedule
 
 import "../theme"
 import "../plugins"
@@ -57,7 +57,10 @@ transitions: [
 state:"inActive"
 
     property var d: new Date()
+    property int monthoffset: 0
 
+onStateChanged: if(state == "Active") {monthoffset = 0
+                                        monthselect.value = d.getMonth()}
 
 Rectangle {
     anchors.fill: parent
@@ -102,7 +105,9 @@ CircleButton {
         anchors.right: parent.right
         width:parent.width * 0.15
         anchors.margins: 10
-        onValueChanged: monthselect.value = value
+        onValueChanged: { monthselect.value = value
+                            monthoffset = 0
+                        }
 
         contentItem: Label {
             text: switch (parent.value) {
@@ -209,8 +214,9 @@ CircleButton {
 
     ScrollView {
         id: dayselect
-        width: if(parent.height * 0.99 < 2000) {parent.height * 0.99} else {2000}
-        height: if(parent.height * 0.99 < 2000) {parent.height * 0.99} else {2000}
+       width: if(parent.height  < 2000) {parent.width * 0.95} else {parent.width * 0.95}
+       height: if(parent.height * 0.99 < 2000) {parent.height * 0.99} else {2000}
+
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top:monthselect1.bottom
         anchors.topMargin: 40
@@ -219,6 +225,7 @@ CircleButton {
         anchors.bottom:parent.bottom
         anchors.bottomMargin:10
         contentHeight: grid.height+dow.height
+        contentWidth: grid.width+20
 
         DayOfWeekRow {
             id: dow
@@ -236,12 +243,18 @@ CircleButton {
             }
         }
 
+        Rectangle{
+                width:grid.width * 1.01
+                height:grid.height * 1.01
+                anchors.centerIn: grid
+                color:"#E5F9F9F9"
+                    }
         MonthGrid {
             id: grid
             anchors.top: dow.bottom
             anchors.topMargin: 10
             anchors.horizontalCenter: parent.horizontalCenter
-            width: parent.width
+            width: thisWindow.width * 0.90
             month: monthselect.value
 
             title: month
@@ -250,7 +263,10 @@ CircleButton {
 
             delegate: Rectangle {
                 width: 200
-                height: 200
+                height: width + 40
+
+                color:"white"
+                property int calNum: index
 
                 opacity: model.month === monthselect.value ? 1 : 0.1
                  clip:true
@@ -258,28 +274,44 @@ CircleButton {
                      width:parent.width
                      spacing: parent.width * 0.01
                 Text {
-
-
+                    id:dayText
                     text: model.day
                     color: model.day === theday ? seperatorColor : "black"
                     font.pointSize: 8
                     font.bold: true
+                    anchors.right:parent.right
                 }
 
                 Rectangle {
                     anchors.horizontalCenter: parent.horizontalCenter
                     height:1
-                    width:parent.width * 0.98
+                    width:parent.width
                     color:seperatorColor
                 }
 
                 Repeater {
 
-                    model:4
 
+                    model:DayList {
+                                    day: model.day
+                                    month: model.month
+                                    weekday: calNum
+                                    }
+                        Item {
+                            width:parent.width
+                            height:classname.height + 5
                     Text {
-                        text:"Class "+index
+                        id:classname
+                        anchors.verticalCenter: parent.verticalCenter
+                        text:name
+                        //font.pixelSize: parent.width * 0.2
+                        width:parent.width
+                        wrapMode: Text.WordWrap
+                        maximumLineCount: 1
+                        elide: Text.ElideRight
                     }
+                        }
+
 
                 }
 
@@ -290,7 +322,7 @@ CircleButton {
                     onClicked: {
                         theday = model.day
                     }
-                }
+                }              
             }
         }
     }

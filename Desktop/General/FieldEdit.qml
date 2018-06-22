@@ -3,6 +3,7 @@ import QtQuick.Controls 2.2
 
 import "../theme"
 import "../plugins"
+import "../Educator"
 
 import "../Educator/course.js" as Scripts
 import "../plugins/text.js" as Scrubber
@@ -26,6 +27,10 @@ ESborder {
         anchors.horizontalCenter: parent.horizontalCenter
         spacing: thisWindow.width * 0.02
 
+        Item {
+            width:parent.width
+            height:title.height
+
     Text {
         id: title
         anchors.horizontalCenter: parent.horizontalCenter
@@ -37,6 +42,22 @@ ESborder {
               }
 
         font.pointSize: 18
+    }
+
+    Button {
+        anchors.right: parent.right
+        anchors.verticalCenter: title.verticalCenter
+        text:"Add"
+        background:ESTextField {
+
+        }
+
+        onClicked: {
+            newQuestion.type = 1
+            newQuestion.state = "Active"
+        }
+    }
+
     }
 
     Rectangle {
@@ -55,6 +76,8 @@ ESborder {
                default: 400;break;
                }
         background: ESTextField{}
+
+
 
         TextArea {
 
@@ -112,5 +135,13 @@ ESborder {
                 thisWindow.state = "inActive"
             }
         }
+    }
+
+    QuestionWizard {
+        id:newQuestion
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.width * 1.05
+        state: "inActive"
     }
 }

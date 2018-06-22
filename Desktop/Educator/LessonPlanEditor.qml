@@ -546,7 +546,7 @@ ESborder {
                         id: reviewText
                         width:parent.width * 0.98
                         anchors.horizontalCenter: parent.horizontalCenter
-                        model: lessonRQ.split(",").length
+                        model: lessonRQ.split(";#x2c;").length
 
                         delegate: Item {
                                     anchors.horizontalCenter: parent.horizontalCenter
@@ -566,13 +566,13 @@ ESborder {
                                     Text {
                                         anchors.left:parent.left
                                         anchors.leftMargin: 10
-                                       text:qsTr("Question: ")+Scrubber.recoverSpecial(lessonRQ.split(",")[index].split(":::")[0])
+                                       text:qsTr("Question: ")+Scrubber.recoverSpecial(lessonRQ.split(";#x2c;")[index]).split(":::")[0]
                                     }
 
                                     Text {
                                         anchors.left:parent.left
                                         anchors.leftMargin: 30
-                                       text:qsTr("Answer: ")+Scrubber.recoverSpecial(lessonRQ.split(",")[index].split(":::")[1])
+                                       text:qsTr("Answer: ")+Scrubber.recoverSpecial(lessonRQ.split(";#x2c;")[index]).split(":::")[1]
                                     }
 
                                     }
