@@ -23,7 +23,7 @@ Item {
             PropertyChanges {
 
                 target: thisWindow
-                opacity: 1
+                //opacity: 1
                 x:leftMenu.width
             }
         },
@@ -33,7 +33,7 @@ Item {
             PropertyChanges {
 
                 target: thisWindow
-                opacity: 0
+                //opacity: 0
                 x: -parent.width
             }
         }
@@ -47,7 +47,7 @@ Item {
 
             NumberAnimation {
                 target: thisWindow
-                properties: "opacity,x"
+                properties: "x"
                 duration: 100
                 easing.type: Easing.InOutQuad
             }
@@ -81,7 +81,7 @@ Item {
         MouseArea {
             anchors.fill: parent
             onClicked: { thisWindow.state = "inActive"
-                         general.state = "Active"
+                         studentRoster.state = "Active"
 
                         }
         }

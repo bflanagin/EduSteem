@@ -5,6 +5,7 @@ import QtQuick.Controls 2.4
 import "../theme"
 import "../plugins"
 import "./course.js" as Scripts
+import "./scheduler.js" as Schedule
 
 import "../theme"
 
@@ -13,6 +14,7 @@ ESborder {
     height: cColumn.height + 50
     property string day: "day"
     property string month: "month"
+    property bool edit: false
 
     //property string UnitObjective:"Objective"
     onStateChanged: if (state == "Active") {
@@ -64,9 +66,14 @@ ESborder {
             height: 3
             color: seperatorColor
         }
+        Item {
+            width:parent.width
+            height:courseBox.height
 
         ComboBox {
             id: courseBox
+            anchors.left:parent.left
+            anchors.margins: 10
             width: parent.width * 0.49
             height: 40
             model: courseList
@@ -94,6 +101,7 @@ ESborder {
                 }
             }
         }
+        }
 
         Text {
             text: "Schedule:"
@@ -107,19 +115,27 @@ ESborder {
                 text: qsTr("Every Day")
             }
             RadioButton {
+                id: oddday
+                text: qsTr("Mon, Wed, Fri")
+            }
+            RadioButton {
                 id: evenday
-                text: qsTr("Even Days")
+                text: qsTr("Tue, Thu")
             }
 
-            RadioButton {
-                id: oddday
-                text: qsTr("Odd Days")
-            }
+
         }
 
         Row {
             width: parent.width
             height: 50
+
+            CheckBox {
+                id: sunday
+                text: qsTr("Sun")
+                width: parent.width / 7
+            }
+
             CheckBox {
                 id: monday
                 text: qsTr("Mon")
@@ -180,11 +196,7 @@ ESborder {
                 text: qsTr("Sat")
                 width: parent.width / 7
             }
-            CheckBox {
-                id: sunday
-                text: qsTr("Sun")
-                width: parent.width / 7
-            }
+
         }
         Row {
             id: buttonRow
@@ -215,13 +227,12 @@ ESborder {
                 text: qsTr("Okay")
 
                 onClicked: {
-
-                    console.log(courseBox.currentText.replace(/ /g, "_"),
-                                courseList.get(courseBox.currentIndex).cdate,
-                                monday.checked, tuesday.checked,
-                                wednesday.checked, thursday.checked,
-                                friday.checked, saturday.checked,
-                                sunday.checked)
+                    if(edit == false) {
+                    Schedule.save_schedule(month,"0:"+courseList.get(courseBox.currentIndex).cdate+","+
+                                sunday.checked+","+monday.checked+","+tuesday.checked+","+
+                                wednesday.checked+","+thursday.checked+","+
+                                friday.checked+","+saturday.checked)
+                    }
 
                     thisWindow.state = "inActive"
                 }

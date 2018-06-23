@@ -1,9 +1,10 @@
 function loadStudents(schoolcode) {
+    //console.log("Loading Students")
     var num = 0;
     studentList.clear();
      db.transaction(function (tx){
 
-         tx.executeSql('CREATE TABLE IF NOT EXISTS Students (id TEXT, firstname TEXT,lastname TEXT, age INT, schoolcode TEXT,phone TEXT,email TEXT,steempost TEXT,code MEDIUMINT,editdate MEDIUMINT)')
+         tx.executeSql('CREATE TABLE IF NOT EXISTS Students (id TEXT, firstname TEXT,lastname TEXT, age INT, bday MEDIUMINT, about MEDIUMTEXT, schoolcode TEXT,phone TEXT,email TEXT,steempost TEXT,code MEDIUMINT,editdate MEDIUMINT)')
 
          var dataSTR = "SELECT * FROM Students WHERE schoolcode ='"+schoolcode+"'";
 
@@ -30,15 +31,18 @@ function loadStudent(code) {
 
      db.transaction(function (tx){
 
-         tx.executeSql('CREATE TABLE IF NOT EXISTS Students (id TEXT, firstname TEXT,lastname TEXT, age INT, schoolcode TEXT,phone TEXT,email TEXT,steempost TEXT,code MEDIUMINT,editdate MEDIUMINT)')
+         tx.executeSql('CREATE TABLE IF NOT EXISTS Students (id TEXT, firstname TEXT,lastname TEXT, age INT, bday MEDIUMINT, about MEDIUMTEXT, schoolcode TEXT,phone TEXT,email TEXT,steempost TEXT,code MEDIUMINT,editdate MEDIUMINT)')
 
          var dataSTR = "SELECT * FROM Students WHERE code ='"+code+"'";
 
          var pull = tx.executeSql(dataSTR);
 
          if(pull.rows.length ===1) {
-
+                //var d = new Date(pull.rows.item(0).bday)
             studentname = pull.rows.item(0).firstname+" "+pull.rows.item(0).lastname
+            studentBday = pull.rows.item(0).bday
+            studentage = pull.rows.item(0).age
+            studentAbout = pull.rows.item(0).about
          }
 
      });
@@ -46,7 +50,7 @@ function loadStudent(code) {
 }
 
 
-function saveStudent(userid,firstName,lastName,age,schoolID,contactNumber,emailAddress,steemPostToken) {
+function saveStudent(userid,firstName,lastName,age,bday,about,schoolID,contactNumber,emailAddress,steemPostToken) {
 
      /*saves Student */
 
@@ -54,19 +58,17 @@ function saveStudent(userid,firstName,lastName,age,schoolID,contactNumber,emailA
 
 
     db.transaction(function (tx){
-         var data = [userid,firstName,lastName,age,schoolID,contactNumber,emailAddress,steemPostToken,d.getTime(),d.getTime()];
-         var dtable = "INSERT INTO Students VALUES(?,?,?,?,?,?,?,?,?,?)"
-        // var update = "UPDATE Schools SET firstName="+type+", LastName='"+name.replace(/ /,"_")+"',  email='"+email+"', phone='"+phone+"', school='"+country+"' WHERE creationdate='"+userid+"'"
+         var data = [userid,firstName,lastName,age,bday,about,schoolID,contactNumber,emailAddress,steemPostToken,d.getTime(),d.getTime()];
+         var dtable = "INSERT INTO Students VALUES(?,?,?,?,?,?,?,?,?,?,?,?)"
 
-        tx.executeSql('CREATE TABLE IF NOT EXISTS Students (id TEXT, firstname TEXT,lastname TEXT, age INT, schoolcode TEXT,phone TEXT,email TEXT,steempost TEXT,code MEDIUMINT,editdate MEDIUMINT)')
+        tx.executeSql('CREATE TABLE IF NOT EXISTS Students (id TEXT, firstname TEXT,lastname TEXT, age INT, bday MEDIUMINT, about MEDIUMTEXT, schoolcode TEXT,phone TEXT,email TEXT,steempost TEXT,code MEDIUMINT,editdate MEDIUMINT)')
 
              var dataSTR = "SELECT * FROM Students WHERE firstname ='"+firstName+"' AND lastname ='"+lastName+"'";
 
              var pull = tx.executeSql(dataSTR);
              if(pull.rows.length < 1) {
                  tx.executeSql(dtable,data);
-            // } else {
-            //      tx.executeSql(update);
+
              }
 
     });
