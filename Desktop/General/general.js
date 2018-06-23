@@ -75,6 +75,38 @@ db.transaction(function (tx) {
 
 }
 
+function loadprofile(userid) {
+
+
+    var pull = "";
+    var exists = false;
+db.transaction(function (tx) {
+
+    tx.executeSql('CREATE TABLE IF NOT EXISTS Users (id TEXT, type INT,firstname TEXT,lastname TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT,editdate MEDIUMINT)')
+
+
+    pull = tx.executeSql("SELECT * FROM Users WHERE code='"+userid+"'");
+    if(pull.rows.length === 1) {
+
+        userFirstName = pull.rows.item(0).firstname
+        userLastName = pull.rows.item(0).lastname
+        userAbout = pull.rows.item(0).about
+        userEmail = pull.rows.item(0).email
+        userPhone = pull.rows.item(0).phone
+        userCountry = pull.rows.item(0).country
+        userState = pull.rows.item(0).state
+        userEditDate = pull.rows.item(0).editdate
+
+    }
+
+});
+
+
+}
+
+
+
+
 function oneTime(id,action,forwhat) {
 
         var code = "";

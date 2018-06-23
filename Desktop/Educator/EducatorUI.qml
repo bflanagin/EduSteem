@@ -112,6 +112,7 @@ Item {
             width: parent.width
             height: leftMenu.height - (grid.height + monthselect.height + dow.height + 20)
             contentHeight: leftColumn.height * 1.1
+            contentWidth:parent.width
             clip: true
 
             Column {
@@ -120,7 +121,7 @@ Item {
                 anchors.topMargin: 20
                 anchors.bottomMargin: 3
 
-                width: parent.width
+                width: leftMenu.width * 0.98
                 anchors.left: parent.left
                 anchors.leftMargin: 2
 
@@ -149,6 +150,7 @@ Item {
                                 rightMenu.state = "inActive"
                                 schedule.state = "inActive"
                                 studentRoster.state = "inActive"
+                                yourProfile.state = "inActive"
                             }
                         }
                     }
@@ -305,6 +307,7 @@ Item {
                                     student.state = "inActive"
                                     schedule.state = "inActive"
                                     studentRoster.state = "inActive"
+                                    yourProfile.state = "inActive"
                                 }
                             }
                         }
@@ -342,13 +345,57 @@ Item {
                             //onClicked: {newStudent.state = "Active" }
                         }
                     }
+
+                    Item {
+                        width: leftMenu.width * 0.95
+                        height: mainView.height * 0.03
+                        clip: true
+
+                        ESTextField {
+                            anchors.fill: parent
+                        }
+                        Text {
+                            anchors.left: parent.left
+                            anchors.leftMargin: 5
+                            text: qsTr("Your Profile")
+                            anchors.verticalCenter: parent.verticalCenter
+                            font.bold: true
+                            width: parent.width * 0.70
+                        }
+
+                        Image {
+                            width: parent.height * 0.7
+                            height: parent.height * 0.7
+                            anchors.right: parent.right
+                            anchors.rightMargin: 5
+                            anchors.verticalCenter: parent.verticalCenter
+                            source: "../icons/contact.svg"
+                            fillMode: Image.PreserveAspectFit
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                schedule.state = "inActive"
+                                rightMenu.state = "Active"
+                                general.state = "inActive"
+                                student.state = "inActive"
+                                studentRoster.state = "inActive"
+                                yourProfile.state = "Active"
+                                yourProfile.userid = userCode
+                            }
+                        }
+                    }
+
+
+
                 }
 
                 Rectangle {
                     width: parent.width * 0.98
                     anchors.horizontalCenter: parent.horizontalCenter
-                    color: seperatorColor
-                    height: 2
+                    color: "Transparent"
+                    height: 3
                 }
 
                 Text {
@@ -364,6 +411,21 @@ Item {
                     width: parent.width * 0.98
                     spacing: mainView.width * 0.005
 
+                    Rectangle {
+                        width: parent.width * 0.98
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        color: seperatorColor
+                        height: 2
+                    }
+
+                    Text {
+                        text: qsTr("Students")
+                        anchors.left: parent.left
+                        anchors.leftMargin: 3
+                        font.bold: true
+                        font.pointSize: 8
+                    }
+
                     Item {
                         width: leftMenu.width * 0.95
                         height: mainView.height * 0.03
@@ -375,7 +437,7 @@ Item {
                         Text {
                             anchors.left: parent.left
                             anchors.leftMargin: 5
-                            text: qsTr("Students")
+                            text: qsTr("Roster")
                             anchors.verticalCenter: parent.verticalCenter
                             font.bold: true
                             width: parent.width * 0.70
@@ -399,6 +461,7 @@ Item {
                                 general.state = "inActive"
                                 course.state = "inActive"
                                 student.state = "inActive"
+                                yourProfile.state = "inActive"
                             }
                         }
                     }
@@ -438,6 +501,62 @@ Item {
                                 general.state = "inActive"
                                 student.state = "inActive"
                                 studentRoster.state = "inActive"
+                                yourProfile.state = "inActive"
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        width: parent.width * 0.98
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        color: seperatorColor
+                        height: 2
+                    }
+
+                    Text {
+                        text: qsTr("General")
+                        anchors.left: parent.left
+                        anchors.leftMargin: 3
+                        font.bold: true
+                        font.pointSize: 8
+                    }
+
+                    Item {
+                        width: leftMenu.width * 0.95
+                        height: mainView.height * 0.03
+                        clip: true
+
+                        ESTextField {
+                            anchors.fill: parent
+                        }
+                        Text {
+                            anchors.left: parent.left
+                            anchors.leftMargin: 5
+                            text: qsTr("Settings")
+                            anchors.verticalCenter: parent.verticalCenter
+                            font.bold: true
+                            width: parent.width * 0.70
+                        }
+
+                        Image {
+                            width: parent.height * 0.7
+                            height: parent.height * 0.7
+                            anchors.right: parent.right
+                            anchors.rightMargin: 5
+                            anchors.verticalCenter: parent.verticalCenter
+                            source: "/icons/Next.svg"
+                            fillMode: Image.PreserveAspectFit
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                schedule.state = "Active"
+                                rightMenu.state = "Active"
+                                general.state = "inActive"
+                                student.state = "inActive"
+                                studentRoster.state = "inActive"
+                                yourProfile.state = "inActive"
                             }
                         }
                     }
@@ -684,6 +803,14 @@ Item {
                         }
     }
 
+    Profile {
+        id:yourProfile
+        width: parent.width - (leftMenu.width + rightMenu.width)
+        height:parent.height
+        state:"inActive"
+    }
+
+
     Roster {
         id: studentRoster
         width: parent.width - (leftMenu.width + rightMenu.width)
@@ -722,4 +849,6 @@ Item {
         anchors.horizontalCenterOffset: leftMenu.width / 2
         state: "inActive"
     }
+
+
 }
