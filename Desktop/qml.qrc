@@ -56,5 +56,6 @@
         <file>icons/contact.svg</file>
         <file>icons/frontC.png</file>
         <file>General/Profile.qml</file>
+        <file>General/steemit.js</file>
     </qresource>
 </RCC>
