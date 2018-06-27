@@ -10,6 +10,8 @@ import "../plugins"
 import "../Educator/scheduler.js" as Schedule
 import "../Educator/course.js" as Courses
 import "../Educator/students.js" as Students
+import "steemit.js" as Steem
+import "../plugins/markdown.js" as Marks
 
 Item {
     id:thisWindow
@@ -103,6 +105,9 @@ state: "inActive"
     property int studentage: 0
     property string studentBday: "0"
     property string studentAbout: ""
+
+    property var profileAbout:[]
+    property var steemProfileInfo:[]
 
 
 onStudentIDChanged: {Students.loadStudent(studentID)
@@ -561,6 +566,152 @@ ESborder{
 
     }
 
+    Column {
+        id: eProfile
+        anchors.top:parent.top
+        anchors.topMargin: 10
+        anchors.horizontalCenter: parent.horizontalCenter
+        width:parent.width * 0.98
+        visible: if(yourProfile.state == "Active") {true} else {false}
+        onVisibleChanged: if(yourProfile.state == "Active") {
+                              Steem.get_follow(steemAccount)
+                            Steem.get_info(steemAccount)}
+        spacing: 10
+
+        Text {
+            anchors.horizontalCenter: parent.horizontalCenter
+            font.bold: true
+            text:"Steem Account"
+            font.pointSize: 14
+        }
+
+        Item {
+            id:imageBlock
+            width: parent.width * 0.7
+            height: parent.width * 0.7
+            anchors.horizontalCenter: parent.horizontalCenter
+            Image {
+                id:profileImage
+                anchors.centerIn: parent
+                width:parent.width * 0.87
+                height:width
+                fillMode: Image.PreserveAspectCrop
+                visible: false
+                z:1
+                source:steemProfileInfo[4].split('":"')[1].replace(/"/g,'')
+
+            Image {
+
+               anchors.fill: parent
+                fillMode: Image.PreserveAspectCrop
+                z:-1
+                source:"../icons/frontC.png"
+            }
+            }
+            OpacityMask {
+                source:profileImage
+                anchors.fill:profileImage
+                maskSource:mask
+            }
+        }
+
+        Text {
+            anchors.horizontalCenter: parent.horizontalCenter
+            text:steemProfileInfo[0].split('":"')[1].replace(/"/g,'')
+            font.bold: true
+            font.pointSize: 10
+        }
+
+       /* Row {
+            width:parent.width
+            spacing: 5
+            Text {
+                text:steemProfileInfo[1].split('":"')[1].replace(/"/g,'')
+            }
+            Text {
+                text:steemProfileInfo[2].split('":"')[1].replace(/"/g,'')
+            }
+        } */
+
+        Row {
+            anchors.horizontalCenter: parent.horizontalCenter
+            width:parent.width * 0.98
+            spacing: 5
+
+                Text {
+                    horizontalAlignment: Text.AlignLeft
+                    font.pointSize: 6
+                    width:parent.width * 0.48
+                    text:qsTr("Followers: ")+profileAbout[2].split(":")[1]
+                }
+
+
+
+                Text {
+                    horizontalAlignment: Text.AlignRight
+                    font.pointSize: 6
+                    text:qsTr("Following: ")+profileAbout[3].split(":")[1].replace("}","")
+                    width:parent.width * 0.48
+
+                }
+
+        }
+
+        Rectangle {
+            anchors.horizontalCenter: parent.horizontalCenter
+            width:parent.width * 0.95
+            color:seperatorColor
+            height:1
+        }
+
+        Text {
+            text:qsTr("About:")
+            font.bold: true
+            anchors.left: parent.left
+        }
+
+        Text {
+            text:steemProfileInfo[3].split(":")[1].replace(/"/g,'')
+            width:parent.width * 0.98
+            wrapMode: Text.WordWrap
+            anchors.horizontalCenter: parent.horizontalCenter
+            horizontalAlignment: Text.AlignLeft
+        }
+
+    }
+
+    Item {
+        anchors.fill: parent
+        visible: if(yourProfile.state === "Active" && steemAccount !== "") {
+                     false
+                 } else if(yourProfile.state === "inActive"){false} else {true}
+        Rectangle {
+            color: "white"
+            width:parent.width * 0.98
+            height:parent.height * 0.98
+            anchors.centerIn: parent
+        }
+        Image {
+            source:"../img/steem.png"
+            height:parent.width * 0.7
+            width:parent.width * 0.7
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.verticalCenterOffset: -100
+
+            Text {
+                anchors.top:parent.bottom
+                anchors.topMargin: 20
+                text:qsTr("No Steem account found")
+                font.pointSize: 10
+                font.bold: true
+                width:parent.width
+                wrapMode: Text.WordWrap
+                horizontalAlignment: Text.AlignHCenter
+            }
+        }
+
+    }
 }
 
 ListModel {
