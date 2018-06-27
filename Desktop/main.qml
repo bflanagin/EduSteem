@@ -70,6 +70,9 @@ Window {
     property int selected_month: d.getMonth()
     property int selected_year: d.getFullYear()
 
+    property string steemAccount: "" /* Steem Account name */
+    property string steemShareKey: "" /* Steem posting key */
+
     /* End System Wide Variables */
 
 

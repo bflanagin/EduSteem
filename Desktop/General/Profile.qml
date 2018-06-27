@@ -236,7 +236,88 @@ Item {
                 }
             }
 
+            ESborder {
+                width: parent.width
+                height: steemColumn.height + 40
 
+                Column {
+                    id:steemColumn
+                    anchors.centerIn: parent
+                    width:parent.width * 0.96
+                    spacing:10
+
+                    Item {
+                        width:parent.width
+                        height:asTitle.height
+
+                            Text {
+                                id:asTitle
+
+                                text:"Steem Settings"
+                                font.bold: true
+                                 font.pointSize: 10
+                                }
+
+                        Image {
+                            source:"../img/steem.png"
+                            height:asTitle.height * 1.1
+                            width:asTitle.height * 1.1
+                            anchors.right:parent.right
+                            anchors.rightMargin: 10
+
+                        }
+                    }
+
+                Rectangle {
+
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: parent.width * 0.95
+                    height: 1
+                    color: seperatorColor
+                }
+
+                Text {
+                    text:"Account"
+                    font.bold: true
+                    font.pointSize: 8
+                }
+
+                TextField {
+                    id:steemId
+                    width: parent.width * 0.96
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    wrapMode: Text.WordWrap
+                    horizontalAlignment: Text.AlignLeft
+                    background: ESTextField {}
+                    text:if(steemAccount.length != 0) {steemAccount} else {""}
+                }
+                Text {
+                    text:"Share Token (Private)"
+                    font.bold: true
+                    font.pointSize: 8
+                }
+                TextField {
+                    id:steemShareToken
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: parent.width * 0.96
+                    wrapMode: Text.WordWrap
+                    horizontalAlignment: Text.AlignLeft
+                    background: ESTextField {}
+                    echoMode:TextInput.Password
+                    text:if(steemShareKey.length != 0) {steemShareKey} else {""}
+                }
+
+                Button {
+                    anchors.right: parent.right
+                    anchors.rightMargin: 10
+                    background: ESTextField{}
+                    text:qsTr("Save")
+                    onClicked: {Scripts.saveSteem(userid,0,steemId.text,steemShareToken.text,"") }
+                }
+
+
+                }
+            }
 
 
         }

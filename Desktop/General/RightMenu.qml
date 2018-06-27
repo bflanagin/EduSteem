@@ -573,8 +573,9 @@ ESborder{
         anchors.horizontalCenter: parent.horizontalCenter
         width:parent.width * 0.98
         visible: if(yourProfile.state == "Active") {true} else {false}
-        onVisibleChanged: if(yourProfile.state == "Active") {Steem.get_follow("@bflanagin")
-                            Steem.get_info("@bflanagin")}
+        onVisibleChanged: if(yourProfile.state == "Active") {
+                              Steem.get_follow(steemAccount)
+                            Steem.get_info(steemAccount)}
         spacing: 10
 
         Text {
@@ -638,16 +639,19 @@ ESborder{
             spacing: 5
 
                 Text {
-
-                    width:parent.width * 0.5
-                    text:profileAbout[2].split(":")[0].replace(/"/g,'').split("_")[0]+": "+profileAbout[2].split(":")[1]
+                    horizontalAlignment: Text.AlignLeft
+                    font.pointSize: 6
+                    width:parent.width * 0.48
+                    text:qsTr("Followers: ")+profileAbout[2].split(":")[1]
                 }
 
 
 
                 Text {
-                    text:profileAbout[3].split(":")[0].replace(/"/g,'').split("_")[0]+": "+profileAbout[3].split(":")[1].replace("}","")
-                    width:parent.width * 0.5
+                    horizontalAlignment: Text.AlignRight
+                    font.pointSize: 6
+                    text:qsTr("Following: ")+profileAbout[3].split(":")[1].replace("}","")
+                    width:parent.width * 0.48
 
                 }
 
@@ -676,6 +680,38 @@ ESborder{
 
     }
 
+    Item {
+        anchors.fill: parent
+        visible: if(yourProfile.state === "Active" && steemAccount !== "") {
+                     false
+                 } else if(yourProfile.state === "inActive"){false} else {true}
+        Rectangle {
+            color: "white"
+            width:parent.width * 0.98
+            height:parent.height * 0.98
+            anchors.centerIn: parent
+        }
+        Image {
+            source:"../img/steem.png"
+            height:parent.width * 0.7
+            width:parent.width * 0.7
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.verticalCenterOffset: -100
+
+            Text {
+                anchors.top:parent.bottom
+                anchors.topMargin: 20
+                text:qsTr("No Steem account found")
+                font.pointSize: 10
+                font.bold: true
+                width:parent.width
+                wrapMode: Text.WordWrap
+                horizontalAlignment: Text.AlignHCenter
+            }
+        }
+
+    }
 }
 
 ListModel {
