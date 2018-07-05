@@ -1,40 +1,39 @@
 import QtQuick 2.11
-import QtQuick.Controls 2.3
-import QtQuick.Controls.Styles 1.4
-import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.0
-import Qt.labs.calendar 1.0
 
 Item {
-    id: thisWindow
 
-    anchors.horizontalCenter: parent.horizontalCenter
-    anchors.verticalCenter: parent.verticalCenter
+    id: thisWindow
+    anchors.fill: parent
+
+    property double op: 0.2
 
     states: [
 
         State {
             name: "Active"
             PropertyChanges {
-
                 target: thisWindow
                 opacity: 1
-                anchors.verticalCenterOffset: 0
             }
         },
 
         State {
             name: "inActive"
-            PropertyChanges {
 
+            PropertyChanges {
                 target: thisWindow
                 opacity: 0
-                anchors.verticalCenterOffset: parent.height + 500
             }
         }
+
+
     ]
 
+    state: "inActive"
+
     transitions: [
+
         Transition {
             from: "inActive"
             to: "Active"
@@ -42,12 +41,33 @@ Item {
 
             NumberAnimation {
                 target: thisWindow
-                properties: "opacity,anchors.verticalCenterOffset"
-                duration: 40
+                property: "opacity"
+                duration: 400
                 easing.type: Easing.InOutQuad
             }
         }
     ]
 
-    state: "inActive"
+    Image {
+        id: bg
+        anchors.fill: parent
+        fillMode: Image.PreserveAspectCrop
+        source: "https://heliograph.vagueentertainment.com/web/img/Humblebeaver_1164.jpg"
+        visible: false
+        onStatusChanged: thisWindow.state = "Active"
+    }
+
+    FastBlur {
+        source: bg
+        anchors.fill: bg
+        radius: 64
+    }
+
+    Rectangle {
+        id: overlay
+        anchors.fill: parent
+        color: "#FFFFFF"
+        opacity: op
+
+    }
 }

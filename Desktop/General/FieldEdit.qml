@@ -19,82 +19,198 @@ ESborder {
     property real itemId: 0
     property string existing: ""
 
-    onStateChanged: if(state == "Active") {existing =Scripts.pullField(field,where,itemId)} else { }
+    onStateChanged: if (state == "Active") {
+                        existing = Scripts.pullField(field, where, itemId)
+                    } else {
+
+                    }
+    onFieldChanged: switch(field) {
+                    case "rq": Scripts.loadQuestions(1)
+                                break
+                    case "gq": Scripts.loadQuestions(0)
+                                break
+                    default:break
+                    }
 
     Column {
-        id:cColumn
-        width:parent.width * 0.95
+        id: cColumn
+        width: parent.width * 0.95
         anchors.horizontalCenter: parent.horizontalCenter
         spacing: thisWindow.width * 0.02
 
         Item {
-            width:parent.width
-            height:title.height
+            width: parent.width
+            height: title.height
 
-    Text {
-        id: title
-        anchors.horizontalCenter: parent.horizontalCenter
-        text: switch(field) {
-              case "gq":"Guiding Questions";break;
-              case "rq":"Review Questions";break;
-              default:field;break;
+            Text {
+                id: title
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: switch (field) {
+                      case "gq":
+                          "Guiding Questions"
+                          break
+                      case "rq":
+                          "Review Questions"
+                          break
+                      default:
+                          field
+                          break
+                      }
 
-              }
+                font.pointSize: 18
+            }
 
-        font.pointSize: 18
-    }
+            Button {
 
-    Button {
-        anchors.right: parent.right
-        anchors.verticalCenter: title.verticalCenter
-        text:"Add"
-        background:ESTextField {
+                visible: switch (field) {
+                       /*  case "gq":
+                             true
+                             break */
+                         case "rq":
+                             true
+                             break
+                         default:
+                             false
+                             break
+                         }
+                anchors.right: parent.right
+                anchors.rightMargin: 10
+                anchors.verticalCenter: title.verticalCenter
+                text: "Add"
+                background: ESTextField {
+                }
 
+                onClicked: {
+                    newQuestion.type = 1
+                    newQuestion.state = "Active"
+                }
+            }
         }
 
-        onClicked: {
-            newQuestion.type = 1
-            newQuestion.state = "Active"
+        Rectangle {
+
+            width: parent.width * 0.99
+            anchors.horizontalCenter: parent.horizontalCenter
+            height: 3
+            color: seperatorColor
         }
-    }
-
-    }
-
-    Rectangle {
-
-        width: parent.width * 0.99
-        anchors.horizontalCenter: parent.horizontalCenter
-        height: 3
-        color: seperatorColor
-    }
         ScrollView {
-        id: view
-         anchors.horizontalCenter: parent.horizontalCenter
-         width:parent.width * 0.90
-        height:switch(field) {
-               case "Title": contentHeight + 10;break;
-               default: 400;break;
-               }
-        background: ESTextField{}
+            id: view
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: parent.width * 0.90
+            clip:true
+            height: switch (field) {
+                    case "Title":
+                        contentHeight + 10
+                        break
+                    default:
+                        400
+                        break
+                    }
+            background: ESTextField {
+            }
 
+            TextArea {
+                visible: switch (thisWindow.field) {
+                        // case "gq":
+                        //     false
+                        //     break
+                         case "rq":
+                             false
+                             break
+                         default:
+                             true
+                             break
+                         }
+                id: changeBox
+                anchors.fill: parent
+                horizontalAlignment: Text.AlignLeft
+                wrapMode: Text.WordWrap
 
+                text: Scrubber.recoverSpecial(existing)
+                padding: 5
+            }
 
-        TextArea {
+            ListView {
+                anchors.top:parent.top
+                anchors.topMargin: 10
+                anchors.horizontalCenter: parent.horizontalCenter
+                width:parent.width *0.98
+                height:contentHeight
+                spacing: 10
+                clip:true
 
-            id:changeBox
-            anchors.fill: parent
-            horizontalAlignment: Text.AlignLeft
-            wrapMode: Text.WordWrap
+                model:switch (thisWindow.field) {
+                     // case "gq":
+                    //      gqList
+                    //      break
+                      case "rq":
+                          rqList
+                          break
+                      }
 
-            text:Scrubber.recoverSpecial(existing)
-            padding: 5
+                delegate: Rectangle {
+                    color: if (index % 2) {
+                               "#FFFFFF"
+                           } else {
+                               "#F1F1F1"
+                           }
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    width: parent.width * 0.99
+                    height: if (reviewQuestionBlock.height > reviewAnswerBlock.height) {
+                                reviewQuestionBlock.height * 1.1
+                            } else {
+                                reviewAnswerBlock.height * 1.1
+                            }
+                    Row {
+                        width: parent.width * 0.99
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        height: if (reviewQuestionBlock.height > reviewAnswerBlock.height) {
+                                    reviewQuestionBlock.height * 1.07
+                                } else {
+                                    reviewAnswerBlock.height * 1.07
+                                }
+                        spacing: thisWindow.width * 0.02
 
+                        Column {
+                            id: reviewQuestionBlock
+                            anchors.verticalCenter: parent.verticalCenter
 
-        }
+                            width: thisWindow.width * 0.48
+                            spacing: thisWindow.width * 0.03
 
+                            Text {
+                                width: parent.width
+                                wrapMode: Text.WordWrap
+                                text: Scrubber.recoverSpecial(question)
+                            }
+                        }
+
+                        Rectangle {
+                            anchors.verticalCenter: parent.verticalCenter
+                            width: 1
+                            height: parent.height * 0.85
+                            color: seperatorColor
+                        }
+
+                        Column {
+                            id: reviewAnswerBlock
+                            anchors.verticalCenter: parent.verticalCenter
+                            width: thisWindow.width * 0.48
+                            spacing: thisWindow.width * 0.03
+
+                            Text {
+                                width: parent.width * 0.90
+                                wrapMode: Text.WordWrap
+                                text: Scrubber.recoverSpecial(answer)
+                            }
+                        }
+                    }
+                }
+
+            }
         }
     }
-
 
     Row {
         id: buttonRow
@@ -126,10 +242,20 @@ ESborder {
 
             onClicked: {
 
-                if(field =="Title") {
-                    Scripts.editField(field,where,itemId,changeBox.text.replace(/ /g,"_").trim())
-                } else {
-                    Scripts.editField(field,where,itemId,Scrubber.replaceSpecials(changeBox.text))
+                switch(field)  {
+                case "Title":
+                    Scripts.editField(field, where, itemId,
+                                      changeBox.text.replace(/ /g, "_").trim())
+                                  break
+                case "rq": Scripts.editField(field,where,itemId,reviewQuestions.toString())
+                                break
+               // case "gq": Scripts.editField(field,where,itemId,guidedQuestions.toString())
+                   //             break
+                default :
+                    Scripts.editField(field, where, itemId,
+                                        Scrubber.replaceSpecials(changeBox.text))
+                                break
+
                 }
 
                 thisWindow.state = "inActive"
@@ -138,10 +264,17 @@ ESborder {
     }
 
     QuestionWizard {
-        id:newQuestion
+        id: newQuestion
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width * 1.05
         state: "inActive"
+        onStateChanged: if(state == "inActive") {switch(field) {
+                                                    case "rq": Scripts.loadQuestions(1)
+                                                                break
+                                                  //  case "gq" : Scripts.loadQuestions(0)
+                                                        //        break
+                                                    }
+                            }
     }
 }

@@ -34,7 +34,6 @@ function heartbeat() {
 
 function checkOpenSeed(userid, code, editdate, type) {
 
-
     // console.log(userid, code, type);
 
     /* Checks for the existance of the data type */
@@ -52,10 +51,10 @@ function checkOpenSeed(userid, code, editdate, type) {
                 } else if (http.responseText == "101") {
                     console.log("Incorrect AppID")
                 } else {
-                      //  console.log(http.responseText.trim());
 
+                    //  console.log(http.responseText.trim());
                     if (parseInt(http.responseText.trim()) === 0) {
-                       // console.log("Sending "+type+" to Openseed: "+editdate)
+                        // console.log("Sending "+type+" to Openseed: "+editdate)
                         sendToOpenSeed(userid, code, type)
                     } else if (type === "Educator"
                                && schoolSetup.state == "Active") {
@@ -70,23 +69,17 @@ function checkOpenSeed(userid, code, editdate, type) {
 
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
     http.send("devid=" + devId + "&appid=" + appId + "&userid=" + userid
-              + "&code=" + code +"&editdate="+editdate+ "&type=" + type)
+              + "&code=" + code + "&editdate=" + editdate + "&type=" + type)
 }
 
 function sendToOpenSeed(userid, code, type) {
-
 
     /* Sends data to Server */
     var http = new XMLHttpRequest()
     var url = "https://openseed.vagueentertainment.com:8675/devs/Vag-01001011/vagEdu-053018/scripts/update.php"
     var pull = ""
 
-
-
     db.transaction(function (tx) {
-
-        tx.executeSql(
-                    'CREATE TABLE IF NOT EXISTS Schools (id TEXT, type INT,name TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT,editdate MEDIUMINT)')
 
         switch (type) {
         case "School":
@@ -117,11 +110,10 @@ function sendToOpenSeed(userid, code, type) {
             pull = tx.executeSql(
                         "SELECT * FROM Schedule WHERE id='" + userid + "' AND creationdate=" + code)
             break
-
         }
         if (pull.rows.length === 1) {
 
-            console.log("Sending "+type);
+            console.log("Sending " + type)
 
             http.onreadystatechange = function () {
 
@@ -135,7 +127,6 @@ function sendToOpenSeed(userid, code, type) {
                             console.log("Incorrect AppID")
                         } else {
                             console.log(http.responseText)
-
                         }
                     }
                 }
@@ -153,7 +144,8 @@ function sendToOpenSeed(userid, code, type) {
                           + "&phone=" + pull.rows.item(0).phone + "&country="
                           + pull.rows.item(0).country + "&state=" + pull.rows.item(
                               0).state + "&about=" + pull.rows.item(0).about
-                          + "&code=" + pull.rows.item(0).code +"&editdate="+pull.rows.item(0).editdate +"&type=" + type)
+                          + "&code=" + pull.rows.item(0).code + "&editdate="
+                          + pull.rows.item(0).editdate + "&type=" + type)
                 break
             case "Educator":
                 http.send("devid=" + devId + "&appid=" + appId
@@ -163,7 +155,8 @@ function sendToOpenSeed(userid, code, type) {
                           + pull.rows.item(0).phone + "&country=" + pull.rows.item(
                               0).country + "&state=" + pull.rows.item(0).state
                           + "&about=" + pull.rows.item(0).about + "&code="
-                          + pull.rows.item(0).code + "&editdate="+pull.rows.item(0).editdate +"&type=" + type)
+                          + pull.rows.item(0).code + "&editdate=" + pull.rows.item(
+                              0).editdate + "&type=" + type)
                 break
             case "Courses":
                 http.send("devid=" + devId + "&appid=" + appId
@@ -172,7 +165,7 @@ function sendToOpenSeed(userid, code, type) {
                           + "&about=" + pull.rows.item(0).about + "&code="
                           + pull.rows.item(0).creationdate + "&language=" + pull.rows.item(
                               0).language + "&schoolCode=" + schoolCode + "&educatorCode="
-                          + userCode + "&editdate="+pull.rows.item(0).editdate +"&type=" + type)
+                          + userCode + "&editdate=" + pull.rows.item(0).editdate + "&type=" + type)
                 break
             case "Units":
                 http.send("devid=" + devId + "&appid=" + appId
@@ -181,38 +174,32 @@ function sendToOpenSeed(userid, code, type) {
                           + "&objective=" + pull.rows.item(0).objective + "&code="
                           + pull.rows.item(0).creationdate + "&course=" + pull.rows.item(
                               0).coursenumber + "&schoolCode=" + schoolCode + "&educatorCode="
-                          + userCode + "&editdate="+pull.rows.item(0).editdate +"&type=" + type)
+                          + userCode + "&editdate=" + pull.rows.item(0).editdate + "&type=" + type)
                 break
-             case "Students":
+            case "Students":
                 http.send("devid=" + devId + "&appid=" + appId
                           + "&userid=" + userid + "&firstname=" + pull.rows.item(
                               0).firstname + "&lastname=" + pull.rows.item(0).lastname
-                          +"&age="+pull.rows.item(0).age + "&bday="+pull.rows.item(0).bday
-                          + "&email=" + pull.rows.item(0).email + "&phone="+ pull.rows.item(0).phone
-                          + "&about=" + pull.rows.item(0).about + "&code="+ pull.rows.item(0).code
-                          + "&schoolCode=" + schoolCode + "&editdate="+pull.rows.item(0).editdate +"&type=" + type)
+                          + "&age=" + pull.rows.item(0).age + "&bday="
+                          + pull.rows.item(0).bday + "&email=" + pull.rows.item(
+                              0).email + "&phone=" + pull.rows.item(0).phone
+                          + "&about=" + pull.rows.item(0).about + "&code="
+                          + pull.rows.item(0).code + "&schoolCode=" + schoolCode
+                          + "&editdate=" + pull.rows.item(0).editdate + "&type=" + type)
                 break
-              case "Schedule":
+            case "Schedule":
                 http.send("devid=" + devId + "&appid=" + appId
                           + "&userid=" + userid + "&month=" + pull.rows.item(
                               0).month + "&day=" + pull.rows.item(0).day
                           + "&about=" + pull.rows.item(0).about + "&code="
-                          + pull.rows.item(0).creationdate + "&schoolCode="
-                          + schoolCode + "&educatorCode="+ userCode
-                          + "&editdate="+pull.rows.item(0).editdate +"&type=" + type)
+                          + pull.rows.item(0).creationdate + "&schoolCode=" + schoolCode
+                          + "&educatorCode=" + userCode + "&editdate=" + pull.rows.item(
+                              0).editdate + "&type=" + type)
                 break
             case "Lessons":
-                http.send("devid=" + devId + "&appid=" + appId
-                          + "&userid=" + userid + "&course=" + pull.rows.item(
-                              0).coursenumber + "&unit=" + pull.rows.item(0).unitnumber
-                          + "&name=" + pull.rows.item(0).name + "&lessonNum="
-                          + pull.rows.item(0).lessonNum + "&duration=" + pull.rows.item(0).duration
-                          + "&about=" + pull.rows.item(0).about + "&objective=" + pull.rows.item(0).objective + "&supplies=" + pull.rows.item(0).supplies + "&resources=" + pull.rows.item(
-                              0).resources + "&guidingQuestions=" + pull.rows.item(0).guidingQuestions
-                          + "&lessonSequence=" + pull.rows.item(0).lessonSequence + "&studentProduct="
-                          + pull.rows.item(0).studentProduct + "&reviewQuestions=" + pull.rows.item(0).reviewQuestions
-                          + "&code=" + pull.rows.item(0).creationdate + "&schoolCode=" + schoolCode + "&educatorCode="
-                          + userCode + "&editdate="+pull.rows.item(0).editdate +"&type=" + type)
+                http.send("devid=" + devId + "&appid=" + appId + "&userid=" + userid + "&course=" + pull.rows.item(
+                              0).coursenumber + "&unit=" + pull.rows.item(0).unitnumber + "&name=" + pull.rows.item(0).name + "&lessonNum=" + pull.rows.item(0).lessonNum + "&duration=" + pull.rows.item(0).duration + "&about=" + pull.rows.item(0).about + "&objective=" + pull.rows.item(0).objective + "&supplies=" + pull.rows.item(0).supplies + "&resources=" + pull.rows.item(
+                              0).resources + "&guidingQuestions=" + pull.rows.item(0).guidingQuestions + "&lessonSequence=" + pull.rows.item(0).lessonSequence + "&studentProduct=" + pull.rows.item(0).studentProduct + "&reviewQuestions=" + pull.rows.item(0).reviewQuestions + "&code=" + pull.rows.item(0).creationdate + "&schoolCode=" + schoolCode + "&educatorCode=" + userCode + "&editdate=" + pull.rows.item(0).editdate + "&type=" + type)
                 break
             }
         }
@@ -220,7 +207,6 @@ function sendToOpenSeed(userid, code, type) {
 }
 
 function retrieveFromOpenSeed(id, code, type) {
-
 
     /* retrieves data to Server */
     var http = new XMLHttpRequest()
@@ -237,31 +223,12 @@ function retrieveFromOpenSeed(id, code, type) {
                     console.log("Incorrect AppID")
                 } else {
 
-
-                   // console.log("From Retrive "+http.responseText.trim())
+                    // console.log("From Retrive "+http.responseText.trim())
                     if (http.responseText.length > 3) {
 
                         var info = http.responseText.split(";&;")
 
                         db.transaction(function (tx) {
-
-                            tx.executeSql(
-                                        'CREATE TABLE IF NOT EXISTS Schools (id TEXT, type INT,name TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT,editdate MEDIUMINT)')
-
-                            tx.executeSql(
-                                        'CREATE TABLE IF NOT EXISTS Users (id TEXT, type INT,firstname TEXT,lastname TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT,editdate MEDIUMINT)')
-                            tx.executeSql(
-                                        'CREATE TABLE IF NOT EXISTS Units (id TEXT, coursenumber MEDIUMINT, name TEXT, objective MEDIUMTEXT, about MEDIUMTEXT, creationdate MEDIUMINT,editdate MEDIUMINT)')
-                            tx.executeSql(
-                                        'CREATE TABLE IF NOT EXISTS Lessons (id TEXT, coursenumber MEDIUMINT,unitnumber MEDIUMINT, name TEXT, lessonNum INT, duration INT, about MEDIUMTEXT, objective MEDIUMTEXT, supplies MEDIUMTEXT, resources MEDIUMTEXT, \
-guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEXT, reviewQuestions MEDIUMTEXT,creationdate MEDIUMINT,editdate MEDIUMINT)')
-                            tx.executeSql(
-                                        'CREATE TABLE IF NOT EXISTS Courses (id TEXT, name TEXT, subject TEXT,language TEXT, about MEDIUMTEXT, creationdate MEDIUMINT,editdate MEDIUMINT)')
-                            tx.executeSql(
-                                        'CREATE TABLE IF NOT EXISTS Students (id TEXT, firstname TEXT,lastname TEXT, age INT, bday MEDIUMINT, about MEDIUMTEXT, schoolcode TEXT,phone TEXT,email TEXT,steempost TEXT,code MEDIUMINT,editdate MEDIUMINT)')
-                            tx.executeSql(
-                                        'CREATE TABLE IF NOT EXISTS Schedule (id TEXT, month INT, day MEDIUMTEXT, schoolcode TEXT, educatorcode TEXT,creationdate MEDIUMINT,editdate MEDIUMINT)')
-
 
                             switch (type) {
                             case "School":
@@ -299,31 +266,27 @@ guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEX
                                         view.currentIndex = 1
                                     }
                                     break
+                                case "Courses":
+                                    tx.executeSql(
+                                                "INSERT INTO Courses VALUES(?,?,?,?,?,?,?)",
+                                                [userid, info[1], info[3], info[4], info[2], info[0], info[7]])
+                                    break
+                                case "Units":
+                                    tx.executeSql(
+                                                "INSERT INTO Units VALUES(?,?,?,?,?,?,?)",
+                                                [userid, info[4], info[1], info[2], info[3], info[0], info[7]])
+                                    break
+                                case "Lessons":
 
-                                  case "Courses":
-                                      tx.executeSql(
-                                                  "INSERT INTO Courses VALUES(?,?,?,?,?,?,?)",
-                                                  [userid, info[1], info[3], info[4], info[2], info[0], info[7]])
-                                      break
-
-                                  case "Units":
-                                      tx.executeSql(
-                                                  "INSERT INTO Units VALUES(?,?,?,?,?,?,?)",
-                                                  [userid, info[4], info[1], info[2], info[3], info[0], info[7]])
-                                      break
-
-                                  case "Lessons":
-
-                                      tx.executeSql(
-                                                  "INSERT INTO Lessons VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                                                  [userid, info[4], info[5], info[1], info[6], info[7], info[2], info[3],info[9], info[8], info[10], info[11], info[12], info[13], info[0], info[16]])
-                                      break
-
-
+                                    tx.executeSql(
+                                                "INSERT INTO Lessons VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                                                [userid, info[15], info[17], info[4], info[5], info[1], info[6], info[7], info[2], info[3], info[9], info[8], info[10], info[11], info[12], info[13], info[0], info[16]])
+                                    break
                                 }
                             }
                         })
                     } else {
+
                         //schoolName = qsTr("No school found")
                     }
                 }
@@ -337,10 +300,10 @@ guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEX
               + "&code=" + id + "&type=" + type)
 }
 
-function sync (type,code) {
+function sync(type, code) {
+
 
     /* Syncronizes data with the server */
-
     var http = new XMLHttpRequest()
     var url = "https://openseed.vagueentertainment.com:8675/devs/Vag-01001011/vagEdu-053018/scripts/sync.php"
 
@@ -348,47 +311,33 @@ function sync (type,code) {
 
         if (http.status === 200) {
             if (http.readyState === 4) {
-                //
                 //userid = http.responseText;
                 if (http.responseText == "100") {
                     console.log("Incorrect DevID")
                 } else if (http.responseText == "101") {
                     console.log("Incorrect AppID")
                 } else {
-                        var pull = ""
-                        var num = 0
+                    var pull = ""
+                    var num = 0
 
-                  //          console.log(code+" "+ type+" on server: "+http.responseText);
+                    //          console.log(code+" "+ type+" on server: "+http.responseText);
                     db.transaction(function (tx) {
 
-                        tx.executeSql(
-                                    'CREATE TABLE IF NOT EXISTS Units (id TEXT, coursenumber MEDIUMINT, name TEXT, objective MEDIUMTEXT, about MEDIUMTEXT, creationdate MEDIUMINT,editdate MEDIUMINT)')
-                        tx.executeSql(
-                                    'CREATE TABLE IF NOT EXISTS Lessons (id TEXT, coursenumber MEDIUMINT,unitnumber MEDIUMINT, name TEXT, lessonNum INT, duration INT, about MEDIUMTEXT, objective MEDIUMTEXT, supplies MEDIUMTEXT, resources MEDIUMTEXT, \
-guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEXT, reviewQuestions MEDIUMTEXT,creationdate MEDIUMINT,editdate MEDIUMINT)')
-                        tx.executeSql(
-                                    'CREATE TABLE IF NOT EXISTS Courses (id TEXT, name TEXT, subject TEXT,language TEXT, about MEDIUMTEXT, creationdate MEDIUMINT,editdate MEDIUMINT)')
-                        tx.executeSql(
-                                    'CREATE TABLE IF NOT EXISTS Students (id TEXT, firstname TEXT,lastname TEXT, age INT, bday MEDIUMINT, about MEDIUMTEXT, schoolcode TEXT,phone TEXT,email TEXT,steempost TEXT,code MEDIUMINT,editdate MEDIUMINT)')
-                        tx.executeSql(
-                                    'CREATE TABLE IF NOT EXISTS Schedule (id TEXT, month INT, day MEDIUMTEXT, schoolcode TEXT, educatorcode TEXT,creationdate MEDIUMINT,editdate MEDIUMINT)')
+                        var ids = http.responseText.split("\n")
+                        while (ids.length > num) {
 
+                            pull = tx.executeSql(
+                                        "SELECT * FROM " + type
+                                        + " WHERE creationdate=" + ids[num] + "")
 
-                            var ids = http.responseText.split("\n");
-                        while(ids.length > num) {
-
-                            pull = tx.executeSql("SELECT * FROM " + type+ " WHERE creationdate=" + ids[num] + "")
-
-                            if(pull.rows.length === 0) {
-                                console.log("Grabbing from Server"+ids[num]);
-                                retrieveFromOpenSeed(ids[num],code,type)
+                            if (pull.rows.length === 0) {
+                                console.log("Grabbing from Server" + ids[num])
+                                retrieveFromOpenSeed(ids[num], code, type)
                             }
 
-                         num = num + 1
+                            num = num + 1
                         }
-
-                    });
-
+                    })
                 }
             }
         }
@@ -398,5 +347,4 @@ guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEX
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
     http.send("devid=" + devId + "&appid=" + appId + "&userid=" + userid
               + "&code=" + code + "&type=" + type)
-
 }

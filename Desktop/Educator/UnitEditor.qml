@@ -32,30 +32,32 @@ ESborder {
         font.bold: true
         font.pointSize: 15
         Image {
-            anchors.left:parent.right
-            anchors.bottom:parent.bottom
-            source:"/icons/edit-text.svg"
-            width:parent.height * 0.5
-            height:parent.height * 0.5
+            anchors.left: parent.right
+            anchors.bottom: parent.bottom
+            source: "/icons/edit-text.svg"
+            width: parent.height * 0.5
+            height: parent.height * 0.5
             fillMode: Image.PreserveAspectFit
 
             MouseArea {
                 anchors.fill: parent
-                onClicked: {editthis.field = "Title"
-                            editthis.where = "unit"
-                            editthis.itemId = unitNumber
-                            editthis.state = "Active" }
+                onClicked: {
+                    editthis.field = "Title"
+                    editthis.where = "unit"
+                    editthis.itemId = unitNumber
+                    editthis.state = "Active"
+                }
             }
         }
     }
 
     CircleButton {
-        id:backbutton
-        anchors.top:parent.top
-        anchors.left:parent.left
+        id: backbutton
+        anchors.top: parent.top
+        anchors.left: parent.left
         anchors.margins: 20
-        height:title.height
-        width:title.height
+        height: title.height
+        width: title.height
 
         MouseArea {
             anchors.fill: parent
@@ -84,7 +86,7 @@ ESborder {
 
         Flickable {
             width: thisWindow.width * 0.50
-            height: parent.height - (title.height + 10)
+            height: parent.height * 0.95
             contentHeight: infoColumn.height + 100
             clip: true
 
@@ -98,12 +100,14 @@ ESborder {
 
                 ESborder {
                     width: parent.width * 0.95
-                    height: objectiveColumn.height * 1.2
+                    height: objectiveColumn.height + 64
 
                     Column {
                         id: objectiveColumn
                         width: parent.width
-                        anchors.centerIn: parent
+                        anchors.top:parent.top
+                        anchors.topMargin: 10
+                        padding:10
                         spacing: thisWindow.width * 0.01
 
                         Text {
@@ -125,24 +129,26 @@ ESborder {
                             //padding: 10
                             thedata: Scrubber.recoverSpecial(unitObjective)
                             width: parent.width
-                           // wrapMode: Text.WordWrap
+                            // wrapMode: Text.WordWrap
                         }
                     }
                     Image {
-                        anchors.right:parent.right
-                        anchors.bottom:parent.bottom
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
                         anchors.margins: 10
-                        source:"/icons/edit-text.svg"
-                        width:24
-                        height:24
+                        source: "/icons/edit-text.svg"
+                        width: 24
+                        height: 24
                         fillMode: Image.PreserveAspectFit
 
                         MouseArea {
                             anchors.fill: parent
-                            onClicked: {editthis.field = "Objective"
+                            onClicked: {
+                                editthis.field = "Objective"
                                 editthis.where = "unit"
                                 editthis.itemId = unitNumber
-                                editthis.state = "Active" }
+                                editthis.state = "Active"
+                            }
                         }
                     }
                 }
@@ -174,28 +180,30 @@ ESborder {
 
                         MarkDown {
                             id: aboutText
-                            //padding: 10
 
+                            //padding: 10
                             thedata: Scrubber.recoverSpecial(unitAbout)
                             width: parent.width * 0.98
                             //wrapMode: Text.WordWrap
                         }
-                   }
+                    }
                     Image {
-                        anchors.right:parent.right
-                        anchors.bottom:parent.bottom
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
                         anchors.margins: 10
-                        source:"/icons/edit-text.svg"
-                        width:24
-                        height:24
+                        source: "/icons/edit-text.svg"
+                        width: 24
+                        height: 24
                         fillMode: Image.PreserveAspectFit
 
                         MouseArea {
                             anchors.fill: parent
-                            onClicked: {editthis.field = "About"
+                            onClicked: {
+                                editthis.field = "About"
                                 editthis.where = "unit"
                                 editthis.itemId = unitNumber
-                                editthis.state = "Active" }
+                                editthis.state = "Active"
+                            }
                         }
                     }
                 }
@@ -274,18 +282,18 @@ ESborder {
 
                         MarkDown {
                             thedata: Scrubber.recoverSpecial(about)
-                            width:parent.width * 0.80
-                           // wrapMode: Text.WordWrap
+                            width: parent.width * 0.80
+                            // wrapMode: Text.WordWrap
                             //padding: 10
                         }
                     }
 
                     MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                lessonView.lessonNumber = cdate
-                                lessonView.state = "Active"
-                            }
+                        anchors.fill: parent
+                        onClicked: {
+                            lessonView.lessonNumber = cdate
+                            lessonView.state = "Active"
+                        }
                     }
                 }
             }
@@ -299,30 +307,33 @@ ESborder {
         width: 1000
         height: 650
         state: "inActive"
-        onStateChanged: if(state == "inActive") {Scripts.loadLessons(userid,unitNumber)}
-
+        onStateChanged: if (state == "inActive") {
+                            Scripts.loadLessons(userid, unitNumber)
+                        }
     }
 
     LessonPlanEditor {
-        id:lessonView
+        id: lessonView
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
-        width:parent.width
-        height:parent.height
-        state:"inActive"
+        width: parent.width
+        height: parent.height
+        state: "inActive"
     }
 
     FieldEdit {
-        id:editthis
-        width:800
+        id: editthis
+        width: 800
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
-        state:"inActive"
-        onStateChanged: if(state == "inActive") {Scripts.loadUnit(userid, unitNumber) }
+        state: "inActive"
+        onStateChanged: if (state == "inActive") {
+                            Scripts.loadUnit(userid, unitNumber)
+                        }
     }
 
     CDBUnit {
-            id:lessonList
-            thedate: unitNumber
-                    }
+        id: lessonList
+        thedate: unitNumber
+    }
 }

@@ -19,8 +19,8 @@ ESborder {
 
                             view.currentIndex = 1
                         } else {
-                            console.log("Checking for Educator based on "+userid)
-                            Network.checkOpenSeed(userid,userCode,"Educator")
+                            console.log("Checking for Educator based on " + userid)
+                            Network.checkOpenSeed(userid, userCode, "Educator")
                         }
                     } else {
 
@@ -77,7 +77,6 @@ ESborder {
 
         Item {
             id: firstPage
-
 
             /* Personal Info */
             Column {
@@ -213,7 +212,6 @@ ESborder {
                          } else {
                              false
                          }
-
 
                 /* School Info */
                 Column {
@@ -516,7 +514,8 @@ ESborder {
                 background: ESTextField {
                 }
                 placeholderText: qsTr("Enter School Code")
-                onTextChanged: Network.retrieveFromOpenSeed(text, text, "School")
+                onTextChanged: Network.retrieveFromOpenSeed(text,
+                                                            text, "School")
             }
 
             Row {

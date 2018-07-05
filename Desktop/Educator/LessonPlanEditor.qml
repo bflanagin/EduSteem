@@ -11,7 +11,7 @@ import "../plugins/text.js" as Scrubber
 
 ESborder {
     id: thisWindow
-    clip:true
+    clip: true
 
     property real lessonNumber: 0
     property string lessonTitle: "Title"
@@ -28,6 +28,7 @@ ESborder {
     property string lessonRQ: ""
     property string lessonSP: ""
 
+    property int lessonPublished: 0
 
     onStateChanged: if (state == "Active") {
                         Scripts.loadLesson(userid, lessonNumber)
@@ -35,6 +36,11 @@ ESborder {
 
                     }
 
+   /* onLessonNumberChanged: {
+                    Scripts.loadQuestions(1)
+                     Scripts.loadQuestions(0)
+
+                    } */
 
     Text {
         id: title
@@ -45,30 +51,32 @@ ESborder {
         font.bold: true
         font.pointSize: 15
         Image {
-            anchors.left:parent.right
-            anchors.bottom:parent.bottom
-            source:"/icons/edit-text.svg"
-            width:parent.height * 0.5
-            height:parent.height * 0.5
+            anchors.left: parent.right
+            anchors.bottom: parent.bottom
+            source: "/icons/edit-text.svg"
+            width: parent.height * 0.5
+            height: parent.height * 0.5
             fillMode: Image.PreserveAspectFit
 
             MouseArea {
                 anchors.fill: parent
-                onClicked: {editthis.field = "Title"
-                            editthis.where = "lesson"
-                            editthis.itemId = lessonNumber
-                            editthis.state = "Active" }
+                onClicked: {
+                    editthis.field = "Title"
+                    editthis.where = "lesson"
+                    editthis.itemId = lessonNumber
+                    editthis.state = "Active"
+                }
             }
         }
     }
 
     CircleButton {
-        id:backbutton
-        anchors.top:parent.top
-        anchors.left:parent.left
+        id: backbutton
+        anchors.top: parent.top
+        anchors.left: parent.left
         anchors.margins: 20
-        height:title.height
-        width:title.height
+        height: title.height
+        width: title.height
 
         MouseArea {
             anchors.fill: parent
@@ -80,10 +88,11 @@ ESborder {
 
     Button {
         anchors.top: parent.top
-        anchors.right:parent.right
+        anchors.right: parent.right
         anchors.margins: 20
-        text:qsTr("Student View")
-        background: ESTextField{}
+        text: qsTr("Student View")
+        background: ESTextField {
+        }
     }
 
     Rectangle {
@@ -96,7 +105,7 @@ ESborder {
     }
 
     Item {
-        id:lessonInfo
+        id: lessonInfo
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: title.bottom
         anchors.topMargin: 24
@@ -104,29 +113,29 @@ ESborder {
         height: 70
 
         Text {
-            anchors.top:parent.top
+            anchors.top: parent.top
             anchors.left: parent.left
             anchors.margins: 10
-            text:qsTr("Author: ")+ lessonAuthor
+            text: qsTr("Author: ") + lessonAuthor
         }
         Text {
-            anchors.bottom:parent.bottom
+            anchors.bottom: parent.bottom
             anchors.left: parent.left
             anchors.margins: 10
-            text:qsTr("Date Created: ")+ lessonDate
+            text: qsTr("Date Created: ") + lessonDate
         }
 
         Text {
-            anchors.top:parent.top
+            anchors.top: parent.top
             anchors.right: parent.right
             anchors.margins: 10
-            text:qsTr("Lesson Number: ")+ lessonOrder
+            text: qsTr("Lesson Number: ") + lessonOrder
         }
         Text {
-            anchors.bottom:parent.bottom
+            anchors.bottom: parent.bottom
             anchors.right: parent.right
             anchors.margins: 10
-            text:qsTr("Duration: ")+ lessonDuration + qsTr(" minutes")
+            text: qsTr("Duration: ") + lessonDuration + qsTr(" minutes")
         }
 
         Rectangle {
@@ -137,92 +146,153 @@ ESborder {
             height: 1
             color: seperatorColor
         }
-
     }
 
     Flickable {
         anchors.top: lessonInfo.bottom
         anchors.topMargin: 10
-        anchors.bottom:parent.bottom
+        anchors.bottom: parent.bottom
         anchors.bottomMargin: 10
-        width:parent.width
-        contentHeight:planColumn.height + 100
-        clip:true
+        width: parent.width
+        contentHeight: planColumn.height + 100
+        clip: true
 
-    Column {
-        id:planColumn
-        width: parent.width * 0.98
-        anchors.horizontalCenter: parent.horizontalCenter
-        spacing: thisWindow.width * 0.01
-
-        ESborder {
+        Column {
+            id: planColumn
             width: parent.width * 0.98
             anchors.horizontalCenter: parent.horizontalCenter
-            height: aboutColumn.height * 1.2
+            spacing: thisWindow.width * 0.01
 
-            Column {
-                id: aboutColumn
-                width: parent.width
-                anchors.centerIn: parent
-                spacing: thisWindow.width * 0.01
+            ESborder {
+                width: parent.width * 0.98
+                anchors.horizontalCenter: parent.horizontalCenter
+                height: aboutColumn.height + 64
 
-                Text {
-                    anchors.left: parent.left
-                    anchors.margins: 10
-                    text: qsTr("About:")
-                }
-                Rectangle {
-
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    width: parent.width * 0.95
-                    height: 1
-                    color: seperatorColor
-                }
-
-                MarkDown {
-                    id: aboutText
-                    thedata: Scrubber.recoverSpecial(lessonAbout)
+                Column {
+                    id: aboutColumn
                     width: parent.width
+                    anchors.top:parent.top
+                    anchors.topMargin:10
+                    padding: 10
+                    spacing: thisWindow.width * 0.01
 
+                    Text {
+                        anchors.left: parent.left
+                        anchors.margins: 10
+                        text: qsTr("About:")
+                    }
+                    Rectangle {
+
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        width: parent.width * 0.95
+                        height: 1
+                        color: seperatorColor
+                    }
+
+                    MarkDown {
+                        id: aboutText
+                        thedata: Scrubber.recoverSpecial(lessonAbout)
+                        width: parent.width
+                    }
                 }
-           }
-            Image {
-                anchors.right:parent.right
-                anchors.bottom:parent.bottom
-                anchors.margins: 15
-                source:"/icons/edit-text.svg"
-                width:24
-                height:24
-                fillMode: Image.PreserveAspectFit
+                Image {
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    anchors.margins: 15
+                    source: "/icons/edit-text.svg"
+                    width: 24
+                    height: 24
+                    fillMode: Image.PreserveAspectFit
 
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {editthis.field = "About"
-                        editthis.where = "lesson"
-                        editthis.itemId = lessonNumber
-                        editthis.state = "Active" }
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            editthis.field = "About"
+                            editthis.where = "lesson"
+                            editthis.itemId = lessonNumber
+                            editthis.state = "Active"
+                        }
+                    }
                 }
             }
-        }
 
+            ESborder {
+                width: parent.width * 0.98
+                anchors.horizontalCenter: parent.horizontalCenter
+                height: objectiveColumn.height + 64
+
+                Column {
+                    id: objectiveColumn
+                    width: parent.width
+                    anchors.top:parent.top
+                    anchors.topMargin: 10
+                    padding:10
+                    spacing: thisWindow.width * 0.01
+
+                    Text {
+                        anchors.left: parent.left
+                        anchors.margins: 10
+                        text: qsTr("Objective:")
+                    }
+
+                    Rectangle {
+
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        width: parent.width * 0.95
+                        height: 1
+                        color: seperatorColor
+                    }
+
+                    MarkDown {
+                        id: objText
+                        thedata: Scrubber.recoverSpecial(lessonObjective)
+                        width: parent.width
+                    }
+                }
+                Image {
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    anchors.margins: 15
+                    source: "/icons/edit-text.svg"
+                    width: 24
+                    height: 24
+                    fillMode: Image.PreserveAspectFit
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            editthis.field = "Objective"
+                            editthis.where = "lesson"
+                            editthis.itemId = lessonNumber
+                            editthis.state = "Active"
+                        }
+                    }
+                }
+            }
+
+            Row {
+                width: parent.width * 0.98
+                anchors.horizontalCenter: parent.horizontalCenter
+                spacing: thisWindow.width * 0.02
 
                 ESborder {
-                    width: parent.width * 0.98
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    height: objectiveColumn.height * 1.3
+                    width: parent.width * 0.49
+                    height: suppliesColumn.height + 32
 
                     Column {
-                        id: objectiveColumn
+                        id: suppliesColumn
                         width: parent.width
-                        anchors.centerIn: parent
+                        anchors.top:parent.top
+                        anchors.topMargin: 10
+                        padding: 10
+
                         spacing: thisWindow.width * 0.01
 
                         Text {
                             anchors.left: parent.left
                             anchors.margins: 10
-                            text: qsTr("Objective:")
+                            text: qsTr("Supplies:")
                         }
-
                         Rectangle {
 
                             anchors.horizontalCenter: parent.horizontalCenter
@@ -232,147 +302,95 @@ ESborder {
                         }
 
                         MarkDown {
-                            id: objText
-                            thedata: Scrubber.recoverSpecial(lessonObjective)
+                            id: supplyText
                             width: parent.width
-
+                            thedata: Scrubber.recoverSpecial(lessonSupplies)
                         }
                     }
                     Image {
-                        anchors.right:parent.right
-                        anchors.bottom:parent.bottom
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
                         anchors.margins: 15
-                        source:"/icons/edit-text.svg"
-                        width:24
-                        height:24
+                        source: "/icons/edit-text.svg"
+                        width: 24
+                        height: 24
                         fillMode: Image.PreserveAspectFit
 
                         MouseArea {
                             anchors.fill: parent
-                            onClicked: {editthis.field = "Objective"
+                            onClicked: {
+                                editthis.field = "Supplies"
                                 editthis.where = "lesson"
                                 editthis.itemId = lessonNumber
-                                editthis.state = "Active" }
+                                editthis.state = "Active"
+                            }
                         }
                     }
                 }
 
+                ESborder {
+                    width: parent.width * 0.49
+                    height: resourcesColumn.height + 64
 
-
-            Row {
-                width: parent.width * 0.98
-                anchors.horizontalCenter: parent.horizontalCenter
-                spacing: thisWindow.width * 0.02
-
-            ESborder {
-                width: parent.width * 0.49
-                height: suppliesColumn.height * 1.3
-
-                Column {
-                    id: suppliesColumn
-                    width: parent.width
-                    anchors.centerIn: parent
-                    spacing: thisWindow.width * 0.01
-
-                    Text {
-                        anchors.left: parent.left
-                        anchors.margins: 10
-                        text: qsTr("Supplies:")
-                    }
-                    Rectangle {
-
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        width: parent.width * 0.95
-                        height: 1
-                        color: seperatorColor
-                    }
-
-                    MarkDown {
-                        id: supplyText
+                    Column {
+                        id: resourcesColumn
                         width: parent.width
-                        thedata: Scrubber.recoverSpecial(lessonSupplies)
-                    }
-               }
-                Image {
-                    anchors.right:parent.right
-                    anchors.bottom:parent.bottom
-                    anchors.margins: 15
-                    source:"/icons/edit-text.svg"
-                    width:24
-                    height:24
-                    fillMode: Image.PreserveAspectFit
+                        anchors.top:parent.top
+                        anchors.topMargin:10
+                        spacing: thisWindow.width * 0.01
 
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {editthis.field = "Supplies"
-                            editthis.where = "lesson"
-                            editthis.itemId = lessonNumber
-                            editthis.state = "Active" }
+                        Text {
+                            anchors.left: parent.left
+                            anchors.margins: 10
+                            text: qsTr("Resources:")
+                        }
+                        Rectangle {
+
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            width: parent.width * 0.95
+                            height: 1
+                            color: seperatorColor
+                        }
+
+                        MarkDown {
+                            id: resourceText
+                            thedata: Scrubber.recoverSpecial(lessonResources)
+                            width: parent.width
+                        }
+                    }
+                    Image {
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+                        anchors.margins: 15
+                        source: "/icons/edit-text.svg"
+                        width: 24
+                        height: 24
+                        fillMode: Image.PreserveAspectFit
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                editthis.field = "Resources"
+                                editthis.where = "lesson"
+                                editthis.itemId = lessonNumber
+                                editthis.state = "Active"
+                            }
+                        }
                     }
                 }
             }
 
             ESborder {
-                width: parent.width * 0.49
-                height: resourcesColumn.height * 1.3
-
-                Column {
-                    id: resourcesColumn
-                    width: parent.width
-                    anchors.centerIn: parent
-                    spacing: thisWindow.width * 0.01
-
-                    Text {
-                        anchors.left: parent.left
-                        anchors.margins: 10
-                        text: qsTr("Resources:")
-                    }
-                    Rectangle {
-
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        width: parent.width * 0.95
-                        height: 1
-                        color: seperatorColor
-                    }
-
-                    MarkDown {
-                        id: resourceText
-                        thedata: Scrubber.recoverSpecial(lessonResources)
-                        width: parent.width
-
-                    }
-               }
-                Image {
-                    anchors.right:parent.right
-                    anchors.bottom:parent.bottom
-                    anchors.margins: 15
-                    source:"/icons/edit-text.svg"
-                    width:24
-                    height:24
-                    fillMode: Image.PreserveAspectFit
-
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {editthis.field = "Resources"
-                            editthis.where = "lesson"
-                            editthis.itemId = lessonNumber
-                            editthis.state = "Active" }
-                    }
-                }
-            }
-
-            }
-
-
-            ESborder {
                 width: parent.width * 0.98
                 anchors.horizontalCenter: parent.horizontalCenter
-                height: sequenceColumn.height * 1.3
+                height: sequenceColumn.height + 64
 
                 Column {
                     id: sequenceColumn
                     width: parent.width
-                    anchors.centerIn: parent
+                    anchors.top:parent.top
+                    anchors.topMargin:10
+                    padding:10
                     spacing: thisWindow.width * 0.01
 
                     Text {
@@ -393,24 +411,25 @@ ESborder {
                         id: sequenceText
                         thedata: Scrubber.recoverSpecial(lessonSequence)
                         width: parent.width
-
                     }
                 }
                 Image {
-                    anchors.right:parent.right
-                    anchors.bottom:parent.bottom
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
                     anchors.margins: 15
-                    source:"/icons/edit-text.svg"
-                    width:24
-                    height:24
+                    source: "/icons/edit-text.svg"
+                    width: 24
+                    height: 24
                     fillMode: Image.PreserveAspectFit
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: {editthis.field = "Sequence"
+                        onClicked: {
+                            editthis.field = "Sequence"
                             editthis.where = "lesson"
                             editthis.itemId = lessonNumber
-                            editthis.state = "Active" }
+                            editthis.state = "Active"
+                        }
                     }
                 }
             }
@@ -418,12 +437,15 @@ ESborder {
             ESborder {
                 width: parent.width * 0.98
                 anchors.horizontalCenter: parent.horizontalCenter
-                height: gqColumn.height * 1.3
+                height: gqColumn.height + 64
 
                 Column {
                     id: gqColumn
                     width: parent.width
-                    anchors.centerIn: parent
+                    //anchors.centerIn: parent
+                    anchors.top:parent.top
+                    anchors.topMargin: 10
+                    padding:10
                     spacing: thisWindow.width * 0.01
 
                     Text {
@@ -439,29 +461,29 @@ ESborder {
                         height: 1
                         color: seperatorColor
                     }
-
                     MarkDown {
-                        id: gqText
-                        thedata: Scrubber.recoverSpecial(lessonGQ)
-                        width: parent.width
-
+                        id:guidedQuest
+                        thedata:Scrubber.recoverSpecial(guidedQuestions)
+                        width: parent.width * 0.98
                     }
                 }
                 Image {
-                    anchors.right:parent.right
-                    anchors.bottom:parent.bottom
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
                     anchors.margins: 15
-                    source:"/icons/edit-text.svg"
-                    width:24
-                    height:24
+                    source: "/icons/edit-text.svg"
+                    width: 24
+                    height: 24
                     fillMode: Image.PreserveAspectFit
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: {editthis.field = "gq"
+                        onClicked: {
+                            editthis.field = "gq"
                             editthis.where = "lesson"
                             editthis.itemId = lessonNumber
-                            editthis.state = "Active" }
+                            editthis.state = "Active"
+                        }
                     }
                 }
             }
@@ -469,12 +491,14 @@ ESborder {
             ESborder {
                 width: parent.width * 0.98
                 anchors.horizontalCenter: parent.horizontalCenter
-                height: productColumn.height * 1.3
+                height: productColumn.height + 64
 
                 Column {
                     id: productColumn
                     width: parent.width
-                    anchors.centerIn: parent
+                    anchors.top:parent.top
+                    anchors.topMargin:10
+                    padding:10
                     spacing: thisWindow.width * 0.01
 
                     Text {
@@ -495,24 +519,25 @@ ESborder {
                         id: productText
                         thedata: Scrubber.recoverSpecial(lessonSP)
                         width: parent.width
-
                     }
                 }
                 Image {
-                    anchors.right:parent.right
-                    anchors.bottom:parent.bottom
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
                     anchors.margins: 15
-                    source:"/icons/edit-text.svg"
-                    width:24
-                    height:24
+                    source: "/icons/edit-text.svg"
+                    width: 24
+                    height: 24
                     fillMode: Image.PreserveAspectFit
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: {editthis.field = "Product"
+                        onClicked: {
+                            editthis.field = "Product"
                             editthis.where = "lesson"
                             editthis.itemId = lessonNumber
-                            editthis.state = "Active" }
+                            editthis.state = "Active"
+                        }
                     }
                 }
             }
@@ -520,12 +545,14 @@ ESborder {
             ESborder {
                 width: parent.width * 0.98
                 anchors.horizontalCenter: parent.horizontalCenter
-                height: reviewColumn.height * 1.4
+                height:reviewColumn.height + 64
 
                 Column {
                     id: reviewColumn
                     width: parent.width
-                    anchors.centerIn: parent
+                    anchors.top:parent.top
+                    anchors.topMargin:10
+                    padding:10
                     spacing: thisWindow.width * 0.01
 
                     Text {
@@ -543,74 +570,103 @@ ESborder {
                     }
 
                     Repeater {
-                        id: reviewText
-                        width:parent.width * 0.98
+                        id: reviewList
+                        width: parent.width * 0.98
                         anchors.horizontalCenter: parent.horizontalCenter
-                        model: lessonRQ.split(";#x2c;").length
+                        model: rqList
 
-                        delegate: Item {
-                                    anchors.horizontalCenter: parent.horizontalCenter
-                                    width:parent.width * 0.98
-                                    height:itemColumn.height * 1.03
-
-                                    Rectangle {
-                                        anchors.fill: parent
-                                        color:if(index % 2) {"#FFFFFF"} else {"#F1F1F1"}
+                        delegate: Rectangle {
+                            color: if (index % 2) {
+                                       "#FFFFFF"
+                                   } else {
+                                       "#F1F1F1"
+                                   }
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            width: parent.width * 0.99
+                            height: if (reviewQuestionBlock.height > reviewAnswerBlock.height) {
+                                        reviewQuestionBlock.height * 1.1
+                                    } else {
+                                        reviewAnswerBlock.height * 1.1
                                     }
-                                        Column {
-                                            id:itemColumn
-                                            width:parent.width
-                                            anchors.centerIn: parent
-                                            spacing: thisWindow.width * 0.01
+                            Row {
+                                width: parent.width * 0.99
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                height: if (reviewQuestionBlock.height > reviewAnswerBlock.height) {
+                                            reviewQuestionBlock.height * 1.07
+                                        } else {
+                                            reviewAnswerBlock.height * 1.07
+                                        }
+                                spacing: thisWindow.width * 0.02
+
+                                Column {
+                                    id: reviewQuestionBlock
+                                    anchors.verticalCenter: parent.verticalCenter
+
+                                    width: thisWindow.width * 0.48
+                                    spacing: thisWindow.width * 0.03
 
                                     Text {
-                                        anchors.left:parent.left
-                                        anchors.leftMargin: 10
-                                       text:qsTr("Question: ")+Scrubber.recoverSpecial(lessonRQ.split(";#x2c;")[index]).split(":::")[0]
+                                        width: parent.width
+                                        wrapMode: Text.WordWrap
+                                        text: Scrubber.recoverSpecial(question)
                                     }
+                                }
+
+                                Rectangle {
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    width: 1
+                                    height: parent.height * 0.85
+                                    color: seperatorColor
+                                }
+
+                                Column {
+                                    id: reviewAnswerBlock
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    width: thisWindow.width * 0.48
+                                    spacing: thisWindow.width * 0.03
 
                                     Text {
-                                        anchors.left:parent.left
-                                        anchors.leftMargin: 30
-                                       text:qsTr("Answer: ")+Scrubber.recoverSpecial(lessonRQ.split(";#x2c;")[index]).split(":::")[1]
+                                        width: parent.width * 0.90
+                                        wrapMode: Text.WordWrap
+                                        text: Scrubber.recoverSpecial(answer)
                                     }
-
-                                    }
+                                }
+                            }
                         }
-
                     }
                 }
                 Image {
-                    anchors.right:parent.right
-                    anchors.bottom:parent.bottom
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
                     anchors.margins: 15
-                    source:"/icons/edit-text.svg"
-                    width:24
-                    height:24
+                    source: "/icons/edit-text.svg"
+                    width: 24
+                    height: 24
                     fillMode: Image.PreserveAspectFit
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: {editthis.field = "rq"
+                        onClicked: {
+                            editthis.field = "rq"
                             editthis.where = "lesson"
                             editthis.itemId = lessonNumber
-                            editthis.state = "Active" }
+                            editthis.state = "Active"
+                        }
                     }
                 }
             }
-
         }
-
-        }
-
-    FieldEdit {
-        id:editthis
-        width:800
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.horizontalCenter: parent.horizontalCenter
-        state:"inActive"
-
-        onStateChanged: if(state == "inActive") {Scripts.loadLesson(userid, lessonNumber)}
     }
 
+    FieldEdit {
+        id: editthis
+        width: 800
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        state: "inActive"
+
+        onStateChanged: if (state == "inActive") {
+                            Scripts.loadLesson(userid, lessonNumber)
+                        }
+    }
 }

@@ -6,6 +6,8 @@ import "../plugins"
 
 import "./course.js" as Scripts
 
+import "../plugins/text.js" as Scrubber
+
 ESborder {
     id: thisWindow
     anchors.horizontalCenter: parent.horizontalCenter
@@ -13,6 +15,9 @@ ESborder {
     height: cColumn.height * 1.5 + buttonRow.height
 
     property int type: 0
+
+    onStateChanged: if(state == "inActive") {questionBox.text = ""
+                                                questionAnswerBox.text = ""}
 
     Text {
         id: title
@@ -38,11 +43,19 @@ ESborder {
         Column {
             id: cColumn
             //anchors.centerIn: parent
-            width: if(type == 1) {parent.width * 0.50} else {parent.width}
+            width: if (type == 1) {
+                       parent.width * 0.50
+                   } else {
+                       parent.width
+                   }
             //height: parent.height * 0.95
             spacing: thisWindow.width * 0.01
             Text {
-                visible: if(type == 1) {true} else {false}
+                visible: if (type == 1) {
+                             true
+                         } else {
+                             false
+                         }
                 anchors.left: parent.left
                 anchors.leftMargin: 20
                 text: qsTr("Question")
@@ -51,20 +64,24 @@ ESborder {
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width * 0.95
                 height: 200
-                background: ESTextField {}
-            TextArea {
-                id: questionBox
-                anchors.fill: parent
-                wrapMode: Text.WordWrap
-                placeholderText: qsTr("What is happening?")
+                background: ESTextField {
+                }
+                TextArea {
+                    id: questionBox
+                    width:parent.width
+                    wrapMode: Text.WordWrap
+                    placeholderText: qsTr("What is happening?")
 
                 }
             }
-
         }
 
         Column {
-            visible: if(type == 1) {true} else {false}
+            visible: if (type == 1) {
+                         true
+                     } else {
+                         false
+                     }
             width: parent.width * 0.50
             height: cColumn.height
             spacing: thisWindow.width * 0.01
@@ -78,14 +95,12 @@ ESborder {
                 height: 200
                 background: ESTextField {
                 }
-            TextArea {
-                id: questionAnswerBox
-                anchors.fill: parent
-                wrapMode: Text.WordWrap
-                placeholderText: qsTr("You're adding a question.")
-
-            }
-
+                TextArea {
+                    id: questionAnswerBox
+                    width:parent.width
+                    wrapMode: Text.WordWrap
+                    placeholderText: qsTr("You're adding a question.")
+                }
             }
         }
     }
@@ -119,16 +134,20 @@ ESborder {
             text: qsTr("Okay")
 
             onClicked: {
-                if(type == 0) {
+                if (type == 0) {
 
-                    guidedQuestions.push(questionBox.text)
-                    Scripts.loadQuestions(type);
-
-
+                    guidedQuestions.push(
+                                Scrubber.replaceSpecials(
+                                    questionBox.text) + ":::" + Scrubber.replaceSpecials(
+                                    questionAnswerBox.text))
+                    // Scripts.loadQuestions(type)
                 } else {
 
-                    reviewQuestions.push(questionBox.text+":::"+questionAnswerBox.text)
-                    Scripts.loadQuestions(type);
+                    reviewQuestions.push(
+                                Scrubber.replaceSpecials(
+                                    questionBox.text) + ":::" + Scrubber.replaceSpecials(
+                                    questionAnswerBox.text))
+                    // Scripts.loadQuestions(type)
                 }
 
                 thisWindow.state = "inActive"

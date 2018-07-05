@@ -1,5 +1,8 @@
 import QtQuick 2.11
 import QtQuick.Window 2.11
+import QtQuick.Controls 2.3
+import QtQuick.Controls.Styles 1.4
+import QtQuick.Controls.Material 2.4
 import QtQuick.LocalStorage 2.0 as Sql
 
 import "./General"
@@ -13,47 +16,39 @@ import "./General/network.js" as Network
 import "./General/general.js" as Standard
 
 Window {
-    id:mainView
+    id: mainView
     visible: true
     width: 1336
     height: 800
     title: qsTr("EduSteem")
-    color:"#FFFFFF"
+    //color: "#F0F0F0"
+    color:"black"
+
 
     /*App setup Variables */
     property string devId: "Vag-01001011"
     property string appId: "vagEduST-052308"
-    property string version: "0.05"
+    property string version: "0.07"
 
-    property string userid:""
-    property var db: Sql.LocalStorage.openDatabaseSync("UserInfo", "1.0", "Local UserInfo", 1);
+    property string userid: ""
+    property var db: Sql.LocalStorage.openDatabaseSync("UserInfo", "1.0",
+                                                       "Local UserInfo", 1)
 
     /*Theme Variables */
-
-    property string seperatorColor:"#5c9dd5"
-    property string selectedHighlightColor:"#165098"
-    property string highLightColor1:"#165098"
+    property string seperatorColor: "#5c9dd5"
+    property string selectedHighlightColor: "#165098"
+    property string highLightColor1: "#165098"
+    property string color1: "#F0F0F0"
+    property string menuColor: "#3E586F"
+    property string submenu: "#6F91AE"
 
 
     /* End Theme Variables */
 
-
     /* System Wide Variables */
+    property var courses: ["101 - Math", "201 - Science", "301 - Humanities", "302 - Literature", "303 - Writing", "304 - Grammar", "401 - Art", "501 - Music", "601 - Vocational", "701 - Social Sciences", "801 - Languages Studies", "901 - Projects"]
 
-    property var courses: ["101 - Math",
-                           "201 - Science",
-                           "301 - Humanities",
-                           "302 - Literature",
-                           "303 - Writing",
-                           "304 - Grammar",
-                           "401 - Art",
-                           "501 - Music",
-                           "601 - Vocational",
-                           "701 - Social Sciences",
-                           "801 - Languages Studies",
-                           "901 - Projects"]
-
-    property var languages: ["English","Spanish"]
+    property var languages: ["English", "Spanish"]
     property string heart: "Offline"
     property int atype: 0 /* Account Type */
     property int etype: 0 /* Educator Type */
@@ -64,123 +59,168 @@ Window {
     property string schoolName: ""
     property string schoolCode: ""
     property int schoolEditDate: 0
+    property int numberOfStudents: 0
     property int starttime: 8
     property var d: new Date()
     property int theday: d.getDate()
     property int selected_month: d.getMonth()
     property int selected_year: d.getFullYear()
+    property int selected_dow: d.getDay()
+    property real timeupdate: d.getTime()
+
 
     property string steemAccount: "" /* Steem Account name */
     property string steemShareKey: "" /* Steem posting key */
 
-    /* End System Wide Variables */
+    property string monthselect: switch (d.getMonth()) {
+                                   case 0:
+                                       "January"
+                                       break
+                                   case 1:
+                                       "Febuary"
+                                       break
+                                   case 2:
+                                       "March"
+                                       break
+                                   case 3:
+                                       "April"
+                                       break
+                                   case 4:
+                                       "May"
+                                       break
+                                   case 5:
+                                       "June"
+                                       break
+                                   case 6:
+                                       "July"
+                                       break
+                                   case 7:
+                                       "August"
+                                       break
+                                   case 8:
+                                       "September"
+                                       break
+                                   case 9:
+                                       "October"
+                                       break
+                                   case 10:
+                                       "November"
+                                       break
+                                   case 11:
+                                       "December"
+                                       break
+                                   }
 
 
-
-
-
-    Component.onCompleted: { login.state = "Active"
-                                Standard.loadschool(userid)
-                            }
-
-    onUseridChanged: if(userid.length > 2) { Standard.loadschool(userid)
-                                                 Standard.loaduser(userid)
-                         if(schoolCode.length > 2) {
-
-                                                      Network.sync("Courses",schoolCode)
-                                                      Network.sync("Units",schoolCode)
-                                                      Network.sync("Lessons",schoolCode)
-                                                  }
-                                            }
-
-    /* Timed events */
 
     Timer {
-        id:beat
+        running: true
+        repeat: true
+        interval: 1000
+        onTriggered: timeupdate = timeupdate + 1000
+    }
+
+    /* End System Wide Variables */
+    Component.onCompleted: {
+        Standard.createddbs()
+
+        Standard.loadschool(userid)
+    }
+
+    onNumberOfStudentsChanged: if(numberOfStudents == 0) {login.state = "Active"} else {slogin.state = "Active" }
+
+    onUseridChanged: if (userid.length > 2) {
+                         Standard.loadschool(userid)
+                         Standard.loaduser(userid)
+                         if (schoolCode.length > 2) {
+
+                             Network.sync("Courses", schoolCode)
+                             Network.sync("Units", schoolCode)
+                             Network.sync("Lessons", schoolCode)
+                         }
+                     }
+
+    /* Timed events */
+    Timer {
+        id: beat
         interval: 1000
         running: true
         repeat: true
         onTriggered: Network.heartbeat()
     }
 
-
     /* End Timed Events */
 
     /* Items to load */
 
+    BackgroundSwitch {
+        id:bgSwitch
+    }
+
+    LoginStudent {
+        id:slogin
+        anchors.fill: parent
+        state: "inActive"
+    }
+
+
     Infoblock {
-        id:info
-        width:100
+        id: info
+        width: 100
         height: 200
         opacity: 0.4
-        anchors.top:parent.top
-        anchors.left:parent.left
+        anchors.top: parent.top
+        anchors.left: parent.left
         anchors.margins: 5
     }
 
+
     Login {
-        id:login
-        width:500
-        height:630
-        state:"inActive"
+        id: login
+        width: 500
+        height: 630
+        state: "inActive"
+
+        onStateChanged: if(state == "Active") { bgSwitch.op = 0.95} else {bgSwitch.op = 0.2}
     }
 
     NewAccount {
-        id:newAccount
-        width:1000
+        id: newAccount
+        width: 1000
         height: 650
-        state:"inActive"
+        state: "inActive"
     }
 
     SchoolWizard {
-        id:schoolSetup
-        width:1000
+        id: schoolSetup
+        width: 1000
         height: 650
-        state:"inActive"
+        state: "inActive"
     }
 
     EducatorUI {
-        id:educatorHome
-        width:parent.width
-        height:parent.height
-        state:"inActive"
+        id: educatorHome
+        width: parent.width
+        height: parent.height
+        state: "inActive"
     }
 
-
-
+    StudentUI {
+        id:studentHome
+        width: parent.width
+        height: parent.height
+        state: "inActive"
+    }
 
     /* End Loaded Items */
 
 
 
-
-    Image {
-        anchors.bottom:parent.bottom
-        anchors.right:parent.right
-        anchors.margins: 8
-        width:256
-        fillMode: Image.PreserveAspectFit
-        source:"./img/Banner.png"
-        opacity: 1
-        z:-1
-
-    }
-
-    Text {
-        anchors.bottom:parent.bottom
-        anchors.right:parent.right
-        text:qsTr("Version: ")+version
-        anchors.margins: 2
-        color:"gray"
-        z:-1
-    }
-
     Rectangle {
-        id:mask
-        width:parent.width
-        height:parent.width
-        radius: width /2
+        id: mask
+        width: parent.width
+        height: parent.width
+        radius: width / 2
         visible: false
     }
-
 }

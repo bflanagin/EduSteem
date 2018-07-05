@@ -1,19 +1,21 @@
 import QtQuick 2.11
 
 Item {
-    id:thisWindow
+    id: thisWindow
     Column {
-        width:parent.width
+        width: parent.width
 
-    Text {
-        text:"Status: "+heart
+        Text {
+            text: "Status: " + heart
+        }
+
+        Text {
+            text: "School Code: " + schoolCode
+        }
+
+        Text {
+            text: qsTr("Version: ") + version
+
+        }
     }
-
-    Text {
-        text:"School Code: "+schoolCode
-    }
-
-
-    }
-
 }

@@ -45,7 +45,6 @@ ESborder {
                 text: qsTr("General Info:")
             }
 
-
             TextField {
                 id: unitNameBox
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -68,15 +67,13 @@ ESborder {
                 height: 210
                 background: ESTextField {
                 }
-            TextArea {
-                id: unitObjectiveBox
-                anchors.fill: parent
-                padding:10
+                TextArea {
+                    id: unitObjectiveBox
+                    anchors.fill: parent
+                    padding: 10
 
-                wrapMode: Text.WordWrap
-
-            }
-
+                    wrapMode: Text.WordWrap
+                }
             }
         }
 
@@ -93,13 +90,11 @@ ESborder {
                 height: cColumn.height * 0.94
                 background: ESTextField {
                 }
-            TextArea {
-                id: unitAboutBox
-                anchors.fill: parent
-                wrapMode: Text.WordWrap
-
-            }
-
+                TextArea {
+                    id: unitAboutBox
+                    anchors.fill: parent
+                    wrapMode: Text.WordWrap
+                }
             }
         }
     }
@@ -132,8 +127,11 @@ ESborder {
             text: qsTr("Okay")
 
             onClicked: {
-                Scripts.saveUnit(userid,coursenumber,Scrubber.replaceSpecials(unitNameBox.text),
-                                 Scrubber.replaceSpecials(unitObjectiveBox.text), Scrubber.replaceSpecials(unitAboutBox.text), 0)
+                Scripts.saveUnit(userid, coursenumber,
+                                 Scrubber.replaceSpecials(unitNameBox.text),
+                                 Scrubber.replaceSpecials(
+                                     unitObjectiveBox.text),
+                                 Scrubber.replaceSpecials(unitAboutBox.text), 0)
 
                 thisWindow.state = "inActive"
             }
