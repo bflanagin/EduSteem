@@ -4,9 +4,13 @@
 #include <QtCore/QDir>
 #include <QQmlApplicationEngine>
 
+#include "./io.h"
+
 int main(int argc, char *argv[])
 {
-   // QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
+    qmlRegisterType<IOout>("IO", 1, 0, "IOout");
 
     QApplication app(argc, argv);
 

@@ -17,6 +17,11 @@ import "./students.js" as Students
 Item {
     id: thisWindow
 
+    property string guidedQuestions: ""
+    property var reviewQuestions: []
+
+
+
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.verticalCenter: parent.verticalCenter
 
@@ -68,7 +73,6 @@ Item {
                                               schoolEditDate, "School")
                         Network.checkOpenSeed(userid, userid, userEditDate,
                                               "Educator")
-
                     }
 
     Timer {
@@ -88,650 +92,35 @@ Item {
         anchors.fill: parent
     }
 
-    Item {
-        id: middleArea
-        anchors.left: leftMenu.right
-        anchors.right: rightMenu.left
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
+
+
+    TopBar {
+        id:topBar
+        width:parent.width
+        height:32
+
     }
 
-    ESborder {
+    SubMenu {
+        id:submenuLeft
+        width:200
+        anchors.left:leftMenu.right
+        anchors.top: topBar.bottom
+        anchors.bottom: parent.bottom
+        clip:true
+        z: 4
+    }
+
+    LeftMenu {
         id: leftMenu
         anchors.left: parent.left
-        anchors.top: parent.top
+        anchors.top: topBar.bottom
         anchors.bottom: parent.bottom
-        width: if (parent.width * 0.15 > 250) {
-                   250
-               } else {
-                   parent.width * 0.15
-               }
+        state:"Active"
+        width:96
         clip: true
         z: 5
-        ScrollView {
-            width: parent.width
-            height: leftMenu.height - (grid.height + monthselect.height + dow.height + 20)
-            contentHeight: leftColumn.height * 1.1
-            contentWidth:parent.width
-            clip: true
 
-            Column {
-                id: leftColumn
-                anchors.top: parent.top
-                anchors.topMargin: 20
-                anchors.bottomMargin: 3
-
-                width: leftMenu.width * 0.98
-                anchors.left: parent.left
-                anchors.leftMargin: 2
-
-                spacing: mainView.width * 0.01
-
-                Column {
-                    id: titleArea
-
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    width: parent.width * 0.99
-                    spacing: mainView.width * 0.005
-
-                    Text {
-                        width: parent.width
-                        font.pointSize: 9
-                        font.bold: true
-                        text: schoolName.replace(/_/g, " ").trim()
-                        wrapMode: Text.WordWrap
-
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                student.state = "inActive"
-                                course.state = "inActive"
-                                general.state = "Active"
-                                rightMenu.state = "inActive"
-                                schedule.state = "inActive"
-                                studentRoster.state = "inActive"
-                                yourProfile.state = "inActive"
-                            }
-                        }
-                    }
-
-                    Text {
-                        text: userName
-                        font.pointSize: 8
-                        wrapMode: Text.WordWrap
-                        width: parent.width
-                    }
-
-                    Rectangle {
-                        width: parent.width
-                        color: seperatorColor
-                        height: 2
-                    }
-
-                    Column {
-                        Text {
-                            font.pointSize: 7
-                            text: "Courses: " + courseList.count
-                        }
-                        Text {
-                            font.pointSize: 7
-                            text: "Students: " + studentList.count
-                        }
-                    }
-                }
-
-                Rectangle {
-                    width: parent.width
-                    color: seperatorColor
-                    height: 2
-                }
-
-                Text {
-                    text: qsTr("Educator")
-                    anchors.left: parent.left
-                    anchors.leftMargin: 3
-                    font.bold: true
-                    font.pointSize: 10
-                }
-
-                Column {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    width: parent.width * 0.98
-                    spacing: mainView.width * 0.005
-
-                    Item {
-
-                        width: leftMenu.width * 0.95
-                        height: mainView.height * 0.03
-
-
-                        // clip:true
-                        ESTextField {
-                            anchors.fill: parent
-                        }
-
-                        Text {
-                            anchors.left: parent.left
-                            anchors.leftMargin: 5
-                            text: qsTr("Course")
-                            anchors.verticalCenter: parent.verticalCenter
-                            font.bold: true
-                            width: parent.width * 0.70
-                        }
-
-                        Image {
-                            width: parent.height * 0.7
-                            height: parent.height * 0.7
-                            anchors.right: parent.right
-                            anchors.rightMargin: 5
-                            anchors.verticalCenter: parent.verticalCenter
-                            source: "/icons/add.svg"
-                            fillMode: Image.PreserveAspectFit
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                cWizard.state = "Active"
-                            }
-                        }
-                    }
-
-                    Rectangle {
-                        width: parent.width
-                        color: seperatorColor
-                        height: 2
-                    }
-
-                    ListView {
-                        width: parent.width
-                        //height:if(contentHeight < 210) {contentHeight} else {210}
-                        height: contentHeight
-                        spacing: leftMenu.width * 0.01
-                        clip: true
-                        model: courseList
-                        ScrollIndicator.vertical: ScrollIndicator {
-                        }
-
-                        delegate: Item {
-                            width: parent.width
-                            height: leftMenu.width * 0.2
-
-                            Component.onCompleted: {
-                                Network.checkOpenSeed(userid, cdate, edate,
-                                                      "Courses")
-                            }
-
-                            Rectangle {
-                                anchors.fill: parent
-                                color: if (index % 2) {
-                                           "#FFFFFF"
-                                       } else {
-                                           "#FAFAFA"
-                                       }
-                            }
-                            Row {
-                                width: parent.width
-                                height: parent.height
-
-                                Item {
-                                    width: parent.width - parent.height / 2
-                                    height: parent.height
-
-                                    Text {
-                                        anchors.centerIn: parent
-                                        width: parent.width
-                                        wrapMode: Text.WordWrap
-                                        text: name
-                                        font.pointSize: 8
-                                        horizontalAlignment: Text.AlignLeft
-                                    }
-                                }
-
-                                Image {
-                                    width: parent.height * 0.5
-                                    height: parent.height * 0.5
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    source: "/icons/Next.svg"
-                                    fillMode: Image.PreserveAspectFit
-                                }
-                            }
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: {
-                                    rightMenu.state = "Active"
-                                    course.coursenumber = cdate
-                                    course.state = "Active"
-
-                                    general.state = "inActive"
-                                    student.state = "inActive"
-                                    schedule.state = "inActive"
-                                    studentRoster.state = "inActive"
-                                    yourProfile.state = "inActive"
-                                }
-                            }
-                        }
-                    }
-
-                    Item {
-                        width: leftMenu.width * 0.95
-                        height: mainView.height * 0.03
-                        clip: true
-
-                        ESTextField {
-                            anchors.fill: parent
-                        }
-                        Text {
-                            anchors.left: parent.left
-                            anchors.leftMargin: 5
-                            text: qsTr("Activities")
-                            anchors.verticalCenter: parent.verticalCenter
-                            font.bold: true
-                            width: parent.width * 0.70
-                        }
-
-                        Image {
-                            width: parent.height * 0.7
-                            height: parent.height * 0.7
-                            anchors.right: parent.right
-                            anchors.rightMargin: 5
-                            anchors.verticalCenter: parent.verticalCenter
-                            source: "/icons/Next.svg"
-                            fillMode: Image.PreserveAspectFit
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            //onClicked: {newStudent.state = "Active" }
-                        }
-                    }
-
-                    Item {
-                        width: leftMenu.width * 0.95
-                        height: mainView.height * 0.03
-                        clip: true
-
-                        ESTextField {
-                            anchors.fill: parent
-                        }
-                        Text {
-                            anchors.left: parent.left
-                            anchors.leftMargin: 5
-                            text: qsTr("Your Profile")
-                            anchors.verticalCenter: parent.verticalCenter
-                            font.bold: true
-                            width: parent.width * 0.70
-                        }
-
-                        Image {
-                            width: parent.height * 0.7
-                            height: parent.height * 0.7
-                            anchors.right: parent.right
-                            anchors.rightMargin: 5
-                            anchors.verticalCenter: parent.verticalCenter
-                            source: "../icons/contact.svg"
-                            fillMode: Image.PreserveAspectFit
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                schedule.state = "inActive"
-                                rightMenu.state = "Active"
-                                general.state = "inActive"
-                                student.state = "inActive"
-                                studentRoster.state = "inActive"
-                                yourProfile.state = "Active"
-                                yourProfile.userid = userCode
-                            }
-                        }
-                    }
-
-
-
-                }
-
-                Rectangle {
-                    width: parent.width * 0.98
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    color: "Transparent"
-                    height: 3
-                }
-
-                Text {
-                    text: qsTr("Administration")
-                    anchors.left: parent.left
-                    anchors.leftMargin: 3
-                    font.bold: true
-                    font.pointSize: 10
-                }
-
-                Column {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    width: parent.width * 0.98
-                    spacing: mainView.width * 0.005
-
-                    Rectangle {
-                        width: parent.width * 0.98
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        color: seperatorColor
-                        height: 2
-                    }
-
-                    Text {
-                        text: qsTr("Students")
-                        anchors.left: parent.left
-                        anchors.leftMargin: 3
-                        font.bold: true
-                        font.pointSize: 8
-                    }
-
-                    Item {
-                        width: leftMenu.width * 0.95
-                        height: mainView.height * 0.03
-                        clip: true
-
-                        ESTextField {
-                            anchors.fill: parent
-                        }
-                        Text {
-                            anchors.left: parent.left
-                            anchors.leftMargin: 5
-                            text: qsTr("Roster")
-                            anchors.verticalCenter: parent.verticalCenter
-                            font.bold: true
-                            width: parent.width * 0.70
-                        }
-
-                        Image {
-                            width: parent.height * 0.7
-                            height: parent.height * 0.7
-                            anchors.right: parent.right
-                            anchors.rightMargin: 5
-                            anchors.verticalCenter: parent.verticalCenter
-                            source: "/icons/Next.svg"
-                            fillMode: Image.PreserveAspectFit
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                studentRoster.state = "Active"
-                                schedule.state = "inActive"
-                                general.state = "inActive"
-                                course.state = "inActive"
-                                student.state = "inActive"
-                                yourProfile.state = "inActive"
-                            }
-                        }
-                    }
-
-                    Item {
-                        width: leftMenu.width * 0.95
-                        height: mainView.height * 0.03
-                        clip: true
-
-                        ESTextField {
-                            anchors.fill: parent
-                        }
-                        Text {
-                            anchors.left: parent.left
-                            anchors.leftMargin: 5
-                            text: qsTr("Schedule")
-                            anchors.verticalCenter: parent.verticalCenter
-                            font.bold: true
-                            width: parent.width * 0.70
-                        }
-
-                        Image {
-                            width: parent.height * 0.7
-                            height: parent.height * 0.7
-                            anchors.right: parent.right
-                            anchors.rightMargin: 5
-                            anchors.verticalCenter: parent.verticalCenter
-                            source: "/icons/Next.svg"
-                            fillMode: Image.PreserveAspectFit
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                schedule.state = "Active"
-                                rightMenu.state = "Active"
-                                general.state = "inActive"
-                                student.state = "inActive"
-                                studentRoster.state = "inActive"
-                                yourProfile.state = "inActive"
-                            }
-                        }
-                    }
-
-                    Rectangle {
-                        width: parent.width * 0.98
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        color: seperatorColor
-                        height: 2
-                    }
-
-                    Text {
-                        text: qsTr("General")
-                        anchors.left: parent.left
-                        anchors.leftMargin: 3
-                        font.bold: true
-                        font.pointSize: 8
-                    }
-
-                    Item {
-                        width: leftMenu.width * 0.95
-                        height: mainView.height * 0.03
-                        clip: true
-
-                        ESTextField {
-                            anchors.fill: parent
-                        }
-                        Text {
-                            anchors.left: parent.left
-                            anchors.leftMargin: 5
-                            text: qsTr("Settings")
-                            anchors.verticalCenter: parent.verticalCenter
-                            font.bold: true
-                            width: parent.width * 0.70
-                        }
-
-                        Image {
-                            width: parent.height * 0.7
-                            height: parent.height * 0.7
-                            anchors.right: parent.right
-                            anchors.rightMargin: 5
-                            anchors.verticalCenter: parent.verticalCenter
-                            source: "/icons/Next.svg"
-                            fillMode: Image.PreserveAspectFit
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                schedule.state = "Active"
-                                rightMenu.state = "Active"
-                                general.state = "inActive"
-                                student.state = "inActive"
-                                studentRoster.state = "inActive"
-                                yourProfile.state = "inActive"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        SpinBox {
-            id: monthselect
-            from: 0
-            to: 11
-            value: d.getMonth()
-            anchors.bottom: dayselect.top
-            anchors.horizontalCenter: parent.horizontalCenter
-
-            contentItem: Label {
-                text: switch (parent.value) {
-                      case 0:
-                          "January"
-                          break
-                      case 1:
-                          "Febuary"
-                          break
-                      case 2:
-                          "March"
-                          break
-                      case 3:
-                          "April"
-                          break
-                      case 4:
-                          "May"
-                          break
-                      case 5:
-                          "June"
-                          break
-                      case 6:
-                          "July"
-                          break
-                      case 7:
-                          "August"
-                          break
-                      case 8:
-                          "September"
-                          break
-                      case 9:
-                          "October"
-                          break
-                      case 10:
-                          "November"
-                          break
-                      case 11:
-                          "December"
-                          break
-                      }
-
-                width: parent.width
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                color: "black"
-                font.pointSize: 8
-            }
-
-            down.indicator: Rectangle {
-                width: parent.height / 2
-                height: parent.height / 2
-                radius: width / 2
-                anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
-                color: seperatorColor
-
-                Image {
-                    id: d1
-                    source: "/icons/minus.svg"
-                    anchors.centerIn: parent
-                    fillMode: Image.PreserveAspectFit
-                    width: parent.width * 0.65
-                }
-
-                ColorOverlay {
-                    source: d1
-                    color: "white"
-                    anchors.fill: d1
-                }
-            }
-
-            up.indicator: Rectangle {
-                width: parent.height / 2
-                height: parent.height / 2
-                radius: width / 2
-                anchors.right: parent.right
-                anchors.verticalCenter: parent.verticalCenter
-                color: seperatorColor
-
-                Image {
-                    id: u1
-                    source: "/icons/add.svg"
-                    anchors.centerIn: parent
-                    fillMode: Image.PreserveAspectFit
-                    width: parent.width * 0.65
-                }
-
-                ColorOverlay {
-                    source: u1
-                    color: "white"
-                    anchors.fill: u1
-                }
-            }
-        }
-
-        Item {
-            id: dayselect
-            width: parent.width * 0.98
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 10
-            height: grid.height + dow.height
-
-            DayOfWeekRow {
-                id: dow
-                locale: grid.locale
-                width: grid.width
-                anchors.bottom: grid.top
-                delegate: Text {
-
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    //font: parent.font
-                    text: model.shortName
-                    color: "black"
-                    font.pointSize: 6
-                }
-            }
-            MonthGrid {
-                id: grid
-                anchors.bottom: parent.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width * 0.98
-                month: monthselect.value
-
-                title: month
-
-                locale: Qt.locale("en_US")
-
-                delegate: Rectangle {
-                    width: 20
-                    height: 20
-                    radius: width / 2
-                    color: model.day === theday ? seperatorColor : "white"
-                    opacity: model.month === monthselect.value ? 1 : 0
-                    Text {
-                        anchors.centerIn: parent
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                        text: model.day
-                        color: model.day === theday ? "white" : "black"
-                        font.pointSize: 6
-                    }
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            theday = model.day
-                        }
-                    }
-                }
-            }
-        }
-
-        Text {
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            anchors.margins: 10
-            text: schoolCode
-            opacity: 0.5
-            font.pointSize: 5
-        }
     }
 
     ListModel {
@@ -742,23 +131,37 @@ Item {
         id: studentList
     }
 
+    Item {
+        id: middleArea
+        anchors.left: leftMenu.right
+        anchors.right: if (rightMenu.state == "Active") {
+                                   rightMenu.left
+                               } else {
+                                   parent.right
+                               }
+        anchors.top: topBar.bottom
+        anchors.bottom: parent.bottom
+
+
     GeneralInfoDashBoard {
         id: general
-        anchors.right: if (rightMenu.state == "Active") {
+        /*anchors.right: if (rightMenu.state == "Active") {
                            rightMenu.left
                        } else {
                            parent.right
-                       }
-        anchors.left: leftMenu.right
+                       }*/
+       // anchors.right: parent.right
+       // anchors.left: leftMenu.right
         anchors.verticalCenter: parent.verticalCenter
         height: parent.height
+        width:parent.width
         state: "Active"
     }
 
     CourseDashBoard {
         id: course
 
-        width: parent.width - (leftMenu.width + rightMenu.width)
+        width: parent.width
         anchors.verticalCenter: parent.verticalCenter
         height: parent.height
         state: "inActive"
@@ -769,17 +172,43 @@ Item {
 
     Scheduler {
         id: schedule
-        width: parent.width - (leftMenu.width + rightMenu.width)
+        width: parent.width
         anchors.verticalCenter: parent.verticalCenter
         height: parent.height
         state: "inActive"
         //onStateChanged: if(state == "inActive") {} else {rightMenu.state = "Active"}
     }
 
+    Profile {
+        id: yourProfile
+        width: parent.width
+        height: parent.height
+        state: "inActive"
+    }
+
+    Roster {
+        id: studentRoster
+        width: parent.width
+        anchors.verticalCenter: parent.verticalCenter
+        height: parent.height
+        state: "inActive"
+    }
+
+    StudentDashBoard {
+        id: student
+
+        width: parent.width
+        anchors.verticalCenter: parent.verticalCenter
+        height: parent.height
+        state: "inActive"
+    }
+
+    }
+
     RightMenu {
-        id: rightMenu
+        id:rightMenu
         anchors.right: parent.right
-        anchors.top: parent.top
+        anchors.top: topBar.bottom
         anchors.bottom: parent.bottom
         width: if (parent.width * 0.20 > 600) {
                    600
@@ -787,6 +216,7 @@ Item {
                    parent.width * 0.20
                }
         state: "inActive"
+
     }
 
     CourseWizard {
@@ -803,30 +233,7 @@ Item {
                         }
     }
 
-    Profile {
-        id:yourProfile
-        width: parent.width - (leftMenu.width + rightMenu.width)
-        height:parent.height
-        state:"inActive"
-    }
 
-
-    Roster {
-        id: studentRoster
-        width: parent.width - (leftMenu.width + rightMenu.width)
-        anchors.verticalCenter: parent.verticalCenter
-        height: parent.height
-        state: "inActive"
-    }
-
-    StudentDashBoard {
-        id: student
-
-        width: parent.width - (leftMenu.width + rightMenu.width)
-        anchors.verticalCenter: parent.verticalCenter
-        height: parent.height
-        state: "inActive"
-    }
 
     NewStudentAccount {
         id: newStudent
@@ -850,5 +257,12 @@ Item {
         state: "inActive"
     }
 
+    ListModel {
+        id: gqList
+    }
+
+    ListModel {
+        id: rqList
+    }
 
 }

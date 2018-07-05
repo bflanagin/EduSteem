@@ -18,6 +18,7 @@ ESborder {
 
     //property string UnitObjective:"Objective"
     onStateChanged: if (state == "Active") {
+                        console.log(monthselect)
                         Scripts.loadCourses(userid)
                         courseList.append({
                                               name: "Lunch",
@@ -67,40 +68,40 @@ ESborder {
             color: seperatorColor
         }
         Item {
-            width:parent.width
-            height:courseBox.height
+            width: parent.width
+            height: courseBox.height
 
-        ComboBox {
-            id: courseBox
-            anchors.left:parent.left
-            anchors.margins: 10
-            width: parent.width * 0.49
-            height: 40
-            model: courseList
-            spacing: 2
-            currentIndex: 0
-            textRole: "name"
-            background: ESTextField {
-            }
-
-            delegate: Item {
-                width: parent.width
+            ComboBox {
+                id: courseBox
+                anchors.left: parent.left
+                anchors.margins: 10
+                width: parent.width * 0.49
                 height: 40
-                Text {
-                    anchors.left: parent.left
-                    anchors.leftMargin: 5
-                    text: name
-                    anchors.verticalCenter: parent.verticalCenter
+                model: courseList
+                spacing: 2
+                currentIndex: 0
+                textRole: "name"
+                background: ESTextField {
                 }
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        courseBox.popup.close()
-                        courseBox.currentIndex = index
+
+                delegate: Item {
+                    width: parent.width
+                    height: 40
+                    Text {
+                        anchors.left: parent.left
+                        anchors.leftMargin: 5
+                        text: name
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            courseBox.popup.close()
+                            courseBox.currentIndex = index
+                        }
                     }
                 }
             }
-        }
         }
 
         Text {
@@ -122,8 +123,6 @@ ESborder {
                 id: evenday
                 text: qsTr("Tue, Thu")
             }
-
-
         }
 
         Row {
@@ -196,7 +195,6 @@ ESborder {
                 text: qsTr("Sat")
                 width: parent.width / 7
             }
-
         }
         Row {
             id: buttonRow
@@ -227,11 +225,13 @@ ESborder {
                 text: qsTr("Okay")
 
                 onClicked: {
-                    if(edit == false) {
-                    Schedule.save_schedule(month,"0:"+courseList.get(courseBox.currentIndex).cdate+","+
-                                sunday.checked+","+monday.checked+","+tuesday.checked+","+
-                                wednesday.checked+","+thursday.checked+","+
-                                friday.checked+","+saturday.checked)
+                    if (edit == false) {
+                        Schedule.save_schedule(
+                                    month, "0:" + courseList.get(courseBox.currentIndex).cdate
+                                    + "," + sunday.checked + "," + monday.checked
+                                    + "," + tuesday.checked + "," + wednesday.checked
+                                    + "," + thursday.checked + "," + friday.checked
+                                    + "," + saturday.checked)
                     }
 
                     thisWindow.state = "inActive"

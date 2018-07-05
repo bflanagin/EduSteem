@@ -4,24 +4,24 @@ import QtGraphicalEffects 1.0
 
 Rectangle {
 
-
-    radius:width /2
-    color:seperatorColor
+    property string icon: "../icons/back.svg"
+    property string fillcolor: "white"
+    radius: width / 2
+    color: seperatorColor
 
     Image {
-        id:icon
+        id: theicon
         visible: false
         anchors.centerIn: parent
-        source:"../icons/back.svg"
-        width:parent.width * 0.7
-        height:parent.width * 0.7
+        source: icon
+        width: parent.width * 0.7
+        height: parent.width * 0.7
         fillMode: Image.PreserveAspectFit
     }
 
     ColorOverlay {
-        source:icon
-        anchors.fill: icon
-        color:"white"
+        source: theicon
+        anchors.fill: theicon
+        color: fillcolor
     }
-
 }

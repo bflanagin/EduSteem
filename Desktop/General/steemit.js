@@ -53,7 +53,6 @@ function get_blog(account) {
     http.send(tosend)
 }
 
-
 function get_follow(account) {
     var url = "https://api.steemit.com/"
     var tosend = '{"jsonrpc":"2.0", "method":"follow_api.get_follow_count", "params":{"account":"'
@@ -75,7 +74,6 @@ function get_follow(account) {
                 pagedata = http.responseText
 
                 profileAbout = pagedata.split(",")
-
             }
         }
     }
@@ -87,7 +85,7 @@ function get_follow(account) {
 function get_info(account) {
     var url = "https://api.steemit.com/"
     var tosend = '{"jsonrpc":"2.0", "method":"condenser_api.get_accounts", "params":[[ \
-            "'+ account.split("@")[1] +'"]], "id":1}'
+"' + account.split("@")[1] + '"]], "id":1}'
 
     var http = new XMLHttpRequest()
     gc()
@@ -104,11 +102,11 @@ function get_info(account) {
             } else {
                 pagedata = http.responseText
 
-               var profile = pagedata.split('{\\"profile\\":{')[1].split('\\"}}"')[0]
+                var profile = pagedata.split('{\\"profile\\":{')[1].split(
+                            '\\"}}"')[0]
 
-                steemProfileInfo = profile.replace(/\\/g , "").split(",")
+                steemProfileInfo = profile.replace(/\\/g, "").split(",")
                 //console.log(steemProfileInfo[4])
-
             }
         }
     }
@@ -116,5 +114,3 @@ function get_info(account) {
     http.setRequestHeader("Content-type", "application/json")
     http.send(tosend)
 }
-
-

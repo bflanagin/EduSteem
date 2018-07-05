@@ -14,8 +14,7 @@ ESborder {
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.verticalCenter: parent.verticalCenter
 
-    property var guidedQuestions: []
-    property var reviewQuestions: []
+
 
     onStateChanged: if (state == "Active") {
 
@@ -230,15 +229,16 @@ ESborder {
                                 editable: true
                                 from: 1
                                 to: 120
-                                value:0
+                                value: 0
 
-                                background: ESTextField {}
+                                background: ESTextField {
+                                }
 
                                 validator: IntValidator {
-                                        locale: duration.locale.name
-                                        bottom: Math.min(duration.from, duration.to)
-                                        top: Math.max(duration.from, duration.to)
-                                    }
+                                    locale: duration.locale.name
+                                    bottom: Math.min(duration.from, duration.to)
+                                    top: Math.max(duration.from, duration.to)
+                                }
 
                                 down.indicator: Item {
                                     anchors.right: parent.left
@@ -301,23 +301,23 @@ ESborder {
                                     MouseArea {
                                         anchors.fill: parent
                                         onClicked: duration.value = duration.value + 1
-
                                     }
                                 }
 
                                 contentItem: TextInput {
-                                        z: 2
-                                        text: duration.textFromValue(duration.value, duration.locale)
-                                        font: duration.font
-                                        color: "black"
+                                    z: 2
+                                    text: duration.textFromValue(
+                                              duration.value, duration.locale)
+                                    font: duration.font
+                                    color: "black"
 
-                                        horizontalAlignment: Qt.AlignHCenter
-                                        verticalAlignment: Qt.AlignVCenter
-                                        width:duration.width
-                                        readOnly: !duration.editable
-                                        validator: duration.validator
-                                        inputMethodHints: Qt.ImhFormattedNumbersOnly
-                                    }
+                                    horizontalAlignment: Qt.AlignHCenter
+                                    verticalAlignment: Qt.AlignVCenter
+                                    width: duration.width
+                                    readOnly: !duration.editable
+                                    validator: duration.validator
+                                    inputMethodHints: Qt.ImhFormattedNumbersOnly
+                                }
                             }
                         }
                     }
@@ -346,14 +346,12 @@ ESborder {
                             width: parent.width * 0.95
                             background: ESTextField {
                             }
-                        TextArea {
-                            id: aboutBox
-                            anchors.fill: parent
-                            wrapMode: Text.WordWrap
-                            padding: 10
-
-                        }
-
+                            TextArea {
+                                id: aboutBox
+                                anchors.fill: parent
+                                wrapMode: Text.WordWrap
+                                padding: 10
+                            }
                         }
                     }
                 }
@@ -384,14 +382,12 @@ ESborder {
                     width: parent.width * 0.95
                     background: ESTextField {
                     }
-                TextArea {
-                    id: objectiveBox
-                    anchors.fill: parent
-                    wrapMode: Text.WordWrap
-                    padding: 10
-
-                }
-
+                    TextArea {
+                        id: objectiveBox
+                        anchors.fill: parent
+                        wrapMode: Text.WordWrap
+                        padding: 10
+                    }
                 }
             }
         }
@@ -442,12 +438,11 @@ ESborder {
                                 width: parent.width * 0.95
                                 background: ESTextField {
                                 }
-                            TextArea {
-                                id: resourceBox
-                                anchors.fill: parent
-                                wrapMode: Text.WordWrap
-                            }
-
+                                TextArea {
+                                    id: resourceBox
+                                    anchors.fill: parent
+                                    wrapMode: Text.WordWrap
+                                }
                             }
                         }
 
@@ -476,14 +471,12 @@ ESborder {
                                 width: parent.width * 0.95
                                 background: ESTextField {
                                 }
-                            TextArea {
-                                id: otherResourcesBox
-                                anchors.fill: parent
-                                wrapMode: Text.WordWrap
-
+                                TextArea {
+                                    id: otherResourcesBox
+                                    anchors.fill: parent
+                                    wrapMode: Text.WordWrap
+                                }
                             }
-
-                        }
                         }
                     }
                 }
@@ -544,7 +537,7 @@ ESborder {
                     width: parent.width * 0.98
                     height: thisWindow.height * 0.40
                     spacing: thisWindow.width * 0.02
-                    clip:true
+                    clip: true
 
                     model: gqList
 
@@ -563,7 +556,7 @@ ESborder {
                                 anchors.leftMargin: 20
                                 width: parent.width
                                 wrapMode: Text.WordWrap
-                                text: guidedQuestions[index]
+                                text: question
                             }
                         }
                     }
@@ -595,13 +588,11 @@ ESborder {
                     height: thisWindow.height * 0.70
                     background: ESTextField {
                     }
-                TextArea {
-                    id: lessonSequence
-                    anchors.fill: parent
-                    wrapMode: Text.WordWrap
-
-                }
-
+                    TextArea {
+                        id: lessonSequence
+                        anchors.fill: parent
+                        wrapMode: Text.WordWrap
+                    }
                 }
             }
         }
@@ -630,16 +621,13 @@ ESborder {
                     width: parent.width * 0.98
                     height: thisWindow.height * 0.70
                     background: ESTextField {
-                            }
-                TextArea {
-                    id: studentProduct
-                    anchors.fill: parent
-                    wrapMode: Text.WordWrap
-
-
+                    }
+                    TextArea {
+                        id: studentProduct
+                        anchors.fill: parent
+                        wrapMode: Text.WordWrap
+                    }
                 }
-
-            }
             }
         }
 
@@ -711,7 +699,7 @@ ESborder {
                     width: parent.width
                     height: thisWindow.height * 0.40
                     spacing: thisWindow.width * 0.02
-                    clip:true
+                    clip: true
                     model: rqList
 
                     delegate: ESborder {
@@ -853,14 +841,13 @@ ESborder {
             if (view.currentIndex < view.count - 1) {
                 view.currentIndex = view.currentIndex + 1
             } else {
-                Scripts.saveLesson(userid, coursenumber,
-                                   unitNumber, Scrubber.replaceSpecials(nameBox.text),
-                                   numberIn.value, duration.value,
-                                   Scrubber.replaceSpecials(aboutBox.text), Scrubber.replaceSpecials(objectiveBox.text),
-                                   Scrubber.replaceSpecials(resourceBox.text), Scrubber.replaceSpecials(otherResourcesBox.text),
-                                   Scrubber.replaceSpecials(guidedQuestions.toString()),
-                                   Scrubber.replaceSpecials(lessonSequence.text), Scrubber.replaceSpecials(studentProduct.text),
-                                   Scrubber.replaceSpecials(reviewQuestions.toString()), 0)
+                Scripts.saveLesson(
+                            userid, coursenumber, unitNumber, Scrubber.replaceSpecials(
+                                nameBox.text), numberIn.value, duration.value, Scrubber.replaceSpecials(
+                                aboutBox.text), Scrubber.replaceSpecials(objectiveBox.text), Scrubber.replaceSpecials(
+                                resourceBox.text), Scrubber.replaceSpecials(otherResourcesBox.text), Scrubber.replaceSpecials(
+                                guidedQuestions.toString()), Scrubber.replaceSpecials(lessonSequence.text),
+                            Scrubber.replaceSpecials(studentProduct.text), Scrubber.replaceSpecials(reviewQuestions.toString()), 0)
                 thisWindow.state = "inActive"
             }
         }
@@ -876,13 +863,7 @@ ESborder {
         anchors.horizontalCenter: parent.horizontalCenter
     }
 
-    ListModel {
-        id: gqList
-    }
 
-    ListModel {
-        id: rqList
-    }
 
     QuestionWizard {
         id: newQuestion

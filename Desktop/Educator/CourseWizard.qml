@@ -13,7 +13,7 @@ ESborder {
     anchors.verticalCenter: parent.verticalCenter
     height: cColumn.height * 1.5 + buttonRow.height
 
-    onStateChanged: if(state == "inActive") {
+    onStateChanged: if (state == "inActive") {
                         courseNameBox.text = " "
                         courseAboutBox.text = " "
                     }
@@ -112,12 +112,11 @@ ESborder {
                 height: cColumn.height * 0.98
                 background: ESTextField {
                 }
-            TextArea {
-                id: courseAboutBox
-                anchors.fill: parent
-                wrapMode:Text.WordWrap
-
-            }
+                TextArea {
+                    id: courseAboutBox
+                    anchors.fill: parent
+                    wrapMode: Text.WordWrap
+                }
             }
         }
     }
@@ -151,10 +150,11 @@ ESborder {
             text: qsTr("Okay")
 
             onClicked: {
-                Scripts.saveCourse(userid, Scrubber.replaceSpecials(courseNameBox.text),
-                                   coursesBox.currentText,
-                                   languageBox.currentText,
-                                   Scrubber.replaceSpecials(courseAboutBox.text), 0)
+                Scripts.saveCourse(
+                            userid,
+                            Scrubber.replaceSpecials(courseNameBox.text),
+                            coursesBox.currentText, languageBox.currentText,
+                            Scrubber.replaceSpecials(courseAboutBox.text), 0)
                 thisWindow.state = "inActive"
             }
         }

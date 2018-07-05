@@ -11,103 +11,101 @@ import "../plugins"
 import "../General"
 
 Item {
-    id:thisWindow
-states: [
+    id: thisWindow
+    states: [
 
         State {
-            name:"Active"
-                PropertyChanges {
-
-                    target:thisWindow
-                    opacity:1
-                    x: leftMenu.width
-
-                }
-
-            },
-
-    State {
-        name:"inActive"
+            name: "Active"
             PropertyChanges {
 
-                target:thisWindow
-                opacity:0
+                target: thisWindow
+                opacity: 1
+                x: 0
+            }
+        },
+
+        State {
+            name: "inActive"
+            PropertyChanges {
+
+                target: thisWindow
+                opacity: 0
                 x: -parent.width
             }
-
         }
+    ]
 
-]
+    transitions: [
+        Transition {
+            from: "inActive"
+            to: "Active"
+            reversible: true
 
-transitions: [
-    Transition {
-        from: "inActive"
-        to: "Active"
-        reversible: true
-
-        NumberAnimation {
-            target: thisWindow
-            properties: "opacity,x"
-            duration: 100
-            easing.type: Easing.InOutQuad
+            NumberAnimation {
+                target: thisWindow
+                properties: "opacity,x"
+                duration: 100
+                easing.type: Easing.InOutQuad
+            }
         }
-    }
-]
+    ]
 
-state:"inActive"
+    state: "inActive"
 
-    property var d: new Date()
+   // property var d: new Date()
     property int monthoffset: 0
 
-onStateChanged: if(state == "Active") {monthoffset = 0
-                                        monthselect.value = d.getMonth()}
-
-Rectangle {
-    anchors.fill: parent
-}
-
-Text {
-    id:title
-    text: qsTr("Schedule")
-    anchors.top:parent.top
-    anchors.left: backbutton.right
-    anchors.margins: 20
-    font.bold: true
-    font.pointSize: 15
-
-}
-
-CircleButton {
-    id:backbutton
-    anchors.top:parent.top
-    anchors.left:parent.left
-    anchors.margins: 20
-    height:title.height
-    width:title.height
-
-    MouseArea {
-        anchors.fill: parent
-        onClicked: { thisWindow.state = "inActive"
-                     general.state = "Active"
-
+    onStateChanged: if (state == "Active") {
+                        monthoffset = 0
+                        selected_month = d.getMonth()
                     }
+
+    Rectangle {
+        anchors.fill: parent
     }
-}
+
+    Text {
+        id: title
+        text: qsTr("Schedule")
+        anchors.top: parent.top
+        anchors.left: backbutton.right
+        anchors.margins: 20
+        font.bold: true
+        font.pointSize: 15
+    }
+
+    CircleButton {
+        id: backbutton
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.margins: 20
+        height: title.height
+        width: title.height
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                thisWindow.state = "inActive"
+                general.state = "Active"
+            }
+        }
+    }
 
     SpinBox {
         id: monthselect1
         from: 0
         to: 11
-        value: monthselect.value
-        //anchors.top:parent.top
+        value: d.getMonth()
+
         anchors.verticalCenter: title.verticalCenter
-        //anchors.horizontalCenter: parent.horizontalCenter
+
         anchors.right: parent.right
-        width:parent.width * 0.15
-        anchors.margins: 10
-        onValueChanged: { monthselect.value = value
-                            monthoffset = 0
-                        }
+        width: 200
+        anchors.rightMargin: 20
+        onValueChanged: {
+            selected_month = value
+            monthoffset = 0
+        }
 
         contentItem: Label {
             text: switch (parent.value) {
@@ -153,7 +151,7 @@ CircleButton {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             color: "black"
-            font.pointSize: 16
+            font.pointSize: 10
         }
 
         down.indicator: Rectangle {
@@ -214,18 +212,26 @@ CircleButton {
 
     ScrollView {
         id: dayselect
-       width: if(parent.height  < 2000) {parent.width * 0.95} else {parent.width * 0.95}
-       height: if(parent.height * 0.99 < 2000) {parent.height * 0.99} else {2000}
+        width: if (parent.height < 2000) {
+                   parent.width * 0.98
+               } else {
+                   parent.width * 0.98
+               }
+        height: if (parent.height * 0.99 < 2000) {
+                    parent.height * 0.99
+                } else {
+                    2000
+                }
 
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top:monthselect1.bottom
+        anchors.top: monthselect1.bottom
         anchors.topMargin: 40
-        clip:true
-        //height: grid.height + dow.height
-        anchors.bottom:parent.bottom
-        anchors.bottomMargin:10
-        contentHeight: grid.height+dow.height
-        contentWidth: grid.width+20
+        clip: true
+
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 10
+        contentHeight: grid.height + dow.height
+        contentWidth: grid.width + 20
 
         DayOfWeekRow {
             id: dow
@@ -236,26 +242,26 @@ CircleButton {
 
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                //font: parent.font
+
                 text: model.shortName
                 color: "black"
                 font.pointSize: 8
             }
         }
 
-        Rectangle{
-                width:grid.width * 1.01
-                height:grid.height * 1.01
-                anchors.centerIn: grid
-                color:"#E5F9F9F9"
-                    }
+        Rectangle {
+            width: grid.width * 1.01
+            height: grid.height * 1.01
+            anchors.centerIn: grid
+            color: "#E5F9F9F9"
+        }
         MonthGrid {
             id: grid
             anchors.top: dow.bottom
             anchors.topMargin: 10
             anchors.horizontalCenter: parent.horizontalCenter
-            width: thisWindow.width * 0.90
-            month: monthselect.value
+            width: thisWindow.width * 0.95
+            month: monthselect1.value
 
             title: month
 
@@ -265,66 +271,62 @@ CircleButton {
                 width: 200
                 height: width + 40
 
-                color:"white"
+                color: "white"
                 property int calNum: index
 
-                opacity: model.month === monthselect.value ? 1 : 0.1
-                 clip:true
-                 Column {
-                     width:parent.width
-                     spacing: parent.width * 0.01
-                Text {
-                    id:dayText
-                    text: model.day
-                    color: model.day === theday ? seperatorColor : "black"
-                    font.pointSize: 8
-                    font.bold: true
-                    anchors.right:parent.right
-                }
-
-                Rectangle {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    height:1
-                    width:parent.width
-                    color:seperatorColor
-                }
-
-                Repeater {
-
-
-                    model:DayList {
-                                    day: model.day
-                                    month: model.month
-                                    weekday: calNum
-                                    }
-                        Item {
-                            width:parent.width
-                            height:classname.height + 5
+                opacity: model.month === monthselect1.value ? 1 : 0.1
+                clip: true
+                Column {
+                    width: parent.width
+                    spacing: parent.width * 0.01
                     Text {
-                        id:classname
-                        anchors.verticalCenter: parent.verticalCenter
-                        text:name
-                        //font.pixelSize: parent.width * 0.2
-                        width:parent.width
-                        wrapMode: Text.WordWrap
-                        maximumLineCount: 1
-                        elide: Text.ElideRight
+                        id: dayText
+                        text: model.day
+                        color: model.day === theday ? seperatorColor : "black"
+                        font.pointSize: 8
+                        font.bold: true
+                        anchors.right: parent.right
                     }
+
+                    Rectangle {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        height: 1
+                        width: parent.width
+                        color: seperatorColor
+                    }
+
+                    Repeater {
+
+                        model: DayList {
+                            day: model.day
+                            month: model.month
+                            weekday: calNum
                         }
+                        Item {
+                            width: parent.width
+                            height: classname.height + 5
+                            Text {
+                                id: classname
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: name
 
-
+                                width: parent.width
+                                wrapMode: Text.WordWrap
+                                maximumLineCount: 1
+                                elide: Text.ElideRight
+                            }
+                        }
+                    }
                 }
-
-                 }
 
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
                         theday = model.day
+                        selected_dow = (calNum % 7)
                     }
-                }              
+                }
             }
         }
     }
-
 }

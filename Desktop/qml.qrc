@@ -57,5 +57,19 @@
         <file>icons/frontC.png</file>
         <file>General/Profile.qml</file>
         <file>General/steemit.js</file>
+        <file>General/LoginStudent.qml</file>
+        <file>theme/ESButton.qml</file>
+        <file>General/LeftMenu.qml</file>
+        <file>icons/calendar.svg</file>
+        <file>icons/calendar-today.svg</file>
+        <file>icons/contact-group.svg</file>
+        <file>icons/edit.svg</file>
+        <file>icons/bookmark.svg</file>
+        <file>General/TopBar.qml</file>
+        <file>General/SubMenu.qml</file>
+        <file>icons/message.svg</file>
+        <file>icons/menu.svg</file>
+        <file>icons/close.svg</file>
+        <file>General/BackgroundSwitch.qml</file>
     </qresource>
 </RCC>

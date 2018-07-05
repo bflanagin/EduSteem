@@ -11,10 +11,9 @@ Item {
     id: thisWindow
 
     property string studentCode: ""
-    property string studentname:"Student"
+    property string studentname: "Student"
 
-    onStudentCodeChanged:Students.loadStudent(studentCode)
-
+    onStudentCodeChanged: Students.loadStudent(studentCode)
 
     states: [
 
@@ -24,7 +23,7 @@ Item {
 
                 target: thisWindow
                 //opacity: 1
-                x:leftMenu.width
+                x: 0
             }
         },
 
@@ -61,9 +60,9 @@ Item {
     }
 
     Text {
-        id:title
+        id: title
         text: studentname
-        anchors.top:parent.top
+        anchors.top: parent.top
         anchors.left: backbutton.right
         anchors.margins: 20
         font.bold: true
@@ -71,32 +70,32 @@ Item {
     }
 
     CircleButton {
-        id:backbutton
-        anchors.top:parent.top
-        anchors.left:parent.left
+        id: backbutton
+        anchors.top: parent.top
+        anchors.left: parent.left
         anchors.margins: 20
-        height:title.height
-        width:title.height
+        height: title.height
+        width: title.height
 
         MouseArea {
             anchors.fill: parent
-            onClicked: { thisWindow.state = "inActive"
-                         studentRoster.state = "Active"
-
-                        }
+            onClicked: {
+                thisWindow.state = "inActive"
+                studentRoster.state = "Active"
+            }
         }
     }
 
     Text {
-        text:qsTr("Today")
+        text: qsTr("Today")
         font.bold: true
-        anchors.right:parent.right
+        anchors.right: parent.right
         anchors.verticalCenter: title.verticalCenter
         anchors.margins: 30
     }
 
     Rectangle {
-        anchors.top:title.bottom
+        anchors.top: title.bottom
         anchors.topMargin: 20
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width * 0.95
@@ -104,12 +103,11 @@ Item {
         color: seperatorColor
     }
 
-
     Flickable {
-        anchors.top:title.bottom
+        anchors.top: title.bottom
         anchors.topMargin: 20
-        anchors.bottom:parent.bottom
-        width:parent.width
+        anchors.bottom: parent.bottom
+        width: parent.width
         contentHeight: cColumn.height
         clip: true
         Column {
@@ -118,8 +116,6 @@ Item {
             id: cColumn
             width: parent.width
             spacing: mainView.width * 0.01
-
-
 
             Row {
 
@@ -285,43 +281,44 @@ Item {
             }
 
             ListView {
-                width:thisWindow.width
-                height:contentHeight
-                clip:true
+                width: thisWindow.width
+                height: contentHeight
+                clip: true
                 spacing: thisWindow.height * 0.01
 
-                model:3
+                model: 3
 
                 delegate: Item {
-                            width:thisWindow.width
-                            height:classColumn.height * 1.03
+                    width: thisWindow.width
+                    height: classColumn.height * 1.03
 
-                            Rectangle {anchors.fill: parent
-                                    color:if(index % 2) {"#FFFFFF"} else {"#FAFAFA"}
-                            }
+                    Rectangle {
+                        anchors.fill: parent
+                        color: if (index % 2) {
+                                   "#FFFFFF"
+                               } else {
+                                   "#FAFAFA"
+                               }
+                    }
 
-                            Column {
-                                id:classColumn
-                                anchors.centerIn: parent
-                                width:parent.width * 0.98
-                                spacing:thisWindow.height * 0.02
+                    Column {
+                        id: classColumn
+                        anchors.centerIn: parent
+                        width: parent.width * 0.98
+                        spacing: thisWindow.height * 0.02
 
-                                Text {
-                                    text:"Course "+index
-                                    font.bold: true
-                                }
-                                Text {
-                                    width: parent.width * 0.9
-                                    wrapMode: Text.WordWrap
-                                    text:"Objective:"+ "Today you will need to write a paragraph about the observations you made during the activity we did earlier."
-
-                                }
-
-
-                            }
+                        Text {
+                            text: "Course " + index
+                            font.bold: true
+                        }
+                        Text {
+                            width: parent.width * 0.9
+                            wrapMode: Text.WordWrap
+                            text: "Objective:" + "Today you will need to write a paragraph about the observations you made during the activity we did earlier."
+                        }
+                    }
                 }
             }
-
         }
     }
 }

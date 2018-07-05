@@ -1,60 +1,41 @@
 function replaceSpecials(thestring) {
-/*'& ;#x26;',
+    /*'& ;#x26;',
 '# ;#x23;',
 '; ;#x3b;',
  '\ ;#x5c;',
 
 '\* ;#x2a;',*/
-var spchar = [
-'\! ;#x21;',
-'\" ;#x22;',
-"\' ;#x27;",
-'\, ;#x2c;',
-'\& ;#x26;',
-'\\( ;#x28;',
-'\\) ;#x29;'
-]
-var num = 0;
-//    console.log("spchar list length "+spchar.length+"\n");
+    var spchar = ['\! ;#x21;', '\" ;#x22;', "\' ;#x27;", '\, ;#x2c;', '\& ;#x26;', '\\( ;#x28;', '\\) ;#x29;']
+    var num = 0
 
-while(spchar.length-1 >= num) {
-       // console.log("Finding all "+spchar[num].split(" ")[0]+"s");
-    var findall = new RegExp(spchar[num].split(" ")[0], "g");
-    thestring = thestring.replace(findall,spchar[num].split(" ")[1]);
+    //    console.log("spchar list length "+spchar.length+"\n");
+    while (spchar.length - 1 >= num) {
+        // console.log("Finding all "+spchar[num].split(" ")[0]+"s");
+        var findall = new RegExp(spchar[num].split(" ")[0], "g")
+        thestring = thestring.replace(findall, spchar[num].split(" ")[1])
 
-num = num + 1;
-}
+        num = num + 1
+    }
 
-//console.log(thestring);
-return thestring;
+    //console.log(thestring);
+    return thestring
 }
 
 function recoverSpecial(thestring) {
 
-    var spchar = [
-    '\! ;#x21;',
-    '\" ;#x22;',
-    "\' ;#x27;",
-    '\, ;#x2c;',
-    '\& ;#x26;',
-    '( ;#x28;',
-    ') ;#x29;'
-    ]
-    var num = 0;
+    var spchar = ['\! ;#x21;', '\" ;#x22;', "\' ;#x27;", '\, ;#x2c;', '\& ;#x26;', '( ;#x28;', ') ;#x29;']
+    var num = 0
 
-
-    while(spchar.length-1 >= num) {
-          //  console.log("Finding all"+spchar[num].split(" ")[1]+"s");
-        var findall = new RegExp(spchar[num].split(" ")[1], "g");
-        thestring = thestring.replace(findall,spchar[num].split(" ")[0]);
+    while (spchar.length - 1 >= num) {
+        //  console.log("Finding all"+spchar[num].split(" ")[1]+"s");
+        var findall = new RegExp(spchar[num].split(" ")[1], "g")
+        thestring = thestring.replace(findall, spchar[num].split(" ")[0])
         //console.log(thestring);
-    num = num + 1;
+        num = num + 1
     }
 
-
-return thestring;
+    return thestring
 }
-
 /* Key code reference just encase we need to add others */
 /*
 !	;#33;	;#x21;
@@ -186,3 +167,4 @@ _	;#95;	;#x5f;
 þ	;#254;	;#xfe;	&thorn;
 ÿ	;#255;	;#xff;	&yuml;
 */
+

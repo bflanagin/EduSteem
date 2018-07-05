@@ -29,7 +29,7 @@ Item {
 
                 target: thisWindow
                 //opacity: 1
-                x:leftMenu.width
+                x: 0
             }
         },
 
@@ -107,6 +107,7 @@ Item {
             anchors.fill: parent
             onClicked: {
                 thisWindow.state = "inActive"
+                rightMenu.state = "inActive"
             }
         }
     }
@@ -126,56 +127,57 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width * 0.96
         height: parent.height - title.y + title.height
-        contentHeight: cColumn.height
+        contentHeight: cColumn.height + 200
+        clip:true
+
         Column {
             id: cColumn
             width: parent.width
             spacing: 5
 
-
             Row {
-                width:parent.width
-                height:imageBlock.height
+                width: parent.width
+                height: imageBlock.height
                 ESborder {
-                    id:imageBlock
+                    id: imageBlock
                     width: parent.width * 0.3
                     height: parent.width * 0.3
 
                     Image {
-                        id:profileImage
+                        id: profileImage
                         anchors.centerIn: parent
-                        width:parent.width * 0.87
-                        height:width
+                        width: parent.width * 0.87
+                        height: width
                         fillMode: Image.PreserveAspectCrop
                         visible: false
-                        source:"../icons/frontC.png"
+                        source: "../icons/frontC.png"
                     }
                     OpacityMask {
-                        source:profileImage
-                        anchors.fill:profileImage
-                        maskSource:mask
+                        source: profileImage
+                        anchors.fill: profileImage
+                        maskSource: mask
                     }
                 }
 
                 ESborder {
                     width: parent.width * 0.7
-                    height:contactColumn.height + 20
+                    height: contactColumn.height + 20
 
                     Column {
-                        id:contactColumn
+                        id: contactColumn
                         anchors.horizontalCenter: parent.horizontalCenter
-                        width:parent.width * 0.95
+                        width: parent.width * 0.95
                         anchors.centerIn: parent
                         spacing: 8
 
                         Text {
-                            text:"Email: "+userEmail
+                            text: "Email: " + userEmail
                         }
                         Text {
-                            text:"Phone: "+userPhone
+                            text: "Phone: " + userPhone
                         }
                         Text {
-                            text:userCountry+" , "+userState
+                            text: userCountry + " , " + userState
                         }
                     }
                 }
@@ -186,11 +188,11 @@ Item {
                 height: about.height + aTitle.height + 40
 
                 Text {
-                    id:aTitle
-                    anchors.top:parent.top
-                    anchors.left:parent.left
+                    id: aTitle
+                    anchors.top: parent.top
+                    anchors.left: parent.left
                     anchors.margins: 10
-                    text:"About"
+                    text: "About"
                     font.bold: true
                     font.pointSize: 10
                 }
@@ -207,7 +209,7 @@ Item {
                 Text {
 
                     id: about
-                    anchors.top:aTitle.bottom
+                    anchors.top: aTitle.bottom
                     anchors.left: parent.left
                     anchors.margins: 10
                     text: userAbout
@@ -222,8 +224,8 @@ Item {
                     anchors.bottom: parent.bottom
                     anchors.margins: 10
                     source: "/icons/edit-text.svg"
-                    width:24
-                    height:24
+                    width: 24
+                    height: 24
                     fillMode: Image.PreserveAspectFit
 
                     /* MouseArea {
@@ -241,85 +243,94 @@ Item {
                 height: steemColumn.height + 40
 
                 Column {
-                    id:steemColumn
+                    id: steemColumn
                     anchors.centerIn: parent
-                    width:parent.width * 0.96
-                    spacing:10
+                    width: parent.width * 0.96
+                    spacing: 10
 
                     Item {
-                        width:parent.width
-                        height:asTitle.height
+                        width: parent.width
+                        height: asTitle.height
 
-                            Text {
-                                id:asTitle
+                        Text {
+                            id: asTitle
 
-                                text:"Steem Settings"
-                                font.bold: true
-                                 font.pointSize: 10
-                                }
+                            text: "Steem Settings"
+                            font.bold: true
+                            font.pointSize: 10
+                        }
 
                         Image {
-                            source:"../img/steem.png"
-                            height:asTitle.height * 1.1
-                            width:asTitle.height * 1.1
-                            anchors.right:parent.right
+                            source: "../img/steem.png"
+                            height: asTitle.height * 1.1
+                            width: asTitle.height * 1.1
+                            anchors.right: parent.right
                             anchors.rightMargin: 10
-
                         }
                     }
 
-                Rectangle {
+                    Rectangle {
 
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    width: parent.width * 0.95
-                    height: 1
-                    color: seperatorColor
-                }
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        width: parent.width * 0.95
+                        height: 1
+                        color: seperatorColor
+                    }
 
-                Text {
-                    text:"Account"
-                    font.bold: true
-                    font.pointSize: 8
-                }
+                    Text {
+                        text: "Account"
+                        font.bold: true
+                        font.pointSize: 8
+                    }
 
-                TextField {
-                    id:steemId
-                    width: parent.width * 0.96
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    wrapMode: Text.WordWrap
-                    horizontalAlignment: Text.AlignLeft
-                    background: ESTextField {}
-                    text:if(steemAccount.length != 0) {steemAccount} else {""}
-                }
-                Text {
-                    text:"Share Token (Private)"
-                    font.bold: true
-                    font.pointSize: 8
-                }
-                TextField {
-                    id:steemShareToken
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    width: parent.width * 0.96
-                    wrapMode: Text.WordWrap
-                    horizontalAlignment: Text.AlignLeft
-                    background: ESTextField {}
-                    echoMode:TextInput.Password
-                    text:if(steemShareKey.length != 0) {steemShareKey} else {""}
-                }
+                    TextField {
+                        id: steemId
+                        width: parent.width * 0.96
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        wrapMode: Text.WordWrap
+                        horizontalAlignment: Text.AlignLeft
+                        background: ESTextField {
+                        }
+                        text: if (steemAccount.length != 0) {
+                                  steemAccount
+                              } else {
+                                  ""
+                              }
+                    }
+                    Text {
+                        text: "Share Token (Private)"
+                        font.bold: true
+                        font.pointSize: 8
+                    }
+                    TextField {
+                        id: steemShareToken
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        width: parent.width * 0.96
+                        wrapMode: Text.WordWrap
+                        horizontalAlignment: Text.AlignLeft
+                        background: ESTextField {
+                        }
+                        echoMode: TextInput.Password
+                        text: if (steemShareKey.length != 0) {
+                                  steemShareKey
+                              } else {
+                                  ""
+                              }
+                    }
 
-                Button {
-                    anchors.right: parent.right
-                    anchors.rightMargin: 10
-                    background: ESTextField{}
-                    text:qsTr("Save")
-                    onClicked: {Scripts.saveSteem(userid,0,steemId.text,steemShareToken.text,"") }
-                }
-
-
+                    Button {
+                        anchors.right: parent.right
+                        anchors.rightMargin: 10
+                        background: ESTextField {
+                        }
+                        text: qsTr("Save")
+                        onClicked: {
+                            Scripts.saveSteem(userid, 0, steemId.text,
+                                              steemShareToken.text, "")
+                        }
+                    }
                 }
             }
-
-
         }
     }
 }

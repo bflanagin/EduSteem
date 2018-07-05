@@ -49,8 +49,7 @@ function replace_linestarters(line) {
 
     /* Here we take the information in the array and run it through the text that is given. The nested array is broken into three parts [What to lookfor, What to replace it with,
             and how to end the line] */
-    var linestarters = [["#### ", "<h4>", "</h4>"], ["### ", "<h3>", "</h3>"], ["## ", "<h2>", "</h2>"], ["# ", "<h1>", "</h1>"], ["- ", "<ul><li>", "</li></ul>"], [/ \*\*/g, " <b>", ""], [/\*\*/g, " <b>", ""], [/\*\* /g, "</b>", ""], ["\\+ ", "<ul><li>", "</li></ul>"],
-            [/\* /g, "<ul><li>", "</li></ul>"]]
+    var linestarters = [["#### ", "<h4>", "</h4>"], ["### ", "<h3>", "</h3>"], ["## ", "<h2>", "</h2>"], ["# ", "<h1>", "</h1>"], ["- ", "<ul><li>", "</li></ul>"], [/ \*\*/g, " <b>", ""], [/\*\*/g, " <b>", ""], [/\*\* /g, "</b>", ""], ["\\+ ", "<ul><li>", "</li></ul>"], [/\* /g, "<ul><li>", "</li></ul>"]]
 
     for (var rnum = 0; linestarters.length > rnum; rnum = rnum + 1) {
 
