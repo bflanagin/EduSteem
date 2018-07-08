@@ -1,11 +1,6 @@
 function replaceSpecials(thestring) {
-    /*'& ;#x26;',
-'# ;#x23;',
-'; ;#x3b;',
- '\ ;#x5c;',
 
-'\* ;#x2a;',*/
-    var spchar = ['\! ;#x21;', '\" ;#x22;', "\' ;#x27;", '\, ;#x2c;', '\& ;#x26;', '\\( ;#x28;', '\\) ;#x29;']
+    var spchar = ['\! ;#x21;','\" ;#x22;',"\' ;#x27;",'\, ;#x2c;','\& ;#x26;','\\( ;#x28;', '\\) ;#x29;','\\{ ;#x7b;','\\} ;#x7d;']
     var num = 0
 
     //    console.log("spchar list length "+spchar.length+"\n");
@@ -23,11 +18,12 @@ function replaceSpecials(thestring) {
 
 function recoverSpecial(thestring) {
 
-    var spchar = ['\! ;#x21;', '\" ;#x22;', "\' ;#x27;", '\, ;#x2c;', '\& ;#x26;', '( ;#x28;', ') ;#x29;']
+    var spchar = ['\! ;#x21;','\" ;#x22;',"\' ;#x27;",'\, ;#x2c;','\& ;#x26;','( ;#x28;',') ;#x29;','{ ;#x7b;','} ;#x7d;']
     var num = 0
 
     while (spchar.length - 1 >= num) {
         //  console.log("Finding all"+spchar[num].split(" ")[1]+"s");
+
         var findall = new RegExp(spchar[num].split(" ")[1], "g")
         thestring = thestring.replace(findall, spchar[num].split(" ")[0])
         //console.log(thestring);

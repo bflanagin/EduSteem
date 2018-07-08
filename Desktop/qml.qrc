@@ -71,5 +71,6 @@
         <file>icons/menu.svg</file>
         <file>icons/close.svg</file>
         <file>General/BackgroundSwitch.qml</file>
+        <file>plugins/Files.qml</file>
     </qresource>
 </RCC>

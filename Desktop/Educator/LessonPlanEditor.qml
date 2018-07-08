@@ -170,7 +170,8 @@ ESborder {
 
                 Column {
                     id: aboutColumn
-                    width: parent.width
+                    width: parent.width * 0.99
+                    anchors.horizontalCenter: parent.horizontalCenter
                     anchors.top:parent.top
                     anchors.topMargin:10
                     padding: 10
@@ -180,6 +181,7 @@ ESborder {
                         anchors.left: parent.left
                         anchors.margins: 10
                         text: qsTr("About:")
+                        font.bold: true
                     }
                     Rectangle {
 
@@ -223,7 +225,8 @@ ESborder {
 
                 Column {
                     id: objectiveColumn
-                    width: parent.width
+                    width: parent.width * 0.99
+                    anchors.horizontalCenter: parent.horizontalCenter
                     anchors.top:parent.top
                     anchors.topMargin: 10
                     padding:10
@@ -231,8 +234,9 @@ ESborder {
 
                     Text {
                         anchors.left: parent.left
-                        anchors.margins: 10
+                        anchors.leftMargin: 10
                         text: qsTr("Objective:")
+                        font.bold:true
                     }
 
                     Rectangle {
@@ -292,6 +296,7 @@ ESborder {
                             anchors.left: parent.left
                             anchors.margins: 10
                             text: qsTr("Supplies:")
+                            font.bold: true
                         }
                         Rectangle {
 
@@ -343,6 +348,7 @@ ESborder {
                             anchors.left: parent.left
                             anchors.margins: 10
                             text: qsTr("Resources:")
+                            font.bold: true
                         }
                         Rectangle {
 
@@ -387,7 +393,8 @@ ESborder {
 
                 Column {
                     id: sequenceColumn
-                    width: parent.width
+                    width: parent.width * 0.99
+                    anchors.horizontalCenter: parent.horizontalCenter
                     anchors.top:parent.top
                     anchors.topMargin:10
                     padding:10
@@ -397,6 +404,7 @@ ESborder {
                         anchors.left: parent.left
                         anchors.margins: 10
                         text: qsTr("Sequence:")
+                        font.bold: true
                     }
 
                     Rectangle {
@@ -441,7 +449,8 @@ ESborder {
 
                 Column {
                     id: gqColumn
-                    width: parent.width
+                    width: parent.width * 0.99
+                    anchors.horizontalCenter: parent.horizontalCenter
                     //anchors.centerIn: parent
                     anchors.top:parent.top
                     anchors.topMargin: 10
@@ -452,6 +461,7 @@ ESborder {
                         anchors.left: parent.left
                         anchors.margins: 10
                         text: qsTr("Guiding Questions:")
+                        font.bold: true
                     }
 
                     Rectangle {
@@ -495,7 +505,8 @@ ESborder {
 
                 Column {
                     id: productColumn
-                    width: parent.width
+                    width: parent.width * 0.99
+                    anchors.horizontalCenter: parent.horizontalCenter
                     anchors.top:parent.top
                     anchors.topMargin:10
                     padding:10
@@ -505,6 +516,7 @@ ESborder {
                         anchors.left: parent.left
                         anchors.margins: 10
                         text: qsTr("Student Activity:")
+                        font.bold: true
                     }
 
                     Rectangle {
@@ -549,7 +561,8 @@ ESborder {
 
                 Column {
                     id: reviewColumn
-                    width: parent.width
+                    width: parent.width * 0.99
+                    anchors.horizontalCenter: parent.horizontalCenter
                     anchors.top:parent.top
                     anchors.topMargin:10
                     padding:10
@@ -559,6 +572,7 @@ ESborder {
                         anchors.left: parent.left
                         anchors.margins: 10
                         text: qsTr("Review Questions:")
+                        font.bold: true
                     }
 
                     Rectangle {

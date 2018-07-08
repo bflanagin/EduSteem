@@ -217,7 +217,8 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    schedule.state = "Active"
+                    settingsPage.state = "Active"
+                    schedule.state = "inActive"
                     rightMenu.state = "inActive"
                     general.state = "inActive"
                     student.state = "inActive"

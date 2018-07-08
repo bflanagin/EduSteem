@@ -203,6 +203,13 @@ Item {
         state: "inActive"
     }
 
+    Settings {
+        id:settingsPage
+        width:parent.width
+        height:parent.height
+        state:"inActive"
+    }
+
     }
 
     RightMenu {
@@ -256,6 +263,8 @@ Item {
         anchors.horizontalCenterOffset: leftMenu.width / 2
         state: "inActive"
     }
+
+
 
     ListModel {
         id: gqList

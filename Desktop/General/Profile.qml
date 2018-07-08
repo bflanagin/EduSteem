@@ -8,6 +8,7 @@ import Qt.labs.calendar 1.0
 import "../theme"
 import "../Educator"
 import "./general.js" as Scripts
+import "../plugins"
 
 Item {
     id: thisWindow
@@ -128,7 +129,7 @@ Item {
         width: parent.width * 0.96
         height: parent.height - title.y + title.height
         contentHeight: cColumn.height + 200
-        clip:true
+        clip: true
 
         Column {
             id: cColumn
@@ -140,8 +141,8 @@ Item {
                 height: imageBlock.height
                 ESborder {
                     id: imageBlock
-                    width: parent.width * 0.3
-                    height: parent.width * 0.3
+                    width: if(parent.width * 0.3 >= 300) {300} else {parent.width * 0.3}
+                    height: width
 
                     Image {
                         id: profileImage
@@ -157,10 +158,15 @@ Item {
                         anchors.fill: profileImage
                         maskSource: mask
                     }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: files.visible = true
+                    }
                 }
 
                 ESborder {
-                    width: parent.width * 0.7
+                    width: parent.width - imageBlock.width
                     height: contactColumn.height + 20
 
                     Column {
@@ -185,21 +191,27 @@ Item {
 
             ESborder {
                 width: parent.width
-                height: about.height + aTitle.height + 40
+                height: aboutColumn.height + 20
+
+                Column {
+                    id:aboutColumn
+                    anchors.top:parent.top
+                    anchors.topMargin: 10
+                    width:parent.width * 0.98
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    spacing:3
 
                 Text {
                     id: aTitle
-                    anchors.top: parent.top
                     anchors.left: parent.left
-                    anchors.margins: 10
+                    anchors.leftMargin: 10
                     text: "About"
                     font.bold: true
                     font.pointSize: 10
                 }
 
                 Rectangle {
-                    anchors.top: aTitle.bottom
-                    anchors.topMargin: 5
+
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: parent.width * 0.95
                     height: 1
@@ -209,11 +221,12 @@ Item {
                 Text {
 
                     id: about
-                    anchors.top: aTitle.bottom
+
                     anchors.left: parent.left
-                    anchors.margins: 10
+                    anchors.leftMargin: 10
                     text: userAbout
-                    width: parent.width * 0.96
+                    width: parent.width * 0.99
+                    anchors.horizontalCenter: parent.horizontalCenter
 
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignLeft
@@ -221,8 +234,7 @@ Item {
 
                 Image {
                     anchors.right: parent.right
-                    anchors.bottom: parent.bottom
-                    anchors.margins: 10
+                    anchors.leftMargin: 10
                     source: "/icons/edit-text.svg"
                     width: 24
                     height: 24
@@ -236,6 +248,9 @@ Item {
                                     editthis.state = "Active" }
                     } */
                 }
+
+                }
+
             }
 
             ESborder {
@@ -332,5 +347,9 @@ Item {
                 }
             }
         }
+    }
+
+    Files {
+        id:files
     }
 }
