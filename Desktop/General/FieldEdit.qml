@@ -7,6 +7,7 @@ import "../Educator"
 
 import "../Educator/course.js" as Scripts
 import "../plugins/text.js" as Scrubber
+import "../plugins/markdown.js" as MD
 
 ESborder {
     id: thisWindow
@@ -34,8 +35,9 @@ ESborder {
 
     Column {
         id: cColumn
-        width: parent.width * 0.95
-        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.width * 0.75
+        anchors.left:parent.left
+        anchors.leftMargin: 10
         spacing: thisWindow.width * 0.02
 
         Item {
@@ -97,14 +99,14 @@ ESborder {
         ScrollView {
             id: view
             anchors.horizontalCenter: parent.horizontalCenter
-            width: parent.width * 0.90
+            width: parent.width * 0.98
             clip:true
             height: switch (field) {
                     case "Title":
                         contentHeight + 10
                         break
                     default:
-                        400
+                        thisWindow.height * 0.80
                         break
                     }
             background: ESTextField {
@@ -210,6 +212,30 @@ ESborder {
 
             }
         }
+    }
+
+    Rectangle {
+        anchors.left:cColumn.right
+        anchors.right:parent.right
+        anchors.top:cColumn.top
+        anchors.topMargin: 20
+        anchors.rightMargin: 10
+        anchors.bottom: cColumn.bottom
+        color:"#50F0F0F0"
+        clip:true
+
+    MarkDown {
+        id:mdlist
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top:parent.top
+        anchors.topMargin: 10
+        height:parent.height
+        width:thisWindow.width * 0.22
+        thedata:MD.guide()
+
+    }
+
+
     }
 
     Row {

@@ -13,8 +13,7 @@ function md2qml(text) {
 
         /* here we search for code breaks I'd like to add color highlighting based on what kind of code is present but that will come later */
         if (splittext[num].search("```") !== -1) {
-            changeformat = splittext[num].replace(/```/,
-                                                  "<br><br>").replace(/\n/, "")
+            changeformat = splittext[num].replace(/```/,"<br><br>").replace(/\n/, "")
 
             markdown.append({
                                 type: "code",
@@ -32,7 +31,17 @@ function md2qml(text) {
                                 thepost: "",
                                 img: changeformat
                             })
-        } else {
+        } else if (splittext[num].search("---") !== -1) {
+
+            changeformat = splittext[num].replace(/```/,"<br>").replace(/\n/, "")
+
+            markdown.append({
+                                type: "seperator",
+                                thepost: "",
+                                img: ""
+                            })
+
+         } else {
 
             /* Main text converter */
             markdown.append({
@@ -63,5 +72,26 @@ function replace_linestarters(line) {
         }
     }
 
-    return formatedline.replace(/\\n/g, "<br>").replace(/\n/g, "<br>")
+    return (formatedline.replace(/\\n/g, "<br>").replace(/\n/g, "<br>"))
+}
+
+
+function guide() {
+
+    var text = "### Markdown guide: \n --- \n
+eduSteem uses markdown to format the text within the application. The following formatting symbols are avaiable to you.
+
+# # Heading 1
+## ## Heading 2
+### ### Heading 3
+* '*,-,+' All create bulleted lists
+
+Three '`' in a row creates a code block, adding three more at the end will end the block.
+
+Three '-' in a row creates a seperator
+
+
+            "
+
+    return text
 }

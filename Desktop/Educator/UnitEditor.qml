@@ -323,7 +323,8 @@ ESborder {
 
     FieldEdit {
         id: editthis
-        width: 800
+        width: parent.width
+        height:parent.height
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
         state: "inActive"

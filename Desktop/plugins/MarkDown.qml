@@ -15,7 +15,8 @@ Item {
     ListView {
         id: markeddownList
         width: parent.width
-        height: contentHeight
+        height: contentHeight + 20
+        boundsBehavior: Flickable.StopAtBounds
 
         model: markdown
 
@@ -73,6 +74,20 @@ Item {
                 height: 3
                 color: highLightColor1
                 visible: if (type == "code") {
+                             true
+                         } else {
+                             false
+                         }
+            }
+
+             /* If the data is --- the Code line Item is displayed */
+            Rectangle {
+                id: seperator
+                anchors.centerIn: parent
+                width: parent.width
+                height: 2
+                color: seperatorColor
+                visible: if (type == "seperator") {
                              true
                          } else {
                              false

@@ -672,15 +672,4 @@ ESborder {
         }
     }
 
-    FieldEdit {
-        id: editthis
-        width: 800
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.horizontalCenter: parent.horizontalCenter
-        state: "inActive"
-
-        onStateChanged: if (state == "inActive") {
-                            Scripts.loadLesson(userid, lessonNumber)
-                        }
-    }
 }

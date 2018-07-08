@@ -3,6 +3,7 @@ import QtQuick.Controls 2.2
 
 import "../theme"
 import "../plugins"
+import "../General"
 
 import "./course.js" as Scripts
 
@@ -337,5 +338,18 @@ Item {
         onStateChanged: {
             Scripts.loadUnits(userid, coursenumber)
         }
+    }
+
+    FieldEdit {
+        id: editthis
+        width: parent.width
+        height:parent.height
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        state: "inActive"
+
+        onStateChanged: if (state == "inActive") {
+                            Scripts.loadLesson(userid, lessonNumber)
+                        }
     }
 }
