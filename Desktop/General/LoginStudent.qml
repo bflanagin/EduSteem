@@ -162,26 +162,18 @@ Item {
             height:3
             color:"Transparent"
         }
-    }
 
-        Text {
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 10
-            anchors.horizontalCenter: parent.horizontalCenter
-            text: message
-        }
+        Item {
+            width:parent.width
+            height:loginButton.height
 
         Button {
-            anchors.top: name.bottom
-            anchors.topMargin: 60
-            anchors.horizontalCenter: parent.horizontalCenter
-            visible: if (studentcode == 1 && studentname == 1) {
-                         true
-                     } else {
-                         false
-                     }
+            id:loginButton
+            anchors.right: parent.right
+            anchors.rightMargin: 10
+
             text: qsTr("Login")
-            width: parent.width * 0.50
+            width: parent.width * 0.20
             height: 50
             enabled: if (studentcode == 1 && studentname == 1) {
                          true
@@ -196,6 +188,49 @@ Item {
                 studentHome.state = "Active"
             }
         }
+
+        Button {
+            id:cancelButton
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+
+            text: qsTr("Cancel")
+            width: parent.width * 0.20
+            height: 50
+            enabled: if (password.text !== "" || name.text !== "") {
+                         true
+                     } else {
+                         false
+                     }
+            background: ESTextField {
+            }
+
+            onClicked: {
+                password.text = ""
+                name.text = ""
+            }
+        }
+
+
+        }
+
+        Rectangle {
+            width:parent.width * 0.98
+            anchors.horizontalCenter: parent.horizontalCenter
+            height:1
+            color:"Transparent"
+        }
+    }
+
+        Text {
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 10
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: message
+            visible: false
+        }
+
+
     }
 
     ESborder {

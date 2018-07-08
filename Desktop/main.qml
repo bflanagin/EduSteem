@@ -28,7 +28,7 @@ Window {
     /*App setup Variables */
     property string devId: "Vag-01001011"
     property string appId: "vagEduST-052308"
-    property string version: "0.07"
+    property string version: "0.09"
 
     property string userid: ""
     property var db: Sql.LocalStorage.openDatabaseSync("UserInfo", "1.0",
@@ -211,6 +211,8 @@ Window {
         height: parent.height
         state: "inActive"
     }
+
+
 
     /* End Loaded Items */
 

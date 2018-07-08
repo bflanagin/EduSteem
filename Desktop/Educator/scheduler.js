@@ -8,10 +8,10 @@ function load_Day(month, day, weekday) {
                 + schoolCode + "' AND month =" + month
         var pull = tx.executeSql(dataSTR)
 
-       /* if (selected_month !== month) {
+
+        /* if (selected_month !== month) {
             monthoffset = monthoffset + 1
         } */
-
         while (pull.rows.length > num) {
 
             if (pull.rows.item(num).day.split(":")[0] === day) {
@@ -23,14 +23,13 @@ function load_Day(month, day, weekday) {
                 var classes = pull.rows.item(num).day.split(";")
                 /*var dom = (weekday - monthoffset) + 1 */
                 var week = (weekday % 7) + 1
-               /* var dow = dom - week */
 
+                /* var dow = dom - week */
                 for (var classnum = 0; classnum < (classes.length - 1); classnum = classnum + 1) {
                     if (selected_month === month || educator === "login") {
 
                         if (classes[classnum].split(":")[1].split(
                                     ",")[week] === "true") {
-
 
                             dayList.append({
                                                name: pullField(
@@ -50,7 +49,6 @@ function load_Day(month, day, weekday) {
 }
 function load_Classes(month, day) {
 
-
     daysClasses.clear()
     db.transaction(function (tx) {
 
@@ -66,19 +64,25 @@ function load_Classes(month, day) {
 
                 if (day[num].split(":")[0] === "0") {
                     var theclass = day[num].split(":")[1].split(",")
-                    if(theclass[selected_dow] !== "false") {
-                        if(pullField("lesson", "Name",
-                                     theclass[0]).length > 2) {
-                    daysClasses.append({
-                                           name: pullField("lesson", "Name",
-                                                           theclass[0]),
-                                           about: pullField("lesson", "About",
-                                                            theclass[0]),
-                                           unit: pullField("lesson", "Unit",
-                                                           theclass[0]),
-                                           duration: pullField("lesson", "Duration",
-                                                               theclass[0]),
-                                       })
+                    if (theclass[selected_dow] !== "false") {
+                        if (pullField("lesson", "Name",
+                                      theclass[0]).length > 2) {
+                            daysClasses.append({
+                                                   name: pullField("lesson",
+                                                                   "Name",
+                                                                   theclass[0]),
+                                                   about: pullField(
+                                                              "lesson",
+                                                              "About",
+                                                              theclass[0]),
+                                                   unit: pullField("lesson",
+                                                                   "Unit",
+                                                                   theclass[0]),
+                                                   duration: pullField(
+                                                                 "lesson",
+                                                                 "Duration",
+                                                                 theclass[0])
+                                               })
                         }
                     }
                 }
@@ -103,7 +107,7 @@ function save_schedule(month, day) {
             tx.executeSql(dtable, data)
         } else {
             var daysTasks = pull.rows.item(0).day
-            //console.log(daysTasks)
+
             if (daysTasks.search(day.split(":")[1]) === -1) {
                 tx.executeSql(
                             "UPDATE Schedule SET day='" + daysTasks + day
@@ -136,9 +140,9 @@ function pullField(where, type, id) {
     }
 
     db.transaction(function (tx) {
-    var dataSTR = ""
-        if(table !== "Lessons") {
-         dataSTR = "SELECT * FROM " + table + " WHERE creationdate =" + id
+        var dataSTR = ""
+        if (table !== "Lessons") {
+            dataSTR = "SELECT * FROM " + table + " WHERE creationdate =" + id
         } else {
             dataSTR = "SELECT * FROM " + table + " WHERE coursenumber =" + id
         }
@@ -184,33 +188,41 @@ function pullField(where, type, id) {
         } else {
             switch (id) {
             case "12":
-                switch(type) {
-                case "Name": returned = "Lunch"
-                        break
-                case "About": returned = "Food Time"
-                        break
-                case "Duration": returned = 60
-                        break
+                switch (type) {
+                case "Name":
+                    returned = "Lunch"
+                    break
+                case "About":
+                    returned = "Food Time"
+                    break
+                case "Duration":
+                    returned = 60
+                    break
                 }
                 break
             case "10":
-                switch(type) {
-                case "Name":returned = "Read to Self"
+                switch (type) {
+                case "Name":
+                    returned = "Read to Self"
                     break
-                case "About":returned = "Read for pleasure"
+                case "About":
+                    returned = "Read for pleasure"
                     break
-                case "Duration": returned = 45
+                case "Duration":
+                    returned = 45
                     break
-
                 }
                 break
             case "8":
-                switch(type) {
-                case "Name":returned = "P.E."
+                switch (type) {
+                case "Name":
+                    returned = "P.E."
                     break
-                case "About":returned = "Morning Walk"
+                case "About":
+                    returned = "Morning Walk"
                     break
-                case "Duration":returned = 90
+                case "Duration":
+                    returned = 90
                     break
                 }
                 break

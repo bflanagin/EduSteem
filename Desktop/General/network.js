@@ -287,6 +287,7 @@ function retrieveFromOpenSeed(id, code, type) {
                         })
                     } else {
 
+
                         //schoolName = qsTr("No school found")
                     }
                 }
@@ -301,7 +302,6 @@ function retrieveFromOpenSeed(id, code, type) {
 }
 
 function sync(type, code) {
-
 
     /* Syncronizes data with the server */
     var http = new XMLHttpRequest()

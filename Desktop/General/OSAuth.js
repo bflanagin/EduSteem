@@ -1,7 +1,5 @@
-
 /* general OpenSeed authentication */
 function oseed_auth(name, email, passphrase) {
-
 
     /*send the data to get authentication from the server. This is a simpler version of checkcreds and may be removed */
     var http = new XMLHttpRequest()
@@ -33,7 +31,6 @@ function oseed_auth(name, email, passphrase) {
 
 function heartbeat() {
 
-
     /* This is a simple heart beat function to verify that data can be sent to the server. This is needed for the asyncronious nature of the program */
     var http = new XMLHttpRequest()
     var url = "https://openseed.vagueentertainment.com:8675/corescripts/heartbeat.php"
@@ -63,7 +60,6 @@ function heartbeat() {
 }
 
 function checkcreds(field, info) {
-
 
     /* User for quick checks to the server to verify new accounts and validate old ones. */
     var http = new XMLHttpRequest()
@@ -116,7 +112,6 @@ function checkcreds(field, info) {
 
 function account_type(userid) {
 
-
     /* Checks to see if the user id is an admin or a normal user good for programs that have multiple layers of account */
     var http = new XMLHttpRequest()
     var url = "https://openseed.vagueentertainment.com:8675/corescripts/authCHECK.php"
@@ -145,7 +140,6 @@ function account_type(userid) {
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
     http.send("devid=" + devId + "&appid=" + appId + "&type=admin&info=" + userid)
 }
-
 
 /* End General functions */
 function save_local(userid, type, firstname, lastname, email, phone, country, state, about, teachercode) {

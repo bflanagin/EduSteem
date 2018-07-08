@@ -78,13 +78,6 @@ ESborder {
             }
         }
 
-
-        /* Rectangle {
-            anchors.horizontalCenter: parent.horizontalCenter
-            width:parent.width * 0.94
-            height:10
-            color:seperatorColor
-        } */
         TextField {
             id: name
             anchors.horizontalCenter: parent.horizontalCenter
