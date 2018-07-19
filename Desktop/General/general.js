@@ -20,8 +20,14 @@ guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEX
         tx.executeSql(
                     'CREATE TABLE IF NOT EXISTS Schedule (id TEXT, month INT, day MEDIUMTEXT, schoolcode TEXT, educatorcode TEXT,creationdate MEDIUMINT,editdate MEDIUMINT)')
 
+
+        /* Student centric databases */
         tx.executeSql(
                     'CREATE TABLE IF NOT EXISTS Students (id TEXT, firstname TEXT,lastname TEXT, age INT, bday MEDIUMINT, about MEDIUMTEXT, schoolcode TEXT,phone TEXT,email TEXT,steempost TEXT,code MEDIUMINT,editdate MEDIUMINT)')
+        tx.executeSql(
+                    'CREATE TABLE IF NOT EXISTS Student_Assignments (schoolCode TEXT, studentCode MEDIUMINT, lessonID MEDIUMINT, status INT, qaList MEDIUMTEXT, creationdate MEDIUMINT, editdate MEDIUMINT)')
+        tx.executeSql(
+                    'CREATE TABLE IF NOT EXISTS Student_Daily_Review (schoolCode TEXT,studentCode MEDIUMINT,qaList MEDIUMTEXT, date MEDIUMINT )')
     })
 }
 
@@ -53,7 +59,6 @@ function loadschool(userid) {
     var exists = false
     db.transaction(function (tx) {
 
-
         /*pulling general school information*/
         if (userid !== "") {
             pull = tx.executeSql(
@@ -74,7 +79,6 @@ function loadschool(userid) {
             schoolName = pull.rows.item(0).name
             schoolCode = pull.rows.item(0).code
             schoolEditDate = pull.rows.item(0).editdate
-
 
             /* done with general info */
 
@@ -227,6 +231,9 @@ function oneTime(id, action, forwhat) {
 }
 
 function studentCred(info1, info2, type) {
+
+    /* Function returns student information based on type */
+
     var returned = 0
     var pull = ""
 
@@ -240,7 +247,31 @@ function studentCred(info1, info2, type) {
         }
 
         if (pull.rows.length === 1) {
-            returned = 1
+            if (type === "name") {
+                studentCode = pull.rows.item(0).code
+                returned = 1
+            } else {
+                switch (type) {
+                case "firstname":
+                    returned = pull.rows.item(0).firstname
+                    break
+                case "lastname":
+                    returned = pull.rows.item(0).lastname
+                    break
+                case "age":
+                    returned = pull.rows.item(0).age
+                    break
+                case "bday":
+                    returned = pull.rows.item(0).bday
+                    break
+                case "about":
+                    returned = pull.rows.item(0).about
+                    break
+                case "code":
+                    returned = 1
+                    break
+                }
+            }
         }
     })
 

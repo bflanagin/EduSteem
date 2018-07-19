@@ -32,7 +32,7 @@ Item {
             PropertyChanges {
                 target: thisWindow
                 opacity: 1
-            }      
+            }
         },
 
         State {
@@ -41,7 +41,7 @@ Item {
             PropertyChanges {
                 target: thisWindow
                 opacity: 0
-            }       
+            }
         }
     ]
 
@@ -54,22 +54,17 @@ Item {
             to: "Active"
             reversible: true
 
-
             NumberAnimation {
                 target: thisWindow
                 property: "opacity"
                 duration: 400
                 easing.type: Easing.InOutQuad
             }
-
-
         }
-
     ]
 
-
     ESborder {
-        id:loginBlock
+        id: loginBlock
         bgOpacity: op
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
@@ -83,144 +78,139 @@ Item {
 
         height: loginColumn.height + 20
 
-
-
-      Column {
-            id:loginColumn
-            width:parent.width * 0.98
+        Column {
+            id: loginColumn
+            width: parent.width * 0.98
             anchors.centerIn: parent
-            spacing:10
+            spacing: 10
 
-        Text {
-            id:title
-            //anchors.bottom:name.top
-            anchors.left: parent.left
-            anchors.leftMargin: 10
-            text:qsTr("Login:")
-            font.pointSize: 12
-            font.bold: true
-        }
-
-        Rectangle {
-            width:parent.width * 0.98
-            anchors.horizontalCenter: parent.horizontalCenter
-            height:3
-            color:seperatorColor
-        }
-
-        Text {
-            anchors.left: parent.left
-            anchors.leftMargin: 10
-            text:qsTr("Student:")
-
-        }
-
-        TextField {
-            id: name
-            anchors.right: parent.right
-            anchors.rightMargin: parent.width * 0.01
-            horizontalAlignment: Text.AlignLeft
-            font.pointSize: 10
-            width: parent.width * 0.98
-            placeholderText: qsTr("FirstName LastName")
-            onTextChanged: studentname = General.studentCred(
-                               text.split(" ")[0], text.split(" ")[1], "name")
-
-            background: ESTextField {
-            }
-        }
-
-        Text {
-            anchors.left: parent.left
-            anchors.leftMargin: 10
-            text:qsTr("Password:")
-
-        }
-
-        TextField {
-            id: password
-            anchors.right: parent.right
-            anchors.rightMargin: parent.width * 0.01
-            horizontalAlignment: Text.AlignLeft
-            font.pointSize: 10
-            width: parent.width * 0.98
-            placeholderText: qsTr("000000")
-
-            background: ESTextField {
-            }
-            onTextChanged: if (text.length > 0) {
-                               studentcode = General.studentCred(text,
-                                                                 "", "code")
-                           } else {
-                               message = "Please Enter Password"
-                           }
-        }
-
-        Rectangle {
-            width:parent.width * 0.98
-            anchors.horizontalCenter: parent.horizontalCenter
-            height:3
-            color:"Transparent"
-        }
-
-        Item {
-            width:parent.width
-            height:loginButton.height
-
-        Button {
-            id:loginButton
-            anchors.right: parent.right
-            anchors.rightMargin: 10
-
-            text: qsTr("Login")
-            width: parent.width * 0.20
-            height: 50
-            enabled: if (studentcode == 1 && studentname == 1) {
-                         true
-                     } else {
-                         false
-                     }
-            background: ESTextField {
+            Text {
+                id: title
+                //anchors.bottom:name.top
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                text: qsTr("Login:")
+                font.pointSize: 12
+                font.bold: true
             }
 
-            onClicked: {
-                thisWindow.state = "inActive"
-                studentHome.state = "Active"
-            }
-        }
-
-        Button {
-            id:cancelButton
-            anchors.left: parent.left
-            anchors.leftMargin: 10
-
-            text: qsTr("Cancel")
-            width: parent.width * 0.20
-            height: 50
-            enabled: if (password.text !== "" || name.text !== "") {
-                         true
-                     } else {
-                         false
-                     }
-            background: ESTextField {
+            Rectangle {
+                width: parent.width * 0.98
+                anchors.horizontalCenter: parent.horizontalCenter
+                height: 3
+                color: seperatorColor
             }
 
-            onClicked: {
-                password.text = ""
-                name.text = ""
+            Text {
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                text: qsTr("Student:")
+            }
+
+            TextField {
+                id: name
+                anchors.right: parent.right
+                anchors.rightMargin: parent.width * 0.01
+                horizontalAlignment: Text.AlignLeft
+                font.pointSize: 10
+                width: parent.width * 0.98
+                placeholderText: qsTr("FirstName LastName")
+                onTextChanged: studentname = General.studentCred(
+                                   text.split(" ")[0],
+                                   text.split(" ")[1], "name")
+
+                background: ESTextField {
+                }
+            }
+
+            Text {
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                text: qsTr("Password:")
+            }
+
+            TextField {
+                id: password
+                anchors.right: parent.right
+                anchors.rightMargin: parent.width * 0.01
+                horizontalAlignment: Text.AlignLeft
+                font.pointSize: 10
+                width: parent.width * 0.98
+                placeholderText: qsTr("000000")
+
+                background: ESTextField {
+                }
+                onTextChanged: if (text.length > 0) {
+                                   studentcode = General.studentCred(text,
+                                                                     "", "code")
+                               } else {
+                                   message = "Please Enter Password"
+                               }
+            }
+
+            Rectangle {
+                width: parent.width * 0.98
+                anchors.horizontalCenter: parent.horizontalCenter
+                height: 3
+                color: "Transparent"
+            }
+
+            Item {
+                width: parent.width
+                height: loginButton.height
+
+                Button {
+                    id: loginButton
+                    anchors.right: parent.right
+                    anchors.rightMargin: 10
+
+                    text: qsTr("Login")
+                    width: parent.width * 0.20
+                    height: 50
+                    enabled: if (studentcode == 1 && studentname == 1) {
+                                 true
+                             } else {
+                                 false
+                             }
+                    background: ESTextField {
+                    }
+
+                    onClicked: {
+                        thisWindow.state = "inActive"
+                        studentHome.state = "Active"
+                    }
+                }
+
+                Button {
+                    id: cancelButton
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+
+                    text: qsTr("Cancel")
+                    width: parent.width * 0.20
+                    height: 50
+                    enabled: if (password.text !== "" || name.text !== "") {
+                                 true
+                             } else {
+                                 false
+                             }
+                    background: ESTextField {
+                    }
+
+                    onClicked: {
+                        password.text = ""
+                        name.text = ""
+                    }
+                }
+            }
+
+            Rectangle {
+                width: parent.width * 0.98
+                anchors.horizontalCenter: parent.horizontalCenter
+                height: 1
+                color: "Transparent"
             }
         }
-
-
-        }
-
-        Rectangle {
-            width:parent.width * 0.98
-            anchors.horizontalCenter: parent.horizontalCenter
-            height:1
-            color:"Transparent"
-        }
-    }
 
         Text {
             anchors.bottom: parent.bottom
@@ -229,8 +219,6 @@ Item {
             text: message
             visible: false
         }
-
-
     }
 
     ESborder {
@@ -263,19 +251,19 @@ Item {
     }
 
     Text {
-        anchors.bottom:todaysEvents.top
+        anchors.bottom: todaysEvents.top
         anchors.bottomMargin: 20
-        anchors.left:todaysEvents.left
-        text:"Today:"
+        anchors.left: todaysEvents.left
+        text: "Today:"
         font.pointSize: 18
-        width:todaysEvents.width
+        width: todaysEvents.width
         horizontalAlignment: Text.AlignLeft
 
         Rectangle {
-            anchors.top:parent.bottom
+            anchors.top: parent.bottom
             width: parent.width
             height: 3
-            color:seperatorColor
+            color: seperatorColor
         }
     }
 
@@ -292,7 +280,8 @@ Item {
 
         model: DayList {
             day: d.getDate()
-            month: d.getMonth()
+            //month: d.getMonth()
+            month: 5
             weekday: d.getDay()
             educator: "login"
         }
@@ -314,17 +303,17 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                     height: parent.height * 0.8
                     width: height
-                Image {
-                    id:icon
-                    anchors.fill: parent
-                    fillMode: Image.PreserveAspectFit
-                    source: "/icons/calendar-today.svg"
-                }
-                ColorOverlay {
-                    anchors.fill: icon
-                    source:icon
-                    color:"black"
-                }
+                    Image {
+                        id: icon
+                        anchors.fill: parent
+                        fillMode: Image.PreserveAspectFit
+                        source: "/icons/calendar-today.svg"
+                    }
+                    ColorOverlay {
+                        anchors.fill: icon
+                        source: icon
+                        color: "black"
+                    }
                 }
 
                 Rectangle {

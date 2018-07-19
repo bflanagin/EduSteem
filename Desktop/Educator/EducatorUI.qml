@@ -20,8 +20,6 @@ Item {
     property string guidedQuestions: ""
     property var reviewQuestions: []
 
-
-
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.verticalCenter: parent.verticalCenter
 
@@ -92,22 +90,19 @@ Item {
         anchors.fill: parent
     }
 
-
-
     TopBar {
-        id:topBar
-        width:parent.width
-        height:32
-
+        id: topBar
+        width: parent.width
+        height: 32
     }
 
     SubMenu {
-        id:submenuLeft
-        width:200
-        anchors.left:leftMenu.right
+        id: submenuLeft
+        width: 200
+        anchors.left: leftMenu.right
         anchors.top: topBar.bottom
         anchors.bottom: parent.bottom
-        clip:true
+        clip: true
         z: 4
     }
 
@@ -116,11 +111,10 @@ Item {
         anchors.left: parent.left
         anchors.top: topBar.bottom
         anchors.bottom: parent.bottom
-        state:"Active"
-        width:96
+        state: "Active"
+        width: 64
         clip: true
         z: 5
-
     }
 
     ListModel {
@@ -135,85 +129,76 @@ Item {
         id: middleArea
         anchors.left: leftMenu.right
         anchors.right: if (rightMenu.state == "Active") {
-                                   rightMenu.left
-                               } else {
-                                   parent.right
-                               }
-        anchors.top: topBar.bottom
-        anchors.bottom: parent.bottom
-
-
-    GeneralInfoDashBoard {
-        id: general
-        /*anchors.right: if (rightMenu.state == "Active") {
                            rightMenu.left
                        } else {
                            parent.right
-                       }*/
-       // anchors.right: parent.right
-       // anchors.left: leftMenu.right
-        anchors.verticalCenter: parent.verticalCenter
-        height: parent.height
-        width:parent.width
-        state: "Active"
-    }
+                       }
+        anchors.top: topBar.bottom
+        anchors.bottom: parent.bottom
 
-    CourseDashBoard {
-        id: course
+        GeneralInfoDashBoard {
+            id: general
 
-        width: parent.width
-        anchors.verticalCenter: parent.verticalCenter
-        height: parent.height
-        state: "inActive"
-        onStateChanged: if (state == "inActive") {
-                            Courses.loadCourses(userid)
-                        }
-    }
+            anchors.verticalCenter: parent.verticalCenter
+            height: parent.height
+            width: parent.width
+            state: "Active"
+        }
 
-    Scheduler {
-        id: schedule
-        width: parent.width
-        anchors.verticalCenter: parent.verticalCenter
-        height: parent.height
-        state: "inActive"
-        //onStateChanged: if(state == "inActive") {} else {rightMenu.state = "Active"}
-    }
+        CourseDashBoard {
+            id: course
 
-    Profile {
-        id: yourProfile
-        width: parent.width
-        height: parent.height
-        state: "inActive"
-    }
+            width: parent.width
+            anchors.verticalCenter: parent.verticalCenter
+            height: parent.height
+            state: "inActive"
+            onStateChanged: if (state == "inActive") {
+                                Courses.loadCourses(userid)
+                            }
+        }
 
-    Roster {
-        id: studentRoster
-        width: parent.width
-        anchors.verticalCenter: parent.verticalCenter
-        height: parent.height
-        state: "inActive"
-    }
+        Scheduler {
+            id: schedule
+            width: parent.width
+            anchors.verticalCenter: parent.verticalCenter
+            height: parent.height
+            state: "inActive"
+        }
 
-    StudentDashBoard {
-        id: student
+        Profile {
+            id: yourProfile
+            width: parent.width
+            height: parent.height
+            state: "inActive"
+        }
 
-        width: parent.width
-        anchors.verticalCenter: parent.verticalCenter
-        height: parent.height
-        state: "inActive"
-    }
+        Roster {
+            id: studentRoster
+            width: parent.width
+            anchors.verticalCenter: parent.verticalCenter
+            height: parent.height
+            state: "inActive"
+        }
 
-    Settings {
-        id:settingsPage
-        width:parent.width
-        height:parent.height
-        state:"inActive"
-    }
+        StudentDashBoard {
+            id: student
 
+            width: parent.width
+            anchors.verticalCenter: parent.verticalCenter
+            height: parent.height
+            state: "inActive"
+        }
+
+        Settings {
+            id: settingsPage
+            width: parent.width
+            height: parent.height
+            state: "inActive"
+        }
     }
 
     RightMenu {
-        id:rightMenu
+        id: rightMenu
         anchors.right: parent.right
         anchors.top: topBar.bottom
         anchors.bottom: parent.bottom
@@ -223,7 +208,6 @@ Item {
                    parent.width * 0.20
                }
         state: "inActive"
-
     }
 
     CourseWizard {
@@ -234,13 +218,10 @@ Item {
         state: "inActive"
         width: 800
 
-        //height:300
         onStateChanged: if (state == "inActive") {
                             Courses.loadCourses(userid)
                         }
     }
-
-
 
     NewStudentAccount {
         id: newStudent
@@ -264,8 +245,6 @@ Item {
         state: "inActive"
     }
 
-
-
     ListModel {
         id: gqList
     }
@@ -273,5 +252,4 @@ Item {
     ListModel {
         id: rqList
     }
-
 }

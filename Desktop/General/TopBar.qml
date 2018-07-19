@@ -34,7 +34,9 @@ Item {
             anchors.fill: parent
             onClicked: {
                 educatorHome.state = "inActive"
+                studentHome.state = "inActive"
                 slogin.state = "Active"
+
             }
         }
     }
@@ -82,6 +84,13 @@ Row {
         icon:"/icons/menu.svg"
         //label:qsTr("Menu")
         rotation: if(rightMenu.state == "Active") {90} else {0}
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                 if(rightMenu.state == "Active") {rightMenu.state = "inActive"} else {rightMenu.state = "Active"}
+            }
+        }
     }
 
 

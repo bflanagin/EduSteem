@@ -72,5 +72,12 @@
         <file>icons/close.svg</file>
         <file>General/BackgroundSwitch.qml</file>
         <file>plugins/Files.qml</file>
+        <file>Student/LessonView.qml</file>
+        <file>icons/send-to.svg</file>
+        <file>icons/media-playback-start.svg</file>
+        <file>icons/media-playback-pause.svg</file>
+        <file>icons/mail-mark-important.svg</file>
+        <file>Student/Card.qml</file>
+        <file>icons/star.svg</file>
     </qresource>
 </RCC>

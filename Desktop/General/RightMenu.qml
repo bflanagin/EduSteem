@@ -12,6 +12,7 @@ import "../Educator/course.js" as Courses
 import "../Educator/students.js" as Students
 import "steemit.js" as Steem
 import "../plugins/markdown.js" as Marks
+import "./general.js" as Scripts
 
 Item {
     id: thisWindow
@@ -97,6 +98,7 @@ Item {
     property int studentage: 0
     property string studentBday: "0"
     property string studentAbout: ""
+    property string where: "default"
 
     property var profileAbout: []
     property var steemProfileInfo: []
@@ -110,19 +112,14 @@ Item {
         }
     }
 
-
-
-
-
     ESborder {
         anchors.fill: parent
         state: "Active"
 
-
-
         Column {
             id: studentInfo
-            visible: if (student.state == "Active") {
+            visible: if (student.state == "Active"
+                             || studentHome.state == "Active") {
                          true
                      } else {
                          false
@@ -131,7 +128,51 @@ Item {
             anchors.topMargin: 20
             width: parent.width * 0.98
             height: parent.width * 0.95
-            spacing: thisWindow.width * 0.01
+            spacing: thisWindow.width * 0.02
+
+            Column {
+                width: parent.width
+                spacing: 5
+
+                Text {
+                    anchors.left: parent.left
+                    anchors.leftMargin: 5
+                    font.bold: true
+                    font.pointSize: 16
+                    text: if (studentCode !== 0) {
+                              Scripts.studentCred(
+                                          studentCode, " ",
+                                          "firstname") + " " + Scripts.studentCred(
+                                          studentCode, " ", "lastname")
+                          } else {
+                              "Unknown"
+                          }
+                }
+
+                Text {
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                    font.pointSize: 8
+                    text: if (studentCode !== 0) {
+                              "Age: " + Scripts.studentCred(studentCode,
+                                                            " ", "age")
+                          } else {
+                              "Unknown"
+                          }
+                }
+
+                Text {
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                    font.pointSize: 8
+                    text: if (studentCode !== 0) {
+                              "Birthday: " + Scripts.studentCred(studentCode,
+                                                                 " ", "bday")
+                          } else {
+                              "Unknown"
+                          }
+                }
+            }
 
             Item {
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -291,7 +332,8 @@ Item {
             height: parent.height * 0.98
             anchors.centerIn: parent
             spacing: parent.width * 0.02
-            visible: if (schedule.state == "Active") {
+            visible: if (studentHome.state !== "Active"
+                             && schedule.state == "Active") {
                          true
                      } else {
                          false
@@ -310,25 +352,24 @@ Item {
                     font.bold: true
                     font.pointSize: 12
 
-                    onTextChanged: Schedule.load_Classes(selected_month,theday)
+                    onTextChanged: Schedule.load_Classes(selected_month, theday)
                 }
 
                 ESButton {
-                    id:addclassbutton
+                    id: addclassbutton
                     height: selectedday.height
-                    width:height
+                    width: height
                     anchors.right: parent.right
                     anchors.rightMargin: 5
                     anchors.verticalCenter: selectedday.verticalCenter
-                    //label: qsTr("Add Class")
-                    icon:"/icons/add.svg"
+                    icon: "/icons/add.svg"
                     fillcolor: highLightColor1
                     MouseArea {
                         anchors.fill: parent
 
-                    onClicked: {
-                        classEdit.month = selected_month
-                        classEdit.state = "Active"
+                        onClicked: {
+                            classEdit.month = selected_month
+                            classEdit.state = "Active"
                         }
                     }
                 }
@@ -448,24 +489,30 @@ Item {
                                         anchors.margins: 4
                                         text: name
                                         horizontalAlignment: Text.AlignLeft
-                                        width:parent.width * 0.65
+                                        width: parent.width * 0.65
                                         wrapMode: Text.WordWrap
                                     }
                                     Text {
                                         anchors.top: parent.top
                                         anchors.right: parent.right
                                         anchors.margins: 4
-                                        text: if(duration >= 60) {
+                                        text: if (duration >= 60) {
                                                   var time = duration / 60
-                                                  if(time.toString().split(".").length === 2) {
-                                                  time.toString().split(".")[0]+":"+ (6 * parseInt(time.toString().split(".")[1]))
+                                                  if (time.toString().split(
+                                                              ".").length === 2) {
+                                                      time.toString().split(
+                                                                  ".")[0] + ":"
+                                                              + (6 * parseInt(
+                                                                     time.toString(
+                                                                         ).split(
+                                                                         ".")[1]))
                                                   } else {
-                                                       time+":00"
+                                                      time + ":00"
                                                   }
                                               } else {
-                                                  "0:"+duration
+                                                  "0:" + duration
                                               }
-                                        width:parent.width * 0.35
+                                        width: parent.width * 0.35
                                         horizontalAlignment: Text.AlignRight
                                         wrapMode: Text.WordWrap
                                     }
@@ -509,7 +556,9 @@ Item {
 
         Column {
             id: studentAAG
-            visible: if (studentRoster.state == "Active" && studentID != 0) {
+            visible: if (studentHome.state !== "Active"
+                             && studentRoster.state == "Active"
+                             && studentID != 0) {
                          true
                      } else {
                          false
@@ -637,7 +686,8 @@ Item {
             anchors.topMargin: 10
             anchors.horizontalCenter: parent.horizontalCenter
             width: parent.width * 0.98
-            visible: if (yourProfile.state == "Active") {
+            visible: if (studentHome.state !== "Active"
+                             && yourProfile.state == "Active") {
                          true
                      } else {
                          false
@@ -738,14 +788,16 @@ Item {
 
         Item {
             anchors.fill: parent
-            visible: if (yourProfile.state === "Active"
+            visible: if (studentHome.state == "Active"
+                             || yourProfile.state == "Active"
                              && steemAccount !== "") {
                          false
-                     } else if (yourProfile.state === "inActive") {
+                     } else if (yourProfile.state == "inActive") {
                          false
                      } else {
                          true
                      }
+
             Rectangle {
                 color: "white"
                 width: parent.width * 0.98
