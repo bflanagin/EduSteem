@@ -62,7 +62,6 @@ Item {
 
     ScrollView {
         width: parent.width
-        //height: leftMenu.height - (grid.height + monthselect.height + dow.height + 20)
         height: leftMenu.height
         contentHeight: (leftColumn.height + adminColumn.height) * 1.1
         contentWidth: parent.width
@@ -71,7 +70,6 @@ Item {
         Column {
             id: leftColumn
             anchors.top: parent.top
-            //anchors.topMargin: 5
             anchors.bottomMargin: 3
 
             width: leftMenu.width
@@ -80,11 +78,84 @@ Item {
 
             spacing: 10
 
+            Column {
+                id: studentGeneral
+
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width
+                spacing: 4
+
+                visible: if (studentHome.state == "Active") {
+                             true
+                         } else {
+                             false
+                         }
+
+                Rectangle {
+                    width: parent.width * 0.98
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    color: "Transparent"
+                    height: 3
+                }
+
+                ESButton {
+                    width: leftMenu.width * 0.9
+                    height: leftMenu.width * 0.9
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    label: qsTr("Your Profile")
+                    icon: "../icons/contact.svg"
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            schedule.state = "inActive"
+                            rightMenu.state = "Active"
+                            general.state = "inActive"
+                            student.state = "inActive"
+                            studentRoster.state = "inActive"
+                            yourProfile.state = "Active"
+                            yourProfile.userid = userCode
+                        }
+                    }
+                }
+
+                ESButton {
+                    width: leftMenu.width * 0.9
+                    height: leftMenu.width * 0.9
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    label: qsTr("Activities")
+                    icon: "/icons/star.svg"
+
+                    MouseArea {
+                        anchors.fill: parent
+                    }
+                }
+
+                ESButton {
+                    width: leftMenu.width * 0.9
+                    height: leftMenu.width * 0.9
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    label: qsTr("Store")
+                    icon: "/icons/Next.svg"
+
+                    MouseArea {
+                        anchors.fill: parent
+                    }
+                }
+            }
 
             Column {
+                id: educatorGeneral
+
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width
                 spacing: 2
+
+                visible: if (studentHome.state != "Active") {
+                             true
+                         } else {
+                             false
+                         }
 
                 ESButton {
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -95,20 +166,19 @@ Item {
 
                     MouseArea {
                         anchors.centerIn: parent
-                        width:parent.width * 3
-                        height:parent.height
+                        width: parent.width * 3
+                        height: parent.height
                         hoverEnabled: true
                         propagateComposedEvents: true
-                      /*  onClicked: {
-                            cWizard.state = "Active"
-                        } */
+
                         onEntered: {
                             submenuLeft.state = "Active"
                             parent.entered = true
                         }
-                        onExited: {submenuLeft.closing = true
-                                   parent.entered = false
-                                }
+                        onExited: {
+                            submenuLeft.closing = true
+                            parent.entered = false
+                        }
                     }
                 }
 
@@ -121,7 +191,6 @@ Item {
 
                     MouseArea {
                         anchors.fill: parent
-                        //onClicked: {newStudent.state = "Active" }
                     }
                 }
 
@@ -163,6 +232,11 @@ Item {
         anchors.bottomMargin: 10
         width: parent.width * 0.98
 
+        visible: if (studentHome.state != "Active") {
+                     true
+                 } else {
+                     false
+                 }
 
         ESButton {
             width: leftMenu.width * 0.9
@@ -190,7 +264,7 @@ Item {
             height: leftMenu.width * 0.9
             anchors.horizontalCenter: parent.horizontalCenter
             label: qsTr("Schedule")
-            icon:"/icons/calendar.svg"
+            icon: "/icons/calendar.svg"
 
             MouseArea {
                 anchors.fill: parent
@@ -204,8 +278,6 @@ Item {
                 }
             }
         }
-
-
 
         ESButton {
             width: leftMenu.width * 0.9

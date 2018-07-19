@@ -25,20 +25,23 @@ ESborder {
                     } else {
 
                     }
-    onFieldChanged: switch(field) {
-                    case "rq": Scripts.loadQuestions(1)
-                                break
-                    case "gq": Scripts.loadQuestions(0)
-                                break
-                    default:break
+    onFieldChanged: switch (field) {
+                    case "rq":
+                        Scripts.loadQuestions(1)
+                        break
+                    case "gq":
+                        Scripts.loadQuestions(0)
+                        break
+                    default:
+                        break
                     }
 
     Column {
         id: cColumn
         width: parent.width * 0.75
-        anchors.left:parent.left
+        anchors.left: parent.left
         anchors.leftMargin: 10
-        spacing: thisWindow.width * 0.02
+        spacing: 10
 
         Item {
             width: parent.width
@@ -65,7 +68,7 @@ ESborder {
             Button {
 
                 visible: switch (field) {
-                       /*  case "gq":
+                             /*  case "gq":
                              true
                              break */
                          case "rq":
@@ -100,13 +103,13 @@ ESborder {
             id: view
             anchors.horizontalCenter: parent.horizontalCenter
             width: parent.width * 0.98
-            clip:true
+            clip: true
             height: switch (field) {
                     case "Title":
                         contentHeight + 10
                         break
                     default:
-                        thisWindow.height * 0.80
+                        thisWindow.height * 0.75
                         break
                     }
             background: ESTextField {
@@ -114,9 +117,9 @@ ESborder {
 
             TextArea {
                 visible: switch (thisWindow.field) {
-                        // case "gq":
-                        //     false
-                        //     break
+                             // case "gq":
+                             //     false
+                             //     break
                          case "rq":
                              false
                              break
@@ -134,22 +137,22 @@ ESborder {
             }
 
             ListView {
-                anchors.top:parent.top
+                anchors.top: parent.top
                 anchors.topMargin: 10
                 anchors.horizontalCenter: parent.horizontalCenter
-                width:parent.width *0.98
-                height:contentHeight
+                width: parent.width * 0.98
+                height: contentHeight
                 spacing: 10
-                clip:true
+                clip: true
 
-                model:switch (thisWindow.field) {
-                     // case "gq":
-                    //      gqList
-                    //      break
-                      case "rq":
-                          rqList
-                          break
-                      }
+                model: switch (thisWindow.field) {
+                           // case "gq":
+                           //      gqList
+                           //      break
+                       case "rq":
+                           rqList
+                           break
+                       }
 
                 delegate: Rectangle {
                     color: if (index % 2) {
@@ -157,7 +160,7 @@ ESborder {
                            } else {
                                "#F1F1F1"
                            }
-                        anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
                     width: parent.width * 0.99
                     height: if (reviewQuestionBlock.height > reviewAnswerBlock.height) {
                                 reviewQuestionBlock.height * 1.1
@@ -209,33 +212,44 @@ ESborder {
                         }
                     }
                 }
+            }
+        }
 
+        Rectangle {
+            anchors.left: parent.left
+            anchors.leftMargin: 20
+            width: parent.width
+            height: 20
+            color: "#45FAFAFA"
+
+            Button {
+                text: qsTr("Add Image")
+                onClicked: fileadd.visible = true
+                background: ESborder {
+                }
             }
         }
     }
 
     Rectangle {
-        anchors.left:cColumn.right
-        anchors.right:parent.right
-        anchors.top:cColumn.top
+        anchors.left: cColumn.right
+        anchors.right: parent.right
+        anchors.top: cColumn.top
         anchors.topMargin: 20
         anchors.rightMargin: 10
         anchors.bottom: cColumn.bottom
-        color:"#50F0F0F0"
-        clip:true
+        color: "#50F0F0F0"
+        clip: true
 
-    MarkDown {
-        id:mdlist
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top:parent.top
-        anchors.topMargin: 10
-        height:parent.height
-        width:thisWindow.width * 0.22
-        thedata:MD.guide()
-
-    }
-
-
+        MarkDown {
+            id: mdlist
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: 10
+            height: parent.height
+            width: thisWindow.width * 0.22
+            thedata: MD.guide()
+        }
     }
 
     Row {
@@ -268,20 +282,21 @@ ESborder {
 
             onClicked: {
 
-                switch(field)  {
+                switch (field) {
                 case "Title":
                     Scripts.editField(field, where, itemId,
                                       changeBox.text.replace(/ /g, "_").trim())
-                                  break
-                case "rq": Scripts.editField(field,where,itemId,reviewQuestions.toString())
-                                break
-               // case "gq": Scripts.editField(field,where,itemId,guidedQuestions.toString())
-                   //             break
-                default :
+                    break
+                case "rq":
                     Scripts.editField(field, where, itemId,
-                                        Scrubber.replaceSpecials(changeBox.text))
-                                break
-
+                                      reviewQuestions.toString())
+                    break
+                    // case "gq": Scripts.editField(field,where,itemId,guidedQuestions.toString())
+                    //             break
+                default:
+                    Scripts.editField(field, where, itemId,
+                                      Scrubber.replaceSpecials(changeBox.text))
+                    break
                 }
 
                 thisWindow.state = "inActive"
@@ -295,12 +310,19 @@ ESborder {
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width * 1.05
         state: "inActive"
-        onStateChanged: if(state == "inActive") {switch(field) {
-                                                    case "rq": Scripts.loadQuestions(1)
-                                                                break
-                                                  //  case "gq" : Scripts.loadQuestions(0)
-                                                        //        break
-                                                    }
+        onStateChanged: if (state == "inActive") {
+                            switch (field) {
+                            case "rq":
+                                Scripts.loadQuestions(1)
+                                break
+                                //  case "gq" : Scripts.loadQuestions(0)
+                                //        break
                             }
+                        }
+    }
+
+    Files {
+        id: fileadd
+        visible: false
     }
 }

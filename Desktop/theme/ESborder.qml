@@ -49,7 +49,7 @@ Item {
 
     Rectangle {
         id: bg
-        radius: 10
+        radius: 3
         color: "white"
         visible: false
         anchors.centerIn: parent

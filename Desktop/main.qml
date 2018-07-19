@@ -22,8 +22,7 @@ Window {
     height: 800
     title: qsTr("EduSteem")
     //color: "#F0F0F0"
-    color:"black"
-
+    color: "black"
 
     /*App setup Variables */
     property string devId: "Vag-01001011"
@@ -42,7 +41,6 @@ Window {
     property string menuColor: "#3E586F"
     property string submenu: "#6F91AE"
 
-
     /* End Theme Variables */
 
     /* System Wide Variables */
@@ -55,6 +53,7 @@ Window {
 
     property string userName: ""
     property string userCode: ""
+    property real studentCode: 0
     property int userEditDate: 0
     property string schoolName: ""
     property string schoolCode: ""
@@ -68,50 +67,47 @@ Window {
     property int selected_dow: d.getDay()
     property real timeupdate: d.getTime()
 
-
     property string steemAccount: "" /* Steem Account name */
     property string steemShareKey: "" /* Steem posting key */
 
     property string monthselect: switch (d.getMonth()) {
-                                   case 0:
-                                       "January"
-                                       break
-                                   case 1:
-                                       "Febuary"
-                                       break
-                                   case 2:
-                                       "March"
-                                       break
-                                   case 3:
-                                       "April"
-                                       break
-                                   case 4:
-                                       "May"
-                                       break
-                                   case 5:
-                                       "June"
-                                       break
-                                   case 6:
-                                       "July"
-                                       break
-                                   case 7:
-                                       "August"
-                                       break
-                                   case 8:
-                                       "September"
-                                       break
-                                   case 9:
-                                       "October"
-                                       break
-                                   case 10:
-                                       "November"
-                                       break
-                                   case 11:
-                                       "December"
-                                       break
-                                   }
-
-
+                                 case 0:
+                                     "January"
+                                     break
+                                 case 1:
+                                     "Febuary"
+                                     break
+                                 case 2:
+                                     "March"
+                                     break
+                                 case 3:
+                                     "April"
+                                     break
+                                 case 4:
+                                     "May"
+                                     break
+                                 case 5:
+                                     "June"
+                                     break
+                                 case 6:
+                                     "July"
+                                     break
+                                 case 7:
+                                     "August"
+                                     break
+                                 case 8:
+                                     "September"
+                                     break
+                                 case 9:
+                                     "October"
+                                     break
+                                 case 10:
+                                     "November"
+                                     break
+                                 case 11:
+                                     "December"
+                                     break
+                                 }
 
     Timer {
         running: true
@@ -127,7 +123,11 @@ Window {
         Standard.loadschool(userid)
     }
 
-    onNumberOfStudentsChanged: if(numberOfStudents == 0) {login.state = "Active"} else {slogin.state = "Active" }
+    onNumberOfStudentsChanged: if (numberOfStudents == 0) {
+                                   login.state = "Active"
+                               } else {
+                                   slogin.state = "Active"
+                               }
 
     onUseridChanged: if (userid.length > 2) {
                          Standard.loadschool(userid)
@@ -152,17 +152,15 @@ Window {
     /* End Timed Events */
 
     /* Items to load */
-
     BackgroundSwitch {
-        id:bgSwitch
+        id: bgSwitch
     }
 
     LoginStudent {
-        id:slogin
+        id: slogin
         anchors.fill: parent
         state: "inActive"
     }
-
 
     Infoblock {
         id: info
@@ -174,14 +172,17 @@ Window {
         anchors.margins: 5
     }
 
-
     Login {
         id: login
         width: 500
         height: 630
         state: "inActive"
 
-        onStateChanged: if(state == "Active") { bgSwitch.op = 0.95} else {bgSwitch.op = 0.2}
+        onStateChanged: if (state == "Active") {
+                            bgSwitch.op = 0.95
+                        } else {
+                            bgSwitch.op = 0.2
+                        }
     }
 
     NewAccount {
@@ -206,18 +207,14 @@ Window {
     }
 
     StudentUI {
-        id:studentHome
+        id: studentHome
         width: parent.width
         height: parent.height
         state: "inActive"
     }
 
 
-
     /* End Loaded Items */
-
-
-
     Rectangle {
         id: mask
         width: parent.width

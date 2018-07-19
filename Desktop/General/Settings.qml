@@ -185,7 +185,7 @@ Item {
                         Text {
                             anchors.left: parent.left
                             font.bold: true
-                            text: qsTr("School Day:")
+                            text: qsTr("School Hours:")
                         }
 
                         Rectangle {
@@ -195,23 +195,6 @@ Item {
                             color: seperatorColor
                         }
 
-                        Image {
-                            anchors.right: parent.right
-                            anchors.rightMargin: 10
-                            source: "/icons/edit-text.svg"
-                            width: 24
-                            height: 24
-                            fillMode: Image.PreserveAspectFit
-
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: {
-                                    editthis.field = "About"
-                                    editthis.where = "school"
-                                    editthis.state = "Active"
-                                }
-                            }
-                        }
                     }
                 }
 
@@ -240,24 +223,6 @@ Item {
                             height: 2
                             color: seperatorColor
                         }
-
-                        Image {
-                            anchors.right: parent.right
-                            anchors.rightMargin: 10
-                            source: "/icons/edit-text.svg"
-                            width: 24
-                            height: 24
-                            fillMode: Image.PreserveAspectFit
-
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: {
-                                    editthis.field = "About"
-                                    editthis.where = "school"
-                                    editthis.state = "Active"
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -275,10 +240,26 @@ Item {
                     anchors.horizontalCenter: parent.horizontalCenter
                     spacing: 3
 
+                    Item {
+                        width:parent.width
+                        height:regtitle.height
+
                     Text {
+                        id:regtitle
                         anchors.left: parent.left
                         font.bold: true
                         text: qsTr("Registered Instructors")
+                    }
+
+                    CircleButton {
+                        anchors.right:parent.right
+                        icon:"/icons/add.svg"
+                        fillcolor:"white"
+                        width:regtitle.height
+                        height:width
+
+                    }
+
                     }
 
                     Rectangle {
