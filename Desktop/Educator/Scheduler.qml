@@ -9,6 +9,7 @@ import "./scheduler.js" as Schedule
 import "../theme"
 import "../plugins"
 import "../General"
+import "../General/network.js" as Network
 
 Item {
     id: thisWindow
@@ -58,7 +59,10 @@ Item {
     onStateChanged: if (state == "Active") {
                         monthoffset = 0
                         selected_month = d.getMonth()
+                        Network.checkOpenSeed(userID, cdate, edate,"Schedule")
                     }
+
+
 
     Rectangle {
         anchors.fill: parent

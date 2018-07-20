@@ -31,7 +31,7 @@ ESborder {
     property int lessonPublished: 0
 
     onStateChanged: if (state == "Active") {
-                        Scripts.loadLesson(userid, lessonNumber)
+                        Scripts.loadLesson(userID, lessonNumber)
                     } else {
 
                     }

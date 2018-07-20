@@ -301,7 +301,7 @@ ESborder {
 
                     if (text == "Okay" && firstNameBox.text.length > 1
                             && lastNameBox.text.length > 1) {
-                        Scripts.saveStudent(userid, firstNameBox.text,
+                        Scripts.saveStudent(userID, firstNameBox.text,
                                             lastNameBox.text, ageBox.text,
                                             bdayBox.text, aboutStudent.text,
                                             schoolID.text, contactNumber.text,

@@ -151,7 +151,7 @@ ESborder {
 
             onClicked: {
                 Scripts.saveCourse(
-                            userid,
+                            userID,
                             Scrubber.replaceSpecials(courseNameBox.text),
                             coursesBox.currentText, languageBox.currentText,
                             Scrubber.replaceSpecials(courseAboutBox.text), 0)

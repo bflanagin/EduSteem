@@ -60,15 +60,15 @@ Item {
     state: "inActive"
 
     onStateChanged: if (state == "Active") {
-                        Scripts.loadCourse(userid, coursenumber)
-                        Scripts.loadUnits(userid, coursenumber)
+                        Scripts.loadCourse(userID, coursenumber)
+                        Scripts.loadUnits(userID, coursenumber)
                     } else {
 
                     }
 
     onCoursenumberChanged: if (state == "Active") {
-                               Scripts.loadCourse(userid, coursenumber)
-                               Scripts.loadUnits(userid, coursenumber)
+                               Scripts.loadCourse(userID, coursenumber)
+                               Scripts.loadUnits(userID, coursenumber)
                            } else {
 
                            }
@@ -207,7 +207,7 @@ Item {
                             }
 
                     Component.onCompleted: {
-                        Network.checkOpenSeed(userid, cdate, edate, "Units")
+                        Network.checkOpenSeed(userID, cdate, edate, "Units")
                     }
                     Row {
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -263,7 +263,7 @@ Item {
                                 height: lessonColumn.height * 1.1
 
                                 Component.onCompleted: {
-                                    Network.checkOpenSeed(userid, cdate, edate,
+                                    Network.checkOpenSeed(userID, cdate, edate,
                                                           "Lessons")
                                 }
 
@@ -324,7 +324,7 @@ Item {
         state: "inActive"
 
         onStateChanged: {
-            Scripts.loadUnits(userid, coursenumber)
+            Scripts.loadUnits(userID, coursenumber)
         }
     }
 
@@ -336,7 +336,7 @@ Item {
         width: parent.width
         state: "inActive"
         onStateChanged: {
-            Scripts.loadUnits(userid, coursenumber)
+            Scripts.loadUnits(userID, coursenumber)
         }
     }
 
@@ -349,7 +349,7 @@ Item {
         state: "inActive"
 
         onStateChanged: if (state == "inActive") {
-                            Scripts.loadLesson(userid, lessonNumber)
+                            Scripts.loadLesson(userID, lessonNumber)
                         }
     }
 }

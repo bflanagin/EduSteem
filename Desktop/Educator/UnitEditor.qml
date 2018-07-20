@@ -18,7 +18,7 @@ ESborder {
     property string unitObjective: "Objective"
 
     onStateChanged: if (state == "Active") {
-                        Scripts.loadUnit(userid, unitNumber)
+                        Scripts.loadUnit(userID, unitNumber)
                     } else {
 
                     }
@@ -308,7 +308,7 @@ ESborder {
         height: 650
         state: "inActive"
         onStateChanged: if (state == "inActive") {
-                            Scripts.loadLessons(userid, unitNumber)
+                            Scripts.loadLessons(userID, unitNumber)
                         }
     }
 
@@ -329,7 +329,7 @@ ESborder {
         anchors.horizontalCenter: parent.horizontalCenter
         state: "inActive"
         onStateChanged: if (state == "inActive") {
-                            Scripts.loadUnit(userid, unitNumber)
+                            Scripts.loadUnit(userID, unitNumber)
                         }
     }
 

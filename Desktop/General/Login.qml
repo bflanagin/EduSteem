@@ -131,7 +131,7 @@ ESborder {
             text: qsTr("Login")
             width: parent.width * 0.50
             height: 50
-            enabled: if (userid != '') {
+            enabled: if (userID != '') {
                          true
                      } else {
                          false

@@ -12,7 +12,8 @@ import "../General"
 
 import "../Educator/course.js" as Courses
 import "../General/network.js" as Network
-import "../Educator/students.js" as Students
+import "./student.js" as Students
+import "../Educator/scheduler.js" as Schedule
 
 Item {
     id: thisWindow
@@ -59,6 +60,8 @@ Item {
     ]
 
     state: "inActive"
+
+    onStateChanged: if(state == "Active") {Students.loadDay(d.getMonth(),d.getDate(),d.getDay(),studentCode)}
 
     Rectangle {
         anchors.fill: parent
@@ -144,6 +147,7 @@ Item {
                 title: "Next Class"
                 unit: "Unit"
                 lesson: "Test Lesson"
+                lessonID: 1528918270861
             }
 
             Row {
@@ -225,7 +229,7 @@ Item {
                 cellHeight: 250
                 clip: true
 
-                model: todaysClasses
+                model: continueLessons
 
                 delegate: Item {
                     width: preGrid.cellWidth
@@ -273,6 +277,10 @@ Item {
 
     ListModel {
         id: todaysClasses
+    }
+
+    ListModel {
+        id:continueLessons
 
         ListElement {
             classColor: "green"

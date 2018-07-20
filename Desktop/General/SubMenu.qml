@@ -95,7 +95,7 @@ Item {
             height: thisWindow.width * 0.2
 
             Component.onCompleted: {
-                Network.checkOpenSeed(userid, cdate, edate, "Courses")
+                Network.checkOpenSeed(userID, cdate, edate, "Courses")
             }
 
             Rectangle {

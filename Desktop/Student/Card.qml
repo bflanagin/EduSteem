@@ -15,11 +15,12 @@ import "../General/network.js" as Network
 import "../Educator/students.js" as Students
 
 ESborder {
-    property string curtainColor: "white"
+    property string curtainColor: "gray"
     property string title:"Class Name"
     property string unit:"Unit"
     property string lesson: "Lesson Name"
     property string discription: "Lesson Discription"
+    property real lessonID:0
 
     states: [
 
@@ -28,7 +29,7 @@ ESborder {
 
             PropertyChanges {
                 target: nexttop
-                height: parent.height * 0.4
+                height: parent.height * 0.45
             }
         },
 
@@ -67,7 +68,7 @@ ESborder {
         anchors.left: parent.left
         anchors.leftMargin: 10
         padding:5
-        height: parent.height * 0.58
+        height: parent.height * 0.54
         width:parent.width * 0.98
 
         Text {
@@ -86,6 +87,14 @@ ESborder {
         width:24
         height:24
         fillcolor: "white"
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                lessonView.lessonID = lessonID
+                lessonView.state = "Active"}
+
+        }
     }
 
     Rectangle {
@@ -97,6 +106,7 @@ ESborder {
         anchors.horizontalCenter: parent.horizontalCenter
 
         Column {
+            id:classInfo
             anchors.bottom: parent.bottom
             anchors.left: parent.left
             anchors.leftMargin: 10
@@ -105,10 +115,13 @@ ESborder {
             spacing: 3
 
             Text {
+
                 font.bold: true
                 text: title
-                font.pointSize: parent.height * 0.3
+                font.pointSize: 20
                 color: "white"
+                width:parent.width * 0.87
+                wrapMode: Text.WordWrap
             }
 
             Text {
@@ -136,6 +149,7 @@ ESborder {
         hoverEnabled: true
         onEntered: parent.state = "In"
         onExited: parent.state = "Out"
+        propagateComposedEvents: true
     }
 
 }
