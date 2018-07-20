@@ -27,7 +27,7 @@ Window {
     /*App setup Variables */
     property string devId: "Vag-01001011"
     property string appId: "vagEduST-052308"
-    property string version: "0.09"
+    property string version: "0.10"
 
     property string userID: ""
     property var db: Sql.LocalStorage.openDatabaseSync("UserInfo", "1.0",

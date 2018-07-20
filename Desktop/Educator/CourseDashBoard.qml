@@ -158,9 +158,10 @@ Item {
             anchors.topMargin: 10
             id: cColumn
             width: parent.width
-            spacing: mainView.width * 0.01
+            spacing: mainView.width * 0.006
 
             ESborder {
+                id:aboutBox
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: thisWindow.width * 0.98
                 height: about.height + 100
@@ -191,9 +192,12 @@ Item {
             ListView {
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: thisWindow.width * 0.98
-                height: contentHeight * 1.1
+                height: thisWindow.height - (topBar.height * 2.6) - aboutBox.height
                 clip: true
                 spacing: thisWindow.height * 0.02
+
+                ScrollIndicator.vertical: ScrollIndicator { }
+
 
                 model: unitList
 
@@ -211,11 +215,12 @@ Item {
                     }
                     Row {
                         anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
                         width: parent.width * 0.98
                         height: if (lessons.height > unitColumn.height) {
-                                    lessons.height
+                                    lessons.height + 10
                                 } else {
-                                    unitColumn.height
+                                    unitColumn.height + 10
                                 }
 
                         Column {
@@ -250,7 +255,8 @@ Item {
 
                         ListView {
                             id: lessons
-                            height: contentHeight
+
+                            height: contentHeight + 10
                             width: parent.width * 0.60
                             spacing: thisWindow.height * 0.02
 

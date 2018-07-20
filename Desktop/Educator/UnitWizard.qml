@@ -13,6 +13,12 @@ ESborder {
 
     height: cColumn.height * 1.5 + buttonRow.height
 
+    onStateChanged: if(state == "inActive") {
+                                            unitObjectiveBox.text = ""
+                                            unitAboutBox.text = ""
+                                            unitNameBox.text = ""
+                                            }
+
     Text {
         id: title
         anchors.horizontalCenter: parent.horizontalCenter
@@ -69,7 +75,7 @@ ESborder {
                 }
                 TextArea {
                     id: unitObjectiveBox
-                    anchors.fill: parent
+                    width:thisWindow.width * 0.96
                     padding: 10
 
                     wrapMode: Text.WordWrap
@@ -92,7 +98,7 @@ ESborder {
                 }
                 TextArea {
                     id: unitAboutBox
-                    anchors.fill: parent
+                    width:thisWindow.width * 0.96
                     wrapMode: Text.WordWrap
                 }
             }

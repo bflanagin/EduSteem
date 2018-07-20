@@ -84,10 +84,11 @@ ESborder {
         spacing: thisWindow.width * 0.01
         clip: true
 
-        Flickable {
+        ScrollView {
             width: thisWindow.width * 0.50
-            height: parent.height * 0.95
+            height: parent.height - topBar.height * 0.95
             contentHeight: infoColumn.height + 100
+            contentWidth: width
             clip: true
 
             Column {
