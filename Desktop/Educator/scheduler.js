@@ -1,17 +1,13 @@
 function load_Day(month, day, weekday) {
 
     dayList.clear()
-    db.transaction(function (tx) {
+    db.readTransaction(function (tx) {
 
         var num = 0
         var dataSTR = "SELECT day FROM Schedule WHERE schoolcode ='"
                 + schoolCode + "' AND month =" + month
         var pull = tx.executeSql(dataSTR)
 
-
-        /* if (selected_month !== month) {
-            monthoffset = monthoffset + 1
-        } */
         while (pull.rows.length > num) {
 
             if (pull.rows.item(num).day.split(":")[0] === day) {
@@ -21,10 +17,8 @@ function load_Day(month, day, weekday) {
                 break
             } else {
                 var classes = pull.rows.item(num).day.split(";")
-                /*var dom = (weekday - monthoffset) + 1 */
                 var week = (weekday % 7) + 1
 
-                /* var dow = dom - week */
                 for (var classnum = 0; classnum < (classes.length - 1); classnum = classnum + 1) {
                     if (selected_month === month || educator === "login") {
 
@@ -47,10 +41,11 @@ function load_Day(month, day, weekday) {
         }
     })
 }
+
 function load_Classes(month, day) {
 
     daysClasses.clear()
-    db.transaction(function (tx) {
+    db.readTransaction(function (tx) {
 
         var dataSTR = "SELECT * FROM Schedule WHERE schoolcode ='" + schoolCode
                 + "' AND month=" + month
@@ -96,7 +91,7 @@ function load_Classes(month, day) {
 function save_schedule(month, day) {
 
     db.transaction(function (tx) {
-        var data = [userid, month, day + ";", schoolCode, userCode, d.getTime(
+        var data = [userID, month, day + ";", schoolCode, userCode, d.getTime(
                         ), d.getTime()]
         var dtable = "INSERT INTO Schedule VALUES(?,?,?,?,?,?,?)"
 
@@ -139,12 +134,13 @@ function pullField(where, type, id) {
         break
     }
 
-    db.transaction(function (tx) {
+    db.readTransaction(function (tx) {
         var dataSTR = ""
         if (table !== "Lessons") {
             dataSTR = "SELECT * FROM " + table + " WHERE creationdate =" + id
         } else {
-            dataSTR = "SELECT * FROM " + table + " WHERE coursenumber =" + id
+            dataSTR = "SELECT * FROM " + table + " WHERE coursenumber =" + parseInt(
+                        id)
         }
 
         var pull = tx.executeSql(dataSTR)
@@ -183,6 +179,9 @@ function pullField(where, type, id) {
                 break
             case "Product":
                 returned = pull.rows.item(0).studentProduct
+                break
+            case "Subject":
+                returned = pull.rows.item(0).subject
                 break
             }
         } else {
@@ -224,6 +223,8 @@ function pullField(where, type, id) {
                 case "Duration":
                     returned = 90
                     break
+                case "Subject":
+                    returned = "8"
                 }
                 break
             }

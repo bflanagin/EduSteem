@@ -79,5 +79,6 @@
         <file>icons/mail-mark-important.svg</file>
         <file>Student/Card.qml</file>
         <file>icons/star.svg</file>
+        <file>Student/student.js</file>
     </qresource>
 </RCC>

@@ -64,27 +64,16 @@ Item {
     state: "inActive"
 
     onStateChanged: if (state == "Active") {
-                        Courses.loadCourses(userid)
+                        Courses.loadCourses(userID)
                         Students.loadStudents(schoolCode)
 
-                        Network.checkOpenSeed(userid, schoolCode,
+                        Network.checkOpenSeed(userID, schoolCode,
                                               schoolEditDate, "School")
-                        Network.checkOpenSeed(userid, userid, userEditDate,
+                        Network.checkOpenSeed(userID, userID, userEditDate,
                                               "Educator")
                     }
 
-    Timer {
-        id: checkforUpdates
-        interval: 4000
-        repeat: true
-        onTriggered: if (state == "Active") {
-                         Network.sync("Courses", schoolCode)
-                         Network.sync("Units", schoolCode)
-                         Network.sync("Lessons", schoolCode)
-                         Network.sync("Students", schoolCode)
-                         checkforUpdates.interval = 20000
-                     }
-    }
+
 
     Rectangle {
         anchors.fill: parent
@@ -153,7 +142,7 @@ Item {
             height: parent.height
             state: "inActive"
             onStateChanged: if (state == "inActive") {
-                                Courses.loadCourses(userid)
+                                Courses.loadCourses(userID)
                             }
         }
 
@@ -219,7 +208,7 @@ Item {
         width: 800
 
         onStateChanged: if (state == "inActive") {
-                            Courses.loadCourses(userid)
+                            Courses.loadCourses(userID)
                         }
     }
 

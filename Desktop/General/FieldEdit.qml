@@ -42,6 +42,7 @@ ESborder {
         anchors.left: parent.left
         anchors.leftMargin: 10
         spacing: 10
+        padding:10
 
         Item {
             width: parent.width
@@ -66,11 +67,7 @@ ESborder {
             }
 
             Button {
-
                 visible: switch (field) {
-                             /*  case "gq":
-                             true
-                             break */
                          case "rq":
                              true
                              break
@@ -80,8 +77,8 @@ ESborder {
                          }
                 anchors.right: parent.right
                 anchors.rightMargin: 10
-                anchors.verticalCenter: title.verticalCenter
-                text: "Add"
+                anchors.bottom: parent.bottom
+                text: qsTr("Add")
                 background: ESTextField {
                 }
 
@@ -117,9 +114,6 @@ ESborder {
 
             TextArea {
                 visible: switch (thisWindow.field) {
-                             // case "gq":
-                             //     false
-                             //     break
                          case "rq":
                              false
                              break
@@ -146,9 +140,6 @@ ESborder {
                 clip: true
 
                 model: switch (thisWindow.field) {
-                           // case "gq":
-                           //      gqList
-                           //      break
                        case "rq":
                            rqList
                            break
@@ -225,7 +216,7 @@ ESborder {
             Button {
                 text: qsTr("Add Image")
                 onClicked: fileadd.visible = true
-                background: ESborder {
+                background: ESTextField {
                 }
             }
         }
@@ -291,8 +282,6 @@ ESborder {
                     Scripts.editField(field, where, itemId,
                                       reviewQuestions.toString())
                     break
-                    // case "gq": Scripts.editField(field,where,itemId,guidedQuestions.toString())
-                    //             break
                 default:
                     Scripts.editField(field, where, itemId,
                                       Scrubber.replaceSpecials(changeBox.text))
@@ -308,15 +297,13 @@ ESborder {
         id: newQuestion
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
-        width: parent.width * 1.05
+        width: parent.width * 0.90
         state: "inActive"
         onStateChanged: if (state == "inActive") {
                             switch (field) {
                             case "rq":
                                 Scripts.loadQuestions(1)
                                 break
-                                //  case "gq" : Scripts.loadQuestions(0)
-                                //        break
                             }
                         }
     }

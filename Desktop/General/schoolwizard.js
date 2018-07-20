@@ -48,7 +48,7 @@ function checklocal(type) {
         switch (type) {
         case "user":
             pull = tx.executeSql(
-                        "SELECT id,type FROM Users WHERE id='" + userid + "'")
+                        "SELECT id,type FROM Users WHERE id='" + userID + "'")
             if (pull.rows.length === 1) {
                 atype = pull.rows.item(0).type
                 exists = true
@@ -56,7 +56,7 @@ function checklocal(type) {
             break
         case "school":
             pull = tx.executeSql(
-                        "SELECT id,type FROM Schools WHERE id='" + userid + "'")
+                        "SELECT id,type FROM Schools WHERE id='" + userID + "'")
             if (pull.rows.length === 1) {
                 etype = pull.rows.item(0).type
                 exists = true

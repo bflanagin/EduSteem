@@ -127,7 +127,7 @@ ESborder {
             text: qsTr("Okay")
 
             onClicked: {
-                Scripts.saveUnit(userid, coursenumber,
+                Scripts.saveUnit(userID, coursenumber,
                                  Scrubber.replaceSpecials(unitNameBox.text),
                                  Scrubber.replaceSpecials(
                                      unitObjectiveBox.text),

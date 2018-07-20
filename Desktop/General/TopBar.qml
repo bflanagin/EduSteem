@@ -34,7 +34,12 @@ Item {
             anchors.fill: parent
             onClicked: {
                 educatorHome.state = "inActive"
+                if(lessonView.state == "inActive") {
                 studentHome.state = "inActive"
+                } else {
+                    lessonView.state = "inActive"
+                }
+
                 slogin.state = "Active"
 
             }
@@ -75,14 +80,14 @@ Row {
         width:parent.height
         height:parent.height
         icon:"/icons/message.svg"
-        //label:qsTr("Message")
+
     }
 
     ESButton {
         width:parent.height
         height:parent.height
         icon:"/icons/menu.svg"
-        //label:qsTr("Menu")
+
         rotation: if(rightMenu.state == "Active") {90} else {0}
 
         MouseArea {

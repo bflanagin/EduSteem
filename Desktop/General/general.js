@@ -57,7 +57,7 @@ function loadschool(userid) {
 
     var pull = ""
     var exists = false
-    db.transaction(function (tx) {
+    db.readTransaction(function (tx) {
 
         /*pulling general school information*/
         if (userid !== "") {
@@ -79,6 +79,8 @@ function loadschool(userid) {
             schoolName = pull.rows.item(0).name
             schoolCode = pull.rows.item(0).code
             schoolEditDate = pull.rows.item(0).editdate
+            userID = pull.rows.item(0).id
+
 
             /* done with general info */
 
@@ -87,9 +89,11 @@ function loadschool(userid) {
 
             if (studentCheck.rows.length > 0) {
                 numberOfStudents = studentCheck.rows.length
+            } else {
+                numberOfStudents = 0
             }
         } else {
-
+            login.state = "Active"
         }
     })
 }
@@ -99,7 +103,7 @@ function loaduser(userid) {
     var pull = ""
     var pull1 = ""
     var exists = false
-    db.transaction(function (tx) {
+    db.readTransaction(function (tx) {
 
         pull = tx.executeSql("SELECT * FROM Users WHERE id='" + userid + "'")
 
@@ -133,7 +137,7 @@ function loadprofile(userid) {
     var pull = ""
     var pull1 = ""
     var exists = false
-    db.transaction(function (tx) {
+    db.readTransaction(function (tx) {
 
         pull = tx.executeSql("SELECT * FROM Users WHERE code='" + userid + "'")
         pull1 = tx.executeSql("SELECT * FROM Steem WHERE id='" + userid + "'")
@@ -187,7 +191,7 @@ function oneTime(id, action, forwhat) {
                     db.transaction(function (tx) {
 
                         pull = tx.executeSql(
-                                    "SELECT * FROM Schools WHERE id='" + userid + "'")
+                                    "SELECT * FROM Schools WHERE id='" + userID + "'")
                         if (pull.rows.length === 1) {
 
                             if (pull.rows.item(0).code === null
@@ -195,7 +199,7 @@ function oneTime(id, action, forwhat) {
                                 tx.executeSql(
                                             "UPDATE Schools SET code='" + code
                                             + "', editdate=" + d.getTime(
-                                                ) + " WHERE id='" + userid + "'")
+                                                ) + " WHERE id='" + userID + "'")
                             }
                         }
 
@@ -207,7 +211,7 @@ function oneTime(id, action, forwhat) {
                     db.transaction(function (tx) {
 
                         pull = tx.executeSql(
-                                    "SELECT * FROM Users WHERE id='" + userid + "'")
+                                    "SELECT * FROM Users WHERE id='" + userID + "'")
                         if (pull.rows.length === 1) {
 
                             if (pull.rows.item(0).code === null
@@ -215,7 +219,7 @@ function oneTime(id, action, forwhat) {
                                 tx.executeSql(
                                             "UPDATE Users SET code='" + code
                                             + "', editdate=" + d.getTime(
-                                                ) + " WHERE id='" + userid + "'")
+                                                ) + " WHERE id='" + userID + "'")
                             }
                         }
 
@@ -237,7 +241,7 @@ function studentCred(info1, info2, type) {
     var returned = 0
     var pull = ""
 
-    db.transaction(function (tx) {
+    db.readTransaction(function (tx) {
         if (type === "name") {
             pull = tx.executeSql("SELECT * FROM Students WHERE lastname='"
                                  + info2 + "' AND firstname='" + info1 + "'")

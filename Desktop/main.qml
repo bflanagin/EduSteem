@@ -29,7 +29,7 @@ Window {
     property string appId: "vagEduST-052308"
     property string version: "0.09"
 
-    property string userid: ""
+    property string userID: ""
     property var db: Sql.LocalStorage.openDatabaseSync("UserInfo", "1.0",
                                                        "Local UserInfo", 1)
 
@@ -44,7 +44,7 @@ Window {
     /* End Theme Variables */
 
     /* System Wide Variables */
-    property var courses: ["101 - Math", "201 - Science", "301 - Humanities", "302 - Literature", "303 - Writing", "304 - Grammar", "401 - Art", "501 - Music", "601 - Vocational", "701 - Social Sciences", "801 - Languages Studies", "901 - Projects"]
+    property var courses: ["8 - P.E.:DarkGreen", "101 - Math:Orange", "201 - Science:Green", "301 - Humanities:LightBlue", "302 - Literature:Brown", "303 - Writing:Black", "304 - Grammar:Red", "401 - Art", "501 - Music", "601 - Vocational:Pink", "701 - Social Sciences", "801 - Languages Studies", "901 - Projects"]
 
     property var languages: ["English", "Spanish"]
     property string heart: "Offline"
@@ -58,7 +58,7 @@ Window {
     property string schoolName: ""
     property string schoolCode: ""
     property int schoolEditDate: 0
-    property int numberOfStudents: 0
+    property int numberOfStudents: -1
     property int starttime: 8
     property var d: new Date()
     property int theday: d.getDate()
@@ -120,7 +120,7 @@ Window {
     Component.onCompleted: {
         Standard.createddbs()
 
-        Standard.loadschool(userid)
+        Standard.loadschool(userID)
     }
 
     onNumberOfStudentsChanged: if (numberOfStudents == 0) {
@@ -129,14 +129,15 @@ Window {
                                    slogin.state = "Active"
                                }
 
-    onUseridChanged: if (userid.length > 2) {
-                         Standard.loadschool(userid)
-                         Standard.loaduser(userid)
+    onUserIDChanged: if (userID.length > 2) {
+                         Standard.loadschool(userID)
+                         Standard.loaduser(userID)
                          if (schoolCode.length > 2) {
-
                              Network.sync("Courses", schoolCode)
                              Network.sync("Units", schoolCode)
                              Network.sync("Lessons", schoolCode)
+                             Network.sync("Students", schoolCode)
+                             Network.sync("Schedule", schoolCode)
                          }
                      }
 
@@ -147,6 +148,22 @@ Window {
         running: true
         repeat: true
         onTriggered: Network.heartbeat()
+    }
+
+    Timer {
+        id: checkforUpdates
+        interval: 4000
+        repeat: true
+        running: true
+        onTriggered: if (schoolCode.length > 2) {
+                         console.log("Checking for updates")
+                         Network.sync("Courses", schoolCode)
+                         Network.sync("Units", schoolCode)
+                         Network.sync("Lessons", schoolCode)
+                         Network.sync("Students", schoolCode)
+                         Network.sync("Schedule", schoolCode)
+                         checkforUpdates.interval = 20000
+                     }
     }
 
     /* End Timed Events */
@@ -213,6 +230,12 @@ Window {
         state: "inActive"
     }
 
+    LessonView {
+        id: lessonView
+        width: parent.width
+        height: parent.height
+        state: "inActive"
+    }
 
     /* End Loaded Items */
     Rectangle {

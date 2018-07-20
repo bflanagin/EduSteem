@@ -9,6 +9,6 @@ import "./course.js" as Scripts
 ListModel {
     id: lessonList
     property real thedate: 0
-    Component.onCompleted: Scripts.loadLessons(userid, thedate)
-    onThedateChanged: Scripts.loadLessons(userid, thedate)
+    Component.onCompleted: Scripts.loadLessons(userID, thedate)
+    onThedateChanged: Scripts.loadLessons(userID, thedate)
 }

@@ -58,7 +58,7 @@ function saveLesson(userid, coursenumber, unitnumber, name, lessonNum, duration,
 }
 
 function loadCourses(userid) {
-    db.transaction(function (tx) {
+    db.readTransaction(function (tx) {
         courseList.clear()
 
         var dataSTR = "SELECT * FROM Courses WHERE id ='" + userid + "'"
@@ -106,7 +106,7 @@ function loadQuestions(type) {
 
 function loadUnits(userid, coursenumber) {
 
-    db.transaction(function (tx) {
+    db.readTransaction(function (tx) {
         unitList.clear()
 
         var dataSTR = "SELECT * FROM Units WHERE id ='" + userid
@@ -131,7 +131,7 @@ function loadUnits(userid, coursenumber) {
 
 function loadLessons(userid, unitnumber) {
 
-    db.transaction(function (tx) {
+    db.readTransaction(function (tx) {
         lessonList.clear()
 
 
@@ -157,7 +157,7 @@ function loadLessons(userid, unitnumber) {
 
 function loadCourse(userid, coursenumber) {
 
-    db.transaction(function (tx) {
+    db.readTransaction(function (tx) {
 
         var dataSTR = "SELECT * FROM Courses WHERE id ='" + userid
                 + "' AND creationdate =" + coursenumber
@@ -197,7 +197,7 @@ function loadUnit(userid, unitnumber) {
 
 function loadLesson(userid, lessonnumber) {
 
-    db.transaction(function (tx) {
+    db.readTransaction(function (tx) {
 
 
         var dataSTR = "SELECT * FROM Lessons WHERE id ='" + userid
@@ -286,7 +286,7 @@ function editField(type, where, id, change) {
 
     db.transaction(function (tx) {
 
-        var dataSTR = "SELECT * FROM " + table + " WHERE id ='" + userid
+        var dataSTR = "SELECT * FROM " + table + " WHERE id ='" + userID
                 + "' AND creationdate =" + id
         var pull = tx.executeSql(dataSTR)
 
@@ -296,7 +296,7 @@ function editField(type, where, id, change) {
             tx.executeSql(
                         "UPDATE " + table + " SET " + field + "='" + change
                         + "', editdate=" + d.getTime(
-                            ) + " WHERE id ='" + userid + "' AND creationdate =" + id)
+                            ) + " WHERE id ='" + userID + "' AND creationdate =" + id)
         }
     })
 }
@@ -320,9 +320,9 @@ function pullField(type, where, id) {
         break
     }
 
-    db.transaction(function (tx) {
+    db.readTransaction(function (tx) {
 
-        var dataSTR = "SELECT * FROM " + table + " WHERE id ='" + userid
+        var dataSTR = "SELECT * FROM " + table + " WHERE id ='" + userID
                 + "' AND creationdate =" + id
         var pull = tx.executeSql(dataSTR)
 

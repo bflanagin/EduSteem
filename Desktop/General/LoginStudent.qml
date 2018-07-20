@@ -86,9 +86,8 @@ Item {
 
             Text {
                 id: title
-                //anchors.bottom:name.top
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: parent.width * 0.01
                 text: qsTr("Login:")
                 font.pointSize: 12
                 font.bold: true
@@ -225,8 +224,8 @@ Item {
         id: timebox
         bgOpacity: 0.7
         anchors.right: parent.right
-        anchors.rightMargin: 5
-        anchors.topMargin: 20
+        anchors.rightMargin: parent.width * 0.01
+        anchors.topMargin: parent.height * 0.02
         anchors.top: parent.top
         width: time.width + 100
         height: time.height + date.height + 40
@@ -280,8 +279,7 @@ Item {
 
         model: DayList {
             day: d.getDate()
-            //month: d.getMonth()
-            month: 5
+            month: d.getMonth()
             weekday: d.getDay()
             educator: "login"
         }

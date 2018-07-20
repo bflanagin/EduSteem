@@ -132,7 +132,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             width: parent.width * 0.99
             height: studentName.height + 40
-            Component.onCompleted: Network.checkOpenSeed(userid, cdate, edate,
+            Component.onCompleted: Network.checkOpenSeed(userID, cdate, edate,
                                                          "Students")
             Text {
                 id: studentName

@@ -8,16 +8,15 @@ function oseed_auth(name, email, passphrase) {
 
     http.onreadystatechange = function () {
         if (http.readyState == 4) {
-            //console.log(http.responseText);
-            //userid = http.responseText;
+
             if (http.responseText === 100) {
                 console.log("Incorrect DevID")
             } else if (http.responseText === 101) {
                 console.log("Incorrect AppID")
             } else {
-                //  console.log(http.responseText);
+
                 userid = http.responseText
-                //createdb();
+
                 message = userid
             }
         }
@@ -96,7 +95,7 @@ function checkcreds(field, info) {
 
                     if (uniqueid != '0') {
                         message = "Login granted"
-                        userid = uniqueid
+                        userID = uniqueid
                     } else {
                         message = "Incorrect password"
                     }
