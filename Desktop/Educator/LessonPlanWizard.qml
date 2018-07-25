@@ -8,17 +8,28 @@ import "../plugins"
 
 import "./course.js" as Scripts
 import "../plugins/text.js" as Scrubber
+import "../plugins/markdown.js" as MD
+
 
 ESborder {
     id: thisWindow
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.verticalCenter: parent.verticalCenter
 
-
-
     onStateChanged: if (state == "Active") {
-
+                        numberIn.text = lessonList.count+ 1
+                        duration.text = 15
                     } else {
+                        nameBox.text = ""
+                        aboutBox.text = ""
+                        lessonSequence.text = ""
+                        objectiveBox.text = ""
+                        resourceBox.text = ""
+                        otherResourcesBox.text = ""
+                        numberIn.text = lessonList.count+ 1
+                        duration.text = 15
+                        //studentProduct.text = ""
+                        view.currentIndex = 0
 
                     }
 
@@ -119,7 +130,7 @@ ESborder {
                             }
 
                             Text {
-                                text: qsTr("General")
+                                text: qsTr("Title")
                                 font.bold: true
                             }
 
@@ -129,6 +140,7 @@ ESborder {
                                 placeholderText: qsTr("Lesson Name")
                                 background: ESTextField {
                                 }
+                                selectByMouse: true
                             }
 
                             Rectangle {
@@ -138,186 +150,39 @@ ESborder {
                                 color: seperatorColor
                             }
 
+                            Row {
+                                width:parent.width
+                                height:numberIn.height + 10
+                                spacing: 10
+
                             Text {
                                 text: qsTr("Lesson Number:")
+                                anchors.verticalCenter: parent.verticalCenter
+
                             }
-                            SpinBox {
+                            TextField {
                                 id: numberIn
-                                anchors.left: parent.left
-                                anchors.leftMargin: 40
-                                width: parent.width * 0.15
-
-                                down.indicator: Item {
-                                    anchors.right: parent.left
-                                    anchors.rightMargin: 4
-                                    width: parent.height
-                                    height: parent.height
-                                    Rectangle {
-                                        anchors.fill: parent
-                                        radius: width / 2
-                                        color: seperatorColor
-
-                                        Image {
-                                            id: downI2
-                                            visible: false
-                                            anchors.centerIn: parent
-                                            width: parent.width * 0.5
-                                            source: "/icons/minus.svg"
-                                            fillMode: Image.PreserveAspectFit
-                                        }
-
-                                        ColorOverlay {
-                                            source: downI2
-                                            color: "white"
-                                            anchors.fill: downI2
-                                        }
-                                    }
-
-                                    MouseArea {
-                                        anchors.fill: parent
-                                        onClicked: numberIn.value = numberIn.value - 1
-                                    }
-                                }
-
-                                up.indicator: Item {
-                                    anchors.left: parent.right
-                                    anchors.leftMargin: 4
-                                    width: parent.height
-                                    height: parent.height
-
-                                    Rectangle {
-
-                                        anchors.fill: parent
-                                        radius: width / 2
-                                        color: seperatorColor
-
-                                        Image {
-                                            id: upI2
-                                            visible: false
-                                            anchors.centerIn: parent
-                                            width: parent.width * 0.5
-                                            source: "/icons/add.svg"
-                                            fillMode: Image.PreserveAspectFit
-                                        }
-
-                                        ColorOverlay {
-                                            source: upI2
-                                            color: "white"
-                                            anchors.fill: upI2
-                                        }
-                                    }
-
-                                    MouseArea {
-                                        anchors.fill: parent
-                                        onClicked: numberIn.value = numberIn.value + 1
-                                    }
-                                }
-
-                                from: 1
-                                to: 20
+                                width:parent.width * 0.1
+                                anchors.verticalCenter: parent.verticalCenter
                                 background: ESTextField {
                                 }
+                                selectByMouse: true
                             }
+
                             Text {
-                                text: qsTr("Duration: (in minutes)")
-                            }
-                            SpinBox {
-                                id: duration
-                                anchors.left: parent.left
-                                anchors.leftMargin: 40
-                                width: parent.width * 0.15
-                                editable: true
-                                from: 1
-                                to: 120
-                                value: 0
+                                text: qsTr("Duration: (in minutes):")
+                                anchors.verticalCenter: parent.verticalCenter
 
+                            }
+                            TextField {
+                                id: duration
+                                width:parent.width * 0.1
+                                anchors.verticalCenter: parent.verticalCenter
                                 background: ESTextField {
                                 }
+                                selectByMouse: true
+                            }
 
-                                validator: IntValidator {
-                                    locale: duration.locale.name
-                                    bottom: Math.min(duration.from, duration.to)
-                                    top: Math.max(duration.from, duration.to)
-                                }
-
-                                down.indicator: Item {
-                                    anchors.right: parent.left
-                                    anchors.rightMargin: 4
-                                    width: parent.height * 0.98
-                                    height: parent.height * 0.98
-                                    Rectangle {
-                                        anchors.fill: parent
-                                        radius: width / 2
-                                        color: seperatorColor
-
-                                        Image {
-                                            id: downI1
-                                            visible: false
-                                            anchors.centerIn: parent
-                                            width: parent.width * 0.5
-                                            source: "/icons/minus.svg"
-                                            fillMode: Image.PreserveAspectFit
-                                        }
-
-                                        ColorOverlay {
-                                            source: downI1
-                                            color: "white"
-                                            anchors.fill: downI1
-                                        }
-                                    }
-
-                                    MouseArea {
-                                        anchors.fill: parent
-                                        onClicked: duration.value = duration.value - 1
-                                    }
-                                }
-
-                                up.indicator: Item {
-
-                                    anchors.left: parent.right
-                                    anchors.leftMargin: 4
-                                    width: parent.height * 0.98
-                                    height: parent.height * 0.98
-                                    Rectangle {
-                                        anchors.fill: parent
-                                        radius: width / 2
-                                        color: seperatorColor
-
-                                        Image {
-                                            id: upI1
-                                            visible: false
-                                            anchors.centerIn: parent
-                                            width: parent.width * 0.5
-                                            source: "/icons/add.svg"
-                                            fillMode: Image.PreserveAspectFit
-                                        }
-
-                                        ColorOverlay {
-                                            source: upI1
-                                            color: "white"
-                                            anchors.fill: upI1
-                                        }
-                                    }
-                                    MouseArea {
-                                        anchors.fill: parent
-                                        onClicked: duration.value = duration.value + 1
-                                    }
-                                }
-
-                                contentItem: TextInput {
-                                    z: 2
-                                    text: duration.textFromValue(
-                                              duration.value, duration.locale)
-                                    font: duration.font
-                                    color: "black"
-
-                                    horizontalAlignment: Qt.AlignHCenter
-                                    verticalAlignment: Qt.AlignVCenter
-                                    width: duration.width
-                                    readOnly: !duration.editable
-                                    validator: duration.validator
-                                    inputMethodHints: Qt.ImhFormattedNumbersOnly
-                                }
                             }
                         }
                     }
@@ -348,9 +213,11 @@ ESborder {
                             }
                             TextArea {
                                 id: aboutBox
-                                anchors.fill: parent
+                                width:thisWindow.width * 0.48
+                                height:thisWindow.height * 0.85
                                 wrapMode: Text.WordWrap
                                 padding: 10
+                                selectByMouse: true
                             }
                         }
                     }
@@ -361,7 +228,8 @@ ESborder {
             id: secondPage
 
             Column {
-                width: parent.width
+                id:oColumn
+                width: parent.width * 0.70
                 spacing: parent.width * 0.02
 
                 Text {
@@ -384,12 +252,36 @@ ESborder {
                     }
                     TextArea {
                         id: objectiveBox
-                        anchors.fill: parent
+                        width:thisWindow.width * 0.95
+                        height:thisWindow.height * 0.70
                         wrapMode: Text.WordWrap
                         padding: 10
+                        selectByMouse: true
                     }
                 }
             }
+
+            Rectangle {
+                anchors.left: oColumn.right
+                anchors.right: parent.right
+                anchors.top: oColumn.top
+                anchors.topMargin: 20
+                anchors.rightMargin: 10
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: parent.height * 0.1
+                color: "#50F0F0F0"
+                clip: true
+
+                MarkDown {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.top: parent.top
+                    anchors.topMargin: 10
+                    height: parent.height
+                    width: thisWindow.width * 0.22
+                    thedata: MD.guide()
+                }
+            }
+
         }
         Item {
             id: thirdPage
@@ -440,8 +332,10 @@ ESborder {
                                 }
                                 TextArea {
                                     id: resourceBox
-                                    anchors.fill: parent
+                                    width:thisWindow.width * 0.48
+                                    height:thisWindow.height * 0.70
                                     wrapMode: Text.WordWrap
+                                    selectByMouse: true
                                 }
                             }
                         }
@@ -473,8 +367,10 @@ ESborder {
                                 }
                                 TextArea {
                                     id: otherResourcesBox
-                                    anchors.fill: parent
+                                    width:thisWindow.width * 0.48
+                                    height:thisWindow.height * 0.70
                                     wrapMode: Text.WordWrap
+                                    selectByMouse: true
                                 }
                             }
                         }
@@ -568,7 +464,8 @@ ESborder {
             id: fifthPage
 
             Column {
-                width: parent.width
+                id:lsColumn
+                width: parent.width * 0.70
                 spacing: parent.width * 0.02
 
                 Text {
@@ -590,18 +487,42 @@ ESborder {
                     }
                     TextArea {
                         id: lessonSequence
-                        anchors.fill: parent
+                        width:thisWindow.width * 0.94
+                        height:thisWindow.height * 0.70
                         wrapMode: Text.WordWrap
+                        selectByMouse: true
                     }
+                }
+            }
+
+            Rectangle {
+                anchors.left: lsColumn.right
+                anchors.right: parent.right
+                anchors.top: lsColumn.top
+                anchors.topMargin: 20
+                anchors.rightMargin: 10
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: parent.height * 0.1
+                color: "#50F0F0F0"
+                clip: true
+
+                MarkDown {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.top: parent.top
+                    anchors.topMargin: 10
+                    height: parent.height
+                    width: thisWindow.width * 0.22
+                    thedata: MD.guide()
                 }
             }
         }
 
-        Item {
+       /* Item {
             id: sixthPage
 
             Column {
-                width: parent.width
+                id:saColumn
+                width: parent.width * 0.70
                 spacing: parent.width * 0.02
 
                 Text {
@@ -624,12 +545,35 @@ ESborder {
                     }
                     TextArea {
                         id: studentProduct
-                        anchors.fill: parent
+                        width:thisWindow.width * 0.48
+                        height:thisWindow.height * 0.70
                         wrapMode: Text.WordWrap
+                        selectByMouse: true
                     }
                 }
             }
-        }
+
+            Rectangle {
+                anchors.left: saColumn.right
+                anchors.right: parent.right
+                anchors.top: saColumn.top
+                anchors.topMargin: 20
+                anchors.rightMargin: 10
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: parent.height * 0.1
+                color: "#50F0F0F0"
+                clip: true
+
+                MarkDown {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.top: parent.top
+                    anchors.topMargin: 10
+                    height: parent.height
+                    width: thisWindow.width * 0.22
+                    thedata: MD.guide()
+                }
+            }
+        } */
 
         Item {
             id: seventhPage
@@ -843,7 +787,7 @@ ESborder {
             } else {
                 Scripts.saveLesson(
                             userID, coursenumber, unitNumber, Scrubber.replaceSpecials(
-                                nameBox.text), numberIn.value, duration.value, Scrubber.replaceSpecials(
+                                nameBox.text), numberIn.text, duration.text, Scrubber.replaceSpecials(
                                 aboutBox.text), Scrubber.replaceSpecials(objectiveBox.text), Scrubber.replaceSpecials(
                                 resourceBox.text), Scrubber.replaceSpecials(otherResourcesBox.text), Scrubber.replaceSpecials(
                                 guidedQuestions.toString()), Scrubber.replaceSpecials(lessonSequence.text),
@@ -862,8 +806,6 @@ ESborder {
         anchors.bottom: view.bottom
         anchors.horizontalCenter: parent.horizontalCenter
     }
-
-
 
     QuestionWizard {
         id: newQuestion

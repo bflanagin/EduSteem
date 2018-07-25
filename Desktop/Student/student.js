@@ -86,8 +86,7 @@ function loadDay(month, day, weekday, studentCode) {
 
 function loadTask(studentCode, taskId) {
 
-    db.transaction(function (tx) {
-
+    db.readTransaction(function (tx) {
 
         var dataSTR = "SELECT * FROM Lessons WHERE creationdate =" + taskId
 
@@ -103,21 +102,14 @@ function loadTask(studentCode, taskId) {
             lessonObjective = pull.rows.item(0).objective
 
             lessonResources = pull.rows.item(0).resources
-            lessonSupplies = pull.rows.item(0).supplies
-
-            lessonGQ = pull.rows.item(0).guidingQuestions
-            guidedQuestions = pull.rows.item(0).guidingQuestions
-            reviewQuestions = pull.rows.item(0).reviewQuestions.split(",")
-
             lessonDuration = pull.rows.item(0).duration
             lessonOrder = pull.rows.item(0).lessonNum
             lessonDate = d.toLocaleDateString()
 
-            lessonSequence = pull.rows.item(0).lessonSequence
-            lessonSP = pull.rows.item(0).studentProduct
-
-            console.log(lessonName)
+            lessonSP = Scrubber.recoverSpecial(pull.rows.item(0).studentProduct)
         }
+
+
     })
 
 }

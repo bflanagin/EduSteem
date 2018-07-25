@@ -5,14 +5,19 @@ import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.0
 import Qt.labs.calendar 1.0
 
-//import QtQuick.Extras 1.4
 import "../theme"
 import "../plugins"
 import "../General"
+import "../Templates"
 
+import"../plugins/text.js" as Scrubber
 import "../Educator/course.js" as Courses
 import "../General/network.js" as Network
 import "./student.js" as Students
+
+
+
+
 
 Item {
     id: thisWindow
@@ -37,6 +42,7 @@ Item {
 
     property string lessonSequence: ""
     property string lessonSP: ""
+
 
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.verticalCenter: parent.verticalCenter
@@ -84,6 +90,9 @@ Item {
     onLessonIDChanged: if (lessonID !== 0) {
                            Students.loadTask(studentCode, lessonID)
                        }
+    onStateChanged: if(state === "Active") {
+                        Students.loadTask(studentCode, lessonID)
+                    }
 
     Rectangle {
         anchors.fill: parent
@@ -93,6 +102,7 @@ Item {
         id: topBar
         width: parent.width
         height: 32
+        location: lessonName
     }
 
     Item {
@@ -103,155 +113,424 @@ Item {
         width: parent.width - leftMenu.width
         height: parent.height - topBar.height
 
-        ESborder {
-            id:controlArea
-            width: parent.width * 0.99
-            //anchors.horizontalCenter: parent.horizontalCenter
-            height: controlColumn.height + 10
-            state:"Active"
+        Journal {
+            visible:if(lessonSP.split("::")[1] === "Simple"){true} else {false}
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            enabled:visible
+        }
+
+        Journal_Image {
+            visible:if(lessonSP.split("::")[1] ==="Journal+Image"){true} else {false}
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            enabled:visible
+        }
+
+        Journal_Prompt {
+            visible:if(lessonSP.split("::")[1] === "Journal+Prompt"){true} else {false}
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            enabled:visible
+        }
+
+        Video {
+            visible:if(lessonSP.split("::")[1] === "Video Only"){true} else {false}
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            enabled:visible
+        }
+
+        Video_Notes {
+            visible:if(lessonSP.split("::")[1] ==="Video+Notes"){true} else {false}
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            enabled:visible
+        }
+
+        Video_Questions {
+            visible:if(lessonSP.split("::")[1] ==="Video+Questions"){true} else {false}
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            enabled:visible
+        }
+
+        Web {
+            visible:if(lessonSP.split("::")[1] === "Site Only"){true} else {false}
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            enabled:visible
+        }
+
+        Web_Notes {
+            visible:if(lessonSP.split("::")[1] ==="Site+Notes"){true} else {false}
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            enabled:visible
+        }
+        Web_Questions {
+            visible:if(lessonSP.split("::")[1] === "Site+Questions"){true} else {false}
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            enabled:visible
+        }
+
+        Writing {
+            visible:if(lessonSP.split("::")[1] ==="Simple"){true} else {false}
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            enabled:visible
+        }
+
+        Writing_Prompt {
+            visible:if(lessonSP.split("::")[1] === "Writing+Prompt"){true} else {false}
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            enabled:visible
+        }
+
+    }
+
+        Item {
+            id: controlArea
+            anchors.top: parent.top
+            anchors.topMargin: topBar.height
+            anchors.right: parent.right
+            anchors.rightMargin: 8
+
+            width: mainArea.width * 0.30
+            height: parent.height - topBar.height
+            z: if (instructionsArea.state === "Active"
+                       || resourcesArea.state === "Active") {
+                   1
+               } else {
+                   3
+               }
+
+            states: [
+
+                State {
+                    name: "Active"
+                    PropertyChanges {
+                        target: controlArea
+                        anchors.rightMargin: 0
+                    }
+                },
+                State {
+                    name: "inActive"
+
+                    PropertyChanges {
+                        target: controlArea
+                        anchors.rightMargin: width * -0.99
+                    }
+                }
+            ]
+
+            transitions: [
+
+                Transition {
+                    from: "Active"
+                    to: "inActive"
+                    reversible: true
+
+                    NumberAnimation {
+                        target: controlArea
+                        property: "anchors.rightMargin"
+                        duration: 200
+                        easing.type: Easing.InOutQuad
+                    }
+                }
+            ]
+
+            state: "inActive"
+
+            VerticalTab {
+                id: actTab
+                label: "Activity"
+                fillcolor: "white"
+                anchors.right: parent.left
+                anchors.top: parent.top
+                anchors.topMargin: insTab.height + resTab.height + 30
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: if (controlArea.state === "Active") {
+                                   controlArea.state = "inActive"
+                               } else {
+                                   controlArea.state = "Active"
+                               }
+                }
+            }
+
+            ESborder {
+                anchors.fill: parent
+            }
 
             Column {
                 id: controlColumn
-                anchors.centerIn: parent
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.margins: parent.width * 0.01
                 width: parent.width * 0.98
                 spacing: 8
 
                 Text {
                     font.bold: true
-                    font.pointSize: 18
+                    font.pointSize: 12
                     text: lessonName
                 }
-                Text {
-                    text: qsTr("Author: ")+lessonAuthor
-                }
-
                 Rectangle {
 
                     anchors.horizontalCenter: controlArea.horizontalCenter
-                    width:controlArea.width * 0.98
-                    height:8
-                    color:"transparent"
+                    width: controlArea.width * 0.97
+                    height: 2
+                    color: seperatorColor
                 }
 
-                Item {
-                    width:parent.width
-                    height:breakbutton.height + 10
-                    Button {
-                        id:breakbutton
-                        anchors.left:parent.left
-                        anchors.leftMargin: parent.width * 0.01
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: qsTr("Take a Break")
-                        background: ESTextField {
-
-                        }
+                Button {
+                    id: breakbutton
+                    anchors.horizontalCenter: controlArea.horizontalCenter
+                    text: qsTr("Take a Break")
+                    background: ESTextField {
                     }
 
-                    Button {
-                        anchors.right:parent.right
-                        anchors.rightMargin: parent.width * 0.01
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: qsTr("Turn In")
-                        background: ESTextField {
-                        }
+                    onClicked: {
+                      thisWindow.state = "InActive"
+                    }
+                }
 
+                Button {
+                    anchors.horizontalCenter: controlArea.horizontalCenter
+                    text: qsTr("Turn In")
+                    background: ESTextField {
                     }
 
+                    onClicked: {
+                        thisWindow.state = "InActive"
+                    }
                 }
             }
         }
 
-        ScrollView {
-            anchors.top:controlArea.bottom
-            anchors.topMargin: 5
-            anchors.right:parent.right
+        Item {
+            id: instructionsArea
+            anchors.top: parent.top
+            anchors.topMargin: topBar.height
+            anchors.right: parent.right
             anchors.rightMargin: 8
 
-            width:mainArea.width * 0.33
-            height:parent.height - topBar.height
-            contentHeight:cColumn.height + 10
-            contentWidth: mainArea.width
+            width: mainArea.width * 0.30
+            height: parent.height - topBar.height
+            z: 2
 
-            ESborder {
-                width:cColumn.width + 10
-                height:cColumn.height + 10
-                anchors.centerIn: cColumn
+            states: [
 
-            Column {
-                id:cColumn
-                width:mainArea.width * 0.31
-                anchors.centerIn: parent
-                spacing: 8
+                State {
+                    name: "Active"
+                    PropertyChanges {
+                        target: instructionsArea
+                        anchors.rightMargin: 0
+                    }
+                },
+                State {
+                    name: "inActive"
 
-                Text {
-                    text:qsTr("Supplies")
-                    font.bold: true
-                    Rectangle {
-                        anchors.bottom:parent.bottom
-                        anchors.bottomMargin: -4
-                        anchors.horizontalCenter: cColumn.horizontalCenter
-                        width:cColumn.width * 0.98
-                        height:2
-                        color:seperatorColor
+                    PropertyChanges {
+                        target: instructionsArea
+                        anchors.rightMargin: width * -0.99
                     }
                 }
+            ]
 
-                    MarkDown {
-                        anchors.left: parent.left
-                        anchors.margins: 8
-                        width:parent.width
-                        thedata: lessonSupplies
+            transitions: [
 
-                    }
+                Transition {
+                    from: "Active"
+                    to: "inActive"
+                    reversible: true
 
-                    Text {
-                        text:qsTr("Resources")
-                        font.bold: true
-                        Rectangle {
-                            anchors.bottom:parent.bottom
-                            anchors.bottomMargin: -4
-                            anchors.horizontalCenter: cColumn.horizontalCenter
-                            width:cColumn.width * 0.98
-                            height:2
-                            color:seperatorColor
-                        }
-                    }
-
-                    MarkDown {
-                        anchors.left: parent.left
-                        anchors.margins: 8
-                        width:parent.width
-                        thedata: lessonResources
-
-                    }
-
-                    Text {
-                        text:qsTr("Instructions")
-                        font.bold: true
-                        Rectangle {
-                            anchors.bottom:parent.bottom
-                            anchors.bottomMargin: -4
-                            anchors.horizontalCenter: cColumn.horizontalCenter
-                            width:cColumn.width * 0.98
-                            height:2
-                            color:seperatorColor
-                        }
-                    }
-
-                    MarkDown {
-                        anchors.left: parent.left
-                        anchors.margins: 8
-                        width:parent.width
-                        thedata: lessonSP
-
+                    NumberAnimation {
+                        target: instructionsArea
+                        property: "anchors.rightMargin"
+                        duration: 200
+                        easing.type: Easing.InOutQuad
                     }
                 }
+            ]
 
+            state: "inActive"
 
+            VerticalTab {
+                id: insTab
+                label: "Instructions"
+                fillcolor: "white"
+                anchors.right: parent.left
+                anchors.top:parent.top
+                anchors.topMargin: 10
 
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: if (instructionsArea.state === "Active") {
+                                   instructionsArea.state = "inActive"
+                               } else {
+                                   instructionsArea.state = "Active"
+                               }
+                }
+            }
+
+            ScrollView {
+                anchors.right: parent.right
+                width: parent.width
+                height: parent.height
+
+                ESborder {
+                    width: instructionsArea.width
+                    height: instructionsArea.height
+                    Column {
+                        id: cColumn
+                        width: mainArea.width * 0.31
+                        anchors.top: parent.top
+                        anchors.left: parent.left
+                        anchors.margins: 10
+                        spacing: 8
+                        clip:true
+
+                        Text {
+                            text: qsTr("Instructions")
+                            font.bold: true
+                            font.pointSize: 12
+
+                        }
+
+                        Rectangle {
+
+                            anchors.horizontalCenter: instructionsArea.horizontalCenter
+                            width: instructionsArea.width * 0.95
+                            height: 2
+                            color: seperatorColor
+                        }
+
+                        MarkDown {
+                            anchors.left: parent.left
+                            anchors.margins: 8
+                            width: parent.width
+                            thedata: lessonSP.split("::")[2]
+                        }
+                    }
+                }
             }
         }
-    }
+
+        Item {
+            id: resourcesArea
+            anchors.top: parent.top
+            anchors.topMargin: topBar.height
+            anchors.right: parent.right
+            anchors.rightMargin: 8
+            z: if (instructionsArea.state === "Active") {
+                   1
+               } else {
+                   2
+               }
+            width: mainArea.width * 0.30
+            height: parent.height - topBar.height
+
+            states: [
+
+                State {
+                    name: "Active"
+                    PropertyChanges {
+                        target: resourcesArea
+                        anchors.rightMargin: 0
+                    }
+                },
+                State {
+                    name: "inActive"
+
+                    PropertyChanges {
+                        target: resourcesArea
+                        anchors.rightMargin: width * -0.99
+                    }
+                }
+            ]
+
+            transitions: [
+
+                Transition {
+                    from: "Active"
+                    to: "inActive"
+                    reversible: true
+
+                    NumberAnimation {
+                        target: resourcesArea
+                        property: "anchors.rightMargin"
+                        duration: 200
+                        easing.type: Easing.InOutQuad
+                    }
+                }
+            ]
+
+            state: "inActive"
+
+            VerticalTab {
+                id: resTab
+                label: "Resources"
+                fillcolor: "white"
+                anchors.right: parent.left
+                anchors.top: parent.top
+                anchors.topMargin: insTab.height + 20
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: if (resourcesArea.state === "Active") {
+                                   resourcesArea.state = "inActive"
+                               } else {
+                                   resourcesArea.state = "Active"
+                               }
+                }
+            }
+
+            ScrollView {
+                anchors.right: parent.right
+                width: parent.width
+                height: parent.height
+
+                ESborder {
+                    width: resourcesArea.width
+                    height: resourcesArea.height
+
+                    Column {
+                        id: rColumn
+                        width: resourcesArea.width
+                        anchors.left: parent.left
+                        anchors.top: parent.top
+                        anchors.margins: 10
+                        spacing: 8
+
+                        Text {
+                            text: qsTr("Resources")
+                            font.bold: true
+                            font.pointSize: 12
+
+                        }
+
+                        Rectangle {
+                            anchors.horizontalCenter:resourcesArea.horizontalCenter
+                            width:resourcesArea.width * 0.95
+                            height: 2
+                            color: seperatorColor
+                        }
+
+                        MarkDown {
+                            anchors.left: parent.left
+                            anchors.margins: 8
+                            width: parent.width
+                            thedata: lessonResources
+                        }
+                    }
+                }
+            }
+        }
 
     LeftMenu {
         id: leftMenu

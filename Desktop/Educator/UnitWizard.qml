@@ -77,7 +77,7 @@ ESborder {
                     id: unitObjectiveBox
                     width:thisWindow.width * 0.96
                     padding: 10
-
+                    selectByMouse: true
                     wrapMode: Text.WordWrap
                 }
             }
@@ -100,6 +100,7 @@ ESborder {
                     id: unitAboutBox
                     width:thisWindow.width * 0.96
                     wrapMode: Text.WordWrap
+                    selectByMouse: true
                 }
             }
         }

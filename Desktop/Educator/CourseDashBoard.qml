@@ -84,7 +84,9 @@ Item {
         anchors.left: backbutton.right
         anchors.margins: 20
         font.bold: true
-        font.pointSize: 15
+        font.pointSize: 18
+        width:parent.width * 0.75
+        wrapMode: Text.WordWrap
 
         Image {
             anchors.left: parent.right
@@ -125,7 +127,6 @@ Item {
 
     Button {
         anchors.verticalCenter: title.verticalCenter
-        //anchors.top:parent.top
         anchors.right: parent.right
         anchors.margins: 20
         text: qsTr("Add Unit")
@@ -136,22 +137,12 @@ Item {
         }
     }
 
-    Rectangle {
-        anchors.top: title.bottom
-        anchors.topMargin: 20
-        anchors.horizontalCenter: parent.horizontalCenter
-        width: parent.width * 0.95
-        height: 3
-        color: seperatorColor
-    }
-
     Item {
         anchors.top: title.bottom
-        anchors.topMargin: 24
+        anchors.topMargin: 16
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width * 0.98
-        // contentHeight: cColumn.height * 1.02
         clip: true
         Column {
             anchors.top: parent.top
@@ -160,14 +151,12 @@ Item {
             width: parent.width
             spacing: mainView.width * 0.006
 
-            ESborder {
+            Column {
                 id:aboutBox
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: thisWindow.width * 0.98
-                height: about.height + 100
                 Text {
                     id: about
-                    anchors.top: parent.top
                     anchors.left: parent.left
                     anchors.margins: 20
                     text: courseAbout
@@ -176,17 +165,22 @@ Item {
                 }
 
                 Text {
-                    anchors.bottom: parent.bottom
                     anchors.right: parent.right
                     anchors.margins: 20
                     text: courseSubject
                 }
                 Text {
-                    anchors.top: parent.top
                     anchors.right: parent.right
                     anchors.margins: 20
                     text: courseDate
                 }
+            }
+            Rectangle {
+
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width
+                height: 3
+                color: seperatorColor
             }
 
             ListView {
@@ -247,9 +241,8 @@ Item {
                             MarkDown {
 
                                 thedata: Scrubber.recoverSpecial(about)
-                                //padding: 15
                                 width: parent.width * 0.8
-                                //wrapMode: Text.WordWrap
+
                             }
                         }
 
@@ -264,7 +257,7 @@ Item {
                                 thedate: cdate
                             }
 
-                            delegate: ESborder {
+                            delegate: Item {
                                 width: thisWindow.width * 0.58
                                 height: lessonColumn.height * 1.1
 
@@ -295,9 +288,8 @@ Item {
 
                                     MarkDown {
                                         thedata: Scrubber.recoverSpecial(about)
-                                        //padding: 10
                                         width: parent.width * 0.9
-                                        //wrapMode: Text.WordWrap
+
                                     }
                                 }
                             }

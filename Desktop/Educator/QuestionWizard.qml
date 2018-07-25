@@ -71,6 +71,7 @@ ESborder {
                     width:parent.width
                     wrapMode: Text.WordWrap
                     placeholderText: qsTr("What is happening?")
+                    selectByMouse: true
 
                 }
             }
@@ -100,6 +101,7 @@ ESborder {
                     width:parent.width
                     wrapMode: Text.WordWrap
                     placeholderText: qsTr("You're adding a question.")
+                    selectByMouse: true
                 }
             }
         }
