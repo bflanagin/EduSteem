@@ -4,7 +4,6 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.0
 
-//import QtQuick.Extras 1.4
 import "../theme"
 import "../plugins"
 import "../Educator/scheduler.js" as Schedule
@@ -17,6 +16,8 @@ import "./network.js" as Network
 
 Item {
 
+    property string location:"Home"
+
     Rectangle {
         anchors.fill: parent
         color:menuColor
@@ -28,21 +29,11 @@ Item {
         anchors.leftMargin: 8
         width:parent.height
         height:parent.height
-        icon:"/icons/back.svg"
+        icon:"/icons/close.svg"
 
         MouseArea {
             anchors.fill: parent
-            onClicked: {
-                educatorHome.state = "inActive"
-                if(lessonView.state == "inActive") {
-                studentHome.state = "inActive"
-                } else {
-                    lessonView.state = "inActive"
-                }
-
-                slogin.state = "Active"
-
-            }
+            onClicked: popUp.state = "Active"
         }
     }
 
@@ -53,7 +44,7 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         font.pointSize: 10
         font.bold: true
-        text: schoolName.replace(/_/g, " ").trim()
+        text: schoolName.replace(/_/g, " ").trim()+ " ("+location+")"
         wrapMode: Text.WordWrap
         color:color1
 

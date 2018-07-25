@@ -188,7 +188,7 @@ ESborder {
                         TextArea {
                             id: aboutStudent
                             width: parent.width
-
+                            selectByMouse: true
                             placeholderText: qsTr("Anything")
                         }
                     }

@@ -16,6 +16,7 @@ ESborder {
     property string unitTitle: "Title"
     property string unitAbout: "About"
     property string unitObjective: "Objective"
+    clip:true
 
     onStateChanged: if (state == "Active") {
                         Scripts.loadUnit(userID, unitNumber)
@@ -115,6 +116,7 @@ ESborder {
                             anchors.left: parent.left
                             anchors.margins: 10
                             text: qsTr("Objective:")
+                            font.bold: true
                         }
 
                         Rectangle {
@@ -170,6 +172,7 @@ ESborder {
                             anchors.left: parent.left
                             anchors.margins: 10
                             text: qsTr("About:")
+                            font.bold: true
                         }
                         Rectangle {
 
@@ -211,12 +214,13 @@ ESborder {
             }
         }
 
+        Item {
+            width: thisWindow.width * 0.46
+            height:parent.height
         Column {
             id: lessonsColumn
-
-            width: thisWindow.width * 0.46
+            width:parent.width
             spacing: thisWindow.width * 0.01
-
             Item {
                 width: parent.width
                 height: lessonsTitle.height
@@ -248,22 +252,48 @@ ESborder {
                 color: seperatorColor
             }
 
+        }
+
             ListView {
                 id: lessons
-                height: contentHeight * 1.04
-                width: parent.width * 0.98
+                anchors.top:lessonsColumn.bottom
+                anchors.bottom:parent.bottom
+                anchors.bottomMargin: parent.height * 0.05
+                anchors.left:lessonsColumn.left
+                width: parent.width
                 spacing: thisWindow.height * 0.02
                 clip: true
+
+                ScrollIndicator.vertical: ScrollIndicator {}
 
                 model: lessonList
 
                 delegate: ESborder {
-                    width: thisWindow.width * 0.45
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: thisWindow.width * 0.44
                     height: lessonColumn.height * 1.02
+
+                    Rectangle {
+                        anchors.right:parent.right
+                        anchors.top:parent.top
+                        anchors.margins: 10
+                        width:if(parent.height * 0.5 > 32) {32} else {parent.height * 0.5}
+                        height:width
+                        radius: width /2
+                        color:highLightColor1
+
+                        Text {
+                            anchors.centerIn: parent
+                            width:parent.width
+                            text:duration
+                            color:"white"
+                            horizontalAlignment: Text.AlignHCenter
+                        }
+                    }
 
                     Column {
                         id: lessonColumn
-                        width: parent.width * 0.99
+                        width: parent.width * 0.90
                         spacing: thisWindow.height * 0.01
 
                         anchors.centerIn: parent
@@ -271,6 +301,9 @@ ESborder {
                         Text {
                             text: Scrubber.recoverSpecial(name)
                             padding: 10
+                            font.bold: true
+                            width:parent.width
+                            wrapMode: Text.WordWrap
                         }
 
                         Rectangle {
@@ -284,8 +317,7 @@ ESborder {
                         MarkDown {
                             thedata: Scrubber.recoverSpecial(about)
                             width: parent.width * 0.80
-                            // wrapMode: Text.WordWrap
-                            //padding: 10
+
                         }
                     }
 
@@ -305,8 +337,8 @@ ESborder {
         id: newPlan
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
-        width: 1000
-        height: 650
+        width:parent.width
+        height: parent.height
         state: "inActive"
         onStateChanged: if (state == "inActive") {
                             Scripts.loadLessons(userID, unitNumber)
@@ -320,6 +352,9 @@ ESborder {
         width: parent.width
         height: parent.height
         state: "inActive"
+        onStateChanged: if (state == "inActive") {
+                            Scripts.loadLessons(userID, unitNumber)
+                        }
     }
 
     FieldEdit {

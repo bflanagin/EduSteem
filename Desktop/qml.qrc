@@ -76,9 +76,33 @@
         <file>icons/send-to.svg</file>
         <file>icons/media-playback-start.svg</file>
         <file>icons/media-playback-pause.svg</file>
-        <file>icons/mail-mark-important.svg</file>
         <file>Student/Card.qml</file>
         <file>icons/star.svg</file>
         <file>Student/student.js</file>
+        <file>General/PopUp.qml</file>
+        <file>Educator/AssignmentEdit.qml</file>
+        <file>icons/important.svg</file>
+        <file>theme/VerticalTab.qml</file>
+        <file>Templates/Web.qml</file>
+        <file>Templates/Web_Notes.qml</file>
+        <file>Templates/Web_Questions.qml</file>
+        <file>Templates/Video.qml</file>
+        <file>Templates/Video_Notes.qml</file>
+        <file>Templates/Video_Questions.qml</file>
+        <file>Templates/Journal.qml</file>
+        <file>Templates/Journal_Image.qml</file>
+        <file>Templates/Writing.qml</file>
+        <file>Templates/Journal_Settings.qml</file>
+        <file>Templates/Video_Settings.qml</file>
+        <file>Templates/Web_Settings.qml</file>
+        <file>Templates/Writing_Prompt.qml</file>
+        <file>Templates/Journal_Prompt.qml</file>
+        <file>icons/photo.svg</file>
+        <file>Templates/Writing_Settings.qml</file>
+        <file>icons/documents.svg</file>
+        <file>icons/music.svg</file>
+        <file>icons/videos.svg</file>
+        <file>Templates/Assignment_ListView.qml</file>
+        <file>icons/network.svg</file>
     </qresource>
 </RCC>

@@ -106,7 +106,7 @@ function sendToOpenSeed(userid, code, type) {
         console.log(pull.rows.length)
         if (pull.rows.length === 1) {
 
-            console.log("Sending " + type)
+           // console.log("Sending " + type)
 
             http.onreadystatechange = function () {
 
@@ -117,6 +117,7 @@ function sendToOpenSeed(userid, code, type) {
                         } else if (http.responseText == "101") {
                             console.log("Incorrect AppID")
                         } else {
+
 
                             /* leaving this here for debugging purposes */
                             // console.log(http.responseText)
@@ -192,14 +193,14 @@ function sendToOpenSeed(userid, code, type) {
             case "Lessons":
                 http.send("devid=" + devId + "&appid=" + appId + "&userid=" + userid + "&course=" + pull.rows.item(
                               0).coursenumber + "&unit=" + pull.rows.item(0).unitnumber + "&name=" + pull.rows.item(0).name + "&lessonNum=" + pull.rows.item(0).lessonNum + "&duration=" + pull.rows.item(0).duration + "&about=" + pull.rows.item(0).about + "&objective=" + pull.rows.item(0).objective + "&supplies=" + pull.rows.item(0).supplies + "&resources=" + pull.rows.item(
-                              0).resources + "&guidingQuestions=" + pull.rows.item(0).guidingQuestions + "&lessonSequence=" + pull.rows.item(0).lessonSequence + "&studentProduct=" + pull.rows.item(0).studentProduct + "&reviewQuestions=" + pull.rows.item(0).reviewQuestions + "&code=" + pull.rows.item(0).creationdate + "&schoolCode=" + schoolCode + "&educatorCode=" + userCode + "&editdate=" + pull.rows.item(0).editdate + "&type=" + type)
+                              0).resources + "&guidingQuestions=" + pull.rows.item(0).guidingQuestions + "&sequence=" + pull.rows.item(0).lessonSequence + "&product=" + pull.rows.item(0).studentProduct + "&reviewQuestions=" + pull.rows.item(0).reviewQuestions + "&code=" + pull.rows.item(0).creationdate + "&schoolCode=" + schoolCode + "&educatorCode=" + userCode + "&editdate=" + pull.rows.item(0).editdate + "&type=" + type)
                 break
             }
         }
     })
 }
 
-function retrieveFromOpenSeed(id, code, type) {
+function retrieveFromOpenSeed(id, code, type, update) {
 
     /* retrieves data to Server */
     var http = new XMLHttpRequest()
@@ -220,7 +221,7 @@ function retrieveFromOpenSeed(id, code, type) {
 
                         var info = http.responseText.split(";&;")
 
-                        console.log(info)
+
 
                         db.transaction(function (tx) {
 
@@ -244,20 +245,66 @@ function retrieveFromOpenSeed(id, code, type) {
                                 break
                             }
 
-                            if (pull.rows.length === 0) {
+                            if (update === 0) {
+                             //   console.log("Adding "+info)
+                                if (pull.rows.length === 0) {
 
+                                    switch (type) {
+                                    case "School":
+                                        schoolName = info[1]
+                                        tx.executeSql(
+                                                    "INSERT INTO Schools VALUES (?,?,?,?,?,?,?,?,?,?)", [userID, 1, info[1], info[2], info[3], info[4], info[5], info[6], info[0], info[7]])
+                                        break
+                                    case "Educator":
+                                        userName = info[2] + " " + info[3]
+                                        tx.executeSql(
+                                                    "INSERT INTO Users VALUES (?,?,?,?,?,?,?,?,?,?,?)", [userID, 1, info[2], info[3], info[4], info[5], info[6], info[7], info[8], info[0], info[9]])
+
+                                        if (schoolSetup.state == "Active") {
+                                            isEducator.checked = 1
+                                            view.currentIndex = 1
+                                        }
+                                        break
+                                    case "Courses":
+                                        tx.executeSql(
+                                                    "INSERT INTO Courses VALUES(?,?,?,?,?,?,?)",
+                                                    [userID, info[1], info[3], info[4], info[2], info[0], info[7]])
+                                        break
+                                    case "Units":
+                                        tx.executeSql(
+                                                    "INSERT INTO Units VALUES(?,?,?,?,?,?,?)",
+                                                    [userID, info[4], info[1], info[2], info[3], info[0], info[7]])
+                                        break
+                                    case "Students":
+                                        tx.executeSql(
+                                                    "INSERT INTO Students VALUES(?,?,?,?,?,?,?,?,?,?,?,?)", [userID, info[2], info[3], info[4], info[6], info[5], info[9], info[8], info[7], "", info[0], info[10]])
+                                        break
+                                    case "Schedule":
+                                        tx.executeSql(
+                                                    "INSERT INTO Schedule VALUES(?,?,?,?,?,?,?)",
+                                                    [userID, info[1], info[2], info[3], info[4], info[0], info[5]])
+                                        break
+                                    case "Lessons":
+
+                                        tx.executeSql(
+                                                    "INSERT INTO Lessons VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [userID, info[15], info[17], info[4], info[5], info[1], info[6], info[7], info[2], info[3], info[9], info[8], info[10], info[11], info[12], info[13], info[0], info[16]])
+                                        break
+                                    }
+                                }
+                            } else {
+                              //  console.log("Updating "+info)
                                 switch (type) {
                                 case "School":
                                     schoolName = info[1]
                                     tx.executeSql(
-                                                "INSERT INTO Schools VALUES (?,?,?,?,?,?,?,?,?,?)",
-                                                [userID, 1, info[1], info[2], info[3], info[4], info[5], info[6], info[0], info[7]])
+                                                "UPDATE Schools SET name=?,email=?,phone=?,country=?,state=?,about=?,editdate=? WHERE code =?",
+                                                [info[1], info[2], info[3], info[4], info[5], info[6], info[7], info[0]])
                                     break
                                 case "Educator":
                                     userName = info[2] + " " + info[3]
                                     tx.executeSql(
-                                                "INSERT INTO Users VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-                                                [userID, 1, info[2], info[3], info[4], info[5], info[6], info[7], info[8], info[0], info[9]])
+                                                "UPDATE Users SET firstname=? , lastname=?, email=?, phone=?, country=?, state=?, about=?, editdate=? WHERE code =?",
+                                                [info[2], info[3], info[4], info[5], info[6], info[7], info[8], info[9], info[0]])
 
                                     if (schoolSetup.state == "Active") {
                                         isEducator.checked = 1
@@ -266,29 +313,29 @@ function retrieveFromOpenSeed(id, code, type) {
                                     break
                                 case "Courses":
                                     tx.executeSql(
-                                                "INSERT INTO Courses VALUES(?,?,?,?,?,?,?)",
-                                                [userID, info[1], info[3], info[4], info[2], info[0], info[7]])
+                                                "UPDATE Courses SET name=?, subject=?,language=?,about=?,editdate=? WHERE creationdate=?",
+                                                [info[1], info[3], info[4], info[2], info[7], info[0]])
                                     break
                                 case "Units":
                                     tx.executeSql(
-                                                "INSERT INTO Units VALUES(?,?,?,?,?,?,?)",
-                                                [userID, info[4], info[1], info[2], info[3], info[0], info[7]])
+                                                "UPDATE Units SET coursenumber=?,name=?,objective=?,about=?,editdate=? WHERE creationdate=?",
+                                                [info[4], info[1], info[2], info[3], info[7], info[0]])
                                     break
                                 case "Students":
                                     tx.executeSql(
-                                                "INSERT INTO Students VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
-                                                [userID, info[2], info[3], info[4], info[6], info[5], info[9], info[8], info[7], "", info[0], info[10]])
+                                                "UPDATE Students SET firstname=?,lastname=?,age=?,bday=?,about=?,schoolcode=?,phone=?,email=?,steempost=?,editdate=?",
+                                                [info[2], info[3], info[4], info[6], info[5], info[9], info[8], info[7], "", info[10], info[0]])
                                     break
                                 case "Schedule":
                                     tx.executeSql(
-                                                "INSERT INTO Schedule VALUES(?,?,?,?,?,?,?)",
-                                                [userID, info[1], info[2], info[3], info[4], info[0], info[5]])
+                                                "UPDATE Schedule SET month=?,day=?,schoolcode=?,educatorcode=?,editdate=? WHERE creationdate =?",
+                                                [info[1], info[2], info[3], info[4], info[5], info[0]])
                                     break
                                 case "Lessons":
 
                                     tx.executeSql(
-                                                "INSERT INTO Lessons VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                                                [userID, info[15], info[17], info[4], info[5], info[1], info[6], info[7], info[2], info[3], info[9], info[8], info[10], info[11], info[12], info[13], info[0], info[16]])
+                                                "UPDATE Lessons SET educatorID=?,published=?,coursenumber=?,unitnumber=?,name=?,lessonNum=?,duration=?,about=?,objective=?,supplies=?,resources=?,guidingQuestions=?,lessonSequence=?,studentProduct=?,reviewQuestions=?,editdate=? WHERE creationdate=?",
+                                                [info[15], info[17], info[4], info[5], info[1], info[6], info[7], info[2], info[3], info[9], info[8], info[10], info[11], info[12], info[13], info[16], info[0]])
                                     break
                                 }
                             }
@@ -306,7 +353,6 @@ function retrieveFromOpenSeed(id, code, type) {
 }
 
 function sync(type, code) {
-
 
     /* Syncronizes data with the server */
     var http = new XMLHttpRequest()
@@ -327,20 +373,46 @@ function sync(type, code) {
                     db.readTransaction(function (tx) {
 
                         var ids = http.responseText.split("\n")
+
                         if (ids[0] !== "0") {
                             while (ids.length > num) {
                                 if (type === "Students") {
                                     pull = tx.executeSql(
                                                 "SELECT * FROM " + type
-                                                + " WHERE code=" + ids[num] + "")
+                                                + " WHERE code=" + ids[num].split(
+                                                    "::")[0] + "")
                                 } else {
                                     pull = tx.executeSql(
                                                 "SELECT * FROM " + type
-                                                + " WHERE creationdate=" + ids[num] + "")
+                                                + " WHERE creationdate=" + ids[num].split(
+                                                    "::")[0] + "")
                                 }
                                 if (pull.rows.length === 0) {
-                                    console.log("Grabbing " + type + " from Server " + ids[num])
-                                    retrieveFromOpenSeed(ids[num], code, type)
+                                    console.log("Grabbing " + type + " from Server "
+                                                + ids[num].split("::")[0])
+                                    retrieveFromOpenSeed(ids[num],
+                                                         code, type, 0)
+                                } else {
+
+                                    var update = ""
+                                    if (type === "Students") {
+                                        update = tx.executeSql(
+                                                    "SELECT * FROM " + type
+                                                    + " WHERE code=" + ids[num].split(
+                                                        "::")[0] + " AND editdate <"
+                                                    + ids[num].split("::")[1])
+                                    } else {
+                                        update = tx.executeSql(
+                                                    "SELECT * FROM " + type
+                                                    + " WHERE creationdate=" + ids[num].split(
+                                                        "::")[0] + " AND editdate <"
+                                                    + ids[num].split("::")[1])
+                                    }
+
+                                    if (update.rows.length === 1) {
+                                       console.log (ids[num]+" Needs update")
+                                        retrieveFromOpenSeed(ids[num].split("::")[0],code, type, 1)
+                                    }
                                 }
 
                                 num = num + 1

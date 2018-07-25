@@ -22,16 +22,15 @@ ESborder {
 
     onStateChanged: if (state == "Active") {
                         existing = Scripts.pullField(field, where, itemId)
-                    } else {
-
                     }
+
     onFieldChanged: switch (field) {
                     case "rq":
                         Scripts.loadQuestions(1)
                         break
                     case "gq":
                         Scripts.loadQuestions(0)
-                        break
+                        break    
                     default:
                         break
                     }
@@ -57,6 +56,9 @@ ESborder {
                           break
                       case "rq":
                           "Review Questions"
+                          break
+                      case "studentProduct":
+                          "Student Activity"
                           break
                       default:
                           field
@@ -102,8 +104,12 @@ ESborder {
             width: parent.width * 0.98
             clip: true
             height: switch (field) {
-                    case "Title":
+                    case "Title": if(contentHeight > 10) {
                         contentHeight + 10
+                        } else {
+                            40
+                        }
+
                         break
                     default:
                         thisWindow.height * 0.75
@@ -125,7 +131,7 @@ ESborder {
                 anchors.fill: parent
                 horizontalAlignment: Text.AlignLeft
                 wrapMode: Text.WordWrap
-
+                selectByMouse: true
                 text: Scrubber.recoverSpecial(existing)
                 padding: 5
             }
@@ -228,7 +234,8 @@ ESborder {
         anchors.top: cColumn.top
         anchors.topMargin: 20
         anchors.rightMargin: 10
-        anchors.bottom: cColumn.bottom
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: parent.height * 0.1
         color: "#50F0F0F0"
         clip: true
 

@@ -27,7 +27,7 @@ Window {
     /*App setup Variables */
     property string devId: "Vag-01001011"
     property string appId: "vagEduST-052308"
-    property string version: "0.10"
+    property string version: "0.11"
 
     property string userID: ""
     property var db: Sql.LocalStorage.openDatabaseSync("UserInfo", "1.0",
@@ -44,7 +44,7 @@ Window {
     /* End Theme Variables */
 
     /* System Wide Variables */
-    property var courses: ["8 - P.E.:DarkGreen", "101 - Math:Orange", "201 - Science:Green", "301 - Humanities:LightBlue", "302 - Literature:Brown", "303 - Writing:Black", "304 - Grammar:Red", "401 - Art", "501 - Music", "601 - Vocational:Pink", "701 - Social Sciences", "801 - Languages Studies", "901 - Projects"]
+    property var courses: ["8 - P.E.:DarkGreen", "101 - Math:Orange", "201 - Science:Green", "301 - Humanities:LightBlue", "302 - Literature:Brown", "303 - Writing:Black", "304 - Grammar:Red", "305 - Spelling:Brown", "401 - Art", "501 - Music", "601 - Vocational:Pink", "701 - Social Sciences", "801 - Languages Studies", "901 - Projects"]
 
     property var languages: ["English", "Spanish"]
     property string heart: "Offline"
@@ -235,6 +235,18 @@ Window {
         width: parent.width
         height: parent.height
         state: "inActive"
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color:"black"
+        opacity: 0.4
+        visible: if(popUp.state == "Active") {true} else {false}
+    }
+
+    PopUp {
+        id:popUp
+        state:"inActive"
     }
 
     /* End Loaded Items */

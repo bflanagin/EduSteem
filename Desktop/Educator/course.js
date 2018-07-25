@@ -136,18 +136,22 @@ function loadLessons(userid, unitnumber) {
 
 
         var dataSTR = "SELECT * FROM Lessons WHERE id ='" + userid
-                + "' AND unitnumber =" + unitnumber
+                + "' AND unitnumber =" + unitnumber + " ORDER BY lessonNum ASC"
 
         var pull = tx.executeSql(dataSTR)
         var num = 0
         while (pull.rows.length > num) {
 
+            var aboutblock = ""
+
+                if( pull.rows.item(num).objective.length > 10 ) {aboutblock = pull.rows.item(num).objective} else {aboutblock = pull.rows.item(num).about}
+
             lessonList.append({
-                                  name: pull.rows.item(num).name.replace(/_/g,
-                                                                         " "),
+                                  name: pull.rows.item(num).name.replace(/_/g," "),
                                   cdate: pull.rows.item(num).creationdate,
                                   edate: pull.rows.item(num).editdate,
-                                  about: pull.rows.item(num).objective
+                                  about: aboutblock,
+                                  duration: pull.rows.item(num).duration,
                               })
 
             num = num + 1
@@ -267,7 +271,7 @@ function editField(type, where, id, change) {
     case "rq":
         field = "reviewQuestions"
         break
-    case "Product":
+    case "studentProduct":
         field = "studentProduct"
         break
     }
@@ -352,7 +356,7 @@ function pullField(type, where, id) {
             case "rq":
                 returned = pull.rows.item(0).reviewQuestions
                 break
-            case "Product":
+            case "studentProduct":
                 returned = pull.rows.item(0).studentProduct
                 break
             }
@@ -360,4 +364,88 @@ function pullField(type, where, id) {
     })
 
     return returned
+}
+
+function pullAssignmentTypes(category) {
+
+    /* For now we'll make this a simple as possible but later we will want this stored in a database */
+
+    switch(category) {
+    case "Journaling": assSelect = ["Simple","Journal+Image","Journal+Prompt"]
+                    break
+    case "Writing": assSelect = ["Simple","Writing+Prompt"]
+                    break
+    case "Web": assSelect = ["Site Only","Site+Notes","Site+Questions"]
+                break
+    case "Video": assSelect = ["Video Only","Video+Notes","Video+Questions"]
+                break
+    case "Reading": assSelect = ["Simple","Book+Notes","Book+Questions"]
+                break
+    default:assSelect =[]
+            break
+    }
+
+}
+
+function assignmentInfo(category,type) {
+
+    var theinfo = ""
+    switch(category) {
+        case "Journaling":
+            switch(type) {
+                 case "Simple":theinfo = "Free writing area that when done will be found in the students journaling area."
+                     break
+                 case "Journal+Image":theinfo = "Image upload area plus a free writing area used for student journaling."
+                     break
+                 case "Journal+Prompt":theinfo = "Prompt inspired journal writing. "
+                     break
+                 default: theinfo = "No information for this assignement type"
+                     break
+            } break
+
+         case "Writing":
+             switch(type) {
+             case "Simple":theinfo = "Large writing space used for writing assignments. Differs from journaling in teacher options"
+                 break
+             case "Writing+Prompt":theinfo = "Writing based on supplied prompt."
+                 break
+             default: theinfo = "No information for this assignement type"
+                 break
+             } break
+         case "Web":
+             switch(type) {
+             case "Site Only":theinfo = "For use when you only want the students to read or experience the content on a site"
+                 break
+             case "Site+Notes":theinfo = "Site and note taking area, used for students to collect their thoughts on the provided information"
+                 break
+             default: theinfo = "No information for this assignement type"
+                 break
+             } break
+         case "Video":
+             switch(type) {
+             case "Video Only":theinfo = "Simple Video player window "
+                 break
+             case "Video+Notes":theinfo = "Site and note taking area, used for students to collect their thoughts on the provided video"
+                 break
+             default: theinfo = "No information for this assignement type"
+                 break
+             } break
+         case "Reading":
+             switch(type) {
+             case "Simple":theinfo = "No information for this assignement type"
+                 break
+             case "Book+Notes":theinfo = "No information for this assignement type"
+                 break
+             default: theinfo = "No information for this assignement type"
+                 break
+             } break
+         default:
+             switch(type) {
+                default: theinfo = "No information for this assignement type"
+                    break
+             } break
+    }
+
+    return theinfo
+
 }

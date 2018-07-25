@@ -196,6 +196,7 @@ ESborder {
                             padding: 10
                             background: ESTextField {
                             }
+                            selectByMouse: true
                         }
                     }
                 }
@@ -268,6 +269,7 @@ ESborder {
                                 wrapMode: Text.WordWrap
                                 background: ESTextField {
                                 }
+                                selectByMouse: true
                             }
                         }
 

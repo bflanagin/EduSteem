@@ -114,8 +114,10 @@ ESborder {
                 }
                 TextArea {
                     id: courseAboutBox
-                    anchors.fill: parent
+                    width: cColumn.width * 0.50
+                    height: cColumn.height * 0.98
                     wrapMode: Text.WordWrap
+                    selectByMouse: true
                 }
             }
         }

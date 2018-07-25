@@ -52,7 +52,7 @@ Item {
         id: bg
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
-        source: "https://heliograph.vagueentertainment.com/web/img/Humblebeaver_1163.jpg"
+        source: "https://heliograph.vagueentertainment.com/web/img/HumbleBeaver_1107.jpg"
         visible: false
         onStatusChanged: thisWindow.state = "Active"
     }

@@ -5,6 +5,7 @@ import QtQuick.LocalStorage 2.0 as Sql
 import "../theme"
 import "../plugins"
 import "../General"
+import "../Templates"
 
 import "./course.js" as Scripts
 import "../plugins/text.js" as Scrubber
@@ -36,20 +37,16 @@ ESborder {
 
                     }
 
-   /* onLessonNumberChanged: {
-                    Scripts.loadQuestions(1)
-                     Scripts.loadQuestions(0)
-
-                    } */
-
     Text {
         id: title
         anchors.top: parent.top
         anchors.left: backbutton.right
         anchors.margins: 20
-        text: lessonTitle
+        text: Scrubber.recoverSpecial(lessonTitle)
         font.bold: true
-        font.pointSize: 15
+        font.pointSize: 18
+        width:parent.width * 0.75
+        wrapMode: Text.WordWrap
         Image {
             anchors.left: parent.right
             anchors.bottom: parent.bottom
@@ -95,20 +92,12 @@ ESborder {
         }
     }
 
-    Rectangle {
-        anchors.top: title.bottom
-        anchors.topMargin: 20
-        anchors.horizontalCenter: parent.horizontalCenter
-        width: parent.width * 0.95
-        height: 3
-        color: seperatorColor
-    }
 
     Item {
         id: lessonInfo
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: title.bottom
-        anchors.topMargin: 24
+        anchors.topMargin: 16
         width: parent.width * 0.95
         height: 70
 
@@ -143,7 +132,7 @@ ESborder {
 
             anchors.horizontalCenter: parent.horizontalCenter
             width: parent.width
-            height: 1
+            height: 3
             color: seperatorColor
         }
     }
@@ -196,6 +185,8 @@ ESborder {
                         thedata: Scrubber.recoverSpecial(lessonAbout)
                         width: parent.width
                     }
+
+
                 }
                 Image {
                     anchors.right: parent.right
@@ -451,7 +442,6 @@ ESborder {
                     id: gqColumn
                     width: parent.width * 0.99
                     anchors.horizontalCenter: parent.horizontalCenter
-                    //anchors.centerIn: parent
                     anchors.top:parent.top
                     anchors.topMargin: 10
                     padding:10
@@ -501,7 +491,7 @@ ESborder {
             ESborder {
                 width: parent.width * 0.98
                 anchors.horizontalCenter: parent.horizontalCenter
-                height: productColumn.height + 64
+                height: productColumn.height + 24
 
                 Column {
                     id: productColumn
@@ -527,10 +517,11 @@ ESborder {
                         color: seperatorColor
                     }
 
-                    MarkDown {
-                        id: productText
+                    Assignment_ListView {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        width:parent.width* 0.96
+                        height:thisWindow.height * 0.08
                         thedata: Scrubber.recoverSpecial(lessonSP)
-                        width: parent.width
                     }
                 }
                 Image {
@@ -545,10 +536,10 @@ ESborder {
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            editthis.field = "Product"
-                            editthis.where = "lesson"
-                            editthis.itemId = lessonNumber
-                            editthis.state = "Active"
+                            assignmentPick.field = "studentProduct"
+                            assignmentPick.where = "lesson"
+                            assignmentPick.itemId = lessonNumber
+                            assignmentPick.state = "Active"
                         }
                     }
                 }
@@ -670,6 +661,27 @@ ESborder {
                 }
             }
         }
+    }
+
+    FieldEdit {
+        id: editthis
+        width: parent.width
+        height:parent.height
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        state: "inActive"
+        onStateChanged: if (state == "inActive") {
+                            Scripts.loadLesson(userID, lessonNumber)
+                        }
+    }
+
+    AssignmentEdit {
+        id:assignmentPick
+        width: parent.width
+        height:parent.height
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        state: "inActive"
     }
 
 }
