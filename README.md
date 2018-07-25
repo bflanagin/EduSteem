@@ -2,7 +2,7 @@
 
 EduSteem is a educational organization tool for traditional and non traditional schools based on the process of "reflective learning" and what we have deemed "micro-scholarships". 
 
-Please note this is a new project and most if not all the features should be considered testing quality. We hope to have the first version done by the begining of August 2018. If you would like to contribute feel free to download and play with the application, we will have tasks that need to be done as soon as the first month of development is complete.
+Please note this is a new project and most if not all the features should be considered testing quality. We hope to have the first version done by the begining of August 2018. If you would like to contribute feel free to download and play with the application, we will have tasks that need to be done as soon as the first pubilc version of the software is complete.
 
 ### How it works
 
@@ -21,7 +21,7 @@ As the student works through their lessons a tally is generated based on their o
 
 #Build Instructions
 
- **for all clients** Install Qt from your repositories (if you are on a modern Linux Distro) or download the software from  [https://www.qt.io/developers/](url)
+ **for all clients** Install Qt from their site [https://www.qt.io/developers/](url) the code is based on 5.11 and will standardize on it unless there is a major update before the release.
 
 #Desktop Version
 1. Make your way to the Desktop folder
