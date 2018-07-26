@@ -10,6 +10,14 @@ Row {
     property string title:thedata.split("::")[1]
     property string instructions:thedata.split("::")[2]
 
+    onThedataChanged: {
+                if(thedata.length < 3) {
+                    type = ""
+                    title = ""
+                    instructions = "No activity set"
+                }
+    }
+
     spacing: parent.width * 0.025
 
     Image {
