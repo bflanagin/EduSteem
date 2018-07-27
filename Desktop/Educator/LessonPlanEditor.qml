@@ -36,6 +36,9 @@ ESborder {
                     } else {
 
                     }
+    onLessonNumberChanged: {
+        Scripts.loadLesson(userID, lessonNumber)
+    }
 
     Text {
         id: title
@@ -44,8 +47,8 @@ ESborder {
         anchors.margins: 20
         text: Scrubber.recoverSpecial(lessonTitle)
         font.bold: true
-        font.pointSize: 18
-        width:parent.width * 0.75
+        font.pointSize: 15
+        width: parent.width * 0.75
         wrapMode: Text.WordWrap
         Image {
             anchors.left: parent.right
@@ -91,7 +94,6 @@ ESborder {
         background: ESTextField {
         }
     }
-
 
     Item {
         id: lessonInfo
@@ -161,8 +163,8 @@ ESborder {
                     id: aboutColumn
                     width: parent.width * 0.99
                     anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.top:parent.top
-                    anchors.topMargin:10
+                    anchors.top: parent.top
+                    anchors.topMargin: 10
                     padding: 10
                     spacing: thisWindow.width * 0.01
 
@@ -185,8 +187,6 @@ ESborder {
                         thedata: Scrubber.recoverSpecial(lessonAbout)
                         width: parent.width
                     }
-
-
                 }
                 Image {
                     anchors.right: parent.right
@@ -218,16 +218,16 @@ ESborder {
                     id: objectiveColumn
                     width: parent.width * 0.99
                     anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.top:parent.top
+                    anchors.top: parent.top
                     anchors.topMargin: 10
-                    padding:10
+                    padding: 10
                     spacing: thisWindow.width * 0.01
 
                     Text {
                         anchors.left: parent.left
                         anchors.leftMargin: 10
                         text: qsTr("Objective:")
-                        font.bold:true
+                        font.bold: true
                     }
 
                     Rectangle {
@@ -277,7 +277,7 @@ ESborder {
                     Column {
                         id: suppliesColumn
                         width: parent.width
-                        anchors.top:parent.top
+                        anchors.top: parent.top
                         anchors.topMargin: 10
                         padding: 10
 
@@ -331,8 +331,8 @@ ESborder {
                     Column {
                         id: resourcesColumn
                         width: parent.width
-                        anchors.top:parent.top
-                        anchors.topMargin:10
+                        anchors.top: parent.top
+                        anchors.topMargin: 10
                         spacing: thisWindow.width * 0.01
 
                         Text {
@@ -386,9 +386,9 @@ ESborder {
                     id: sequenceColumn
                     width: parent.width * 0.99
                     anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.top:parent.top
-                    anchors.topMargin:10
-                    padding:10
+                    anchors.top: parent.top
+                    anchors.topMargin: 10
+                    padding: 10
                     spacing: thisWindow.width * 0.01
 
                     Text {
@@ -442,9 +442,9 @@ ESborder {
                     id: gqColumn
                     width: parent.width * 0.99
                     anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.top:parent.top
+                    anchors.top: parent.top
                     anchors.topMargin: 10
-                    padding:10
+                    padding: 10
                     spacing: thisWindow.width * 0.01
 
                     Text {
@@ -462,8 +462,8 @@ ESborder {
                         color: seperatorColor
                     }
                     MarkDown {
-                        id:guidedQuest
-                        thedata:Scrubber.recoverSpecial(guidedQuestions)
+                        id: guidedQuest
+                        thedata: Scrubber.recoverSpecial(guidedQuestions)
                         width: parent.width * 0.98
                     }
                 }
@@ -497,9 +497,9 @@ ESborder {
                     id: productColumn
                     width: parent.width * 0.99
                     anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.top:parent.top
-                    anchors.topMargin:10
-                    padding:10
+                    anchors.top: parent.top
+                    anchors.topMargin: 10
+                    padding: 10
                     spacing: thisWindow.width * 0.01
 
                     Text {
@@ -519,8 +519,8 @@ ESborder {
 
                     Assignment_ListView {
                         anchors.horizontalCenter: parent.horizontalCenter
-                        width:parent.width* 0.96
-                        height:thisWindow.height * 0.08
+                        width: parent.width * 0.96
+                        height: thisWindow.height * 0.08
                         thedata: Scrubber.recoverSpecial(lessonSP)
                     }
                 }
@@ -548,15 +548,15 @@ ESborder {
             ESborder {
                 width: parent.width * 0.98
                 anchors.horizontalCenter: parent.horizontalCenter
-                height:reviewColumn.height + 64
+                height: reviewColumn.height + 64
 
                 Column {
                     id: reviewColumn
                     width: parent.width * 0.99
                     anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.top:parent.top
-                    anchors.topMargin:10
-                    padding:10
+                    anchors.top: parent.top
+                    anchors.topMargin: 10
+                    padding: 10
                     spacing: thisWindow.width * 0.01
 
                     Text {
@@ -586,7 +586,7 @@ ESborder {
                                    } else {
                                        "#F1F1F1"
                                    }
-                                anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
                             width: parent.width * 0.99
                             height: if (reviewQuestionBlock.height > reviewAnswerBlock.height) {
                                         reviewQuestionBlock.height * 1.1
@@ -666,7 +666,7 @@ ESborder {
     FieldEdit {
         id: editthis
         width: parent.width
-        height:parent.height
+        height: parent.height
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
         state: "inActive"
@@ -676,12 +676,11 @@ ESborder {
     }
 
     AssignmentEdit {
-        id:assignmentPick
+        id: assignmentPick
         width: parent.width
-        height:parent.height
+        height: parent.height
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
         state: "inActive"
     }
-
 }

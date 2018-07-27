@@ -84,7 +84,7 @@ Item {
         anchors.left: backbutton.right
         anchors.margins: 20
         font.bold: true
-        font.pointSize: 18
+        font.pointSize: 15
         width:parent.width * 0.75
         wrapMode: Text.WordWrap
 

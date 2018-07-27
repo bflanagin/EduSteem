@@ -4,10 +4,16 @@ import "../theme"
 import "../plugins"
 import "../General"
 
+import "../plugins/text.js" as Scrubber
+
 Item {
     id: thisWindow
     width: parent.width * 0.98
     height: parent.height * 0.98
+
+    property string img1:""
+    property string img2:""
+
 
     ESborder {
         id:imgbox1
@@ -89,6 +95,7 @@ Item {
                 height: noteBlock.height * 0.98
                 wrapMode: Text.WordWrap
                 selectByMouse: true
+                onTextChanged: update = img1+","+img2+","+Scrubber.replaceSpecials(text)
             }
         }
 

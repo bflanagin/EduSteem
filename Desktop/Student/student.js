@@ -103,10 +103,35 @@ function loadTask(studentCode, taskId) {
 
             lessonResources = pull.rows.item(0).resources
             lessonDuration = pull.rows.item(0).duration
-            lessonOrder = pull.rows.item(0).lessonNum
+
             lessonDate = d.toLocaleDateString()
 
             lessonSP = Scrubber.recoverSpecial(pull.rows.item(0).studentProduct)
+        }
+
+    })
+
+}
+
+function updateTask(studentCode, taskId, state, qa) {
+
+    db.transaction(function (tx) {
+
+        var dataSTR = "SELECT * FROM Student_Assignments WHERE lessonID ="+taskId
+        var pull = tx.executeSql(dataSTR)    
+        var table = ""
+        var data = []
+
+        if(pull.rows.length === 0) {
+            table = "INSERT INTO Student_Assignments VALUES(?,?,?,?,?,?,?)"
+            data = [schoolCode,studentCode,taskId,state,qa,d.getDate(),d.getDate()]
+            tx.executeSql(table,data)
+
+        } else {
+           table = "UPDATE Student_Assignments SET status=?, qalist=?, editdate=? WHERE studentCode=? AND lessonID=? "
+           data = [state,qa,d.getDate(),studentCode,taskId]
+           tx.executeSql(table,data)
+
         }
 
 
@@ -114,12 +139,25 @@ function loadTask(studentCode, taskId) {
 
 }
 
-function updateTask(studentCode, taskId) {}
-
 
 /* this will be used for Steem / updates */
 function publishTask(studentCode, taskId) {}
 
-function loadStudentProfile(studentCode) {}
+function loadStudentProfile(studentCode) {
+
+    var dataSTR = "SELECT * FROM Students WHERE code =" + studentCode
+
+     db.readTransaction(function(tx) {
+            var studentinfo = tx.executeSql(dataSTR)
+         if(studentinfo.rows.length === 1) {
+
+            studentFirstName = studentinfo.rows.item(0).firstname
+            studentLastName = studentinfo.rows.item(0).lastname
+
+         }
+
+     })
+
+}
 
 function updateStudentProfile(studentCode) {}

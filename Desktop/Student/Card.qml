@@ -13,6 +13,7 @@ import "../General"
 import "../Educator/course.js" as Courses
 import "../General/network.js" as Network
 import "../Educator/students.js" as Students
+import "../Student/student.js" as Student
 
 ESborder {
     property string curtainColor: "gray"
@@ -91,8 +92,11 @@ ESborder {
         MouseArea {
             anchors.fill: parent
             onClicked: {
+                Student.updateTask(studentCode,lessonID,1,"")
+                studentHome.state = "inActive"
                 lessonView.lessonID = lessonID
-                lessonView.state = "Active"}
+                lessonView.state = "Active"
+            }
 
         }
     }
@@ -104,6 +108,7 @@ ESborder {
         width: parent.width * 0.99
         color: curtainColor
         anchors.horizontalCenter: parent.horizontalCenter
+        clip:true
 
         Column {
             id:classInfo
@@ -126,17 +131,17 @@ ESborder {
 
             Text {
                 text: qsTr("Unit: ") + unit
-                font.pointSize: 12
+                font.pointSize: 10
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 6
                 color: "white"
             }
 
             Text {
                 text: qsTr("Lesson: ") + lesson
-                font.pointSize: 12
+                font.pointSize: 10
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 6
                 color: "white"
             }
         }

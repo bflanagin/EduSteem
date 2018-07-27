@@ -198,6 +198,8 @@ function sendToOpenSeed(userid, code, type) {
             }
         }
     })
+
+    gc()
 }
 
 function retrieveFromOpenSeed(id, code, type, update) {
@@ -350,6 +352,8 @@ function retrieveFromOpenSeed(id, code, type, update) {
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
     http.send("devid=" + devId + "&appid=" + appId + "&userid=" + userID
               + "&code=" + id + "&type=" + type)
+
+    gc()
 }
 
 function sync(type, code) {
@@ -448,4 +452,5 @@ function sync(type, code) {
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
     http.send("devid=" + devId + "&appid=" + appId + "&userid=" + userID
               + "&code=" + code + "&type=" + type)
+    gc()
 }

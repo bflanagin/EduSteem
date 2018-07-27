@@ -4,6 +4,8 @@ import "../theme"
 import "../plugins"
 import "../General"
 
+import "../plugins/text.js" as Scrubber
+
 Item {
     id: thisWindow
     width: parent.width * 0.98
