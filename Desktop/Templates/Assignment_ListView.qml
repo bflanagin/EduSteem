@@ -44,6 +44,7 @@ Row {
             anchors.top: parent.bottom
             text:title
             font.bold: true
+            font.pixelSize: parent.height / 4
 
         }
 

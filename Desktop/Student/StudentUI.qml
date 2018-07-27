@@ -5,7 +5,6 @@ import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.0
 import Qt.labs.calendar 1.0
 
-//import QtQuick.Extras 1.4
 import "../theme"
 import "../plugins"
 import "../General"
@@ -20,6 +19,11 @@ Item {
 
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.verticalCenter: parent.verticalCenter
+
+
+    property string studentFirstName: ""
+    property string studentLastName: ""
+
 
     states: [
 
@@ -61,7 +65,10 @@ Item {
 
     state: "inActive"
 
-    onStateChanged: if(state == "Active") {Students.loadDay(d.getMonth(),d.getDate(),d.getDay(),studentCode)}
+    onStateChanged: if(state == "Active") {
+                        Students.loadDay(d.getMonth(),d.getDate(),d.getDay(),studentCode)
+                        Students.loadStudentProfile(studentCode)
+                    }
 
     Rectangle {
         anchors.fill: parent
@@ -281,26 +288,5 @@ Item {
 
     ListModel {
         id:continueLessons
-
-        ListElement {
-            classColor: "green"
-            classtitle: "P.E. / Review"
-            unitName: "Nature Walk"
-            lessonName: "Review"
-        }
-
-        ListElement {
-            classColor: "blue"
-            classtitle: "Reading"
-            unitName: "One and Only Ivan"
-            lessonName: "Lesson 1"
-        }
-
-        ListElement {
-            classColor: "orange"
-            classtitle: "Lunch"
-            unitName: "Lunch!!"
-            lessonName: "Food"
-        }
     }
 }

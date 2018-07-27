@@ -8,6 +8,7 @@ import "../General"
 import "../Educator/course.js" as Courses
 import "../General/network.js" as Network
 import "../Student/student.js" as Students
+import "../plugins/text.js" as Scrubber
 
 Item {
     id:thisWindow

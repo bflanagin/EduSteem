@@ -4,6 +4,8 @@ import "../theme"
 import "../plugins"
 import "../General"
 
+import "../plugins/text.js" as Scrubber
+
 Item {
     id: thisWindow
     width: parent.width * 0.98
@@ -101,6 +103,7 @@ Item {
                 height: noteBlock.height * 0.98
                 wrapMode: Text.WordWrap
                 selectByMouse: true
+                onTextChanged: update = Scrubber.replaceSpecials(text)
             }
         }
 
