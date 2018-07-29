@@ -359,6 +359,9 @@ function pullField(type, where, id) {
             case "studentProduct":
                 returned = pull.rows.item(0).studentProduct
                 break
+            case "Subject":
+                returned = pull.rows.item(0).subject
+                break
             }
         }
     })

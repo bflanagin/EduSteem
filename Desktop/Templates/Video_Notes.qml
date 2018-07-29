@@ -125,6 +125,7 @@ Item {
                 height:noteBlock.height * 0.98
                 wrapMode: Text.WordWrap
                 selectByMouse: true
+                onTextChanged: lessonUpdate = Scrubber.replaceSpecials(text)
             }
 
         }

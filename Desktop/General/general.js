@@ -271,6 +271,9 @@ function studentCred(info1, info2, type) {
                 case "about":
                     returned = pull.rows.item(0).about
                     break
+
+                case "fullname": returned = pull.rows.item(0).firstname+" "+pull.rows.item(0).lastname
+                    break
                 case "code":
                     returned = 1
                     break

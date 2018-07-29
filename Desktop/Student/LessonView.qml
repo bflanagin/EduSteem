@@ -34,7 +34,7 @@ Item {
     property string lessonSequence: ""
     property string lessonSP: ""
 
-    property string update: ""
+    property string lessonUpdate: ""
 
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.verticalCenter: parent.verticalCenter
@@ -393,9 +393,10 @@ Item {
                 }
 
                 onClicked: {
-                    Student.updateTask(studentCode,lessonID,2,"")
+                    Student.updateTask(studentCode,lessonID,2,lessonUpdate)
                     controlArea.state = "inActive"
                     thisWindow.state = "inActive"
+                    studentHome.state = "Active"
                 }
             }
 
@@ -408,9 +409,10 @@ Item {
                 }
 
                 onClicked: {
-                    Student.updateTask(studentCode,lessonID,3,"")
+                    Student.updateTask(studentCode,lessonID,3,lessonUpdate)
                     controlArea.state = "inActive"
                     thisWindow.state = "inActive"
+                     studentHome.state = "Active"
                 }
             }
         }

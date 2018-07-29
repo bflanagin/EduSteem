@@ -13,6 +13,7 @@ import "../General"
 import "./course.js" as Courses
 import "../General/network.js" as Network
 import "./students.js" as Students
+import "../General/general.js" as Scripts
 
 Item {
     id: thisWindow
@@ -66,7 +67,7 @@ Item {
     onStateChanged: if (state == "Active") {
                         Courses.loadCourses(userID)
                         Students.loadStudents(schoolCode)
-
+                        Students.assignment_list()
                         Network.checkOpenSeed(userID, schoolCode,
                                               schoolEditDate, "School")
                         Network.checkOpenSeed(userID, userID, userEditDate,
@@ -241,4 +242,17 @@ Item {
     ListModel {
         id: rqList
     }
+
+    ListModel {
+        id: daysClasses
+    }
+
+    ListModel {
+        id:turnedin
+    }
+
+    ListModel {
+        id:discussed
+    }
+
 }

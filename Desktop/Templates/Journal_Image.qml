@@ -95,7 +95,7 @@ Item {
                 height: noteBlock.height * 0.98
                 wrapMode: Text.WordWrap
                 selectByMouse: true
-                onTextChanged: update = img1+","+img2+","+Scrubber.replaceSpecials(text)
+                onTextChanged: lessonUpdate = img1+","+img2+","+Scrubber.replaceSpecials(text)
             }
         }
 

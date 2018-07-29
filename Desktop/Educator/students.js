@@ -2,7 +2,7 @@ function loadStudents(schoolcode) {
     //console.log("Loading Students")
     var num = 0
     studentList.clear()
-    db.transaction(function (tx) {
+    db.readTransaction(function (tx) {
 
         var dataSTR = "SELECT * FROM Students WHERE schoolcode ='" + schoolcode + "'"
 
@@ -26,7 +26,7 @@ function loadStudents(schoolcode) {
 function loadStudent(code) {
     var num = 0
 
-    db.transaction(function (tx) {
+    db.readTransaction(function (tx) {
 
         var dataSTR = "SELECT * FROM Students WHERE code ='" + code + "'"
 
@@ -45,7 +45,6 @@ function loadStudent(code) {
 
 function saveStudent(userid, firstName, lastName, age, bday, about, schoolID, contactNumber, emailAddress, steemPostToken) {
 
-
     /*saves Student */
     var d = new Date()
 
@@ -62,4 +61,39 @@ function saveStudent(userid, firstName, lastName, age, bday, about, schoolID, co
             tx.executeSql(dtable, data)
         }
     })
+}
+
+function assignment_list() {
+
+    var num = 0
+
+        turnedin.clear()
+    db.readTransaction(function(tx) {
+
+        var dataSTR = "SELECT * FROM Student_Assignments WHERE schoolCode ='" + schoolCode + "' AND status= 3"
+
+        var pull = tx.executeSql(dataSTR)
+
+        console.log("from Assignment List "+schoolCode, pull.rows.length)
+
+        while (pull.rows.length > num) {
+
+            var cdat = new Date(pull.rows.item(num).creationdate)
+            var edat = new Date(pull.rows.item(num).editdate)
+
+
+            turnedin.append({
+                                   name: Courses.pullField("Title","lesson",pull.rows.item(num).lessonID),
+                                   thecolor: selectedHighlightColor,
+                                   studentName: Scripts.studentCred(pull.rows.item(num).studentCode,'',"fullname"),
+                                   cdate: cdat.toLocaleString(),
+                                   edate: edat.toLocaleString()
+                               })
+
+            num = num + 1
+        }
+
+
+    })
+
 }
