@@ -104,5 +104,6 @@
         <file>Templates/Assignment_ListView.qml</file>
         <file>icons/network.svg</file>
         <file>Educator/GeneralInfoDashBoard.qml</file>
+        <file>General/ipfs.js</file>
     </qresource>
 </RCC>

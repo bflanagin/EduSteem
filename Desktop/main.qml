@@ -5,6 +5,9 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Controls.Material 2.4
 import QtQuick.LocalStorage 2.0 as Sql
 
+import Process 1.0
+import IO 1.0
+
 import "./General"
 import "./Educator"
 import "./Student"
@@ -14,6 +17,8 @@ import "./plugins"
 import "./General/network.js" as Network
 
 import "./General/general.js" as Standard
+
+import "./General/ipfs.js" as IPFS
 
 Window {
     id: mainView
@@ -70,6 +75,9 @@ Window {
     property string steemAccount: "" /* Steem Account name */
     property string steemShareKey: "" /* Steem posting key */
 
+    property bool ipfsDaemon: false
+    property string ipfsfile: ""
+
     property string monthselect: switch (d.getMonth()) {
                                  case 0:
                                      "January"
@@ -116,11 +124,32 @@ Window {
         onTriggered: timeupdate = timeupdate + 1000
     }
 
+
     /* End System Wide Variables */
+
+    /* Process control */
+    Process {
+        id: ipfsdaemon
+        onReadyRead: {
+            console.log(readAll())
+            ipfsDaemon = true
+        }
+    }
+
+    Process {
+        id: ipfs
+        property string type: "general"
+        property string newfile: ""
+        onReadyRead: {
+            newfile = readAll()
+            IPFS.mediaAdd(newfile,type)
+        }
+    }
+
     Component.onCompleted: {
         Standard.createddbs()
-
         Standard.loadschool(userID)
+        ipfsdaemon.start("ipfs", ['daemon'])
     }
 
     onNumberOfStudentsChanged: if (numberOfStudents == 0) {
@@ -132,6 +161,7 @@ Window {
     onUserIDChanged: if (userID.length > 2) {
                          Standard.loadschool(userID)
                          Standard.loaduser(userID)
+
                          if (schoolCode.length > 2) {
                              Network.sync("Courses", schoolCode)
                              Network.sync("Units", schoolCode)
@@ -239,14 +269,18 @@ Window {
 
     Rectangle {
         anchors.fill: parent
-        color:"black"
+        color: "black"
         opacity: 0.4
-        visible: if(popUp.state == "Active") {true} else {false}
+        visible: if (popUp.state == "Active") {
+                     true
+                 } else {
+                     false
+                 }
     }
 
     PopUp {
-        id:popUp
-        state:"inActive"
+        id: popUp
+        state: "inActive"
     }
 
     /* End Loaded Items */

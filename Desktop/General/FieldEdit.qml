@@ -1,5 +1,6 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.2
+import Process 1.0
 
 import "../theme"
 import "../plugins"
@@ -8,6 +9,7 @@ import "../Educator"
 import "../Educator/course.js" as Scripts
 import "../plugins/text.js" as Scrubber
 import "../plugins/markdown.js" as MD
+import "./ipfs.js" as IPFS
 
 ESborder {
     id: thisWindow
@@ -19,6 +21,7 @@ ESborder {
     property string where: ""
     property real itemId: 0
     property string existing: ""
+    property string newfile: ""
 
     onStateChanged: if (state == "Active") {
                         existing = Scripts.pullField(field, where, itemId)
@@ -119,6 +122,8 @@ ESborder {
             }
 
             TextArea {
+                id: changeBox
+
                 visible: switch (thisWindow.field) {
                          case "rq":
                              false
@@ -127,13 +132,13 @@ ESborder {
                              true
                              break
                          }
-                id: changeBox
                 anchors.fill: parent
                 horizontalAlignment: Text.AlignLeft
                 wrapMode: Text.WordWrap
                 selectByMouse: true
                 text: Scrubber.recoverSpecial(existing)
                 padding: 5
+
             }
 
             ListView {
@@ -221,7 +226,10 @@ ESborder {
 
             Button {
                 text: qsTr("Add Image")
-                onClicked: fileadd.visible = true
+                onClicked: {
+                    fileadd.type = "general"
+                    fileadd.visible = true
+                }
                 background: ESTextField {
                 }
             }
@@ -319,4 +327,16 @@ ESborder {
         id: fileadd
         visible: false
     }
+
+
+    Process {
+        id: ipfs
+        property string type: "general"
+        property string newfile: ""
+        onReadyRead: {
+            newfile = readAll()
+            changeBox.text = changeBox.text+"\n ![IMG]("+IPFS.mediaAdd(newfile,type)+")"
+        }
+    }
+
 }

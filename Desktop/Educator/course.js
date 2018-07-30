@@ -36,14 +36,14 @@ function saveUnit(userid, coursenumber, name, objective, about, creationdate) {
     })
 }
 
-function saveLesson(userid, coursenumber, unitnumber, name, lessonNum, duration, about, objective, supplies, resources, guidingQuestions, lessonSequence, studentProduct, reviewQuestions, creationdate) {
+function saveLesson(userid, coursenumber, unitnumber, name, lessonNum, duration, about, objective, supplies, resources, guidingQuestions, lessonSequence, reviewQuestions, creationdate) {
 
     var d = new Date()
 
     db.transaction(function (tx) {
         var data = [userid, userCode, 0, coursenumber, unitnumber, name.replace(
                         / /g,
-                        "_"), lessonNum, duration, about, objective, supplies, resources, guidingQuestions, lessonSequence, studentProduct, reviewQuestions, d.getTime(
+                        "_"), lessonNum, duration, about, objective, supplies, resources, guidingQuestions, lessonSequence, " ", reviewQuestions, d.getTime(
                         ), d.getTime()]
         var dtable = "INSERT INTO Lessons VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
 

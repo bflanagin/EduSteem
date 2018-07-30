@@ -28,6 +28,11 @@ guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEX
                     'CREATE TABLE IF NOT EXISTS Student_Assignments (schoolCode TEXT, studentCode MEDIUMINT, lessonID MEDIUMINT, status INT, qaList MEDIUMTEXT, creationdate MEDIUMINT, editdate MEDIUMINT)')
         tx.executeSql(
                     'CREATE TABLE IF NOT EXISTS Student_Daily_Review (schoolCode TEXT,studentCode MEDIUMINT,qaList MEDIUMTEXT, date MEDIUMINT )')
+
+        /* Media databases */
+
+        tx.executeSql(
+                    'CREATE TABLE IF NOT EXISTS Media (schoolCode TEXT,owner TEXT,type TEXT,filename TEXT,hash TEXT,creationdate MEDIUMINT)')
     })
 }
 
@@ -151,6 +156,7 @@ function loadprofile(userid) {
             userCountry = pull.rows.item(0).country
             userState = pull.rows.item(0).state
             userEditDate = pull.rows.item(0).editdate
+            userCode = pull.rows.item(0).code
         }
 
         if (pull1.rows.length === 1) {

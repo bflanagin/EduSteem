@@ -7,8 +7,10 @@ import Qt.labs.calendar 1.0
 
 import "../theme"
 import "../Educator"
-import "./general.js" as Scripts
 import "../plugins"
+
+import "./general.js" as Scripts
+import "./ipfs.js" as IPFS
 
 Item {
     id: thisWindow
@@ -21,6 +23,7 @@ Item {
     property string userState: ""
     property string userid: ""
     property string userAbout: ""
+    property string tempImg:""
 
     states: [
 
@@ -70,6 +73,10 @@ Item {
         anchors.fill: parent
     }
 
+    onStateChanged: {
+        profileImage.source = IPFS.grabImage(userCode,"profile")
+    }
+
     Text {
         id: title
         anchors.top: parent.top
@@ -86,13 +93,6 @@ Item {
             height: parent.height * 0.5
             fillMode: Image.PreserveAspectFit
 
-            /* MouseArea {
-                anchors.fill: parent
-                onClicked: {editthis.field = "Title"
-                            editthis.where = "lesson"
-                            editthis.itemId = lessonNumber
-                            editthis.state = "Active" }
-            } */
         }
     }
 
@@ -151,7 +151,14 @@ Item {
                         height: width
                         fillMode: Image.PreserveAspectCrop
                         visible: false
-                        source: "../icons/frontC.png"
+                        source: IPFS.grabImage(userCode,"profile")
+
+                        Image {
+                            anchors.fill: parent
+                            fillMode: Image.PreserveAspectCrop
+                            source:"/icons/frontC.png"
+                            z:-1
+                        }
                     }
                     OpacityMask {
                         source: profileImage
@@ -161,7 +168,10 @@ Item {
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: files.visible = true
+                        onClicked: {
+                            files.type = "profile"
+                            files.visible = true
+                        }
                     }
                 }
 
@@ -351,5 +361,7 @@ Item {
 
     Files {
         id:files
+        type:"profile"
+        onVisibleChanged: if(visible === false) {files.clearSelection()}
     }
 }

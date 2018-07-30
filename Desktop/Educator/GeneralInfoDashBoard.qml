@@ -1,6 +1,7 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
 import "../theme"
+import "../General"
 import "../Educator/course.js" as Courses
 import "../Educator/students.js" as Students
 import "../Educator/scheduler.js" as Schedule
@@ -104,7 +105,7 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: qsTr("No Classes Today")
                 font.bold: true
-                visible: if (daysClasses.count === 0) {
+                visible: if (dlist.height >= 0) {
                              true
                          } else {
                              false
@@ -112,16 +113,23 @@ Item {
             }
 
             Grid {
+                id:dlist
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width * 0.98
                 spacing: 10
                 columns: 5
 
                 Repeater {
-                    model: daysClasses
+                    model:  DayList {
+
+                        day: d.getDate()
+                        month: d.getMonth()
+                        weekday: d.getDay()
+                        educator: "login"
+                    }
 
                     ESborder {
-                        width: thisWindow.width / 5
+                        width: thisWindow.width / 5.5
                         height: classColumn.height + thisWindow.height * 0.1
 
                         state: "Active"
