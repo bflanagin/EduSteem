@@ -6,6 +6,7 @@ Item {
     id: thisWindow
     property double bgOpacity: 1
     property string fillcolor: "white"
+    property bool clickable: false
     states: [
 
         State {
@@ -76,6 +77,7 @@ Item {
     }
 
     DropShadow {
+        id:shadow
         anchors.fill: bg
         source: bg
         radius: 10.0
@@ -88,8 +90,14 @@ Item {
 
     MouseArea {
         anchors.fill: parent
-        onClicked: {
 
-        }
+        hoverEnabled: clickable
+
+        onEntered: {shadow.horizontalOffset = 6
+                    shadow.verticalOffset = 10
+                    }
+        onExited: {shadow.horizontalOffset = 1
+                    shadow.verticalOffset = 4
+                    }
     }
 }

@@ -13,7 +13,7 @@ import "../Templates"
 import "../plugins/text.js" as Scrubber
 import "../Educator/course.js" as Courses
 import "../General/network.js" as Network
-import "./student.js" as Student
+import "../Student/student.js" as Student
 
 Item {
     id: thisWindow
@@ -35,6 +35,9 @@ Item {
     property string lessonSP: ""
 
     property string lessonUpdate: ""
+
+    property string studentFirstName: ""
+    property string studentLastName: ""
 
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.verticalCenter: parent.verticalCenter
@@ -71,7 +74,7 @@ Item {
             NumberAnimation {
                 target: thisWindow
                 properties: "opacity,anchors.verticalCenterOffset"
-                duration: 40
+                duration: 400
                 easing.type: Easing.InOutQuad
             }
         }
@@ -90,151 +93,119 @@ Item {
         anchors.fill: parent
     }
 
-    TopBar {
-        id: topBar
-        width: parent.width
-        height: 32
-        location: lessonName
+    Item {
+        id:titleBlock
+        width:parent.width
+        height:title.height + 40
+
+    Text {
+        id: title
+        text: lessonName+" - "+studentFirstName+" "+studentLastName
+        anchors.top: parent.top
+        anchors.left: backbutton.right
+        anchors.margins: 20
+        font.bold: true
+        font.pointSize: 15
+        width:parent.width * 0.75
+        wrapMode: Text.WordWrap
+    }
+
+    CircleButton {
+        id: backbutton
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.margins: 20
+        height: title.height
+        width: title.height
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                thisWindow.state = "inActive"
+            }
+        }
+    }
+
     }
 
     Item {
         id: mainArea
-        anchors.top: topBar.bottom
+        anchors.top: titleBlock.bottom
         anchors.left: leftMenu.right
         anchors.margins: 4
         width: parent.width - leftMenu.width
-        height: parent.height - topBar.height
+        height: parent.height
 
-        Journal {
-            visible: if (lessonSP.split("::")[1] === "Simple") {
-                         true
-                     } else {
-                         false
-                     }
-            anchors.left: parent.left
-            anchors.verticalCenter: parent.verticalCenter
-            enabled: visible
+        Row {
+            anchors.top:parent.top
+            anchors.topMargin: parent.height * 0.02
+            width:parent.width * 0.98
+            height:parent.height * 0.98
+
+            Column {
+                width:parent.width * 0.55
+                spacing: 3
+
+                Text {
+                    text:qsTr("Assignment")
+                    font.bold: true
+                    anchors.left:parent.left
+                    anchors.leftMargin: thisWindow.height * 0.01
+                }
+
+                Rectangle {
+                    width:parent.width * 0.98
+                    height:1
+                    color:seperatorColor
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+        MarkDown {
+
+            width:parent.width
+            thedata: 'TEST'
         }
 
-        Journal_Image {
-            visible: if (lessonSP.split("::")[1] === "Journal+Image") {
-                         true
-                     } else {
-                         false
-                     }
-            anchors.left: parent.left
+            }
+
+        Rectangle {
+            width:1
+            height:parent.height * 0.98
+            color:seperatorColor
             anchors.verticalCenter: parent.verticalCenter
-            enabled: visible
         }
 
-        Journal_Prompt {
-            visible: if (lessonSP.split("::")[1] === "Journal+Prompt") {
-                         true
-                     } else {
-                         false
-                     }
-            anchors.left: parent.left
-            anchors.verticalCenter: parent.verticalCenter
-            enabled: visible
+        Column {
+            width:parent.width * 0.50
+            spacing: 3
+            Text {
+                text:qsTr("Notes:")
+                font.bold: true
+                anchors.left:parent.left
+                anchors.leftMargin: thisWindow.height * 0.01
+            }
+
+            Rectangle {
+                width:parent.width * 0.98
+                height:1
+                color:seperatorColor
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
         }
 
-        Video {
-            visible: if (lessonSP.split("::")[1] === "Video Only") {
-                         true
-                     } else {
-                         false
-                     }
-            anchors.left: parent.left
-            anchors.verticalCenter: parent.verticalCenter
-            enabled: visible
-        }
-
-        Video_Notes {
-            visible: if (lessonSP.split("::")[1] === "Video+Notes") {
-                         true
-                     } else {
-                         false
-                     }
-            anchors.left: parent.left
-            anchors.verticalCenter: parent.verticalCenter
-            enabled: visible
-        }
-
-        Video_Questions {
-            visible: if (lessonSP.split("::")[1] === "Video+Questions") {
-                         true
-                     } else {
-                         false
-                     }
-            anchors.left: parent.left
-            anchors.verticalCenter: parent.verticalCenter
-            enabled: visible
-        }
-
-        Web {
-            visible: if (lessonSP.split("::")[1] === "Site Only") {
-                         true
-                     } else {
-                         false
-                     }
-            anchors.left: parent.left
-            anchors.verticalCenter: parent.verticalCenter
-            enabled: visible
-        }
-
-        Web_Notes {
-            visible: if (lessonSP.split("::")[1] === "Site+Notes") {
-                         true
-                     } else {
-                         false
-                     }
-            anchors.left: parent.left
-            anchors.verticalCenter: parent.verticalCenter
-            enabled: visible
-        }
-        Web_Questions {
-            visible: if (lessonSP.split("::")[1] === "Site+Questions") {
-                         true
-                     } else {
-                         false
-                     }
-            anchors.left: parent.left
-            anchors.verticalCenter: parent.verticalCenter
-            enabled: visible
-        }
-
-        Writing {
-            visible: if (lessonSP.split("::")[1] === "Simple") {
-                         true
-                     } else {
-                         false
-                     }
-            anchors.left: parent.left
-            anchors.verticalCenter: parent.verticalCenter
-            enabled: visible
-        }
-
-        Writing_Prompt {
-            visible: if (lessonSP.split("::")[1] === "Writing+Prompt") {
-                         true
-                     } else {
-                         false
-                     }
-            anchors.left: parent.left
-            anchors.verticalCenter: parent.verticalCenter
-            enabled: visible
         }
     }
 
     Item {
         id: controlArea
         anchors.top: parent.top
-        anchors.topMargin: topBar.height
+        anchors.topMargin: 4
         anchors.right: parent.right
         anchors.rightMargin: 8
 
         width: mainArea.width * 0.30
-        height: parent.height - topBar.height
+        height: parent.height
         z: if (instructionsArea.state === "Active"
                    || resourcesArea.state === "Active") {
                1
@@ -323,7 +294,7 @@ Item {
             }
 
             Text {
-                text: "Student: " + studentHome.studentFirstName + " " + studentHome.studentLastName
+                text: "Student: " + studentFirstName + " " + studentLastName
             }
             Text {
                 text: "Date: " + d.toLocaleDateString()
@@ -376,24 +347,26 @@ Item {
             }
         }
 
-        Item {
+        Column {
             id:actionButtons
             anchors.bottom: parent.bottom
             anchors.bottomMargin: parent.height * 0.01
             width: parent.width
-            height: breakbutton.height
+            spacing: parent.height * 0.01
             anchors.horizontalCenter: controlArea.horizontalCenter
 
             Button {
                 id: breakbutton
                 anchors.left: parent.left
                 anchors.leftMargin: 10
-                text: qsTr("Take a Break")
+                width:parent.width
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr("Revise")
                 background: ESTextField {
                 }
 
                 onClicked: {
-                    Student.updateTask(studentCode,lessonID,2,lessonUpdate)
+                    Student.updateTask(studentCode,lessonID,4,lessonUpdate)
                     controlArea.state = "inActive"
                     thisWindow.state = "inActive"
                     studentHome.state = "Active"
@@ -402,14 +375,15 @@ Item {
 
             Button {
                 width: breakbutton.width
-                anchors.right: parent.right
-                anchors.rightMargin: 10
-                text: qsTr("Turn In")
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr("Accepted")
                 background: ESTextField {
                 }
 
                 onClicked: {
-                    Student.updateTask(studentCode,lessonID,3,lessonUpdate)
+                    Student.updateTask(studentCode,lessonID,5,lessonUpdate)
                     controlArea.state = "inActive"
                     thisWindow.state = "inActive"
                      studentHome.state = "Active"
@@ -421,12 +395,12 @@ Item {
     Item {
         id: instructionsArea
         anchors.top: parent.top
-        anchors.topMargin: topBar.height
+        anchors.topMargin: 4
         anchors.right: parent.right
         anchors.rightMargin: 8
 
         width: mainArea.width * 0.30
-        height: parent.height - topBar.height
+        height: parent.height
         z: 2
 
         states: [
@@ -529,7 +503,7 @@ Item {
     Item {
         id: resourcesArea
         anchors.top: parent.top
-        anchors.topMargin: topBar.height
+        anchors.topMargin: 4
         anchors.right: parent.right
         anchors.rightMargin: 8
         z: if (instructionsArea.state === "Active") {
@@ -634,17 +608,6 @@ Item {
                 }
             }
         }
-    }
-
-    LeftMenu {
-        id: leftMenu
-        anchors.left: parent.left
-        anchors.top: topBar.bottom
-        anchors.bottom: parent.bottom
-        state: "Active"
-        width: 64
-        clip: true
-        z: 5
     }
 
     ListModel {

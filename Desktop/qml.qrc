@@ -34,7 +34,6 @@
         <file>Educator/UnitWizard.qml</file>
         <file>General/FieldEdit.qml</file>
         <file>General/general.js</file>
-        <file>General/GeneralInfoDashBoard.qml</file>
         <file>General/Login.qml</file>
         <file>General/network.js</file>
         <file>General/NewAccount.qml</file>
@@ -104,5 +103,10 @@
         <file>icons/videos.svg</file>
         <file>Templates/Assignment_ListView.qml</file>
         <file>icons/network.svg</file>
+        <file>Educator/GeneralInfoDashBoard.qml</file>
+        <file>General/ipfs.js</file>
+        <file>Educator/ReviewView.qml</file>
+        <file>General/ResourceList.qml</file>
+        <file>General/ResourceListAdd.qml</file>
     </qresource>
 </RCC>

@@ -223,8 +223,6 @@ function retrieveFromOpenSeed(id, code, type, update) {
 
                         var info = http.responseText.split(";&;")
 
-
-
                         db.transaction(function (tx) {
 
                             switch (type) {
@@ -454,3 +452,7 @@ function sync(type, code) {
               + "&code=" + code + "&type=" + type)
     gc()
 }
+
+
+
+

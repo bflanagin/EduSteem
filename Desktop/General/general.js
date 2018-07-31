@@ -1,12 +1,23 @@
 function createddbs() {
 
     db.transaction(function (tx) {
+
+        /* convenience databases */
         tx.executeSql(
-                    'CREATE TABLE IF NOT EXISTS Steem (id TEXT, type INT,data1 TEXT,data2 TEXT,data3 TEXT)')
-        tx.executeSql(
-                    'CREATE TABLE IF NOT EXISTS Schools (id TEXT, type INT,name TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT,editdate MEDIUMINT)')
+                    'CREATE TABLE IF NOT EXISTS Subjects (schoolCode TEXT,subjectNumber INT ,subjectName TEXT,subjectColor TEXT,subjectBg TEXT,creationdate MEDIUMINT)')
+
+
+        /* user databases */
         tx.executeSql(
                     'CREATE TABLE IF NOT EXISTS Users (id TEXT, type INT,firstname TEXT,lastname TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT,editdate MEDIUMINT)')
+
+        tx.executeSql(
+                    'CREATE TABLE IF NOT EXISTS Steem (id TEXT, type INT,data1 TEXT,data2 TEXT,data3 TEXT)')
+
+
+        /* school databases */
+        tx.executeSql(
+                    'CREATE TABLE IF NOT EXISTS Schools (id TEXT, type INT,name TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT,editdate MEDIUMINT)')
 
         tx.executeSql(
                     'CREATE TABLE IF NOT EXISTS Lessons (id TEXT, educatorID TEXT,published INT, coursenumber MEDIUMINT,unitnumber MEDIUMINT, name TEXT, lessonNum INT, duration INT, about MEDIUMTEXT, objective MEDIUMTEXT, supplies MEDIUMTEXT, resources MEDIUMTEXT, \
@@ -28,6 +39,11 @@ guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEX
                     'CREATE TABLE IF NOT EXISTS Student_Assignments (schoolCode TEXT, studentCode MEDIUMINT, lessonID MEDIUMINT, status INT, qaList MEDIUMTEXT, creationdate MEDIUMINT, editdate MEDIUMINT)')
         tx.executeSql(
                     'CREATE TABLE IF NOT EXISTS Student_Daily_Review (schoolCode TEXT,studentCode MEDIUMINT,qaList MEDIUMTEXT, date MEDIUMINT )')
+
+
+        /* Media databases */
+        tx.executeSql(
+                    'CREATE TABLE IF NOT EXISTS Media (schoolCode TEXT,owner TEXT,type TEXT,filename TEXT,hash TEXT,creationdate MEDIUMINT)')
     })
 }
 
@@ -81,7 +97,6 @@ function loadschool(userid) {
             schoolEditDate = pull.rows.item(0).editdate
             userID = pull.rows.item(0).id
 
-
             /* done with general info */
 
             /* Student Check */
@@ -96,6 +111,35 @@ function loadschool(userid) {
             login.state = "Active"
         }
     })
+
+    if (schoolCode !== "") {
+        db.transaction(function (tx) {
+
+            var generic = ["8 - P.E.:DarkGreen", "101 - Math:Orange", "201 - Science:Green", "301 - Humanities:LightBlue", "302 - Literature:Brown", "303 - Writing:Black", "304 - Grammar:Red", "305 - Spelling:Brown", "401 - Art", "501 - Music", "601 - Vocational:Pink", "701 - Social Sciences", "801 - Languages Studies", "901 - Projects"]
+            var num = 0
+            while (num < generic.length) {
+
+                var checkSTR = "SELECT * FROM Subjects WHERE schoolCode='"
+                        + schoolCode + "' AND subjectNumber=" + generic[num].split(
+                            " - ")[0]
+
+                var check = tx.executeSql(checkSTR)
+
+                if (check.rows.length === 0) {
+                    var dataSTR = "INSERT INTO Subjects VALUES(?,?,?,?,?,?)"
+                    var number = generic[num].split(" - ")[0]
+                    var name = generic[num].split(" - ")[1].split(":")[0]
+                    var color = generic[num].split(" - ")[1].split(":")[1]
+                    var data = [schoolCode, number, name, color, " ", d.getTime(
+                                    )]
+
+                    tx.executeSql(dataSTR, data)
+                }
+
+                num = num + 1
+            }
+        })
+    }
 }
 
 function loaduser(userid) {
@@ -151,6 +195,7 @@ function loadprofile(userid) {
             userCountry = pull.rows.item(0).country
             userState = pull.rows.item(0).state
             userEditDate = pull.rows.item(0).editdate
+            userCode = pull.rows.item(0).code
         }
 
         if (pull1.rows.length === 1) {
@@ -236,8 +281,8 @@ function oneTime(id, action, forwhat) {
 
 function studentCred(info1, info2, type) {
 
-    /* Function returns student information based on type */
 
+    /* Function returns student information based on type */
     var returned = 0
     var pull = ""
 
@@ -270,6 +315,10 @@ function studentCred(info1, info2, type) {
                     break
                 case "about":
                     returned = pull.rows.item(0).about
+                    break
+                case "fullname":
+                    returned = pull.rows.item(
+                                0).firstname + " " + pull.rows.item(0).lastname
                     break
                 case "code":
                     returned = 1

@@ -115,11 +115,11 @@ ESborder {
                             spacing: width * 0.03
 
                             Text {
-                                text: qsTr("Course: " + courseName)
+                                text: qsTr("Course: " + Scrubber.recoverSpecial(courseName))
                             }
 
                             Text {
-                                text: qsTr("Unit: " + unitTitle)
+                                text: qsTr("Unit: " + Scrubber.recoverSpecial(unitTitle))
                             }
 
                             Rectangle {
@@ -722,11 +722,11 @@ ESborder {
                 }
 
                 Text {
-                    text: qsTr("Course: " + courseName)
+                    text: qsTr("Course: " + Scrubber.recoverSpecial(courseName))
                 }
 
                 Text {
-                    text: qsTr("Unit: " + unitTitle)
+                    text: qsTr("Unit: " + Scrubber.recoverSpecial(unitTitle))
                 }
 
                 Text {
@@ -791,7 +791,7 @@ ESborder {
                                 aboutBox.text), Scrubber.replaceSpecials(objectiveBox.text), Scrubber.replaceSpecials(
                                 resourceBox.text), Scrubber.replaceSpecials(otherResourcesBox.text), Scrubber.replaceSpecials(
                                 guidedQuestions.toString()), Scrubber.replaceSpecials(lessonSequence.text),
-                            Scrubber.replaceSpecials(studentProduct.text), Scrubber.replaceSpecials(reviewQuestions.toString()), 0)
+                            Scrubber.replaceSpecials(reviewQuestions.toString()), 0)
                 thisWindow.state = "inActive"
             }
         }

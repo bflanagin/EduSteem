@@ -1,6 +1,6 @@
 function loadDay(month, day, weekday, studentCode) {
     todaysClasses.clear()
-    db.transaction(function (tx) {
+    db.readTransaction(function (tx) {
 
         var num = 0
         var dataSTR = "SELECT day FROM Schedule WHERE schoolcode ='"
@@ -30,26 +30,20 @@ function loadDay(month, day, weekday, studentCode) {
                                         classes[classnum].split(
                                             ":")[1].split(",")[0])
 
-                           console.log(parseInt(classes[classnum].split(
-                                           ":")[1].split(",")[0]),Schedule.pullField(
-                                           "unit",
-                                           "Name",classes[classnum].split(
-                                ":")[1].split(",")[0]))
-
                             var color = "gray"
 
                             if (subject !== "") {
-                                for (var cnum = 0; courses.length > cnum; cnum++) {
-                                    if (courses[cnum].search(subject) !== -1) {
-                                        if (courses[cnum].split(
-                                                    ":").length > 1) {
-                                            color = courses[cnum].split(":")[1]
-                                            break
-                                        } else {
-                                            color = "gray"
-                                        }
+
+                                var getSubjectInfo = "SELECT * FROM Subjects WHERE schoolCode='"+schoolCode+"' AND subjectNumber="+subject
+
+                                var info = tx.executeSql(getSubjectInfo)
+
+                                if(info.rows.length === 1) {
+                                    if(info.rows.item(0).subjectColor !== null ) {
+                                    color = info.rows.item(0).subjectColor
                                     }
                                 }
+
                             }
 
                             todaysClasses.append({
@@ -115,21 +109,23 @@ function loadTask(studentCode, taskId) {
 
 function updateTask(studentCode, taskId, state, qa) {
 
+    console.log(studentCode)
+
     db.transaction(function (tx) {
 
-        var dataSTR = "SELECT * FROM Student_Assignments WHERE lessonID ="+taskId
+        var dataSTR = "SELECT * FROM Student_Assignments WHERE lessonID ="+taskId+" AND studentCode="+studentCode
         var pull = tx.executeSql(dataSTR)    
         var table = ""
         var data = []
 
         if(pull.rows.length === 0) {
             table = "INSERT INTO Student_Assignments VALUES(?,?,?,?,?,?,?)"
-            data = [schoolCode,studentCode,taskId,state,qa,d.getDate(),d.getDate()]
+            data = [schoolCode,studentCode,taskId,state,qa,d.getTime(),d.getTime()]
             tx.executeSql(table,data)
 
         } else {
            table = "UPDATE Student_Assignments SET status=?, qalist=?, editdate=? WHERE studentCode=? AND lessonID=? "
-           data = [state,qa,d.getDate(),studentCode,taskId]
+           data = [state,qa,d.getTime(),studentCode,taskId]
            tx.executeSql(table,data)
 
         }

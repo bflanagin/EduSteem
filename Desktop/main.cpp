@@ -5,6 +5,7 @@
 #include <QQmlApplicationEngine>
 
 #include "./io.h"
+#include "./process.h"
 
 
 int main(int argc, char *argv[])
@@ -12,6 +13,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     qmlRegisterType<IOout>("IO", 1, 0, "IOout");
+    qmlRegisterType<Process>("Process", 1, 0, "Process");
 
     QApplication app(argc, argv);
 

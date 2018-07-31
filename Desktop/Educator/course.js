@@ -36,14 +36,14 @@ function saveUnit(userid, coursenumber, name, objective, about, creationdate) {
     })
 }
 
-function saveLesson(userid, coursenumber, unitnumber, name, lessonNum, duration, about, objective, supplies, resources, guidingQuestions, lessonSequence, studentProduct, reviewQuestions, creationdate) {
+function saveLesson(userid, coursenumber, unitnumber, name, lessonNum, duration, about, objective, supplies, resources, guidingQuestions, lessonSequence, reviewQuestions, creationdate) {
 
     var d = new Date()
 
     db.transaction(function (tx) {
         var data = [userid, userCode, 0, coursenumber, unitnumber, name.replace(
                         / /g,
-                        "_"), lessonNum, duration, about, objective, supplies, resources, guidingQuestions, lessonSequence, studentProduct, reviewQuestions, d.getTime(
+                        "_"), lessonNum, duration, about, objective, supplies, resources, guidingQuestions, lessonSequence, " ", reviewQuestions, d.getTime(
                         ), d.getTime()]
         var dtable = "INSERT INTO Lessons VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
 
@@ -83,7 +83,7 @@ function loadQuestions(type) {
     var num = 1
     if (type === 0) {
         gqList.clear()
-       // console.log("Loading Guided Questions")
+
         while (guidedQuestions.length > num) {
             gqList.append({
                               question: guidedQuestions[num].split(":::")[0],
@@ -93,7 +93,7 @@ function loadQuestions(type) {
         }
     } else {
         rqList.clear()
-          //  console.log("Loading Review Questions "+reviewQuestions)
+
         while (reviewQuestions.length > num) {
             rqList.append({
                               question: reviewQuestions[num].split(":::")[0],
@@ -236,7 +236,6 @@ function loadLesson(userid, lessonnumber) {
     })
 
     loadQuestions(1)
-    //loadQuestions(0)
 }
 
 function editField(type, where, id, change) {
@@ -358,6 +357,9 @@ function pullField(type, where, id) {
                 break
             case "studentProduct":
                 returned = pull.rows.item(0).studentProduct
+                break
+            case "Subject":
+                returned = pull.rows.item(0).subject
                 break
             }
         }

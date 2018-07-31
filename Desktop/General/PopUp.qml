@@ -70,7 +70,6 @@ ESborder {
                 anchors.rightMargin: 10
                 background: ESTextField {}
                 onClicked: { thisWindow.state = "inActive"
-
                         educatorHome.state = "inActive"
                         if(lessonView.state == "inActive") {
                         studentHome.state = "inActive"

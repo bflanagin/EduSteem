@@ -25,12 +25,35 @@ function load_Day(month, day, weekday) {
                         if (classes[classnum].split(":")[1].split(
                                     ",")[week] === "true") {
 
+                            var subject = Schedule.pullField(
+                                        "course", "Subject",
+                                        classes[classnum].split(
+                                            ":")[1].split(",")[0])
+
+                            var color = "gray"
+
+                            if (subject !== "") {
+
+                                var getSubjectInfo = "SELECT * FROM Subjects WHERE schoolCode='"+schoolCode+"' AND subjectNumber="+subject
+
+                                var info = tx.executeSql(getSubjectInfo)
+
+                                if(info.rows.length === 1) {
+                                    if(info.rows.item(0).subjectColor !== null ) {
+                                    color = info.rows.item(0).subjectColor
+                                    }
+                                }
+
+                            }
+
+
                             dayList.append({
                                                name: pullField(
                                                          "course", "Name",
                                                          classes[classnum].split(
                                                              ":")[1].split(
-                                                             ",")[0])
+                                                             ",")[0]),
+                                               coursecolor:color
                                            })
                         }
                     }

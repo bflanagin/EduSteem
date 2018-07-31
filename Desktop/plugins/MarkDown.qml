@@ -25,8 +25,12 @@ Item {
             width: thisWindow.width * 0.98
             height: if (textItem.visible == true) {
                         textItem.height
-                    } else if (imageItem.visible == true) {
-                        imageItem.height
+                    } else if (imageItem.visible == true ) {
+                        if( imageItem.status == Image.Ready) {
+                                    imageItem.height
+                        } else {
+                            width
+                        }
                     } else if (codeItem.visible == true) {
                         5
                     }
@@ -63,7 +67,7 @@ Item {
                 source: img
                 anchors.centerIn: parent
                 fillMode: Image.PreserveAspectFit
-                width: parent.width
+                width: parent.width    
             }
 
             /* If the data is ``` the Code line Item is displayed */
