@@ -83,7 +83,7 @@ function loadQuestions(type) {
     var num = 1
     if (type === 0) {
         gqList.clear()
-       // console.log("Loading Guided Questions")
+
         while (guidedQuestions.length > num) {
             gqList.append({
                               question: guidedQuestions[num].split(":::")[0],
@@ -93,7 +93,7 @@ function loadQuestions(type) {
         }
     } else {
         rqList.clear()
-          //  console.log("Loading Review Questions "+reviewQuestions)
+
         while (reviewQuestions.length > num) {
             rqList.append({
                               question: reviewQuestions[num].split(":::")[0],
@@ -236,7 +236,6 @@ function loadLesson(userid, lessonnumber) {
     })
 
     loadQuestions(1)
-    //loadQuestions(0)
 }
 
 function editField(type, where, id, change) {

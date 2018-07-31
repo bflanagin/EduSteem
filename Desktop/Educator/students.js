@@ -83,6 +83,7 @@ function assignment_list() {
 
 
             turnedin.append({
+                                   lessonid:pull.rows.item(num).lessonID,
                                    name: Courses.pullField("Title","lesson",pull.rows.item(num).lessonID),
                                    thecolor: selectedHighlightColor,
                                    studentName: Scripts.studentCred(pull.rows.item(num).studentCode,'',"fullname"),

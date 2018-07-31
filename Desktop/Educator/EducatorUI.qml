@@ -5,7 +5,6 @@ import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.0
 import Qt.labs.calendar 1.0
 
-//import QtQuick.Extras 1.4
 import "../theme"
 import "../plugins"
 import "../General"
@@ -177,6 +176,14 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             height: parent.height
             state: "inActive"
+        }
+
+        ReviewView {
+            id:reviewView
+            width: parent.width
+            height: parent.height
+            state: "inActive"
+            anchors.verticalCenter: parent.verticalCenter
         }
 
         Settings {

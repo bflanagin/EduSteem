@@ -267,6 +267,8 @@ Window {
         state: "inActive"
     }
 
+
+
     Rectangle {
         anchors.fill: parent
         color: "black"

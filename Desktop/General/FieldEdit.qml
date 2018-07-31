@@ -333,9 +333,10 @@ ESborder {
         id: ipfs
         property string type: "general"
         property string newfile: ""
+        property string media: "IMG"
         onReadyRead: {
             newfile = readAll()
-            changeBox.text = changeBox.text+"\n ![IMG]("+IPFS.mediaAdd(newfile,type)+")"
+            changeBox.text = changeBox.text+"\n !["+media+"]("+IPFS.mediaAdd(newfile,type)+")"
         }
     }
 

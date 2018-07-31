@@ -5,6 +5,7 @@ FileDialog {
     id: fileDialog
 
     property string type: "none"
+    property string media: "IMG"
     property string markdown:""
 
     //onTypeChanged: console.log(type)
@@ -22,6 +23,7 @@ FileDialog {
         }
         ipfs.start("ipfs",["add",thefile])
         ipfs.type = type
+        ipfs.media = media
         ipfs.onReadChannelFinished(fileDialog.visible = false )
 
     }

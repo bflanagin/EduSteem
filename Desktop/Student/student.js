@@ -1,6 +1,6 @@
 function loadDay(month, day, weekday, studentCode) {
     todaysClasses.clear()
-    db.transaction(function (tx) {
+    db.readTransaction(function (tx) {
 
         var num = 0
         var dataSTR = "SELECT day FROM Schedule WHERE schoolcode ='"
@@ -33,17 +33,17 @@ function loadDay(month, day, weekday, studentCode) {
                             var color = "gray"
 
                             if (subject !== "") {
-                                for (var cnum = 0; courses.length > cnum; cnum++) {
-                                    if (courses[cnum].search(subject) !== -1) {
-                                        if (courses[cnum].split(
-                                                    ":").length > 1) {
-                                            color = courses[cnum].split(":")[1]
-                                            break
-                                        } else {
-                                            color = "gray"
-                                        }
+
+                                var getSubjectInfo = "SELECT * FROM Subjects WHERE schoolCode='"+schoolCode+"' AND subjectNumber="+subject
+
+                                var info = tx.executeSql(getSubjectInfo)
+
+                                if(info.rows.length === 1) {
+                                    if(info.rows.item(0).subjectColor !== null ) {
+                                    color = info.rows.item(0).subjectColor
                                     }
                                 }
+
                             }
 
                             todaysClasses.append({

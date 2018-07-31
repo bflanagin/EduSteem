@@ -334,6 +334,7 @@ ESborder {
                         anchors.top: parent.top
                         anchors.topMargin: 10
                         spacing: thisWindow.width * 0.01
+                        clip:true
 
                         Text {
                             anchors.left: parent.left
@@ -349,10 +350,12 @@ ESborder {
                             color: seperatorColor
                         }
 
-                        MarkDown {
+                        ResourceList {
                             id: resourceText
-                            thedata: Scrubber.recoverSpecial(lessonResources)
+                            thedata:Scrubber.recoverSpecial(lessonResources)
                             width: parent.width
+                            height:if(contentHeight > 400) {thisWindow.height * 0.4} else {contentHeight}
+
                         }
                     }
                     Image {
@@ -367,10 +370,13 @@ ESborder {
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
-                                editthis.field = "Resources"
-                                editthis.where = "lesson"
-                                editthis.itemId = lessonNumber
-                                editthis.state = "Active"
+                                addResource.current = resourceText.thedata
+                                addResource.field = "Resources"
+                                addResource.where = "lesson"
+                                addResource.itemId = lessonNumber
+                                addResource.state = "Active"
+
+
                             }
                         }
                     }
@@ -679,6 +685,15 @@ ESborder {
         id: assignmentPick
         width: parent.width
         height: parent.height
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        state: "inActive"
+    }
+
+    ResourceListAdd {
+        id:addResource
+        width:parent.width * 0.3
+        //height:parent.height * 0.9
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
         state: "inActive"

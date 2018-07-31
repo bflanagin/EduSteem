@@ -44,7 +44,9 @@ Item {
                         schedule.state = "inActive"
                         studentRoster.state = "inActive"
                         yourProfile.state = "inActive"
-                        educatorHome.state === "Active"
+                        reviewView.state = "inActive"
+                        educatorHome.state = "Active"
+
                     } else {
                         lessonView.state = "inActive"
                         studentHome.state = "Active"

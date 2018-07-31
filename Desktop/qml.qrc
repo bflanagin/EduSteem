@@ -105,5 +105,8 @@
         <file>icons/network.svg</file>
         <file>Educator/GeneralInfoDashBoard.qml</file>
         <file>General/ipfs.js</file>
+        <file>Educator/ReviewView.qml</file>
+        <file>General/ResourceList.qml</file>
+        <file>General/ResourceListAdd.qml</file>
     </qresource>
 </RCC>

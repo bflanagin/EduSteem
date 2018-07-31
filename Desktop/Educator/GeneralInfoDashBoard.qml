@@ -105,7 +105,7 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: qsTr("No Classes Today")
                 font.bold: true
-                visible: if (dlist.height >= 0) {
+                visible: if (dlist.count === 0) {
                              true
                          } else {
                              false
@@ -113,7 +113,7 @@ Item {
             }
 
             Grid {
-                id:dlist
+
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width * 0.98
                 spacing: 10
@@ -121,7 +121,7 @@ Item {
 
                 Repeater {
                     model:  DayList {
-
+                            id:dlist
                         day: d.getDate()
                         month: d.getMonth()
                         weekday: d.getDay()
@@ -131,27 +131,34 @@ Item {
                     ESborder {
                         width: thisWindow.width / 5.5
                         height: classColumn.height + thisWindow.height * 0.1
-
+                        clickable: true
                         state: "Active"
                         Column {
                             id: classColumn
-                            anchors.centerIn: parent
-                            width: parent.width * 0.92
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.top:parent.top
+
+                            width: parent.width * 0.98
 
                             spacing: 5
 
-                            Text {
+                            Rectangle {
+                                color:coursecolor
+                                width:parent.width * 0.98
+                                height:thisWindow.height * 0.05
 
+                            Text {
+                                anchors.left:parent.left
+                                anchors.leftMargin: parent.height * 0.1
+                                anchors.verticalCenter: parent.verticalCenter
                                 text: name
                                 wrapMode: Text.WordWrap
+                                width:parent.width * 0.98
                                 font.pointSize: 10
                                 font.bold: true
+                                color:"white"
                             }
 
-                            Rectangle {
-                                width: parent.width
-                                height: 1
-                                color: seperatorColor
                             }
                         }
                     }
@@ -280,6 +287,19 @@ Item {
                             horizontalAlignment: Text.AlignRight
                             font.pointSize: 7
 
+                        }
+
+                        MouseArea {
+                            anchors.fill:parent
+                            onClicked: {
+                                        reviewView.studentFirstName = studentName.split(" ")[0]
+                                        reviewView.studentLastName = studentName.split(" ")[1]
+                                        reviewView.lessonID = lessonid
+                                        reviewView.lessonName = name
+                                        reviewView.state = "Active"
+
+
+                                        }
                         }
 
                     }
