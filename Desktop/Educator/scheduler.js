@@ -46,14 +46,21 @@ function load_Day(month, day, weekday) {
 
                             }
 
+                                 var coursenumber = classes[classnum].split(
+                                        ":")[1].split(
+                                        ",")[0]
+
+                                Scripts.lessonControlADD(coursenumber)
 
                             dayList.append({
+                                               coursenumber: coursenumber,
                                                name: pullField(
                                                          "course", "Name",
                                                          classes[classnum].split(
                                                              ":")[1].split(
                                                              ",")[0]),
-                                               coursecolor:color
+                                               coursecolor:color,
+
                                            })
                         }
                     }

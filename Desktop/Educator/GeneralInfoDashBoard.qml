@@ -130,7 +130,7 @@ Item {
 
                     ESborder {
                         width: thisWindow.width / 5.5
-                        height: classColumn.height + thisWindow.height * 0.1
+                        height: classColumn.height + thisWindow.height * 0.03
                         clickable: true
                         state: "Active"
                         Column {
@@ -140,11 +140,12 @@ Item {
 
                             width: parent.width * 0.98
 
-                            spacing: 5
+                            spacing: parent.width * 0.03
 
                             Rectangle {
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 color:coursecolor
-                                width:parent.width * 0.98
+                                width:parent.width * 0.99
                                 height:thisWindow.height * 0.05
 
                             Text {
@@ -158,6 +159,40 @@ Item {
                                 font.bold: true
                                 color:"white"
                             }
+
+                            }
+                            Text {
+                                anchors.left:parent.left
+                                anchors.leftMargin: parent.width * 0.02
+                                text:Courses.lessonControlINFO(coursenumber,"unitName","new")
+                                width:parent.width
+                                wrapMode: Text.WordWrap
+                            }
+
+                            Text {
+                                anchors.left:parent.left
+                                anchors.leftMargin: parent.width * 0.04
+                                text:Courses.lessonControlINFO(coursenumber,"lessonName","new")
+                                width:parent.width
+                                wrapMode: Text.WordWrap
+                            }
+
+                           /* Text {
+                                text:"Activity Type:"
+                            }
+
+                            Text {
+                                anchors.right: parent.right
+                                text:"Duration:"
+                            } */
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                lessonView.lessonID = Courses.lessonControlINFO(coursenumber,"lessonNumber","new")
+                                lessonView.state = "Active"
+
 
                             }
                         }
@@ -381,4 +416,5 @@ Item {
             }
         }
     }
+
 }

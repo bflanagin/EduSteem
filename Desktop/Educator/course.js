@@ -68,10 +68,10 @@ function loadCourses(userid) {
         while (pull.rows.length > num) {
 
             courseList.append({
-                                  name: pull.rows.item(num).name.replace(/_/g,
-                                                                         " "),
-                                  cdate: pull.rows.item(num).creationdate,
-                                  edate: pull.rows.item(num).editdate
+                                  "name": pull.rows.item(num).name.replace(
+                                              /_/g, " "),
+                                  "cdate": pull.rows.item(num).creationdate,
+                                  "edate": pull.rows.item(num).editdate
                               })
 
             num = num + 1
@@ -86,8 +86,8 @@ function loadQuestions(type) {
 
         while (guidedQuestions.length > num) {
             gqList.append({
-                              question: guidedQuestions[num].split(":::")[0],
-                              answer: guidedQuestions[num].split(":::")[1]
+                              "question": guidedQuestions[num].split(":::")[0],
+                              "answer": guidedQuestions[num].split(":::")[1]
                           })
             num = num + 1
         }
@@ -96,8 +96,8 @@ function loadQuestions(type) {
 
         while (reviewQuestions.length > num) {
             rqList.append({
-                              question: reviewQuestions[num].split(":::")[0],
-                              answer: reviewQuestions[num].split(":::")[1]
+                              "question": reviewQuestions[num].split(":::")[0],
+                              "answer": reviewQuestions[num].split(":::")[1]
                           })
             num = num + 1
         }
@@ -117,11 +117,11 @@ function loadUnits(userid, coursenumber) {
         while (pull.rows.length > num) {
 
             unitList.append({
-                                name: pull.rows.item(num).name.replace(/_/g,
-                                                                       " "),
-                                cdate: pull.rows.item(num).creationdate,
-                                edate: pull.rows.item(num).editdate,
-                                about: pull.rows.item(num).objective
+                                "name": pull.rows.item(num).name.replace(/_/g,
+                                                                         " "),
+                                "cdate": pull.rows.item(num).creationdate,
+                                "edate": pull.rows.item(num).editdate,
+                                "about": pull.rows.item(num).objective
                             })
 
             num = num + 1
@@ -134,7 +134,6 @@ function loadLessons(userid, unitnumber) {
     db.readTransaction(function (tx) {
         lessonList.clear()
 
-
         var dataSTR = "SELECT * FROM Lessons WHERE id ='" + userid
                 + "' AND unitnumber =" + unitnumber + " ORDER BY lessonNum ASC"
 
@@ -144,14 +143,19 @@ function loadLessons(userid, unitnumber) {
 
             var aboutblock = ""
 
-                if( pull.rows.item(num).objective.length > 10 ) {aboutblock = pull.rows.item(num).objective} else {aboutblock = pull.rows.item(num).about}
+            if (pull.rows.item(num).objective.length > 10) {
+                aboutblock = pull.rows.item(num).objective
+            } else {
+                aboutblock = pull.rows.item(num).about
+            }
 
             lessonList.append({
-                                  name: pull.rows.item(num).name.replace(/_/g," "),
-                                  cdate: pull.rows.item(num).creationdate,
-                                  edate: pull.rows.item(num).editdate,
-                                  about: aboutblock,
-                                  duration: pull.rows.item(num).duration,
+                                  "name": pull.rows.item(num).name.replace(
+                                              /_/g, " "),
+                                  "cdate": pull.rows.item(num).creationdate,
+                                  "edate": pull.rows.item(num).editdate,
+                                  "about": aboutblock,
+                                  "duration": pull.rows.item(num).duration
                               })
 
             num = num + 1
@@ -183,8 +187,6 @@ function loadUnit(userid, unitnumber) {
 
     db.transaction(function (tx) {
 
-
-
         var dataSTR = "SELECT * FROM Units WHERE id ='" + userid
                 + "' AND creationdate =" + unitnumber
 
@@ -202,7 +204,6 @@ function loadUnit(userid, unitnumber) {
 function loadLesson(userid, lessonnumber) {
 
     db.readTransaction(function (tx) {
-
 
         var dataSTR = "SELECT * FROM Lessons WHERE id ='" + userid
                 + "' AND creationdate =" + lessonnumber
@@ -321,12 +322,21 @@ function pullField(type, where, id) {
     case "lesson":
         table = "Lessons"
         break
+    case "subject":
+        table = "Subjects"
+        break
     }
 
     db.readTransaction(function (tx) {
 
-        var dataSTR = "SELECT * FROM " + table + " WHERE id ='" + userID
+        var dataSTR = ""
+        if(table === "Subjects") {
+            dataSTR = "SELECT * FROM " + table + " WHERE schoolCode ='" + schoolCode
+                    + "' AND subjectNumber =" + id
+         } else {
+        dataSTR = "SELECT * FROM " + table + " WHERE id ='" + userID
                 + "' AND creationdate =" + id
+        }
         var pull = tx.executeSql(dataSTR)
 
         if (pull.rows.length === 1) {
@@ -361,6 +371,10 @@ function pullField(type, where, id) {
             case "Subject":
                 returned = pull.rows.item(0).subject
                 break
+            case "Color":
+                returned = pull.rows.item(0).subjectColor
+                break
+
             }
         }
     })
@@ -370,84 +384,291 @@ function pullField(type, where, id) {
 
 function pullAssignmentTypes(category) {
 
+
     /* For now we'll make this a simple as possible but later we will want this stored in a database */
-
-    switch(category) {
-    case "Journaling": assSelect = ["Simple","Journal+Image","Journal+Prompt"]
-                    break
-    case "Writing": assSelect = ["Simple","Writing+Prompt"]
-                    break
-    case "Web": assSelect = ["Site Only","Site+Notes","Site+Questions"]
-                break
-    case "Video": assSelect = ["Video Only","Video+Notes","Video+Questions"]
-                break
-    case "Reading": assSelect = ["Simple","Book+Notes","Book+Questions"]
-                break
-    default:assSelect =[]
-            break
+    switch (category) {
+    case "Journaling":
+        assSelect = ["Simple", "Journal+Image", "Journal+Prompt"]
+        break
+    case "Writing":
+        assSelect = ["Simple", "Writing+Prompt"]
+        break
+    case "Web":
+        assSelect = ["Site Only", "Site+Notes", "Site+Questions"]
+        break
+    case "Video":
+        assSelect = ["Video Only", "Video+Notes", "Video+Questions"]
+        break
+    case "Reading":
+        assSelect = ["Simple", "Book+Notes", "Book+Questions"]
+        break
+    default:
+        assSelect = []
+        break
     }
-
 }
 
-function assignmentInfo(category,type) {
+function assignmentInfo(category, type) {
 
     var theinfo = ""
-    switch(category) {
-        case "Journaling":
-            switch(type) {
-                 case "Simple":theinfo = "Free writing area that when done will be found in the students journaling area."
-                     break
-                 case "Journal+Image":theinfo = "Image upload area plus a free writing area used for student journaling."
-                     break
-                 case "Journal+Prompt":theinfo = "Prompt inspired journal writing. "
-                     break
-                 default: theinfo = "No information for this assignement type"
-                     break
-            } break
-
-         case "Writing":
-             switch(type) {
-             case "Simple":theinfo = "Large writing space used for writing assignments. Differs from journaling in teacher options"
-                 break
-             case "Writing+Prompt":theinfo = "Writing based on supplied prompt."
-                 break
-             default: theinfo = "No information for this assignement type"
-                 break
-             } break
-         case "Web":
-             switch(type) {
-             case "Site Only":theinfo = "For use when you only want the students to read or experience the content on a site"
-                 break
-             case "Site+Notes":theinfo = "Site and note taking area, used for students to collect their thoughts on the provided information"
-                 break
-             default: theinfo = "No information for this assignement type"
-                 break
-             } break
-         case "Video":
-             switch(type) {
-             case "Video Only":theinfo = "Simple Video player window "
-                 break
-             case "Video+Notes":theinfo = "Site and note taking area, used for students to collect their thoughts on the provided video"
-                 break
-             default: theinfo = "No information for this assignement type"
-                 break
-             } break
-         case "Reading":
-             switch(type) {
-             case "Simple":theinfo = "No information for this assignement type"
-                 break
-             case "Book+Notes":theinfo = "No information for this assignement type"
-                 break
-             default: theinfo = "No information for this assignement type"
-                 break
-             } break
-         default:
-             switch(type) {
-                default: theinfo = "No information for this assignement type"
-                    break
-             } break
+    switch (category) {
+    case "Journaling":
+        switch (type) {
+        case "Simple":
+            theinfo = "Free writing area that when done will be found in the students journaling area."
+            break
+        case "Journal+Image":
+            theinfo = "Image upload area plus a free writing area used for student journaling."
+            break
+        case "Journal+Prompt":
+            theinfo = "Prompt inspired journal writing. "
+            break
+        default:
+            theinfo = "No information for this assignement type"
+            break
+        }
+        break
+    case "Writing":
+        switch (type) {
+        case "Simple":
+            theinfo = "Large writing space used for writing assignments. Differs from journaling in teacher options"
+            break
+        case "Writing+Prompt":
+            theinfo = "Writing based on supplied prompt."
+            break
+        default:
+            theinfo = "No information for this assignement type"
+            break
+        }
+        break
+    case "Web":
+        switch (type) {
+        case "Site Only":
+            theinfo = "For use when you only want the students to read or experience the content on a site"
+            break
+        case "Site+Notes":
+            theinfo = "Site and note taking area, used for students to collect their thoughts on the provided information"
+            break
+        default:
+            theinfo = "No information for this assignement type"
+            break
+        }
+        break
+    case "Video":
+        switch (type) {
+        case "Video Only":
+            theinfo = "Simple Video player window "
+            break
+        case "Video+Notes":
+            theinfo = "Site and note taking area, used for students to collect their thoughts on the provided video"
+            break
+        default:
+            theinfo = "No information for this assignement type"
+            break
+        }
+        break
+    case "Reading":
+        switch (type) {
+        case "Simple":
+            theinfo = "No information for this assignement type"
+            break
+        case "Book+Notes":
+            theinfo = "No information for this assignement type"
+            break
+        default:
+            theinfo = "No information for this assignement type"
+            break
+        }
+        break
+    default:
+        switch (type) {
+        default:
+            theinfo = "No information for this assignement type"
+            break
+        }
+        break
     }
 
     return theinfo
+}
 
+
+/* The lessonControl functions setup the flow of the program from the educators side. Each lesson will be started and set complete by the teacher or autmatically by the program.
+  The statuses of the lesson are as follows:
+  0: Not started = Default for all lessons
+  1: Started = The teacher has initilazed the lesson to be completed by the students
+  2: Teacher set Complete = The teacher manually set the class as completed
+  3: automatic close = All students have completed the assignment
+  4: continuous = for the classes and lessons that never end. This is a special condition for things like Daily Reviews.
+
+  */
+function lessonControlINFO(course, type, status) {
+    var check = ""
+    var returned = ""
+    db.readTransaction(function (tx) {
+        switch (status) {
+        case "all":
+            check = tx.executeSql(
+                        "SELECT * FROM Lesson_Control WHERE coursenumber = ?",
+                        [course])
+            break
+        case "new":
+            check = tx.executeSql(
+                        "SELECT * FROM Lesson_Control WHERE coursenumber =? AND status = 0",
+                        [course])
+            break
+        case "started":
+            check = tx.executeSql(
+                        "SELECT * FROM Lesson_Control WHERE coursenumber =? AND status = 1",
+                        [course])
+            break
+        case "tc":
+            check = tx.executeSql(
+                        "SELECT * FROM Lesson_Control WHERE coursenumber =? AND status = 2",
+                        [course])
+            break
+        case "ac":
+            check = tx.executeSql(
+                        "SELECT * FROM Lesson_Control WHERE coursenumber =? AND status = 3",
+                        [course])
+            break
+        case "continuous":
+            check = tx.executeSql(
+                        "SELECT * FROM Lesson_Control WHERE coursenumber =? AND status = 4",
+                        [course])
+            break
+        }
+        if (check.rows.length === 0) {
+
+            switch (type) {
+            case "lessonNumber":
+                returned = 0
+                break
+            case "unitNumber":
+                returned = 0
+                break
+            case "lessonName":
+                returned = "No Lessons Found"
+                break
+            case "unitName":
+                returned = "No Units"
+                break
+            }
+        } else {
+            switch (type) {
+            case "lessonNumber":
+                returned = check.rows.item(0).lessonID
+                break
+            case "unitNumber":
+                returned = check.rows.item(0).unitnumber
+                break
+            case "lessonName":
+                returned = pullField("Title", "lesson",
+                                     check.rows.item(0).lessonID)
+                break
+            case "unitName":
+                returned = pullField("Title", "unit",
+                                     check.rows.item(0).unitnumber)
+                break
+            }
+        }
+    })
+
+    return returned
+}
+
+function lessonControlADD(course) {
+    var check = ""
+    var returned = 0
+
+    db.transaction(function (tx) {
+
+        check = tx.executeSql("SELECT * FROM Lessons WHERE coursenumber= ?",
+                              [course])
+
+        if (check.rows.length !== 0) {
+            var num = 0
+            while (check.rows.length > num) {
+                var coursenumber = check.rows.item(num).coursenumber
+                var unitnumber = check.rows.item(num).unitnumber
+                var lessonID = check.rows.item(num).creationdate
+
+                var data = [userID, coursenumber, unitnumber, lessonID, 0, userCode, d.getTime(
+                                ), d.getTime()]
+
+                var dataSTR = "INSERT INTO Lesson_Control VALUES(?,?,?,?,?,?,?,?)"
+
+                var exists = tx.executeSql(
+                            "SELECT coursenumber FROM Lesson_Control WHERE coursenumber=?",
+                            [course])
+
+                if (userID.length > 4 && userCode.length > 4
+                        && exists.rows.length === 0) {
+                    tx.executeSql(dataSTR, data)
+                }
+
+                num = num + 1
+            }
+        }
+    })
+}
+
+function lessonControlUpdate(lessonID, status) {
+
+    var check = ""
+    var returned = 0
+
+    db.transaction(function (tx) {
+
+        check = tx.executeSql("SELECT * FROM Lesson_Control WHERE lessonID= ?",
+                              [lessonID])
+
+        if (check.rows.length === 1) {
+
+            var data = [status, userCode, d.getTime(), lessonID]
+
+            var dataSTR = "UPDATE Lesson_Control SET status = ?, educatorcode =? , editdate= ? WHERE lessonID= ?"
+
+            tx.executeSql(dataSTR, data)
+        }
+    })
+}
+
+function lessonControlNext(type) {
+
+    var check = ""
+    var returned = 0
+
+    db.readTransaction(function (tx) {
+
+        check = tx.executeSql("SELECT * FROM Lesson_Control WHERE status= 1")
+
+        if (check.rows.length === 1) {
+
+            switch (type) {
+            case "lessonNumber":
+                returned = check.rows.item(0).lessonID
+                break
+            case "unitNumber":
+                returned = check.rows.item(0).unitnumber
+                break
+            case "courseNumber":
+                returned = check.rows.item(0).coursenumber
+                break
+            case "courseColor":
+                returned = check.rows.item(0).coursenumber
+                break
+            case "lessonName":
+                returned = pullField("Title", "lesson",
+                                     check.rows.item(0).lessonID)
+                break
+            case "unitName":
+                returned = pullField("Title", "unit",
+                                     check.rows.item(0).unitnumber)
+                break
+            }
+        }
+    })
+
+return returned
 }

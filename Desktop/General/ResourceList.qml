@@ -15,7 +15,7 @@ ListView {
     property string thedata: ""
     property double listItemHeight: 150
     clip:true
-    spacing: parent.height * 0.1
+    spacing:listItemHeight * 0.25
     model: thedata.split("\n")
 
     delegate: ESborder {
@@ -27,9 +27,11 @@ ListView {
 
         Item {
             id:imageContent
-            width:parent.width
-            height:parent.height
+            anchors.centerIn: parent
+            width:parent.width * 0.98
+            height:parent.height * 0.98
             visible: if(thedata.split("\n")[index].split("[")[1].split("]")[0] === "IMG") {true} else {false}
+            clip:true
         Image {
             anchors.centerIn: image
             width:image.width * 0.87
@@ -40,19 +42,20 @@ ListView {
         MarkDown {
             id:image
             anchors.verticalCenter: parent.verticalCenter
+            anchors.verticalCenterOffset: 10
             anchors.left:parent.left
             anchors.leftMargin: parent.width * 0.01
-            width:parent.width * 0.3
+            width:parent.width * 0.4
             thedata: thisView.thedata.split("\n")[index].split("*")[1]
         }
 
         Text {
             anchors.left:image.right
             anchors.verticalCenter: parent.verticalCenter
-            text:thisView.thedata.split("\n")[index].split("*")[1]
-            width:parent.width - image.width
+            text:thisView.thedata.split("\n")[index].split("*")[1].split("](")[1].split(")")[0]
+            width:(parent.width - image.width) * 0.95
             wrapMode: Text.WordWrap
-
+            clip:true
         }
       }
 
