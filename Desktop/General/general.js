@@ -114,7 +114,20 @@ function loadschool(userid) {
     if (schoolCode !== "") {
         db.transaction(function (tx) {
 
-            var generic = ["8 - P.E.:DarkGreen", "101 - Math:Orange", "201 - Science:Green", "301 - Humanities:LightBlue", "302 - Literature:Brown", "303 - Writing:Black", "304 - Grammar:Red", "305 - Spelling:Brown", "401 - Art", "501 - Music", "601 - Vocational:Pink", "701 - Social Sciences", "801 - Languages Studies", "901 - Projects"]
+            var generic = ["8 - P.E.:DarkGreen",
+                           "101 - Math:Orange",
+                           "201 - Science:Green",
+                           "301 - Humanities:LightBlue",
+                           "302 - Literature:Brown",
+                           "303 - Writing:Black",
+                           "304 - Grammar:Red",
+                           "305 - Spelling:Brown",
+                           "401 - Art",
+                           "501 - Music",
+                           "601 - Vocational:Pink",
+                           "701 - Social Sciences",
+                           "801 - Languages Studies",
+                           "901 - Projects"]
             var num = 0
             while (num < generic.length) {
 
