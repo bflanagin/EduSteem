@@ -32,7 +32,7 @@ Window {
     /*App setup Variables */
     property string devId: "Vag-01001011"
     property string appId: "vagEduST-052308"
-    property string version: "0.18"
+    property string version: "0.20"
 
     property string userID: ""
     property var db: Sql.LocalStorage.openDatabaseSync("UserInfo", "1.0",
@@ -49,7 +49,7 @@ Window {
     /* End Theme Variables */
 
     /* System Wide Variables */
-    property var courses: ["8 - P.E.:DarkGreen", "101 - Math:Orange", "201 - Science:Green", "301 - Humanities:LightBlue", "302 - Literature:Brown", "303 - Writing:Black", "304 - Grammar:Red", "305 - Spelling:Brown", "401 - Art", "501 - Music", "601 - Vocational:Pink", "701 - Social Sciences", "801 - Languages Studies", "901 - Projects"]
+   // property var courses: ["8 - P.E.:DarkGreen", "101 - Math:Orange", "201 - Science:Green", "301 - Humanities:LightBlue", "302 - Literature:Brown", "303 - Writing:Black", "304 - Grammar:Red", "305 - Spelling:Brown", "401 - Art", "501 - Music", "601 - Vocational:Pink", "701 - Social Sciences", "801 - Languages Studies", "901 - Projects"]
 
     property var languages: ["English", "Spanish"]
     property string heart: "Offline"
@@ -150,6 +150,7 @@ Window {
         Standard.createddbs()
         Standard.loadschool(userID)
         ipfsdaemon.start("ipfs", ['daemon'])
+        console.log(d.getTime())
     }
 
     onNumberOfStudentsChanged: if (numberOfStudents == 0) {
@@ -168,6 +169,10 @@ Window {
                              Network.sync("Lessons", schoolCode)
                              Network.sync("Students", schoolCode)
                              Network.sync("Schedule", schoolCode)
+                             Network.sync("Media",schoolCode)
+                             Network.sync("Student_Assignments",schoolCode)
+                             Network.sync("Lesson_Control",schoolCode)
+
                          }
                      }
 
@@ -280,10 +285,17 @@ Window {
                  }
     }
 
+    ResourceViewer {
+        id:resourceView
+        state:"inActive"
+    }
+
     PopUp {
         id: popUp
         state: "inActive"
     }
+
+
 
     /* End Loaded Items */
     Rectangle {

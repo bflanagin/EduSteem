@@ -569,42 +569,36 @@ Item {
             }
         }
 
-        ScrollView {
-            anchors.right: parent.right
-            width: parent.width
-            height: parent.height
+        ESborder {
+            width: resourcesArea.width
+            height: resourcesArea.height
 
-            ESborder {
+            Column {
+                id: rColumn
                 width: resourcesArea.width
-                height: resourcesArea.height
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.margins: 10
+                spacing: 8
 
-                Column {
-                    id: rColumn
-                    width: resourcesArea.width
+                Text {
+                    text: qsTr("Resources")
+                    font.bold: true
+                    font.pointSize: 12
+                }
+
+                Rectangle {
+                    anchors.horizontalCenter: resourcesArea.horizontalCenter
+                    width: resourcesArea.width * 0.95
+                    height: 2
+                    color: seperatorColor
+                }
+
+                ResourceList {
                     anchors.left: parent.left
-                    anchors.top: parent.top
-                    anchors.margins: 10
-                    spacing: 8
-
-                    Text {
-                        text: qsTr("Resources")
-                        font.bold: true
-                        font.pointSize: 12
-                    }
-
-                    Rectangle {
-                        anchors.horizontalCenter: resourcesArea.horizontalCenter
-                        width: resourcesArea.width * 0.95
-                        height: 2
-                        color: seperatorColor
-                    }
-
-                    MarkDown {
-                        anchors.left: parent.left
-                        anchors.margins: 8
-                        width: parent.width
-                        thedata: lessonResources
-                    }
+                    width: parent.width * 0.95
+                    height: thisWindow.height * 0.65
+                    thedata: Scrubber.recoverSpecial(lessonResources)
                 }
             }
         }

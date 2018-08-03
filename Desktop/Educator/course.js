@@ -17,14 +17,14 @@ function saveCourse(userid, name, subject, language, about, creationdate) {
     })
 }
 
-function saveUnit(userid, coursenumber, name, objective, about, creationdate) {
+function saveUnit(userid, coursenumber, unitnum, name, objective, about, creationdate) {
 
     var d = new Date()
 
     db.transaction(function (tx) {
-        var data = [userid, coursenumber, name.replace(
+        var data = [userid, coursenumber, unitnum, name.replace(
                         / /g, "_"), objective, about, d.getTime(), d.getTime()]
-        var dtable = "INSERT INTO Units VALUES(?,?,?,?,?,?,?)"
+        var dtable = "INSERT INTO Units VALUES(?,?,?,?,?,?,?,?)"
 
         var dataSTR = "SELECT * FROM Units WHERE id ='" + userid
                 + "' AND creationdate =" + creationdate
@@ -110,15 +110,14 @@ function loadUnits(userid, coursenumber) {
         unitList.clear()
 
         var dataSTR = "SELECT * FROM Units WHERE id ='" + userid
-                + "' AND coursenumber =" + coursenumber
+                + "' AND coursenumber =" + coursenumber + " ORDER BY unitNum ASC"
 
         var pull = tx.executeSql(dataSTR)
         var num = 0
         while (pull.rows.length > num) {
 
             unitList.append({
-                                "name": pull.rows.item(num).name.replace(/_/g,
-                                                                         " "),
+                                "name": pull.rows.item(num).name.replace(/_/g, " "),
                                 "cdate": pull.rows.item(num).creationdate,
                                 "edate": pull.rows.item(num).editdate,
                                 "about": pull.rows.item(num).objective
@@ -580,6 +579,7 @@ function lessonControlINFO(course, type, status) {
 function lessonControlADD(course) {
     var check = ""
     var returned = 0
+    var d = new Date()
 
     db.transaction(function (tx) {
 
@@ -617,6 +617,7 @@ function lessonControlUpdate(lessonID, status) {
 
     var check = ""
     var returned = 0
+    var d = new Date()
 
     db.transaction(function (tx) {
 
