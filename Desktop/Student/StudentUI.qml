@@ -150,11 +150,12 @@ Item {
                 width: parent.width * 0.99
                 height: thisWindow.height * 0.3
                 anchors.horizontalCenter: parent.horizontalCenter
-                curtainColor: "LightBlue"
-                title: "Next Class"
-                unit: "Unit"
-                lesson: "Test Lesson"
-                lessonID: 1528390142639
+                curtainColor:Courses.pullField("Color","subject",subjectNumber)
+                title: qsTr("Start Lesson ")
+                subjectNumber:Courses.pullField("Subject","course",Courses.lessonControlNext("courseNumber"))
+                unit: Courses.pullField("Title","unit",Courses.lessonControlNext("unitNumber"))
+                lesson: Courses.pullField("Title","lesson",lessonID)
+                lessonID: Courses.lessonControlNext("lessonNumber")
             }
 
             Row {

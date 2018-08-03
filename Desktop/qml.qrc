@@ -108,5 +108,7 @@
         <file>Educator/ReviewView.qml</file>
         <file>General/ResourceList.qml</file>
         <file>General/ResourceListAdd.qml</file>
+        <file>Educator/LessonView.qml</file>
+        <file>General/ResourceViewer.qml</file>
     </qresource>
 </RCC>

@@ -111,6 +111,19 @@ function updateTask(studentCode, taskId, state, qa) {
 
     console.log(studentCode)
 
+   /*
+    These are the valid modes for the status
+
+    0: Not started.
+    1: Started.
+    2: Working on.
+    3: Turned in.
+    4: Revise.
+    5: Accepted.
+    6: Published.
+
+    */
+
     db.transaction(function (tx) {
 
         var dataSTR = "SELECT * FROM Student_Assignments WHERE lessonID ="+taskId+" AND studentCode="+studentCode

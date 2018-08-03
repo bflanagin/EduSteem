@@ -186,6 +186,14 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
         }
 
+        LessonView {
+            id:lessonView
+            width: parent.width
+            height: parent.height
+            state: "inActive"
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
         Settings {
             id: settingsPage
             width: parent.width

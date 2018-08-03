@@ -19,7 +19,7 @@ Item {
     id: thisWindow
 
     property real lessonID: 0
-    property string lessonName: ""
+    property string lessonTitle: ""
     property string lessonAuthor: ""
     property string lessonPublished: ""
     property string lessonAbout: ""
@@ -83,10 +83,10 @@ Item {
     state: "inActive"
 
     onLessonIDChanged: if (lessonID !== 0) {
-                           Student.loadTask(studentCode, lessonID)
+                           Courses.loadLesson(userID, lessonID)
                        }
     onStateChanged: if (state === "Active") {
-                        Student.loadTask(studentCode, lessonID)
+                        Courses.loadLesson(userID, lessonID)
                     }
 
     Rectangle {
@@ -94,38 +94,37 @@ Item {
     }
 
     Item {
-        id:titleBlock
-        width:parent.width
-        height:title.height + 40
+        id: titleBlock
+        width: parent.width
+        height: title.height + 40
 
-    Text {
-        id: title
-        text: lessonName+" - "+studentFirstName+" "+studentLastName
-        anchors.top: parent.top
-        anchors.left: backbutton.right
-        anchors.margins: 20
-        font.bold: true
-        font.pointSize: 15
-        width:parent.width * 0.75
-        wrapMode: Text.WordWrap
-    }
+        Text {
+            id: title
+            text: lessonTitle
+            anchors.top: parent.top
+            anchors.left: backbutton.right
+            anchors.margins: 20
+            font.bold: true
+            font.pointSize: 15
+            width: parent.width * 0.75
+            wrapMode: Text.WordWrap
+        }
 
-    CircleButton {
-        id: backbutton
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.margins: 20
-        height: title.height
-        width: title.height
+        CircleButton {
+            id: backbutton
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.margins: 20
+            height: title.height
+            width: title.height
 
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                thisWindow.state = "inActive"
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    thisWindow.state = "inActive"
+                }
             }
         }
-    }
-
     }
 
     Item {
@@ -136,64 +135,33 @@ Item {
         width: parent.width - leftMenu.width
         height: parent.height
 
-        Row {
-            anchors.top:parent.top
-            anchors.topMargin: parent.height * 0.02
-            width:parent.width * 0.98
-            height:parent.height * 0.98
+        Flickable {
+            width: parent.width
 
             Column {
-                width:parent.width * 0.55
-                spacing: 3
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width * 0.98
+                spacing: thisWindow.height * 0.01
+                Text {
+                    text: qsTr("Objective")
+                    font.bold: true
+                }
+
+                MarkDown {
+                    width: parent.width
+                    thedata: Scrubber.replaceSpecials(lessonObjective)
+                }
 
                 Text {
-                    text:qsTr("Assignment")
+                    text: qsTr("Sequence")
                     font.bold: true
-                    anchors.left:parent.left
-                    anchors.leftMargin: thisWindow.height * 0.01
                 }
 
-                Rectangle {
-                    width:parent.width * 0.98
-                    height:1
-                    color:seperatorColor
-                    anchors.horizontalCenter: parent.horizontalCenter
+                MarkDown {
+                    width: parent.width
+                    thedata: Scrubber.replaceSpecials(lessonSequence)
                 }
-
-        MarkDown {
-
-            width:parent.width
-            thedata: 'TEST'
-        }
-
             }
-
-        Rectangle {
-            width:1
-            height:parent.height * 0.98
-            color:seperatorColor
-            anchors.verticalCenter: parent.verticalCenter
-        }
-
-        Column {
-            width:parent.width * 0.50
-            spacing: 3
-            Text {
-                text:qsTr("Notes:")
-                font.bold: true
-                anchors.left:parent.left
-                anchors.leftMargin: thisWindow.height * 0.01
-            }
-
-            Rectangle {
-                width:parent.width * 0.98
-                height:1
-                color:seperatorColor
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-
-        }
-
         }
     }
 
@@ -294,9 +262,6 @@ Item {
             }
 
             Text {
-                text: "Student: " + studentFirstName + " " + studentLastName
-            }
-            Text {
                 text: "Date: " + d.toLocaleDateString()
             }
             Text {
@@ -305,17 +270,16 @@ Item {
         }
 
         Text {
-            id:messagesTop
-             anchors.top: controlColumn.bottom
-             anchors.topMargin: parent.height * 0.04
-             anchors.left: parent.left
-             anchors.leftMargin: parent.height * 0.01
-
+            id: messagesTop
+            anchors.top: controlColumn.bottom
+            anchors.topMargin: parent.height * 0.04
+            anchors.left: parent.left
+            anchors.leftMargin: parent.height * 0.01
 
             text: qsTr("Messages")
 
             Rectangle {
-                anchors.top:parent.bottom
+                anchors.top: parent.bottom
                 anchors.topMargin: parent.height * 0.04
                 anchors.horizontalCenter: controlArea.horizontalCenter
                 width: controlArea.width * 0.97
@@ -325,30 +289,30 @@ Item {
         }
 
         ListView {
-            anchors.top:messagesTop.bottom
+            anchors.top: messagesTop.bottom
             anchors.topMargin: parent.height * 0.01
             anchors.bottomMargin: parent.height * 0.01
-            anchors.bottom:actionButtons.top
+            anchors.bottom: actionButtons.top
             anchors.horizontalCenter: controlArea.horizontalCenter
-            width:parent.width * 0.98
-            clip:true
-            model:messagesList
+            width: parent.width * 0.98
+            clip: true
+            model: messagesList
 
             delegate: ESborder {
 
-                width:controlArea.width * 0.98
-                height:thisWindow.height * 0.1
+                width: controlArea.width * 0.98
+                height: thisWindow.height * 0.1
 
                 Text {
 
                     anchors.centerIn: parent
-                    text:message
+                    text: message
                 }
             }
         }
 
         Column {
-            id:actionButtons
+            id: actionButtons
             anchors.bottom: parent.bottom
             anchors.bottomMargin: parent.height * 0.01
             width: parent.width
@@ -359,17 +323,17 @@ Item {
                 id: breakbutton
                 anchors.left: parent.left
                 anchors.leftMargin: 10
-                width:parent.width
+                width: parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
-                text: qsTr("Revise")
+                text: qsTr("Start")
                 background: ESTextField {
                 }
 
                 onClicked: {
-                    Student.updateTask(studentCode,lessonID,4,lessonUpdate)
+                    Courses.lessonControlUpdate(lessonID, 1)
                     controlArea.state = "inActive"
                     thisWindow.state = "inActive"
-                    studentHome.state = "Active"
+
                 }
             }
 
@@ -378,15 +342,15 @@ Item {
                 anchors.left: parent.left
                 anchors.leftMargin: 10
                 anchors.horizontalCenter: parent.horizontalCenter
-                text: qsTr("Accepted")
+                text: qsTr("Finish")
                 background: ESTextField {
                 }
 
                 onClicked: {
-                    Student.updateTask(studentCode,lessonID,5,lessonUpdate)
+                    Courses.lessonControlUpdate(lessonID, 2)
                     controlArea.state = "inActive"
                     thisWindow.state = "inActive"
-                     studentHome.state = "Active"
+
                 }
             }
         }
@@ -511,7 +475,7 @@ Item {
            } else {
                2
            }
-        width: mainArea.width * 0.30
+        width: mainArea.width * 0.40
         height: parent.height - topBar.height
 
         states: [
@@ -569,46 +533,49 @@ Item {
             }
         }
 
-        ESborder {
-            width: resourcesArea.width
-            height: resourcesArea.height
 
-            Column {
-                id: rColumn
+
+            ESborder {
                 width: resourcesArea.width
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.margins: 10
-                spacing: 8
+                height: resourcesArea.height
 
-                Text {
-                    text: qsTr("Resources")
-                    font.bold: true
-                    font.pointSize: 12
-                }
-
-                Rectangle {
-                    anchors.horizontalCenter: resourcesArea.horizontalCenter
-                    width: resourcesArea.width * 0.95
-                    height: 2
-                    color: seperatorColor
-                }
-
-                ResourceList {
+                Column {
+                    id: rColumn
+                    width: resourcesArea.width
                     anchors.left: parent.left
-                    width: parent.width * 0.95
-                    height: thisWindow.height * 0.65
-                    thedata: Scrubber.recoverSpecial(lessonResources)
+                    anchors.top: parent.top
+                    anchors.margins: 10
+                    spacing: 8
+
+                    Text {
+                        text: qsTr("Resources")
+                        font.bold: true
+                        font.pointSize: 12
+                    }
+
+                    Rectangle {
+                        anchors.horizontalCenter: resourcesArea.horizontalCenter
+                        width: resourcesArea.width * 0.95
+                        height: 2
+                        color: seperatorColor
+                    }
+
+                    ResourceList {
+                        anchors.left: parent.left
+                        width: parent.width * 0.95
+                        height: thisWindow.height * 0.65
+                        thedata: Scrubber.recoverSpecial(lessonResources)
+                    }
                 }
             }
-        }
+
     }
 
     ListModel {
-        id:messagesList
+        id: messagesList
 
         ListElement {
-            message:"No Messages"
+            message: "No Messages"
         }
     }
 }

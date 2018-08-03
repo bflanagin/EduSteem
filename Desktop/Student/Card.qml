@@ -21,6 +21,7 @@ ESborder {
     property string unit:"Unit"
     property string lesson: "Lesson Name"
     property string discription: "Lesson Discription"
+    property string subjectNumber: "000"
     property real lessonID:0
 
     states: [

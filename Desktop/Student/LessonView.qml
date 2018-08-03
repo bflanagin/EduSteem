@@ -595,11 +595,6 @@ Item {
             }
         }
 
-        ScrollView {
-            anchors.right: parent.right
-            width: parent.width
-            height: parent.height
-
             ESborder {
                 width: resourcesArea.width
                 height: resourcesArea.height
@@ -625,15 +620,15 @@ Item {
                         color: seperatorColor
                     }
 
-                    MarkDown {
+                    ResourceList {
                         anchors.left: parent.left
-                        anchors.margins: 8
-                        width: parent.width
-                        thedata: lessonResources
+                        width: parent.width * 0.95
+                        height: thisWindow.height * 0.65
+                        thedata: Scrubber.recoverSpecial(lessonResources)
                     }
                 }
             }
-        }
+
     }
 
     LeftMenu {

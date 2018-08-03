@@ -6,14 +6,12 @@ function createddbs() {
         tx.executeSql(
                     'CREATE TABLE IF NOT EXISTS Subjects (schoolCode TEXT,subjectNumber INT ,subjectName TEXT,subjectColor TEXT,subjectBg TEXT,creationdate MEDIUMINT)')
 
-
         /* user databases */
         tx.executeSql(
                     'CREATE TABLE IF NOT EXISTS Users (id TEXT, type INT,firstname TEXT,lastname TEXT,email TEXT,phone TEXT,country TEXT,state TEXT,about MEDIUMTEXT, code TEXT,editdate MEDIUMINT)')
 
         tx.executeSql(
                     'CREATE TABLE IF NOT EXISTS Steem (id TEXT, type INT,data1 TEXT,data2 TEXT,data3 TEXT)')
-
 
         /* school databases */
         tx.executeSql(
@@ -31,6 +29,8 @@ guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEX
         tx.executeSql(
                     'CREATE TABLE IF NOT EXISTS Schedule (id TEXT, month INT, day MEDIUMTEXT, schoolcode TEXT, educatorcode TEXT,creationdate MEDIUMINT,editdate MEDIUMINT)')
 
+        tx.executeSql(
+                    'CREATE TABLE IF NOT EXISTS Lesson_Control(id TEXT, coursenumber MEDIUMINT, unitnumber MEDIUMINT, lessonID MEDIUMINT,status INT,educatorcode TEXT,creationdate MEDIUMINT,editdate MEDIUMINT)')
 
         /* Student centric databases */
         tx.executeSql(
@@ -39,7 +39,6 @@ guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEX
                     'CREATE TABLE IF NOT EXISTS Student_Assignments (schoolCode TEXT, studentCode MEDIUMINT, lessonID MEDIUMINT, status INT, qaList MEDIUMTEXT, creationdate MEDIUMINT, editdate MEDIUMINT)')
         tx.executeSql(
                     'CREATE TABLE IF NOT EXISTS Student_Daily_Review (schoolCode TEXT,studentCode MEDIUMINT,qaList MEDIUMTEXT, date MEDIUMINT )')
-
 
         /* Media databases */
         tx.executeSql(
@@ -115,7 +114,20 @@ function loadschool(userid) {
     if (schoolCode !== "") {
         db.transaction(function (tx) {
 
-            var generic = ["8 - P.E.:DarkGreen", "101 - Math:Orange", "201 - Science:Green", "301 - Humanities:LightBlue", "302 - Literature:Brown", "303 - Writing:Black", "304 - Grammar:Red", "305 - Spelling:Brown", "401 - Art", "501 - Music", "601 - Vocational:Pink", "701 - Social Sciences", "801 - Languages Studies", "901 - Projects"]
+            var generic = ["8 - P.E.:DarkGreen",
+                           "101 - Math:Orange",
+                           "201 - Science:Green",
+                           "301 - Humanities:LightBlue",
+                           "302 - Literature:Brown",
+                           "303 - Writing:Black",
+                           "304 - Grammar:Red",
+                           "305 - Spelling:Brown",
+                           "401 - Art",
+                           "501 - Music",
+                           "601 - Vocational:Pink",
+                           "701 - Social Sciences",
+                           "801 - Languages Studies",
+                           "901 - Projects"]
             var num = 0
             while (num < generic.length) {
 
@@ -280,7 +292,6 @@ function oneTime(id, action, forwhat) {
 }
 
 function studentCred(info1, info2, type) {
-
 
     /* Function returns student information based on type */
     var returned = 0
