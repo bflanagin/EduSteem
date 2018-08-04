@@ -324,8 +324,8 @@ ESborder {
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            lessonView.lessonNumber = cdate
-                            lessonView.state = "Active"
+                            lessonEdit.lessonNumber = cdate
+                            lessonEdit.state = "Active"
                         }
                     }
                 }
@@ -346,7 +346,7 @@ ESborder {
     }
 
     LessonPlanEditor {
-        id: lessonView
+        id: lessonEdit
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         width: parent.width

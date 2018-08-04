@@ -27,11 +27,13 @@ Item {
     property string lessonResources: ""
     property string guidedQuestions: ""
     property string reviewQuestions: ""
-
+    property string lessonSupplies:""
     property int lessonDuration: 0
     property string lessonDate: ""
+    property string lessonGQ: ""
+    property int lessonOrder: 0
 
-    property string lessonSequence: ""
+    property string lessonSequence: "No Sequence"
     property string lessonSP: ""
 
     property string lessonUpdate: ""
@@ -89,18 +91,21 @@ Item {
                         Courses.loadLesson(userID, lessonID)
                     }
 
+    onLessonSequenceChanged: console.log("From Lesson View "+lessonSequence)
+
     Rectangle {
         anchors.fill: parent
     }
 
     Item {
         id: titleBlock
-        width: parent.width
+        width: parent.width * 0.76
+        anchors.horizontalCenter: parent.horizontalCenter
         height: title.height + 40
 
         Text {
             id: title
-            text: lessonTitle
+            text: Scrubber.recoverSpecial(lessonTitle)
             anchors.top: parent.top
             anchors.left: backbutton.right
             anchors.margins: 20
@@ -125,15 +130,29 @@ Item {
                 }
             }
         }
+
+        Text {
+            anchors.top:title.bottom
+            anchors.left:title.left
+            anchors.margins: 5
+            text:Scrubber.recoverSpecial(lessonAbout)
+        }
+    }
+
+    Rectangle {
+        anchors.top:titleBlock.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        height: 3
+        color:seperatorColor
     }
 
     Item {
         id: mainArea
         anchors.top: titleBlock.bottom
-        anchors.left: leftMenu.right
-        anchors.margins: 4
-        width: parent.width - leftMenu.width
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: 10
         height: parent.height
+        width: parent.width * 0.70
 
         Flickable {
             width: parent.width
@@ -142,6 +161,19 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width * 0.98
                 spacing: thisWindow.height * 0.01
+
+
+                Text {
+                    text: qsTr("Supplies")
+                    font.bold: true
+                }
+
+                MarkDown {
+                    width: parent.width
+                    thedata: Scrubber.recoverSpecial(lessonSupplies)
+                }
+
+
                 Text {
                     text: qsTr("Objective")
                     font.bold: true
@@ -149,17 +181,17 @@ Item {
 
                 MarkDown {
                     width: parent.width
-                    thedata: Scrubber.replaceSpecials(lessonObjective)
+                    thedata: Scrubber.recoverSpecial(lessonObjective)
                 }
 
                 Text {
                     text: qsTr("Sequence")
                     font.bold: true
                 }
-
                 MarkDown {
                     width: parent.width
-                    thedata: Scrubber.replaceSpecials(lessonSequence)
+                    thedata: Scrubber.recoverSpecial(lessonSequence)
+
                 }
             }
         }

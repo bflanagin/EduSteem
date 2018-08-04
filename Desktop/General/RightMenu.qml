@@ -465,6 +465,7 @@ Item {
                                     }
                             ESborder {
                                 id: listing
+                                clickable: true
                                 width: parent.width * 0.80
                                 anchors.left: parent.left
                                 anchors.leftMargin: 2
@@ -545,6 +546,19 @@ Item {
                                             anchors.margins: 10
                                             text: about
                                         }
+                                    }
+                                }
+                                MouseArea {
+                                    anchors.fill: parent
+
+                                    onClicked: {
+                                        classEdit.classNum = cnum
+                                        classEdit.edit = true
+                                        classEdit.month = selected_month
+                                        classEdit.state = "Active"
+
+
+
                                     }
                                 }
                             }
