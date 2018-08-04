@@ -91,23 +91,44 @@ Item {
                         Courses.loadLesson(userID, lessonID)
                     }
 
-    onLessonSequenceChanged: console.log("From Lesson View "+lessonSequence)
-
     Rectangle {
         anchors.fill: parent
+        color:"lightgray"
+    }
+
+    Rectangle {
+        anchors.centerIn: parent
+        width:parent.width * 0.76
+        height:parent.height
+    }
+
+    CircleButton {
+        id: backbutton
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.margins: 10
+        height: 40
+        width: 40
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                thisWindow.state = "inActive"
+            }
+        }
     }
 
     Item {
         id: titleBlock
         width: parent.width * 0.76
         anchors.horizontalCenter: parent.horizontalCenter
-        height: title.height + 40
+        height: title.height + about.height + 40
 
         Text {
             id: title
             text: Scrubber.recoverSpecial(lessonTitle)
             anchors.top: parent.top
-            anchors.left: backbutton.right
+            anchors.left: parent.left
             anchors.margins: 20
             font.bold: true
             font.pointSize: 15
@@ -115,26 +136,15 @@ Item {
             wrapMode: Text.WordWrap
         }
 
-        CircleButton {
-            id: backbutton
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.margins: 20
-            height: title.height
-            width: title.height
 
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    thisWindow.state = "inActive"
-                }
-            }
-        }
 
         Text {
+            id:about
             anchors.top:title.bottom
             anchors.left:title.left
             anchors.margins: 5
+            width:parent.width
+            wrapMode: Text.WordWrap
             text:Scrubber.recoverSpecial(lessonAbout)
         }
     }
@@ -142,7 +152,8 @@ Item {
     Rectangle {
         anchors.top:titleBlock.bottom
         anchors.horizontalCenter: parent.horizontalCenter
-        height: 3
+        height: 2
+        width:titleBlock.width * 0.98
         color:seperatorColor
     }
 
@@ -168,8 +179,15 @@ Item {
                     font.bold: true
                 }
 
+                Rectangle {
+
+                   width:parent.width * 0.50
+                   height:1
+                   color:seperatorColor
+                }
+
                 MarkDown {
-                    width: parent.width
+                    width: parent.width * 0.50
                     thedata: Scrubber.recoverSpecial(lessonSupplies)
                 }
 
@@ -177,6 +195,12 @@ Item {
                 Text {
                     text: qsTr("Objective")
                     font.bold: true
+                }
+                Rectangle {
+                   anchors.horizontalCenter: parent.horizontalCenter
+                   width:parent.width * 0.98
+                   height:1
+                   color:seperatorColor
                 }
 
                 MarkDown {
@@ -187,6 +211,12 @@ Item {
                 Text {
                     text: qsTr("Sequence")
                     font.bold: true
+                }
+                Rectangle {
+                   anchors.horizontalCenter: parent.horizontalCenter
+                   width:parent.width * 0.98
+                   height:1
+                   color:seperatorColor
                 }
                 MarkDown {
                     width: parent.width
@@ -256,7 +286,7 @@ Item {
             fillcolor: "white"
             anchors.right: parent.left
             anchors.top: parent.top
-            anchors.topMargin: insTab.height + resTab.height + 30
+            anchors.topMargin: insTab.height + resTab.height + gqTab.height+ 40
 
             MouseArea {
                 anchors.fill: parent
@@ -497,6 +527,114 @@ Item {
     }
 
     Item {
+        id: guidedQuestionArea
+        anchors.top: parent.top
+        anchors.topMargin: 4
+        anchors.right: parent.right
+        anchors.rightMargin: 8
+
+        width: mainArea.width * 0.30
+        height: parent.height
+        z: 2
+
+        states: [
+
+            State {
+                name: "Active"
+                PropertyChanges {
+                    target: guidedQuestionArea
+                    anchors.rightMargin: 0
+                }
+            },
+            State {
+                name: "inActive"
+
+                PropertyChanges {
+                    target: guidedQuestionArea
+                    anchors.rightMargin: width * -0.99
+                }
+            }
+        ]
+
+        transitions: [
+
+            Transition {
+                from: "Active"
+                to: "inActive"
+                reversible: true
+
+                NumberAnimation {
+                    target: guidedQuestionArea
+                    property: "anchors.rightMargin"
+                    duration: 200
+                    easing.type: Easing.InOutQuad
+                }
+            }
+        ]
+
+        state: "inActive"
+
+        VerticalTab {
+            id: gqTab
+            label: "Questions"
+            fillcolor: "white"
+            anchors.right: parent.left
+            anchors.top: parent.top
+             anchors.topMargin: insTab.height + 20
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: if (guidedQuestionArea.state === "Active") {
+                               guidedQuestionArea.state = "inActive"
+                           } else {
+                               guidedQuestionArea.state = "Active"
+                           }
+            }
+        }
+
+        ScrollView {
+            anchors.right: parent.right
+            width: parent.width
+            height: parent.height
+
+            ESborder {
+                width: guidedQuestionArea.width
+                height: guidedQuestionArea.height
+                Column {
+                    id: gqColumn
+                    width: mainArea.width * 0.31
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.margins: 10
+                    spacing: 8
+                    clip: true
+
+                    Text {
+                        text: qsTr("Guiding Questions")
+                        font.bold: true
+                        font.pointSize: 12
+                    }
+
+                    Rectangle {
+
+                        anchors.horizontalCenter: guidedQuestionArea.horizontalCenter
+                        width: guidedQuestionArea.width * 0.95
+                        height: 2
+                        color: seperatorColor
+                    }
+
+                    MarkDown {
+                        anchors.left: parent.left
+                        anchors.margins: 8
+                        width: parent.width
+                        thedata: Scrubber.recoverSpecial(guidedQuestions)
+                    }
+                }
+            }
+        }
+    }
+
+    Item {
         id: resourcesArea
         anchors.top: parent.top
         anchors.topMargin: 4
@@ -553,7 +691,7 @@ Item {
             fillcolor: "white"
             anchors.right: parent.left
             anchors.top: parent.top
-            anchors.topMargin: insTab.height + 20
+            anchors.topMargin: gqTab.height + insTab.height + 30
 
             MouseArea {
                 anchors.fill: parent
