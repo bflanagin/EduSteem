@@ -90,8 +90,12 @@ ESborder {
         anchors.top: parent.top
         anchors.right: parent.right
         anchors.margins: 20
-        text: qsTr("Student View")
+        text: qsTr("Lesson View")
         background: ESTextField {
+        }
+        onClicked: {
+            lessonView.lessonID = thisWindow.lessonNumber
+            lessonView.state = "Active"
         }
     }
 

@@ -110,5 +110,6 @@
         <file>General/ResourceListAdd.qml</file>
         <file>Educator/LessonView.qml</file>
         <file>General/ResourceViewer.qml</file>
+        <file>icons/Audio.svg</file>
     </qresource>
 </RCC>

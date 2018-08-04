@@ -49,41 +49,50 @@ ESborder {
             Rectangle {
                 width: parent.width / 2
                 height: width
+                property string fill:"black"
                 ESButton {
                     anchors.centerIn: parent
                     width: parent.width / 1.8
                     height: width
                     icon: "/icons/network"
                     label: "Web Site"
-                    fillcolor: "black"
+                    fillcolor: parent.fill
                 }
 
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
-                    onEntered: parent.color = "lightgray"
-                    onExited: parent.color = "white"
+                    onEntered: {parent.color = seperatorColor
+                                parent.fill = "white"
+                                }
+                    onExited: {parent.color = "white"
+                                parent.fill = "black"
+                                }
                     onClicked: urlAdd.state = "Active"
                 }
             }
             Rectangle {
                 width: parent.width / 2
                 height: width
-
+                property string fill:"black"
                 ESButton {
                     anchors.centerIn: parent
                     width: parent.width / 1.8
                     height: width
                     icon: "/icons/media-playback-start"
                     label: "Video"
-                    fillcolor: "black"
+                    fillcolor: parent.fill
                 }
 
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
-                    onEntered: parent.color = "lightgray"
-                    onExited: parent.color = "white"
+                    onEntered: {parent.color = seperatorColor
+                                parent.fill = "white"
+                                }
+                    onExited: {parent.color = "white"
+                                parent.fill = "black"
+                                }
                     onClicked: {
                         fileadd.type = "Video"
                         fileadd.media = "VID"
@@ -94,7 +103,7 @@ ESborder {
             Rectangle {
                 width: parent.width / 2
                 height: width
-
+                property string fill:"black"
                 ESButton {
 
                     anchors.centerIn: parent
@@ -102,14 +111,18 @@ ESborder {
                     height: width
                     icon: "/icons/photo"
                     label: "Image"
-                    fillcolor: "black"
+                    fillcolor: parent.fill
                 }
 
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
-                    onEntered: parent.color = "lightgray"
-                    onExited: parent.color = "white"
+                    onEntered: {parent.color = seperatorColor
+                                parent.fill = "white"
+                                }
+                    onExited: {parent.color = "white"
+                                parent.fill = "black"
+                                }
                     onClicked: {
                         fileadd.type = "Image"
                         fileadd.media = "IMG"
@@ -122,20 +135,25 @@ ESborder {
 
                 width: parent.width / 2
                 height: width
+                property string fill:"black"
                 ESButton {
                     anchors.centerIn: parent
                     width: parent.width / 1.8
                     height: width
                     icon: "/icons/documents"
                     label: "Document"
-                    fillcolor: "black"
+                    fillcolor: parent.fill
                 }
 
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
-                    onEntered: parent.color = "lightgray"
-                    onExited: parent.color = "white"
+                    onEntered: {parent.color = seperatorColor
+                                parent.fill = "white"
+                                }
+                    onExited: {parent.color = "white"
+                                parent.fill = "black"
+                                }
                     onClicked: {
                         fileadd.type = "Document"
                         fileadd.media = "DOC"
@@ -143,6 +161,37 @@ ESborder {
                     }
                 }
             }
+            Rectangle {
+
+                width: parent.width / 2
+                height: width
+                property string fill:"black"
+                ESButton {
+                    anchors.centerIn: parent
+                    width: parent.width / 1.8
+                    height: width
+                    icon: "/icons/Audio"
+                    label: "Sound File"
+                    fillcolor: parent.fill
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onEntered: {parent.color = seperatorColor
+                                parent.fill = "white"
+                                }
+                    onExited: {parent.color = "white"
+                                parent.fill = "black"
+                                }
+                    onClicked: {
+                        fileadd.type = "Audio"
+                        fileadd.media = "AUDIO"
+                        fileadd.visible = true
+                    }
+                }
+            }
+
         }
 
         Button {

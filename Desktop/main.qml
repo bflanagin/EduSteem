@@ -58,13 +58,23 @@ Window {
 
     property string userName: ""
     property string userCode: ""
-    property real studentCode: 0
     property int userEditDate: 0
+    property real studentCode: 0
+
+
     property string schoolName: ""
     property string schoolCode: ""
     property int schoolEditDate: 0
     property int numberOfStudents: -1
     property int starttime: 8
+
+    property int schoolStartDay: 20 //default start date
+    property int schoolStartMonth:7 // default start month
+    property int schoolYearLength: 180 // default year length based on texas public school system
+    property int semester1Length:schoolYearLength / 2 //default semester length
+    property int semester2Length:schoolYearLength / 2 //default semester length
+
+
     property var d: new Date()
     property int theday: d.getDate()
     property int selected_month: d.getMonth()

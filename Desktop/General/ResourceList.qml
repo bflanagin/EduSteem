@@ -59,7 +59,6 @@ ListView {
         }
       }
 
-
         Item {
             id:videoContent
             width:parent.width
@@ -118,6 +117,14 @@ ListView {
         }
       }
 
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                resourceView.media = thisView.thedata.split("\n")[index].split("*")[1]
+                resourceView.state = "Active"
+            }
+
+        }
 
     }
 }

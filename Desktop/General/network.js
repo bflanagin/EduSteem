@@ -102,15 +102,15 @@ function sendToOpenSeed(userid, code, type) {
             pull = tx.executeSql(
                         "SELECT * FROM Schedule WHERE id='" + userid + "' AND creationdate=" + code)
             break
-        case "LessonControl":
+        case "Lesson_Control":
             pull = tx.executeSql(
                         "SELECT * FROM Lesson_Control WHERE id='" + userid + "' AND creationdate=" + code)
             break
-        case "StudentAssignments":
+        case "Student_Assignments":
             pull = tx.executeSql(
                         "SELECT * FROM Student_Assignments WHERE creationdate=" + code)
             break
-        case "StudentDailyReview":
+        case "Student_Daily_Review":
             pull = tx.executeSql(
                         "SELECT * FROM Student_Daily_Review WHERE creationdate=" + code)
             break
@@ -123,10 +123,10 @@ function sendToOpenSeed(userid, code, type) {
                         "SELECT * FROM Media WHERE creationdate=" + code)
             break
         }
-        console.log(pull.rows.length)
+
         if (pull.rows.length === 1) {
 
-            console.log("Sending " + type)
+
 
             http.onreadystatechange = function () {
 
@@ -194,6 +194,7 @@ function sendToOpenSeed(userid, code, type) {
             case "Units":
                 http.send("devid=" + devId + "&appid=" + appId
                           + "&userid=" + userid
+                          + "&unitNum=" + pull.rows.item(0).unitNum
                           + "&name=" + pull.rows.item(0).name
                           + "&about=" + pull.rows.item(0).about
                           + "&objective=" + pull.rows.item(0).objective
@@ -265,13 +266,12 @@ function sendToOpenSeed(userid, code, type) {
                           + "&type=" + type)
                 break
 
-            case "LessonControl":
+            case "Lesson_Control":
                 http.send("devid=" + devId + "&appid=" + appId
                           + "&userid=" + userid
-                          + "&schoolCode="+ pull.rows.item(0).schoolCode
-                          + "&coursenumber=" + pull.rows.item(0).coursenumber
-                          + "&unitnumber="+ pull.rows.item(0).unitnumber
-                          + "&lessonID=" + pull.rows.item(0).lessonID
+                          + "&course=" + pull.rows.item(0).coursenumber
+                          + "&unit="+ pull.rows.item(0).unitnumber
+                          + "&lesson=" + pull.rows.item(0).lessonID
                           + "&status="+ pull.rows.item(0).status
                           + "&educatorCode=" + pull.rows.item(0).educatorcode
                           + "&code="+ pull.rows.item(0).creationdate
@@ -279,24 +279,25 @@ function sendToOpenSeed(userid, code, type) {
                           + "&type=" + type)
                 break
 
-            case "StudentAssignments":
+            case "Student_Assignments":
                 http.send("devid=" + devId + "&appid=" + appId
-                          + "&userid=" + userid + "&schoolCode="+ pull.rows.item(0).schoolCode
-                          + "&sudentCode=" + pull.rows.item(0).studentCode
-                          + "&lessonID="+ pull.rows.item(0).lessonID
+                          + "&userid=" + userid
+                          + "&schoolCode="+ pull.rows.item(0).schoolCode
+                          + "&studentCode=" + pull.rows.item(0).studentCode
+                          + "&lesson="+ pull.rows.item(0).lessonID
                           + "&status=" + pull.rows.item(0).status
-                          + "&qalist="+ pull.rows.item(0).qalist
+                          + "&qalist="+ pull.rows.item(0).qaList
                           + "&code="+ pull.rows.item(0).creationdate
                           + "&editdate=" + pull.rows.item(0).editdate
                           + "&type=" + type)
                 break
 
-            case "StudentDailyReview":
+            case "Student_Daily_Review":
                 http.send("devid=" + devId + "&appid=" + appId
                           + "&userid=" + userid
-                          + "&schoolCode=" + pull.rows.item(0).schoolCode +
-                          + "&sudentCode=" + pull.rows.item(0).studentCode +
-                          + "&qalist=" + pull.rows.item(0).qalist +
+                          + "&schoolCode=" + pull.rows.item(0).schoolCode
+                          + "&studentCode=" + pull.rows.item(0).studentCode
+                          + "&qalist=" + pull.rows.item(0).qaList
                           + "&date=" + pull.rows.item(0).date
                           + "&type=" + type)
                 break
@@ -304,11 +305,11 @@ function sendToOpenSeed(userid, code, type) {
             case "Media":
                 http.send("devid=" + devId + "&appid=" + appId
                           + "&userid=" + userid
-                          + "&schoolCode=" + pull.rows.item(0).schoolCode +
-                          + "&owner=" + pull.rows.item(0).owner +
-                          + "&type=" + pull.rows.item(0).type +
-                          + "&filename=" + pull.rows.item(0).filename +
-                          + "&hash=" + pull.rows.item(0).hash +
+                          + "&schoolCode=" + pull.rows.item(0).schoolCode
+                          + "&owner=" + pull.rows.item(0).owner
+                          + "&filetype=" + pull.rows.item(0).type
+                          + "&filename=" + pull.rows.item(0).filename
+                          + "&hash=" + pull.rows.item(0).hash
                           + "&code=" + pull.rows.item(0).creationdate
                           + "&type=" + type)
                 break
@@ -393,8 +394,8 @@ function retrieveFromOpenSeed(id, code, type, update) {
                                         break
                                     case "Units":
                                         tx.executeSql(
-                                                    "INSERT INTO Units VALUES(?,?,?,?,?,?,?)",
-                                                    [userID, info[4], info[1], info[2], info[3], info[0], info[7]])
+                                                    "INSERT INTO Units VALUES(?,?,?,?,?,?,?,?)",
+                                                    [userID, info[5], info[1], info[2], info[3], info[4], info[0], info[8]])
                                         break
                                     case "Students":
                                         tx.executeSql(
@@ -413,7 +414,7 @@ function retrieveFromOpenSeed(id, code, type, update) {
                                                     [userID, info[15], info[17], info[4], info[5], info[1], info[6], info[7], info[2], info[3], info[9], info[8], info[10], info[11], info[12], info[13], info[0], info[16]])
                                         break
 
-                                    case "LessonControl":
+                                    case "Lesson_Control":
 
                                         tx.executeSql(
                                             "INSERT INTO Lesson_Control VALUES(?,?,?,?,?,?,?,?)",
@@ -421,7 +422,7 @@ function retrieveFromOpenSeed(id, code, type, update) {
                                         )
                                         break
 
-                                     case "StudentAssignments":
+                                     case "Student_Assignments":
 
                                          tx.executeSql(
                                                   "INSERT INTO Student_Assignments VALUES(?,?,?,?,?,?,?)",
@@ -448,7 +449,7 @@ function retrieveFromOpenSeed(id, code, type, update) {
                                     }
                                 }
                             } else {
-                              //  console.log("Updating "+info)
+                                console.log("Updating "+info)
                                 switch (type) {
                                 case "School":
                                     schoolName = info[1]
@@ -474,8 +475,8 @@ function retrieveFromOpenSeed(id, code, type, update) {
                                     break
                                 case "Units":
                                     tx.executeSql(
-                                                "UPDATE Units SET coursenumber=?,name=?,objective=?,about=?,editdate=? WHERE creationdate=?",
-                                                [info[4], info[1], info[2], info[3], info[7], info[0]])
+                                                "UPDATE Units SET coursenumber=?,unitNum=?,name=?,objective=?,about=?,editdate=? WHERE creationdate=?",
+                                                [info[5], info[1], info[2], info[3], info[4], info[7], info[0]])
                                     break
                                 case "Students":
                                     tx.executeSql(
@@ -493,6 +494,22 @@ function retrieveFromOpenSeed(id, code, type, update) {
                                                 "UPDATE Lessons SET educatorID=?,published=?,coursenumber=?,unitnumber=?,name=?,lessonNum=?,duration=?,about=?,objective=?,supplies=?,resources=?,guidingQuestions=?,lessonSequence=?,studentProduct=?,reviewQuestions=?,editdate=? WHERE creationdate=?",
                                                 [info[15], info[17], info[4], info[5], info[1], info[6], info[7], info[2], info[3], info[9], info[8], info[10], info[11], info[12], info[13], info[16], info[0]])
                                     break
+
+
+                                case "Lesson_Control":
+
+                                    tx.executeSql(
+                                        "UPDATE Lesson_Control SET status =?, educatorcode = ?, editdate= ? WHERE creationdate = ?",
+                                         [info[2], info[3], info[5],info[0]]
+                                    )
+                                    break
+
+                                 case "Student_Assignments":
+                                     tx.executeSql(
+                                              "UPDATE Student_Assignments SET status = ?, qaList =?, editdate = ? WHERE creationdate = ?",
+                                                  [info[4],info[5],info[6],info[0]]
+                                                 )
+                                     break
                                 }
                             }
                         })
@@ -531,6 +548,7 @@ function sync(type, code) {
                     db.readTransaction(function (tx) {
 
                         var ids = http.responseText.split("\n")
+
 
                         if (ids[0] !== "0") {
                             while (ids.length > num) {
@@ -588,6 +606,7 @@ function sync(type, code) {
                                     sendToOpenSeed(userID, pull.rows.item(
                                                        sendnum).code, type)
                                 } else {
+
                                     sendToOpenSeed(userID, pull.rows.item(
                                                        sendnum).creationdate,
                                                    type)

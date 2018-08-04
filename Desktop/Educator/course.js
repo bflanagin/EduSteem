@@ -220,18 +220,20 @@ function loadLesson(userid, lessonnumber) {
 
             lessonResources = pull.rows.item(0).resources
             lessonSupplies = pull.rows.item(0).supplies
+            lessonSequence = pull.rows.item(0).lessonSequence
+            lessonSP = pull.rows.item(0).studentProduct
 
             lessonGQ = pull.rows.item(0).guidingQuestions
             //lessonRQ = pull.rows.item(0).reviewQuestions
             guidedQuestions = pull.rows.item(0).guidingQuestions
-            reviewQuestions = pull.rows.item(0).reviewQuestions.split(",")
+           // reviewQuestions = pull.rows.item(0).reviewQuestions.split(",")
+            reviewQuestions = ""
 
             lessonDuration = pull.rows.item(0).duration
             lessonOrder = pull.rows.item(0).lessonNum
             lessonDate = d.toLocaleDateString()
 
-            lessonSequence = pull.rows.item(0).lessonSequence
-            lessonSP = pull.rows.item(0).studentProduct
+
         }
     })
 

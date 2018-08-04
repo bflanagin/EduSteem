@@ -13,10 +13,12 @@ ESborder {
     id: thisWindow
     height: cColumn.height + 50
     property string day: "day"
-    property string month: "month"
+    property int month: 0
     property bool edit: false
+    property int repeatMode:3
+    property real classNum:0
+    property string className:""
 
-    //property string UnitObjective:"Objective"
     onStateChanged: if (state == "Active") {
                         console.log(monthselect)
                         Scripts.loadCourses(userID)
@@ -33,6 +35,11 @@ ESborder {
                                               cdate: 8
                                           })
                     }
+
+
+    onEditChanged: if(edit == true) {
+                       Schedule.load_Class(classNum,selected_month)
+                   }
 
     Column {
         id: cColumn
@@ -67,14 +74,17 @@ ESborder {
             height: 3
             color: seperatorColor
         }
-        Item {
+        Row {
             width: parent.width
             height: courseBox.height
+            spacing: parent.width * 0.01
 
+            Item {
+                width: parent.width * 0.49
+                height: 40
             ComboBox {
                 id: courseBox
-                anchors.left: parent.left
-                anchors.margins: 10
+                visible: if(edit === true) {false} else {true}
                 width: parent.width * 0.49
                 height: 40
                 model: courseList
@@ -90,7 +100,7 @@ ESborder {
                     Text {
                         anchors.left: parent.left
                         anchors.leftMargin: 5
-                        text: name
+                        text: if(name.length < 2) {"Select Class"} else {name}
                         anchors.verticalCenter: parent.verticalCenter
                     }
                     MouseArea {
@@ -101,6 +111,61 @@ ESborder {
                         }
                     }
                 }
+            }
+
+            ESTextField {
+                anchors.fill: courseBox
+                visible: edit
+                Text {
+                    anchors.centerIn: parent
+                    text:className
+
+                }
+            }
+
+            }
+
+            Column {
+                width:parent.width * 0.49
+                height:parent.height
+                spacing: height * 0.03
+
+                Text {
+                    text: "Class Options:"
+                }
+
+                Rectangle {
+                    width:parent.width
+                    height:2
+                    color:seperatorColor
+                }
+
+                Row {
+                    width:parent.width
+                RadioButton {
+                    id:allYearRadio
+                    text:qsTr("All Year")
+                    checked: true
+                    onCheckedChanged: if(checked == true) {repeatMode = 3}
+                }
+                RadioButton {
+                    id:firstSemesterRadio
+                    text:qsTr("1st Semester")
+                    onCheckedChanged: if(checked == true) {repeatMode = 1}
+                }
+                RadioButton {
+                    id:secondSemesterRadio
+                    text:qsTr("2nd Semester")
+                    onCheckedChanged: if(checked == true) {repeatMode = 1}
+                }
+                }
+                CheckBox {
+                    id:noAssignments
+                    text:qsTr("No Assignments")
+                }
+
+
+
             }
         }
 
@@ -213,7 +278,9 @@ ESborder {
                 text: qsTr("Cancel")
 
                 onClicked: {
+                    thisWindow.classNum = 0
                     thisWindow.state = "inActive"
+                    thisWindow.edit = false
                 }
             }
 
@@ -225,15 +292,28 @@ ESborder {
                 text: qsTr("Okay")
 
                 onClicked: {
+
                     if (edit == false) {
                         Schedule.save_schedule(
                                     month, "0:" + courseList.get(courseBox.currentIndex).cdate
                                     + "," + sunday.checked + "," + monday.checked
                                     + "," + tuesday.checked + "," + wednesday.checked
                                     + "," + thursday.checked + "," + friday.checked
-                                    + "," + saturday.checked)
+                                    + "," + saturday.checked , repeatMode,edit)
+                    } else {
+
+                        Schedule.save_schedule(
+                                    month, "0:" + classNum
+                                    + "," + sunday.checked + "," + monday.checked
+                                    + "," + tuesday.checked + "," + wednesday.checked
+                                    + "," + thursday.checked + "," + friday.checked
+                                    + "," + saturday.checked , repeatMode,edit)
+
                     }
 
+
+                    thisWindow.classNum = 0
+                    thisWindow.edit = false
                     thisWindow.state = "inActive"
                 }
             }
