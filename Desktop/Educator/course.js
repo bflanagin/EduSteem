@@ -21,9 +21,13 @@ function saveUnit(userid, coursenumber, unitnum, name, objective, about, creatio
 
     var d = new Date()
 
+    if(creationdate === 0) {
+        creationdate =d.getTime()
+    }
+
     db.transaction(function (tx) {
-        var data = [userid, coursenumber, unitnum, name.replace(
-                        / /g, "_"), objective, about, d.getTime(), d.getTime()]
+        var data = [userid, coursenumber, unitnum, name.replace(/ /g, "_"), objective, about, d.getTime(), d.getTime()]
+        console.log(data)
         var dtable = "INSERT INTO Units VALUES(?,?,?,?,?,?,?,?)"
 
         var dataSTR = "SELECT * FROM Units WHERE id ='" + userid
@@ -122,7 +126,7 @@ function loadUnits(userid, coursenumber) {
                                 "edate": pull.rows.item(num).editdate,
                                 "about": pull.rows.item(num).objective
                             })
-
+            unitCount = num
             num = num + 1
         }
     })

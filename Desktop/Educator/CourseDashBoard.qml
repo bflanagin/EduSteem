@@ -18,6 +18,7 @@ Item {
     property string courseAbout: "About"
     property string courseSubject: "Subject"
     property string courseDate: ""
+    property int unitCount: 0
 
     states: [
 

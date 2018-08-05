@@ -134,11 +134,10 @@ ESborder {
             text: qsTr("Okay")
 
             onClicked: {
-                Scripts.saveUnit(userID, coursenumber,
+                Scripts.saveUnit(userID, coursenumber, unitList.count+1,
                                  Scrubber.replaceSpecials(unitNameBox.text),
-                                 Scrubber.replaceSpecials(
-                                     unitObjectiveBox.text),
-                                 Scrubber.replaceSpecials(unitAboutBox.text), 0)
+                                 Scrubber.replaceSpecials(unitObjectiveBox.text),
+                                 Scrubber.replaceSpecials(unitAboutBox.text),0)
 
                 thisWindow.state = "inActive"
             }
