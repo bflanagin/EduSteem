@@ -36,8 +36,11 @@ Item {
 
     property string lessonUpdate: ""
 
+    property string studentAnswers:""
+
     property string studentFirstName: ""
     property string studentLastName: ""
+    property real  studentID: 0
 
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.verticalCenter: parent.verticalCenter
@@ -83,10 +86,10 @@ Item {
     state: "inActive"
 
     onLessonIDChanged: if (lessonID !== 0) {
-                           Student.loadTask(studentCode, lessonID)
+                           Student.loadTask(studentID, lessonID)
                        }
     onStateChanged: if (state === "Active") {
-                        Student.loadTask(studentCode, lessonID)
+                        Student.loadTask(studentID, lessonID)
                     }
 
     Rectangle {
@@ -163,7 +166,7 @@ Item {
         MarkDown {
 
             width:parent.width
-            thedata: 'TEST'
+            thedata: Scrubber.recoverSpecial(studentAnswers)
         }
 
             }
