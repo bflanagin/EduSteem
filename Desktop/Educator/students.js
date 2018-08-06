@@ -87,6 +87,7 @@ function assignment_list() {
                                    name: Courses.pullField("Title","lesson",pull.rows.item(num).lessonID),
                                    thecolor: selectedHighlightColor,
                                    studentName: Scripts.studentCred(pull.rows.item(num).studentCode,'',"fullname"),
+                                   studentID: pull.rows.item(num).studentCode,
                                    cdate: cdat.toLocaleString(),
                                    edate: edat.toLocaleString()
                                })

@@ -103,6 +103,15 @@ function loadTask(studentCode, taskId) {
             lessonSP = Scrubber.recoverSpecial(pull.rows.item(0).studentProduct)
         }
 
+        var studentSTR = "SELECT * FROM Student_Assignments WHERE lessonID="+taskId+" AND studentCode="+studentCode
+
+        var studentpull = tx.executeSql(studentSTR)
+
+        if(studentpull.rows.length === 1) {
+
+            studentAnswers = studentpull.rows.item(0).qaList
+        }
+
     })
 
 }

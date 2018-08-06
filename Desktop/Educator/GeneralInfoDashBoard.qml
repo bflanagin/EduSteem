@@ -330,6 +330,7 @@ Item {
                                         reviewView.studentFirstName = studentName.split(" ")[0]
                                         reviewView.studentLastName = studentName.split(" ")[1]
                                         reviewView.lessonID = lessonid
+                                        reviewView.studentID = studentID
                                         reviewView.lessonName = name
                                         reviewView.state = "Active"
 

@@ -186,7 +186,7 @@ Item {
                     width: leftMenu.width * 0.9
                     height: leftMenu.width * 0.9
                     anchors.horizontalCenter: parent.horizontalCenter
-                    label: qsTr("Activities")
+                    label: qsTr("Store")
                     icon: "/icons/Next.svg"
 
                     MouseArea {

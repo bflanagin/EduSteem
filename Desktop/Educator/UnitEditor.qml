@@ -131,7 +131,7 @@ ESborder {
                             id: objText
                             //padding: 10
                             thedata: Scrubber.recoverSpecial(unitObjective)
-                            width: parent.width
+                            width: parent.width * 0.98
                             // wrapMode: Text.WordWrap
                         }
                     }
