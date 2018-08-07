@@ -36,11 +36,11 @@ Item {
 
     property string lessonUpdate: ""
 
-    property string studentAnswers:""
+    property string studentAnswers: ""
 
     property string studentFirstName: ""
     property string studentLastName: ""
-    property real  studentID: 0
+    property real studentID: 0
 
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.verticalCenter: parent.verticalCenter
@@ -87,48 +87,56 @@ Item {
 
     onLessonIDChanged: if (lessonID !== 0) {
                            Student.loadTask(studentID, lessonID)
+                           Student.listNotes(schoolCode,studentID,lessonID)
                        }
     onStateChanged: if (state === "Active") {
                         Student.loadTask(studentID, lessonID)
+                        Student.listNotes(schoolCode,studentID,lessonID)
                     }
 
     Rectangle {
         anchors.fill: parent
-    }
-
-    Item {
-        id:titleBlock
-        width:parent.width
-        height:title.height + 40
-
-    Text {
-        id: title
-        text: lessonName+" - "+studentFirstName+" "+studentLastName
-        anchors.top: parent.top
-        anchors.left: backbutton.right
-        anchors.margins: 20
-        font.bold: true
-        font.pointSize: 15
-        width:parent.width * 0.75
-        wrapMode: Text.WordWrap
-    }
-
-    CircleButton {
-        id: backbutton
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.margins: 20
-        height: title.height
-        width: title.height
 
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                thisWindow.state = "inActive"
+
             }
         }
     }
 
+    Item {
+        id: titleBlock
+        width: parent.width
+        height: title.height + 20
+
+        Text {
+            id: title
+            text: lessonName + " - " + studentFirstName + " " + studentLastName
+            anchors.top: parent.top
+            anchors.left: backbutton.right
+            anchors.margins: 20
+            font.bold: true
+            font.pointSize: 15
+            width: parent.width * 0.75
+            wrapMode: Text.WordWrap
+        }
+
+        CircleButton {
+            id: backbutton
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.margins: 20
+            height: title.height
+            width: title.height
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    thisWindow.state = "inActive"
+                }
+            }
+        }
     }
 
     Item {
@@ -140,63 +148,214 @@ Item {
         height: parent.height
 
         Row {
-            anchors.top:parent.top
+            anchors.top: parent.top
             anchors.topMargin: parent.height * 0.02
-            width:parent.width * 0.98
-            height:parent.height * 0.98
+            width: parent.width * 0.96
+            height: parent.height * 0.9
 
-            Column {
-                width:parent.width * 0.55
-                spacing: 3
+            ESborder {
+                width: parent.width * 0.55
+                clickable: false
+                clip: true
+                height: parent.height * 0.98
+                Column {
+                    anchors.left: parent.left
+                    anchors.top: parent.top
+                    anchors.margins: 10
+                    width: parent.width * 0.98
+                    spacing: 3
 
-                Text {
-                    text:qsTr("Assignment")
-                    font.bold: true
-                    anchors.left:parent.left
-                    anchors.leftMargin: thisWindow.height * 0.01
+                    Text {
+                        text: qsTr("Assignment")
+                        font.bold: true
+                        anchors.left: parent.left
+                        anchors.leftMargin: thisWindow.height * 0.01
+                    }
+
+                    Rectangle {
+                        width: parent.width * 0.98
+                        height: 1
+                        color: seperatorColor
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+
+                    MarkDown {
+                        width: parent.width
+                        thedata: Scrubber.recoverSpecial(studentAnswers)
+                    }
                 }
-
-                Rectangle {
-                    width:parent.width * 0.98
-                    height:1
-                    color:seperatorColor
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-
-        MarkDown {
-
-            width:parent.width
-            thedata: Scrubber.recoverSpecial(studentAnswers)
-        }
-
-            }
-
-        Rectangle {
-            width:1
-            height:parent.height * 0.98
-            color:seperatorColor
-            anchors.verticalCenter: parent.verticalCenter
-        }
-
-        Column {
-            width:parent.width * 0.50
-            spacing: 3
-            Text {
-                text:qsTr("Notes:")
-                font.bold: true
-                anchors.left:parent.left
-                anchors.leftMargin: thisWindow.height * 0.01
             }
 
             Rectangle {
-                width:parent.width * 0.98
-                height:1
-                color:seperatorColor
-                anchors.horizontalCenter: parent.horizontalCenter
+                width: 1
+                height: parent.height * 0.95
+                color: seperatorColor
+                anchors.verticalCenter: parent.verticalCenter
             }
 
-        }
+            ESborder {
+                id: notesArea
+                width: parent.width * 0.50
+                clickable: false
+                clip: true
+                height: parent.height * 0.98
 
+                Column {
+                    anchors.left: parent.left
+                    anchors.top: parent.top
+                    anchors.margins: 10
+                    width: parent.width * 0.98
+                    spacing: 3
+
+                    Item {
+                        width: parent.width
+                        height: notesTitle.height
+                        Text {
+                            id: notesTitle
+
+                            text: qsTr("Notes:")
+                            font.bold: true
+                            anchors.left: parent.left
+                            anchors.leftMargin: thisWindow.height * 0.01
+                        }
+                        CircleButton {
+                            anchors.right: parent.right
+                            anchors.rightMargin: thisWindow.height * 0.01
+                            anchors.verticalCenter: parent.verticalCenter
+                            width: parent.height
+                            height: parent.height
+                            icon: "/icons/add"
+
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: noteList.append({
+                                                               "status": 0,
+                                                               "from": userName,
+                                                               "date": d.getTime()
+                                                           })
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        width: parent.width * 0.98
+                        height: 1
+                        color: seperatorColor
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+
+                    ListView {
+                        width: parent.width * 0.98
+                        height: if (contentHeight >= notesArea.height * 0.85) {
+                                    notesArea.height * 0.85
+                                } else {
+                                    contentHeight+10
+                                }
+                        clip: true
+                        spacing: parent.height * 0.01
+                        verticalLayoutDirection: ListView.BottomToTop
+                        model: noteList
+
+                        delegate: Item {
+                                    width: parent.width
+                                    height: noteColumn.height + 30
+                            ESborder {
+                            width: parent.width * 0.98
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            height: noteColumn.height + 20
+                            Column {
+                                id: noteColumn
+                                anchors.centerIn: parent
+                                width: parent.width * 0.98
+                                spacing: parent.height * 0.1
+                                Text {
+                                    anchors.left: parent.left
+                                    anchors.margins: 5
+                                    text: qsTr("From:") + from
+                                    font.bold: true
+                                }
+                                Rectangle {
+                                    width: parent.width * 0.98
+                                    height: 1
+                                    color: seperatorColor
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                }
+
+                                Text {
+                                    anchors.left: parent.left
+                                    anchors.margins: 15
+                                    visible: if (status === 0) {
+                                                 false
+                                             } else {
+                                                 true
+                                             }
+                                    text: Scrubber.recoverSpecial(note)
+                                    width: parent.width * 0.95
+                                    wrapMode: Text.wrapMode
+                                }
+
+                                TextField {
+                                    id:noteText
+                                    anchors.left: parent.left
+                                    anchors.margins: 15
+                                    visible: if (status === 1) {
+                                                 false
+                                             } else {
+                                                 true
+                                             }
+                                    text: Scrubber.recoverSpecial(note)
+                                    width: parent.width * 0.95
+                                    wrapMode: Text.wrapMode
+                                    background: ESTextField {
+                                    }
+                                    placeholderText: qsTr("New Note")
+                                }
+
+                                Text {
+                                    anchors.right: parent.right
+                                    anchors.rightMargin: 10
+                                    text: date
+                                    visible: if (status === 0) {
+                                                 false
+                                             } else {
+                                                 true
+                                             }
+                                }
+
+                                Item {
+                                    width: parent.width * 0.98
+                                    height: cancelButton.height
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    visible: if (status === 1) {
+                                                 false
+                                             } else {
+                                                 true
+                                             }
+                                    Button {
+                                        id: cancelButton
+                                        anchors.left: parent.left
+                                        background: ESTextField {
+                                        }
+                                        text: qsTr("Cancel")
+                                        onClicked: noteList.remove(index)
+                                    }
+                                    Button {
+                                        anchors.right: parent.right
+                                        background: ESTextField {
+                                        }
+                                        text: qsTr("Send")
+                                        onClicked: if(noteText.text.length > 0) {Student.addNote(schoolCode,studentID,lessonID,userCode,0,Scrubber.replaceSpecials(noteText.text))
+                                                                                    noteList.remove(index)
+                                                                                    Student.listNotes(schoolCode,studentID,lessonID)
+                                                                                }
+                                    }
+                                }
+                            }
+                        }
+                      }
+                    }
+                }
+            }
         }
     }
 
@@ -308,17 +467,16 @@ Item {
         }
 
         Text {
-            id:messagesTop
-             anchors.top: controlColumn.bottom
-             anchors.topMargin: parent.height * 0.04
-             anchors.left: parent.left
-             anchors.leftMargin: parent.height * 0.01
-
+            id: messagesTop
+            anchors.top: controlColumn.bottom
+            anchors.topMargin: parent.height * 0.04
+            anchors.left: parent.left
+            anchors.leftMargin: parent.height * 0.01
 
             text: qsTr("Messages")
 
             Rectangle {
-                anchors.top:parent.bottom
+                anchors.top: parent.bottom
                 anchors.topMargin: parent.height * 0.04
                 anchors.horizontalCenter: controlArea.horizontalCenter
                 width: controlArea.width * 0.97
@@ -328,30 +486,30 @@ Item {
         }
 
         ListView {
-            anchors.top:messagesTop.bottom
+            anchors.top: messagesTop.bottom
             anchors.topMargin: parent.height * 0.01
             anchors.bottomMargin: parent.height * 0.01
-            anchors.bottom:actionButtons.top
+            anchors.bottom: actionButtons.top
             anchors.horizontalCenter: controlArea.horizontalCenter
-            width:parent.width * 0.98
-            clip:true
-            model:messagesList
+            width: parent.width * 0.98
+            clip: true
+            model: messagesList
 
             delegate: ESborder {
 
-                width:controlArea.width * 0.98
-                height:thisWindow.height * 0.1
+                width: controlArea.width * 0.98
+                height: thisWindow.height * 0.05
 
                 Text {
 
                     anchors.centerIn: parent
-                    text:message
+                    text: message
                 }
             }
         }
 
         Column {
-            id:actionButtons
+            id: actionButtons
             anchors.bottom: parent.bottom
             anchors.bottomMargin: parent.height * 0.01
             width: parent.width
@@ -362,14 +520,14 @@ Item {
                 id: breakbutton
                 anchors.left: parent.left
                 anchors.leftMargin: 10
-                width:parent.width
+                width: parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: qsTr("Revise")
                 background: ESTextField {
                 }
 
                 onClicked: {
-                    Student.updateTask(studentCode,lessonID,4,lessonUpdate)
+                    Student.updateTask(studentCode, lessonID, 4, lessonUpdate)
                     controlArea.state = "inActive"
                     thisWindow.state = "inActive"
                     studentHome.state = "Active"
@@ -386,10 +544,10 @@ Item {
                 }
 
                 onClicked: {
-                    Student.updateTask(studentCode,lessonID,5,lessonUpdate)
+                    Student.updateTask(studentCode, lessonID, 5, lessonUpdate)
                     controlArea.state = "inActive"
                     thisWindow.state = "inActive"
-                     studentHome.state = "Active"
+                    studentHome.state = "Active"
                 }
             }
         }
@@ -608,10 +766,15 @@ Item {
     }
 
     ListModel {
-        id:messagesList
+        id: messagesList
 
         ListElement {
-            message:"No Messages"
+            message: "No Messages"
         }
+    }
+
+    ListModel {
+        id: noteList
+
     }
 }

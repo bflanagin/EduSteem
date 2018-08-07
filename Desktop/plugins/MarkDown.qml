@@ -36,8 +36,10 @@ Item {
                     }
 
             /* If the data is Text the Text Item is displayed */
-            Text {
+            TextEdit {
                 id: textItem
+                selectByMouse: true
+                readOnly:true
                 anchors.centerIn: parent
                 width: parent.width
                 visible: if (type == "text") {
@@ -48,8 +50,9 @@ Item {
                 wrapMode: Text.WordWrap
                 clip: true
                 horizontalAlignment: Text.AlignLeft
-                //font.pixelSize: thisWindow.width * 0.04
-                text: "<div>" + thepost + "</div>"
+                text:thepost
+                textFormat: TextEdit.AutoText
+
             }
             /* If the data is an Image the Image Item is displayed */
             Image {

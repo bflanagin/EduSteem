@@ -330,17 +330,22 @@ function pullField(type, where, id) {
     case "subject":
         table = "Subjects"
         break
+    case "educator":
+        table = "Users"
     }
 
     db.readTransaction(function (tx) {
 
         var dataSTR = ""
-        if(table === "Subjects") {
-            dataSTR = "SELECT * FROM " + table + " WHERE schoolCode ='" + schoolCode
+        switch (table) {
+        case "Subjects":dataSTR = "SELECT * FROM " + table + " WHERE schoolCode ='" + schoolCode
                     + "' AND subjectNumber =" + id
-         } else {
-        dataSTR = "SELECT * FROM " + table + " WHERE id ='" + userID
+                 break
+        case "Users":dataSTR = "SELECT * FROM " + table + " WHERE  code ='" + id+"'"
+                break
+        default: dataSTR = "SELECT * FROM " + table + " WHERE id ='" + userID
                 + "' AND creationdate =" + id
+            break
         }
         var pull = tx.executeSql(dataSTR)
 
@@ -379,7 +384,9 @@ function pullField(type, where, id) {
             case "Color":
                 returned = pull.rows.item(0).subjectColor
                 break
-
+             case "FullName":
+                 returned = pull.rows.item(0).firstname+" "+pull.rows.item(0).lastname
+                break
             }
         }
     })
