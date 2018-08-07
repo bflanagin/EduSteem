@@ -65,7 +65,7 @@ function checkOpenSeed(userid, code, editdate, type) {
 }
 
 function sendToOpenSeed(userid, code, type) {
-
+        console.log("Sending")
     /* Sends data to Server */
     var http = new XMLHttpRequest()
     var url = "https://openseed.vagueentertainment.com:8675/devs/Vag-01001011/vagEdu-053018/scripts/update.php"
@@ -122,11 +122,13 @@ function sendToOpenSeed(userid, code, type) {
             pull = tx.executeSql(
                         "SELECT * FROM Media WHERE creationdate=" + code)
             break
+        case "Assignment_Notes":
+            pull = tx.executeSql(
+                        "SELECT * FROM Assignment_Notes WHERE creationdate=" + code)
+            break
         }
 
         if (pull.rows.length === 1) {
-
-
 
             http.onreadystatechange = function () {
 
@@ -140,6 +142,7 @@ function sendToOpenSeed(userid, code, type) {
 
 
                             /* leaving this here for debugging purposes */
+                            console.log("From Sever on adding")
                              console.log(http.responseText)
                         }
                     }
@@ -314,6 +317,20 @@ function sendToOpenSeed(userid, code, type) {
                           + "&type=" + type)
                 break
 
+            case "Assignment_Notes":
+                http.send("devid=" + devId + "&appid=" + appId
+                          + "&userid=" + userid
+                          + "&schoolCode=" + pull.rows.item(0).schoolCode
+                          + "&studentCode=" + pull.rows.item(0).studentCode
+                          + "&lesson=" + pull.rows.item(0).lessonID
+                          + "&educatorCode=" + pull.rows.item(0).teacherCode
+                          + "&response=" + pull.rows.item(0).response
+                          + "&note=" + pull.rows.item(0).creationdate
+                          + "&code=" + pull.rows.item(0).creationdate
+                          + "&editdate=" + pull.rows.item(0).editdate
+                          + "&type=" + type)
+                break
+
 
             }
         }
@@ -324,6 +341,7 @@ function sendToOpenSeed(userid, code, type) {
 
 function retrieveFromOpenSeed(id, code, type, update) {
 
+    console.log("Retrieve")
     /* retrieves data to Server */
     var http = new XMLHttpRequest()
     var url = "https://openseed.vagueentertainment.com:8675/devs/Vag-01001011/vagEdu-053018/scripts/retrieve.php"
@@ -366,7 +384,7 @@ function retrieveFromOpenSeed(id, code, type, update) {
                             }
 
                             if (update === 0) {
-                             //   console.log("Adding "+info)
+
                                 if (pull.rows.length === 0) {
 
                                     switch (type) {

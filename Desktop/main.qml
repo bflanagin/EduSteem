@@ -181,6 +181,7 @@ Window {
                              Network.sync("Media",schoolCode)
                              Network.sync("Student_Assignments",schoolCode)
                              Network.sync("Lesson_Control",schoolCode)
+                             Network.sync("Assignment_Notes",schoolCode)
 
                          }
                      }
@@ -206,6 +207,8 @@ Window {
                          Network.sync("Lessons", schoolCode)
                          Network.sync("Students", schoolCode)
                          Network.sync("Schedule", schoolCode)
+                         Network.sync("Lesson_Control", schoolCode)
+                        // Network.sync("Assignment_Notes", schoolCode)
                          checkforUpdates.interval = 20000
                      }
     }
