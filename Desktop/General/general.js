@@ -38,6 +38,8 @@ guidingQuestions MEDIUMTEXT, lessonSequence MEDIUMTEXT, studentProduct MEDIUMTEX
         tx.executeSql(
                     'CREATE TABLE IF NOT EXISTS Student_Assignments (schoolCode TEXT, studentCode MEDIUMINT, lessonID MEDIUMINT, status INT, qaList MEDIUMTEXT, creationdate MEDIUMINT, editdate MEDIUMINT)')
         tx.executeSql(
+                    'CREATE TABLE IF NOT EXISTS Assignment_Notes (schoolCode TEXT, studentCode MEDIUMINT, lessonID MEDIUMINT,teacherCode TEXT,response MEDIUMINT, note MEDIUMTEXT, creationdate MEDIUMINT, editdate MEDIUMINT)')
+        tx.executeSql(
                     'CREATE TABLE IF NOT EXISTS Student_Daily_Review (schoolCode TEXT,studentCode MEDIUMINT,qaList MEDIUMTEXT, date MEDIUMINT )')
 
         /* Media databases */

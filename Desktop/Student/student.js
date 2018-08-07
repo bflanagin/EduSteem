@@ -179,3 +179,49 @@ function loadStudentProfile(studentCode) {
 }
 
 function updateStudentProfile(studentCode) {}
+
+function addNote(schoolCode,studentID,lessonID,userCode,response,note) {
+
+    var d = new Date()
+
+    db.transaction(function (tx) {
+
+        var dataSTR = "SELECT * FROM Assignment_Notes WHERE lessonID ="+lessonID+" AND studentCode="+studentID+" AND schoolCode='"+schoolCode+"'"
+        var pull = tx.executeSql(dataSTR)
+        var table = ""
+        var data = []
+
+            table = "INSERT INTO Assignment_Notes VALUES(?,?,?,?,?,?,?,?)"
+            data = [schoolCode,studentID,lessonID,userCode,response,note,d.getTime(),d.getTime()]
+            tx.executeSql(table,data)
+
+    })
+}
+
+function listNotes(schoolCode,studentID,lessonID) {
+    noteList.clear()
+
+    db.readTransaction(function (tx) {
+
+        var dataSTR = "SELECT * FROM Assignment_Notes WHERE lessonID ="+lessonID+" AND studentCode="+studentID+" AND schoolCode='"+schoolCode+"'"
+        var pull = tx.executeSql(dataSTR)
+
+
+        var num = 0
+
+        while(pull.rows.length >= num) {
+            var name = Courses.pullField("FullName","educator",pull.rows.item(num).teacherCode)
+            var d = new Date(pull.rows.item(num).creationdate)
+            noteList.append({
+                              from:name,
+                              date:d.toLocaleDateString(),
+                              note:pull.rows.item(num).note,
+                              status:1
+                            })
+
+            num = num + 1
+        }
+
+    })
+
+}
