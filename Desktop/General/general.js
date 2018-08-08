@@ -343,3 +343,65 @@ function studentCred(info1, info2, type) {
 
     return returned
 }
+
+function load_Subjects() {
+
+    subjects.clear()
+    db.readTransaction(function (tx) {
+
+        var pull = tx.executeSql("SELECT * FROM Subjects WHERE schoolCode='" + schoolCode + "' ORDER BY subjectNumber ASC")
+        var num = 0
+        while(pull.rows.length > num) {
+
+            subjects.append({
+                            classColor:  pull.rows.item(num).subjectColor,
+                            name: pull.rows.item(num).subjectName,
+                            classNum:pull.rows.item(num).subjectNumber
+                            })
+
+            num = num + 1
+        }
+
+    })
+
+
+}
+
+function add_Subject(name,number,color) {
+    var d = new Date()
+    db.transaction(function (tx) {
+
+        var pull = tx.executeSql("SELECT * FROM Subjects WHERE schoolCode= ? AND subjectNumber = ?",[schoolCode,number])
+        var num = 0
+        if(pull.rows.length === 0) {
+             var dataSTR = "INSERT INTO Subjects VALUES(?,?,?,?,?,?)"
+            var data = [schoolCode, number, name, color, " ", d.getTime()]
+
+            tx.executeSql(dataSTR, data)
+        }
+
+    })
+
+}
+
+function load_Educators() {
+
+    educators.clear()
+
+    db.readTransaction(function (tx) {
+
+        var pull = tx.executeSql("SELECT * FROM Users WHERE 1 ORDER BY id ASC")
+        var num = 0
+        while(pull.rows.length > num) {
+
+            educators.append({
+                            firstname:  pull.rows.item(num).firstname,
+                            lastname: pull.rows.item(num).lastname,
+                            code:pull.rows.item(num).code
+                            })
+
+            num = num + 1
+        }
+
+    })
+}

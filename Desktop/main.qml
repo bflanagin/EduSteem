@@ -208,8 +208,8 @@ Window {
                          Network.sync("Students", schoolCode)
                          Network.sync("Schedule", schoolCode)
                          Network.sync("Lesson_Control", schoolCode)
-                        // Network.sync("Assignment_Notes", schoolCode)
-                         checkforUpdates.interval = 20000
+                         Network.sync("Assignment_Notes", schoolCode)
+                         checkforUpdates.interval = 10000
                      }
     }
 

@@ -285,10 +285,6 @@ function save_schedule(month, day, repeatMode, editMode) {
                        after = after+1
                     }
 
-                console.log("Before "+classesBefore)
-                    console.log("Editing "+day)
-                console.log("After "+classesAfter)
-
                     tx.executeSql(
                                 "UPDATE Schedule SET day='" + classesBefore.join(";")+";"+day+";"+classesAfter.join(";")
                                 + ";' , editdate =" + d.getTime(
