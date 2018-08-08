@@ -142,8 +142,8 @@ function sendToOpenSeed(userid, code, type) {
 
 
                             /* leaving this here for debugging purposes */
-                            console.log("From Sever on adding")
-                             console.log(http.responseText)
+                            //console.log("From Sever on adding")
+                             //console.log(http.responseText)
                         }
                     }
                 }

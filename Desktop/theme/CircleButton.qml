@@ -13,7 +13,7 @@ Rectangle {
         id: theicon
         visible: false
         anchors.centerIn: parent
-        anchors.horizontalCenterOffset: parent.width * -0.05
+        //anchors.horizontalCenterOffset: parent.width * -0.05
         source: icon
         width: parent.width * 0.7
         height: parent.width * 0.7
