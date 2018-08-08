@@ -27,3 +27,10 @@ QML_DESIGNER_IMPORT_PATH =
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
+    ANDROID_EXTRA_LIBS = \
+        $$PWD/../../../../media/benjamin/b04f5344-c3a0-4360-a2fd-2141eb2b91fa/benjamin/Android/openssl/libcrypto.so \
+        $$PWD/../../../../media/benjamin/b04f5344-c3a0-4360-a2fd-2141eb2b91fa/benjamin/Android/openssl/libssl.so
+
+}
