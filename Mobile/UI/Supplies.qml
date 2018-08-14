@@ -16,7 +16,8 @@ ESborder {
     property string supplies: "current"
     //property string thelist: ""
 
-    onVisibleChanged: if (visible === true) {
+    onVisibleChanged: if (visible === true && overView.state === "inActive") {
+                          supList.clear()
                           Supply.load_supplies(schoolCode,supplies)
                           shadeTimer.start()
                       }
