@@ -60,7 +60,7 @@ Item {
             NumberAnimation {
                 target: shader
                 property: "anchors.topMargin"
-                duration: 300
+                duration: 200
                 easing.type: Easing.InOutQuad
             }
         }
@@ -73,7 +73,7 @@ Item {
         interval: 1000
         running: false
         repeat: false
-        onTriggered: thisWindow.state = "Active"
+       // onTriggered: thisWindow.state = "Active"
     }
 
     Rectangle {
@@ -102,23 +102,43 @@ Item {
         width: parent.width
         height: parent.height - footer.height
         clip: true
-        contentHeight: supplyView.height + 10
+        contentHeight: cColumn.height + 50
+        Column {
+            id:cColumn
+            width:parent.width
+
+        DashBoard {
+            id:dashBoard
+            visible: true
+            width: parent.width
+        }
+
+        StudentsList {
+            id:studentList
+            visible: false
+            width:parent.width
+        }
 
         SupplyView {
              id:supplyView
              visible: false
+             height:if(visible == false) {0}
               width: parent.width
         }
 
         LessonControl {
             id:lessonView
             visible: false
+            height:if(visible == false) {0}
             width:parent.width
         }
         ScheduleView {
             id:scheduleView
             visible:false
+            height:if(visible == false) {0}
             width:parent.width
+        }
+
         }
     }
 
@@ -137,15 +157,46 @@ Item {
             ESButton {
                 height: parent.height
                 width: parent.height
-                icon: "/Icons/contact-group"
-                label: "Students"
-                fillcolor: seperatorColor
+                icon: "/Icons/icons8-school.svg"
+                label: "Home"
+                fillcolor: if(dashBoard.visible === true) {"white"} else {seperatorColor}
+
                 Rectangle {
                     anchors.centerIn: parent
                     width:parent.width * 1.1
                     height:width
-
+                    color:if(dashBoard.visible !== true) {"white"} else {seperatorColor}
                     z:-1
+                }
+
+                MouseArea {
+                    anchors.fill:parent
+                    onClicked: {Scripts.deselectAll()
+                                    dashBoard.visible = true
+                                }
+                }
+            }
+
+            ESButton {
+                height: parent.height
+                width: parent.height
+                icon: "/Icons/contact-group"
+                label: "Students"
+                fillcolor: if(studentList.visible === true) {"white"} else {seperatorColor}
+                Rectangle {
+                    anchors.centerIn: parent
+                    width:parent.width * 1.1
+                    height:width
+                    color:if(studentList.visible !== true) {"white"} else {seperatorColor}
+                    z:-1
+                }
+
+                MouseArea {
+                    anchors.fill:parent
+                    onClicked: {
+                                Scripts.deselectAll()
+                                studentList.visible = true
+                                }
                 }
             }
 
@@ -166,7 +217,8 @@ Item {
 
                 MouseArea {
                     anchors.fill:parent
-                    onClicked: {Scripts.deselectAll()
+                    onClicked: {
+                                Scripts.deselectAll()
                                 supplyView.visible = true
                                 }
                 }
@@ -175,31 +227,8 @@ Item {
             ESButton {
                 height: parent.height
                 width: parent.height
-                icon: "/Icons/bookmark.svg"
-                label: "Lessons"
-                fillcolor: if(lessonView.visible === true) {"white"} else {seperatorColor}
-
-                Rectangle {
-                    anchors.centerIn: parent
-                    width:parent.width * 1.1
-                    height:width
-                    color:if(lessonView.visible !== true) {"white"} else {seperatorColor}
-                    z:-1
-                }
-
-                MouseArea {
-                    anchors.fill:parent
-                    onClicked: {Scripts.deselectAll()
-                                    lessonView.visible = true
-                                }
-                }
-            }
-
-            ESButton {
-                height: parent.height
-                width: parent.height
-                icon: "/Icons/calendar.svg"
-                label: "Schedule"
+                icon: "/Icons/help"
+                label: "Quiz"
                 fillcolor: if(scheduleView.visible === true) {"white"} else {seperatorColor}
 
                 Rectangle {

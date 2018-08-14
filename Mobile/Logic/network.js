@@ -313,7 +313,7 @@ function sync(type, code) {
 
     http.onreadystatechange = function () {
 
-        if (http.status === 200) {
+        if (http.status === XMLHttpRequest.Done) {
             if (http.readyState === 4) {
                 if (http.responseText == "100") {
                     console.log("Incorrect DevID")

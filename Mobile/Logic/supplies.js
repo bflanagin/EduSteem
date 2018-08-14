@@ -14,7 +14,6 @@ function load_supplies(schoolcode,supplies) {
                     if(pull.rows.item(num).supplies.length > 2) {
                 listing = pull.rows.item(num).supplies
 
-                console.log(num+":"+lessonName+"\n"+pull.rows.item(num).supplies)
                         supList.append({
                                         theLesson:lessonName,
                                         thelist:listing

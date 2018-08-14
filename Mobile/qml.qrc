@@ -60,5 +60,15 @@
         <file>UI/Overview.qml</file>
         <file>UI/SupplyView.qml</file>
         <file>UI/ScheduleView.qml</file>
+        <file>UI/DashBoard.qml</file>
+        <file>UI/Students.qml</file>
+        <file>UI/DayList.qml</file>
+        <file>Logic/scheduler.js</file>
+        <file>Logic/course.js</file>
+        <file>Icons/help.svg</file>
+        <file>Icons/desktop.svg</file>
+        <file>UI/StudentsList.qml</file>
+        <file>Icons/sort-descending.svg</file>
+        <file>Icons/sort-ascending.svg</file>
     </qresource>
 </RCC>

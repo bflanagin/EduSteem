@@ -55,6 +55,12 @@ Window {
     property int numberOfStudents: -1
     property int starttime: 8
 
+    property var d: new Date()
+    property int theday: d.getDate()
+    property int selected_month: d.getMonth()
+    property int selected_year: d.getFullYear()
+    property int selected_dow: d.getDay()
+
     onUserCodeChanged: if(Scripts.checklocal("school") === false ) {
                            schoolAdd.state = "Active"
                        } else {
@@ -70,12 +76,21 @@ Window {
         Network.sync("Student_Assignments",schoolCode)
         Network.sync("Lesson_Control",schoolCode)
         Network.sync("Assignment_Notes",schoolCode)
+        Network.sync("Subjects",schoolCode)
         overView.state = "Active"
         }
 
 
     Overview {
         id:overView
+        width:parent.width
+        height:parent.height
+        state:"inActive"
+    }
+
+    Students {
+        id:studentView
+        anchors.top:parent.top
         width:parent.width
         height:parent.height
         state:"inActive"

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   height="64"
+   width="64"
+   version="1.1"
+   id="svg10"
+   sodipodi:docname="desktop.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata16">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs14" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="2560"
+     inkscape:window-height="1372"
+     id="namedview12"
+     showgrid="false"
+     inkscape:zoom="7.375"
+     inkscape:cx="22.274865"
+     inkscape:cy="-2.745166"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg10" />
+  <g
+     transform="matrix(3.8293784,0,0,3.8293784,-2265.5005,-613.08923)"
+     id="g8"
+     style="color:#000000">
+    <path
+       d="m 595.994,161 c -1.258,0.015 -2.179,-0.03 -2.932,0.385 a 1.88,1.88 0 0 0 -0.837,0.998 C 592.06,162.821 592,163.343 592,164 v 6 c 0,0.658 0.06,1.179 0.225,1.617 0.164,0.439 0.461,0.79 0.837,0.998 0.753,0.416 1.674,0.37 2.932,0.385 h 8.012 c 1.258,-0.015 2.179,0.03 2.932,-0.385 a 1.88,1.88 0 0 0 0.838,-0.998 C 607.94,171.179 608,170.657 608,170 v -6 c 0,-0.658 -0.06,-1.179 -0.225,-1.617 a 1.88,1.88 0 0 0 -0.837,-0.998 c -0.753,-0.416 -1.674,-0.37 -2.932,-0.385 h -8.008 z m 0.006,1 h 8 c 1.259,0.015 2.087,0.06 2.453,0.262 0.184,0.1 0.29,0.212 0.387,0.472 0.097,0.26 0.16,0.674 0.16,1.266 v 6 c 0,0.592 -0.063,1.006 -0.16,1.266 -0.098,0.26 -0.203,0.371 -0.387,0.472 -0.366,0.202 -1.194,0.247 -2.453,0.262 h -8 c -1.259,-0.015 -2.09,-0.06 -2.455,-0.262 -0.183,-0.1 -0.287,-0.212 -0.385,-0.472 C 593.063,171.006 593,170.592 593,170 v -6 c 0,-0.592 0.063,-1.006 0.16,-1.266 0.098,-0.26 0.202,-0.371 0.385,-0.472 0.366,-0.202 1.196,-0.247 2.455,-0.262 z"
+       font-weight="400"
+       overflow="visible"
+       style="font-weight:400;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;text-transform:none;text-orientation:mixed;white-space:normal;shape-padding:0;overflow:visible;isolation:auto;mix-blend-mode:normal;fill:#808080;marker:none"
+       id="path2"
+       inkscape:connector-curvature="0" />
+    <path
+       d="m 598,172 h 4 v 1.5 c 0,1.5 0.5,1.5 1.5,1.5 h 0.5 v 1 h -8 v -1 h 0.5 c 1,0 1.5,0 1.5,-1.5 z m 4.5,-10.5 h 1.5 c 2.522,0.03 3.5,0 3.5,2.5 v 2.5 z"
+       overflow="visible"
+       style="overflow:visible;fill:#808080;marker:none"
+       id="path4"
+       inkscape:connector-curvature="0" />
+    <path
+       d="m 601.5,161 a 0.5,0.5 0 0 0 -0.5,0.5 v 3.5 c 0,0.658 0.06,1.179 0.225,1.617 0.164,0.439 0.461,0.79 0.837,0.998 0.753,0.416 1.674,0.37 2.932,0.385 a 0.5,0.5 0 0 0 0.006,0 h 2.5 a 0.5,0.5 0 0 0 0.5,-0.5 V 167 a 0.5,0.5 0 0 0 -0.146,-0.354 l -5.5,-5.5 A 0.5,0.5 0 0 0 602,161 Z m 0.5,1.207 4.793,4.793 H 605 c -1.259,-0.015 -2.087,-0.06 -2.453,-0.262 -0.184,-0.1 -0.29,-0.212 -0.387,-0.472 C 602.063,166.006 602,165.592 602,165 Z"
+       font-weight="400"
+       overflow="visible"
+       style="font-weight:400;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;text-transform:none;text-orientation:mixed;white-space:normal;shape-padding:0;overflow:visible;isolation:auto;mix-blend-mode:normal;fill:#808080;marker:none"
+       id="path6"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>
