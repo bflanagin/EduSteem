@@ -85,11 +85,13 @@ ESborder {
                 spacing: parent.width * 0.02
                 ComboBox {
                     id: coursesBox
+                    property int value: 0
                     width: parent.width * 0.49
                     model: subjects
 
                     background: ESTextField {
                     }
+
 
                     delegate: ItemDelegate {
                                            Text {
@@ -104,6 +106,7 @@ ESborder {
                                                }
                                            }
                                        }
+
                 }
 
                 ComboBox {
@@ -170,10 +173,11 @@ ESborder {
             text: qsTr("Okay")
 
             onClicked: {
-                Scripts.saveCourse(
+
+                 Scripts.saveCourse(
                             userID,
                             Scrubber.replaceSpecials(courseNameBox.text),
-                            coursesBox.currentText, languageBox.currentText,
+                            coursesBox.value, languageBox.currentText,
                             Scrubber.replaceSpecials(courseAboutBox.text), 0)
                 thisWindow.state = "inActive"
             }

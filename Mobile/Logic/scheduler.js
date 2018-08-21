@@ -22,15 +22,13 @@ function load_Day(month, day, weekday) {
                 for (var classnum = 0; classnum < (classes.length - 1); classnum = classnum + 1) {
                     if (selected_month === month || educator === "login") {
 
-                        var coursenumber = classes[classnum].split(
-                                    ":")[1].split(",")[0]
-
                         if (classes[classnum].split(":")[1].split(
                                     ",")[week] === "true") {
 
                             var subject = Schedule.pullField(
                                         "course", "Subject",
-                                        coursenumber)
+                                        classes[classnum].split(
+                                            ":")[1].split(",")[0])
 
                             var color = "gray"
 
@@ -46,8 +44,13 @@ function load_Day(month, day, weekday) {
                                                 0).subjectColor !== null) {
                                         color = info.rows.item(0).subjectColor
                                     }
+                                } else {
+
                                 }
                             }
+
+                            var coursenumber = classes[classnum].split(
+                                        ":")[1].split(",")[0]
 
                             Scripts.lessonControlADD(coursenumber)
 
@@ -55,7 +58,9 @@ function load_Day(month, day, weekday) {
                                                "coursenumber": coursenumber,
                                                "name": pullField(
                                                            "course", "Name",
-                                                           coursenumber),
+                                                           classes[classnum].split(
+                                                               ":")[1].split(
+                                                               ",")[0]),
                                                "coursecolor": color
                                            })
                         }
@@ -179,7 +184,7 @@ function load_Class(classNum, month) {
 }
 
 function save_schedule(month, day, repeatMode, editMode) {
-        var d = new Date()
+
     if (editMode === false) {
 
         if (repeatMode === 0) {
@@ -251,7 +256,7 @@ function save_schedule(month, day, repeatMode, editMode) {
             }
         }
     } else {
-        //var d = new Date()
+        var d = new Date()
         db.transaction(function (tx) {
             var data = [userID, num + schoolStartMonth, day
                         + ";", schoolCode, userCode, d.getTime(

@@ -3,7 +3,8 @@ function saveCourse(userid, name, subject, language, about, creationdate) {
     var d = new Date()
 
     db.transaction(function (tx) {
-        var data = [userid, name.replace(/ /g, "_"), subject, language, about, d.getTime(), d.getTime()]
+        var data = [userid, name.replace(/ /g, "_"), subject.split(
+                        " - ")[0], language, about, d.getTime(), d.getTime()]
         var dtable = "INSERT INTO Courses VALUES(?,?,?,?,?,?,?)"
 
         var dataSTR = "SELECT * FROM Courses WHERE id ='" + userid
@@ -516,8 +517,6 @@ function assignmentInfo(category, type) {
 function lessonControlINFO(course, type, status) {
     var check = ""
     var returned = ""
-
-    console.log(course, status)
     db.readTransaction(function (tx) {
         switch (status) {
         case "all":
@@ -566,9 +565,6 @@ function lessonControlINFO(course, type, status) {
             case "unitName":
                 returned = "No Units"
                 break
-            case "status":
-                returned = "unknown"
-                break
             }
         } else {
             switch (type) {
@@ -586,10 +582,6 @@ function lessonControlINFO(course, type, status) {
                 returned = pullField("Title", "unit",
                                      check.rows.item(0).unitnumber)
                 break
-            case "status":
-                returned = check.rows.item(0).status
-                break
-
             }
         }
     })

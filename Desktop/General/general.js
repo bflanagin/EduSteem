@@ -356,7 +356,8 @@ function load_Subjects() {
             subjects.append({
                             classColor:  pull.rows.item(num).subjectColor,
                             name: pull.rows.item(num).subjectName,
-                            classNum:pull.rows.item(num).subjectNumber
+                            classNum:pull.rows.item(num).subjectNumber,
+                            value:pull.rows.item(num).subjectNumber
                             })
 
             num = num + 1

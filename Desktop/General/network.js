@@ -133,9 +133,11 @@ function sendToOpenSeed(userid, code, type) {
             http.onreadystatechange = function () {
 
                     if (http.readyState === XMLHttpRequest.DONE) {
+
                         if (http.responseText == "100") {
+
                             console.log("Incorrect DevID")
-                        } else if (http.responseText == "101") {
+                        } else if (http.responseText === "101") {
                             console.log("Incorrect AppID")
                         } else {
 
@@ -551,6 +553,7 @@ function sync(type, code) {
     var url = "https://openseed.vagueentertainment.com:8675/devs/Vag-01001011/vagEdu-053018/scripts/sync.php"
 
     http.onreadystatechange = function () {
+
 
             if (http.readyState === XMLHttpRequest.DONE) {
                 if (http.responseText == "100") {

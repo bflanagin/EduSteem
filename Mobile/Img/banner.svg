@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="600"
+   height="200"
+   viewBox="0 0 158.75 52.916665"
+   version="1.1"
+   id="svg8"
+   inkscape:export-filename="/home/benjamin/edusteem_Desktop/img/Banner.png"
+   inkscape:export-xdpi="114.84"
+   inkscape:export-ydpi="114.84"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="banner.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.979899"
+     inkscape:cx="135.31004"
+     inkscape:cy="0.39945258"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer2"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="2560"
+     inkscape:window-height="1378"
+     inkscape:window-x="0"
+     inkscape:window-y="31"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="BG">
+    <path
+       style="fill:none;stroke:#9c9c9c;stroke-width:0.565;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 45.034915,15.899836 H 158.22356"
+       id="path913"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#9c9c9c;stroke-width:0.565;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 45.10173,35.410512 H 158.29038"
+       id="path913-7"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#9c9c9c;stroke-width:0.563;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2.252, 2.25199999999999978;stroke-dashoffset:0;stroke-opacity:1;opacity:1"
+       d="M 46.037174,26.590618 H 157.48857"
+       id="path913-6"
+       inkscape:connector-curvature="0" />
+  </g>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-244.08334)"
+     sodipodi:insensitive="true">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:24.19477081px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#165098;fill-opacity:1;stroke:none;stroke-width:0.60486931"
+       x="47.729877"
+       y="278.77924"
+       id="text817"><tspan
+         sodipodi:role="line"
+         id="tspan815"
+         x="47.729877"
+         y="278.77924"
+         style="fill:#165098;fill-opacity:1;stroke-width:0.60486931"
+         rotate="0 0 356.09991 0"
+         dy="0 0 2.1600008"
+         dx="0 0 -1.7300001">edu</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:24.19477081px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#5c9dd5;fill-opacity:1;stroke:none;stroke-width:0.60486931"
+       x="91.366867"
+       y="278.77924"
+       id="text821"><tspan
+         sodipodi:role="line"
+         id="tspan819"
+         x="91.366867"
+         y="278.77924"
+         style="baseline-shift:baseline;fill:#5c9dd5;fill-opacity:1;stroke-width:0.60486931">S</tspan></text>
+    <g
+       id="g906"
+       transform="matrix(0.03695773,0,0,0.03695773,1.9537502,246.44452)">
+      <path
+         id="path892"
+         d="M 146.5,145.3 C 90.5,192.2 32.7,250 9.2,320.5 c -27.1,83.1 10.8,168 47,242 36.1,75.8 75.8,149.9 110.1,227.5 27.1,61.4 65,133.6 56,202.3 -7.2,48.8 -23.5,95.7 -32.5,144.5 -7.2,32.5 23.5,0 34.3,-9 63.2,-54.2 131.8,-115.6 157.1,-198.7 12.6,-41.5 5.4,-79.5 -9,-119.2 -14.4,-37.9 -30.7,-74 -47,-112 C 290.9,622 254.8,546.2 218.6,470.3 c -14.4,-27.1 -28.9,-56 -41.5,-84.9 -12.6,-30.7 -19.9,-63.2 -21.7,-97.5 -1.8,-27.1 -1.8,-52.4 1.8,-79.5 1.8,-19.9 7.2,-37.9 9,-57.8 1.9,-10.7 -7.1,-14.4 -19.7,-5.3 z m 827.1,0 c -56,47 -113.8,104.8 -137.3,175.2 -27.1,83.1 10.8,168 47,242 36.1,75.9 75.9,149.9 110.2,227.6 27.1,61.4 65,133.6 56,202.3 -7.2,48.8 -23.5,95.7 -32.5,144.5 -7.2,32.5 23.5,0 34.3,-9 63.2,-54.2 131.8,-115.6 157.1,-198.7 12.6,-41.5 5.4,-79.5 -9,-119.2 -14.4,-37.9 -30.7,-74 -47,-112 -34.3,-75.9 -70.4,-151.7 -106.6,-227.6 -14.4,-27.1 -28.9,-56 -41.5,-84.9 -12.6,-30.7 -19.9,-63.2 -21.7,-97.5 -1.8,-27.1 -1.8,-52.4 1.8,-79.5 1.8,-19.9 7.2,-37.9 9,-57.8 1.9,-10.8 -7.1,-14.5 -19.8,-5.4 z"
+         class="st0"
+         inkscape:connector-curvature="0"
+         style="fill:#165098" />
+      <path
+         id="path894"
+         d="M 547.4,8 C 484.2,60.4 415.6,123.6 377.6,197.6 350.5,250 346.9,304.2 361.3,358.3 c 18.1,65 43.3,130 70.4,193.2 52.4,121 121,234.8 171.6,357.6 18.1,43.3 37.9,92.1 41.5,140.9 3.6,59.6 -16.3,122.8 -32.5,178.8 -3.6,16.3 -14.4,37.9 -12.6,54.2 1.8,12.6 9,7.2 16.3,1.8 30.7,-23.5 61.4,-50.6 88.5,-77.7 74,-70.4 158.9,-164.4 151.7,-274.5 -3.6,-45.2 -25.3,-88.5 -43.3,-130 C 793,753.9 771.4,707 749.7,660 710,571.5 668.4,484.8 625.1,398.1 610.7,367.4 592.6,338.5 581.8,307.8 565.5,266.3 558.3,222.9 556.5,179.6 c -1.8,-32.5 0,-66.8 3.6,-99.3 1.8,-21.7 9,-41.5 9,-63.2 5.4,-19.9 -5.4,-21.7 -21.7,-9.1 z"
+         class="st1"
+         inkscape:connector-curvature="0"
+         style="fill:#5c9dd5" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:18.20614433px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#165098;fill-opacity:1;stroke:none;stroke-width:0.45515361"
+       x="105.00354"
+       y="279.07965"
+       id="text910"><tspan
+         sodipodi:role="line"
+         id="tspan908"
+         x="105.00354"
+         y="279.07965"
+         style="fill:#165098;fill-opacity:1;stroke-width:0.45515361">TEEM</tspan></text>
+  </g>
+  <style
+     id="style890">.st0{fill:#165098}.st1{fill:#5c9dd5}</style>
+</svg>
