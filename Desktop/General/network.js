@@ -6,7 +6,7 @@ function heartbeat() {
     http.onreadystatechange = function () {
 
         if (http.status === 200) {
-            if (http.readyState === 4) {
+            if (http.readyState === XMLHttpRequest.DONE) {
 
                 if (http.responseText === "100") {
                     console.log("Incorrect DevID")
@@ -37,7 +37,7 @@ function checkOpenSeed(userid, code, editdate, type) {
     http.onreadystatechange = function () {
 
         if (http.status === 200) {
-            if (http.readyState === 4) {
+            if (http.readyState === XMLHttpRequest.DONE) {
 
                 if (http.responseText == "100") {
                     console.log("Incorrect DevID")
@@ -132,8 +132,7 @@ function sendToOpenSeed(userid, code, type) {
 
             http.onreadystatechange = function () {
 
-                if (http.status == 200) {
-                    if (http.readyState == 4) {
+                    if (http.readyState === XMLHttpRequest.DONE) {
                         if (http.responseText == "100") {
                             console.log("Incorrect DevID")
                         } else if (http.responseText == "101") {
@@ -146,7 +145,7 @@ function sendToOpenSeed(userid, code, type) {
                              //console.log(http.responseText)
                         }
                     }
-                }
+
             }
             http.open('POST', url.trim(), true)
 
@@ -349,7 +348,7 @@ function retrieveFromOpenSeed(id, code, type, update) {
     http.onreadystatechange = function () {
 
         if (http.status === 200) {
-            if (http.readyState === 4) {
+            if (http.readyState === XMLHttpRequest.DONE) {
 
                 if (http.responseText == "100") {
                     console.log("Incorrect DevID")
@@ -553,8 +552,7 @@ function sync(type, code) {
 
     http.onreadystatechange = function () {
 
-        if (http.status === 200) {
-            if (http.readyState === 4) {
+            if (http.readyState === XMLHttpRequest.DONE) {
                 if (http.responseText == "100") {
                     console.log("Incorrect DevID")
                 } else if (http.responseText == "101") {
@@ -636,7 +634,6 @@ function sync(type, code) {
                     })
                 }
             }
-        }
     }
     http.open('POST', url.trim(), true)
 

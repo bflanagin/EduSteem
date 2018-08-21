@@ -130,7 +130,7 @@ Item {
 
                     ESborder {
                         width: thisWindow.width / 5.5
-                        height: classColumn.height + thisWindow.height * 0.03
+                        height: classColumn.height + thisWindow.height * 0.02
                         clickable: true
                         state: "Active"
                         Column {
@@ -164,7 +164,7 @@ Item {
                             Text {
                                 anchors.left:parent.left
                                 anchors.leftMargin: parent.width * 0.02
-                                text:Courses.lessonControlINFO(coursenumber,"unitName","new")
+                                text:Courses.lessonControlINFO(coursenumber,"unitName","all")
                                 width:parent.width
                                 wrapMode: Text.WordWrap
                             }
@@ -172,8 +172,16 @@ Item {
                             Text {
                                 anchors.left:parent.left
                                 anchors.leftMargin: parent.width * 0.04
-                                text:Courses.lessonControlINFO(coursenumber,"lessonName","new")
+                                text:Courses.lessonControlINFO(coursenumber,"lessonName","all")
                                 width:parent.width
+                                wrapMode: Text.WordWrap
+                            }
+
+                            Text {
+                                anchors.right:parent.right
+                                anchors.rightMargin: parent.width * 0.04
+                                text:Courses.lessonControlINFO(coursenumber,"status","all")
+
                                 wrapMode: Text.WordWrap
                             }
 

@@ -22,13 +22,15 @@ function load_Day(month, day, weekday) {
                 for (var classnum = 0; classnum < (classes.length - 1); classnum = classnum + 1) {
                     if (selected_month === month || educator === "login") {
 
+                        var coursenumber = classes[classnum].split(
+                                    ":")[1].split(",")[0]
+
                         if (classes[classnum].split(":")[1].split(
                                     ",")[week] === "true") {
 
                             var subject = Schedule.pullField(
                                         "course", "Subject",
-                                        classes[classnum].split(
-                                            ":")[1].split(",")[0])
+                                        coursenumber)
 
                             var color = "gray"
 
@@ -47,18 +49,13 @@ function load_Day(month, day, weekday) {
                                 }
                             }
 
-                            var coursenumber = classes[classnum].split(
-                                        ":")[1].split(",")[0]
-
                             Scripts.lessonControlADD(coursenumber)
 
                             dayList.append({
                                                "coursenumber": coursenumber,
                                                "name": pullField(
                                                            "course", "Name",
-                                                           classes[classnum].split(
-                                                               ":")[1].split(
-                                                               ",")[0]),
+                                                           coursenumber),
                                                "coursecolor": color
                                            })
                         }

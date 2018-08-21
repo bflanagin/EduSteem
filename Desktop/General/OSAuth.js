@@ -7,7 +7,7 @@ function oseed_auth(name, email, passphrase) {
     var url = "https://openseed.vagueentertainment.com:8675/corescripts/authPOST.php"
 
     http.onreadystatechange = function () {
-        if (http.readyState == 4) {
+        if (http.readyState === XMLHttpRequest.DONE) {
 
             if (http.responseText === 100) {
                 console.log("Incorrect DevID")
@@ -37,7 +37,7 @@ function heartbeat() {
     http.onreadystatechange = function () {
 
         if (http.status === 200) {
-            if (http.readyState === 4) {
+            if (http.readyState === XMLHttpRequest.DONE) {
 
                 if (http.responseText === "100") {
                     console.log("Incorrect DevID")
@@ -116,12 +116,12 @@ function account_type(userid) {
     var url = "https://openseed.vagueentertainment.com:8675/corescripts/authCHECK.php"
 
     http.onreadystatechange = function () {
-        if (http.readyState == 4) {
+        if (http.readyState === XMLHttpRequest.DONE) {
 
-            if (http.responseText === 100) {
+            if (http.responseText === '100') {
 
                 console.log("Incorrect DevID")
-            } else if (http.responseText === 101) {
+            } else if (http.responseText === '101') {
 
                 console.log("Incorrect AppID")
             } else {

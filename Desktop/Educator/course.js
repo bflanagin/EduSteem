@@ -517,6 +517,8 @@ function assignmentInfo(category, type) {
 function lessonControlINFO(course, type, status) {
     var check = ""
     var returned = ""
+
+    console.log(course, status)
     db.readTransaction(function (tx) {
         switch (status) {
         case "all":
@@ -565,6 +567,9 @@ function lessonControlINFO(course, type, status) {
             case "unitName":
                 returned = "No Units"
                 break
+            case "status":
+                returned = "unknown"
+                break
             }
         } else {
             switch (type) {
@@ -582,6 +587,10 @@ function lessonControlINFO(course, type, status) {
                 returned = pullField("Title", "unit",
                                      check.rows.item(0).unitnumber)
                 break
+            case "status":
+                returned = check.rows.item(0).status
+                break
+
             }
         }
     })
