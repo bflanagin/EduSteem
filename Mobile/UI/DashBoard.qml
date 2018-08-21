@@ -140,10 +140,8 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    lessonView.lessonID = Courses.lessonControlINFO(coursenumber,"lessonNumber","new")
-                    lessonView.state = "Active"
-
-
+                    lessonControl.lessonID = Courses.lessonControlINFO(coursenumber,"lessonNumber","new")
+                    lessonControl.state = "Active"
                 }
             }
         }

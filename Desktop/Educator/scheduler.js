@@ -56,9 +56,7 @@ function load_Day(month, day, weekday) {
                                                "coursenumber": coursenumber,
                                                "name": pullField(
                                                            "course", "Name",
-                                                           classes[classnum].split(
-                                                               ":")[1].split(
-                                                               ",")[0]),
+                                                           coursenumber),
                                                "coursecolor": color
                                            })
                         }
@@ -182,7 +180,7 @@ function load_Class(classNum, month) {
 }
 
 function save_schedule(month, day, repeatMode, editMode) {
-
+        var d = new Date()
     if (editMode === false) {
 
         if (repeatMode === 0) {
@@ -254,7 +252,7 @@ function save_schedule(month, day, repeatMode, editMode) {
             }
         }
     } else {
-        var d = new Date()
+        //var d = new Date()
         db.transaction(function (tx) {
             var data = [userID, num + schoolStartMonth, day
                         + ";", schoolCode, userCode, d.getTime(

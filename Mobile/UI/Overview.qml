@@ -125,13 +125,6 @@ Item {
              height:if(visible == false) {0}
               width: parent.width
         }
-
-        LessonControl {
-            id:lessonView
-            visible: false
-            height:if(visible == false) {0}
-            width:parent.width
-        }
         ScheduleView {
             id:scheduleView
             visible:false
