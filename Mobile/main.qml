@@ -96,6 +96,15 @@ Window {
         state:"inActive"
     }
 
+    LessonControl {
+        id:lessonControl
+        anchors.top:parent.top
+        anchors.left: parent.left
+        width:parent.width
+        height:parent.height
+        state:"inActive"
+    }
+
     Login {
         id:login
         width:parent.width * 0.9

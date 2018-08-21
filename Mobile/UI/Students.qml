@@ -8,11 +8,8 @@ import "../Logic/general.js" as Scripts
 Item {
     id: thisWindow
     width: parent.width
-    height: if (visible == false) {
-                0
-            } else {
-                parent.height
-            }
+    height: parent.height
+
     clip: true
 
     property real studentId: 0

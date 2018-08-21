@@ -527,10 +527,10 @@ Item {
                 }
 
                 onClicked: {
-                    Student.updateTask(studentCode, lessonID, 4, lessonUpdate)
+                    Student.updateTask(studentID, lessonID, 4, lessonUpdate)
                     controlArea.state = "inActive"
                     thisWindow.state = "inActive"
-                    studentHome.state = "Active"
+                    educatorHome.state = "Active"
                 }
             }
 
@@ -544,10 +544,10 @@ Item {
                 }
 
                 onClicked: {
-                    Student.updateTask(studentCode, lessonID, 5, lessonUpdate)
+                    Student.updateTask(studentID, lessonID, 5, lessonUpdate)
                     controlArea.state = "inActive"
                     thisWindow.state = "inActive"
-                    studentHome.state = "Active"
+                    educatorHome.state = "Active"
                 }
             }
         }

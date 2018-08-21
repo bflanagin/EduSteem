@@ -3,8 +3,7 @@ function saveCourse(userid, name, subject, language, about, creationdate) {
     var d = new Date()
 
     db.transaction(function (tx) {
-        var data = [userid, name.replace(/ /g, "_"), subject.split(
-                        " - ")[0], language, about, d.getTime(), d.getTime()]
+        var data = [userid, name.replace(/ /g, "_"), subject, language, about, d.getTime(), d.getTime()]
         var dtable = "INSERT INTO Courses VALUES(?,?,?,?,?,?,?)"
 
         var dataSTR = "SELECT * FROM Courses WHERE id ='" + userid

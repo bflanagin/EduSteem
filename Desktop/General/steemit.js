@@ -11,7 +11,7 @@ function get_blog(account) {
 
     http.onreadystatechange = function () {
 
-        if (http.readyState == 4) {
+        if (http.readyState === XMLHttpRequest.DONE) {
 
             if (http.responseText == "100") {
                 console.log("Incorrect DevID")
@@ -64,7 +64,7 @@ function get_follow(account) {
 
     http.onreadystatechange = function () {
 
-        if (http.readyState == 4) {
+        if (http.readyState === XMLHttpRequest.DONE) {
 
             if (http.responseText == "100") {
                 console.log("Incorrect DevID")
@@ -93,7 +93,7 @@ function get_info(account) {
 
     http.onreadystatechange = function () {
 
-        if (http.readyState == 4) {
+        if (http.readyState === XMLHttpRequest.DONE) {
 
             if (http.responseText == "100") {
                 console.log("Incorrect DevID")

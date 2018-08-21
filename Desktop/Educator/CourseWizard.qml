@@ -6,6 +6,7 @@ import "../plugins"
 
 import "./course.js" as Scripts
 import "../plugins/text.js" as Scrubber
+import "../General/general.js" as General
 
 ESborder {
     id: thisWindow
@@ -16,6 +17,8 @@ ESborder {
     onStateChanged: if (state == "inActive") {
                         courseNameBox.text = " "
                         courseAboutBox.text = " "
+                    } else {
+                        General.load_Subjects()
                     }
 
     Text {
@@ -81,10 +84,24 @@ ESborder {
                 spacing: parent.width * 0.02
                 ComboBox {
                     id: coursesBox
+                    property int value: 0
                     width: parent.width * 0.49
-                    model: courses
+                    model: subjects
 
                     background: ESTextField {
+                    }
+                    delegate: ItemDelegate {
+                        Text {
+                            text: value + " - " + name
+                        }
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                coursesBox.displayText = value + " - " + name
+                                coursesBox.popup.close()
+                                coursesBox.value = value
+                            }
+                        }
                     }
                 }
 
@@ -152,13 +169,18 @@ ESborder {
             text: qsTr("Okay")
 
             onClicked: {
-                Scripts.saveCourse(
+
+                 Scripts.saveCourse(
                             userID,
                             Scrubber.replaceSpecials(courseNameBox.text),
-                            coursesBox.currentText, languageBox.currentText,
+                            coursesBox.value, languageBox.currentText,
                             Scrubber.replaceSpecials(courseAboutBox.text), 0)
                 thisWindow.state = "inActive"
             }
         }
+    }
+
+    ListModel {
+        id: subjects
     }
 }

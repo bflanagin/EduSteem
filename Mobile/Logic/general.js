@@ -168,13 +168,18 @@ function checklocal(type) {
 }
 
 function deselectAll() {
-    //overView.state = "inActive"
+
+    if(lessonControl.state !== "Active") {
     studentList.visible = false
     scheduleView.visible = false
-    lessonView.visible = false
     supplyView.visible = false
     dashBoard.visible = false
-
+    } else {
+    lessonView.visible = false
+    resourceView.visible = false
+    gqView.visible = false
+    controlView.visible = false
+    }
 }
 
 

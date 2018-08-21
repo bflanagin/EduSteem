@@ -70,5 +70,8 @@
         <file>UI/StudentsList.qml</file>
         <file>Icons/sort-descending.svg</file>
         <file>Icons/sort-ascending.svg</file>
+        <file>UI/ResourceView.qml</file>
+        <file>UI/LessonView.qml</file>
+        <file>UI/GQView.qml</file>
     </qresource>
 </RCC>
