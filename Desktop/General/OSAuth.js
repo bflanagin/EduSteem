@@ -118,10 +118,10 @@ function account_type(userid) {
     http.onreadystatechange = function () {
         if (http.readyState === XMLHttpRequest.DONE) {
 
-            if (http.responseText === 100) {
+            if (http.responseText === '100') {
 
                 console.log("Incorrect DevID")
-            } else if (http.responseText === 101) {
+            } else if (http.responseText === '101') {
 
                 console.log("Incorrect AppID")
             } else {

@@ -275,7 +275,7 @@ Item {
         anchors.bottomMargin: 20
         width: parent.width * 0.40
         clip: true
-        spacing: 20
+        spacing: 10
 
         model: DayList {
             day: d.getDate()

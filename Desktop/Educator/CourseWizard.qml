@@ -8,6 +8,7 @@ import "./course.js" as Scripts
 import "../plugins/text.js" as Scrubber
 import "../General/general.js" as General
 
+
 ESborder {
     id: thisWindow
     anchors.horizontalCenter: parent.horizontalCenter
@@ -90,19 +91,22 @@ ESborder {
 
                     background: ESTextField {
                     }
+
+
                     delegate: ItemDelegate {
-                        Text {
-                            text: value + " - " + name
-                        }
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                coursesBox.displayText = value + " - " + name
-                                coursesBox.popup.close()
-                                coursesBox.value = value
-                            }
-                        }
-                    }
+                                           Text {
+                                               text: value + " - " + name
+                                           }
+                                           MouseArea {
+                                               anchors.fill: parent
+                                               onClicked: {
+                                                   coursesBox.displayText = value + " - " + name
+                                                   coursesBox.popup.close()
+                                                   coursesBox.value = value
+                                               }
+                                           }
+                                       }
+
                 }
 
                 ComboBox {
