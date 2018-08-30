@@ -209,6 +209,11 @@ Window {
                          Network.sync("Schedule", schoolCode)
                          Network.sync("Lesson_Control", schoolCode)
                          Network.sync("Assignment_Notes", schoolCode)
+                         Network.sync("Media",schoolCode)
+                         Network.sync("Student_Assignments",schoolCode)
+                         Network.sync("Lesson_Control",schoolCode)
+                         Network.sync("Assignment_Notes",schoolCode)
+
                          checkforUpdates.interval = 10000
                      }
     }

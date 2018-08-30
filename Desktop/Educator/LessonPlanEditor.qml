@@ -29,6 +29,8 @@ ESborder {
     property string lessonRQ: ""
     property string lessonSP: ""
 
+    property int lessonStatus:0
+
     property int lessonPublished: 0
 
     onStateChanged: if (state == "Active") {
@@ -359,7 +361,10 @@ ESborder {
                             thedata:Scrubber.recoverSpecial(lessonResources)
                             width: parent.width
                             height:if(contentHeight > 400) {thisWindow.height * 0.4} else {contentHeight}
-
+                            edit:true
+                            field:"Resources"
+                            where:"lesson"
+                            itemId:lessonNumber
                         }
                     }
                     Image {
@@ -680,7 +685,7 @@ ESborder {
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
         state: "inActive"
-        onStateChanged: if (state == "inActive") {
+        onStateChanged: if (state === "inActive") {
                             Scripts.loadLesson(userID, lessonNumber)
                         }
     }
@@ -692,6 +697,9 @@ ESborder {
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
         state: "inActive"
+        onStateChanged: if (state === "inActive") {
+                            Scripts.loadLesson(userID, lessonNumber)
+                        }
     }
 
     ResourceListAdd {
@@ -701,5 +709,9 @@ ESborder {
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
         state: "inActive"
+        onStateChanged: if (state === "inActive") {
+                            Scripts.loadLesson(userID, lessonNumber)
+                        }
+
     }
 }

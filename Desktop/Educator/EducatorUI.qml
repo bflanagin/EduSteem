@@ -13,6 +13,7 @@ import "./course.js" as Courses
 import "../General/network.js" as Network
 import "./students.js" as Students
 import "../General/general.js" as Scripts
+import "./scheduler.js" as Schedule
 
 Item {
     id: thisWindow
@@ -131,7 +132,7 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             height: parent.height
             width: parent.width
-            state: "Active"
+            state: thisWindow.state
         }
 
         CourseDashBoard {
@@ -184,6 +185,9 @@ Item {
             height: parent.height
             state: "inActive"
             anchors.verticalCenter: parent.verticalCenter
+            onStateChanged: if(state === "inActive") {
+                                Courses.loadCourses(userID)
+                            }
         }
 
         LessonView {
@@ -192,6 +196,9 @@ Item {
             height: parent.height
             state: "inActive"
             anchors.verticalCenter: parent.verticalCenter
+            onStateChanged: if(state === "inActive") {
+                               Courses.loadCourses(userID)
+                            }
         }
 
         Settings {
@@ -248,6 +255,12 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.horizontalCenterOffset: leftMenu.width / 2
         state: "inActive"
+        onStateChanged: if(state === "inActive") {
+                            monthoffset = 0
+                            selected_month = d.getMonth()
+                            Network.checkOpenSeed(userID, cdate, edate,"Schedule")
+                            //Schedule.load_Classes(selected_month,theday)
+                        }
     }
 
     ListModel {

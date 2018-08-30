@@ -41,6 +41,8 @@ Item {
     property string studentFirstName: ""
     property string studentLastName: ""
 
+    property int lessonStatus: 0
+
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.verticalCenter: parent.verticalCenter
 
@@ -90,6 +92,13 @@ Item {
     onStateChanged: if (state === "Active") {
                         Courses.loadLesson(userID, lessonID)
                     }
+
+    Timer {
+        interval: 5000
+        running:if(thisWindow.state === "Active") {true} else {false}
+        repeat: true
+        onTriggered: Courses.loadLesson(userID, lessonID)
+    }
 
     Rectangle {
         anchors.fill: parent
@@ -146,6 +155,20 @@ Item {
             width:parent.width
             wrapMode: Text.WordWrap
             text:Scrubber.recoverSpecial(lessonAbout)
+        }
+
+        Text {
+            anchors.right:parent.right
+            anchors.bottom:parent.bottom
+            anchors.rightMargin: 10
+            text: switch(lessonStatus) {
+                    case 0: qsTr("Not Started")
+                        break
+                    case 1: qsTr("In Progress")
+                        break
+                    case 2: qsTr("Finished")
+                        break
+                  }
         }
     }
 
@@ -387,14 +410,19 @@ Item {
                 anchors.leftMargin: 10
                 width: parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
-                text: qsTr("Start")
+                text: if(lessonStatus === 1) {qsTr("Stop")} else {qsTr("Start")}
                 background: ESTextField {
                 }
 
                 onClicked: {
-                    Courses.lessonControlUpdate(lessonID, 1)
+                    if(lessonStatus === 1) {
+                        Courses.lessonControlUpdate(lessonID, 0)
+                    } else {
+                        Courses.lessonControlUpdate(lessonID, 1)
+                    }
                     controlArea.state = "inActive"
-                    thisWindow.state = "inActive"
+                   // thisWindow.state = "inActive"
+
 
                 }
             }
@@ -425,7 +453,7 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: 8
 
-        width: mainArea.width * 0.30
+        width: mainArea.width * 0.50
         height: parent.height
         z: 2
 
@@ -533,7 +561,7 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: 8
 
-        width: mainArea.width * 0.30
+        width: mainArea.width * 0.50
         height: parent.height
         z: 2
 
@@ -645,8 +673,8 @@ Item {
            } else {
                2
            }
-        width: mainArea.width * 0.40
-        height: parent.height - topBar.height
+        width: mainArea.width * 0.50
+        height: parent.height
 
         states: [
 

@@ -86,6 +86,13 @@ Item {
                         Student.loadTask(studentCode, lessonID)
                     }
 
+    Timer {
+        interval: 5000
+        running:if(thisWindow.state === "Active") {true} else {false}
+        repeat: true
+        onTriggered: Student.loadTask(studentCode, lessonID)
+    }
+
     Rectangle {
         anchors.fill: parent
     }

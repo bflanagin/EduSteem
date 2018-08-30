@@ -56,7 +56,7 @@ Item {
    // property var d: new Date()
     property int monthoffset: 0
 
-    onStateChanged: if (state == "Active") {
+    onStateChanged: if (state === "Active") {
                         monthoffset = 0
                         selected_month = d.getMonth()
                         Network.checkOpenSeed(userID, cdate, edate,"Schedule")
@@ -333,4 +333,6 @@ Item {
             }
         }
     }
+
+
 }

@@ -20,7 +20,7 @@ ESborder {
     property string className:""
 
     onStateChanged: if (state == "Active") {
-                        console.log(monthselect)
+
                         Scripts.loadCourses(userID)
                         courseList.append({
                                               name: "Lunch",
@@ -47,13 +47,35 @@ ESborder {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         spacing: thisWindow.width * 0.03
-
+        Item {
+            width:parent.width
+            height:title.height
         Text {
             id: title
             anchors.left: parent.left
             anchors.leftMargin: 10
-            text: "Adding class"
+            text: if(edit == false) {"Adding class"} else {"Editing "+className}
             font.pointSize: 18
+        }
+
+        Button {
+            anchors.right:parent.right
+            anchors.rightMargin: 10
+            text:qsTr("Remove")
+            background: ESTextField {}
+            onClicked: { Schedule.save_schedule(
+                           month, "0:" + classNum
+                           + "," + sunday.checked + "," + monday.checked
+                           + "," + tuesday.checked + "," + wednesday.checked
+                           + "," + thursday.checked + "," + friday.checked
+                           + "," + saturday.checked , 0,edit)
+
+                thisWindow.classNum = 0
+                thisWindow.edit = false
+                thisWindow.state = "inActive"
+            }
+        }
+
         }
 
         Rectangle {

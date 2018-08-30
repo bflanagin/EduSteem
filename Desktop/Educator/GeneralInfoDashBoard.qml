@@ -59,6 +59,13 @@ Item {
 
                     }
 
+    Timer {
+        interval: 5000
+        running:if(thisWindow.state === "Active") {true} else {false}
+        repeat: true
+        onTriggered: Schedule.load_Classes(d.getMonth(), d.getDay())
+    }
+
 
 
     Flickable {
@@ -164,7 +171,7 @@ Item {
                             Text {
                                 anchors.left:parent.left
                                 anchors.leftMargin: parent.width * 0.02
-                                text:Courses.lessonControlINFO(coursenumber,"unitName","all")
+                                text:Courses.lessonControlINFO(coursenumber,"unitName","new")
                                 width:parent.width
                                 wrapMode: Text.WordWrap
                             }
@@ -172,7 +179,7 @@ Item {
                             Text {
                                 anchors.left:parent.left
                                 anchors.leftMargin: parent.width * 0.04
-                                text:Courses.lessonControlINFO(coursenumber,"lessonName","all")
+                                text:Courses.lessonControlINFO(coursenumber,"lessonName","new")
                                 width:parent.width
                                 wrapMode: Text.WordWrap
                             }
@@ -180,7 +187,7 @@ Item {
                             Text {
                                 anchors.right:parent.right
                                 anchors.rightMargin: parent.width * 0.04
-                                text:Courses.lessonControlINFO(coursenumber,"status","all")
+                                text:Courses.lessonControlINFO(coursenumber,"status","new")
 
                                 wrapMode: Text.WordWrap
                             }
