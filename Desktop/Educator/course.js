@@ -77,6 +77,8 @@ function loadCourses(userid) {
                                   "edate": pull.rows.item(num).editdate
                               })
 
+            lessonControlADD(pull.rows.item(num).creationdate)
+
             num = num + 1
         }
     })
@@ -239,7 +241,7 @@ function loadLesson(userid, lessonnumber) {
 
         }
     })
-
+            lessonStatus = lessonControlINFO("any","status","all",lessonnumber)
     loadQuestions(1)
 }
 
@@ -513,12 +515,14 @@ function assignmentInfo(category, type) {
   4: continuous = for the classes and lessons that never end. This is a special condition for things like Daily Reviews.
 
   */
-function lessonControlINFO(course, type, status) {
+function lessonControlINFO(course, type, status, lessonID) {
     var check = ""
     var returned = ""
 
-    console.log(course, status)
+    console.log(course, status, lessonID)
     db.readTransaction(function (tx) {
+
+        if(lessonID === undefined) {
         switch (status) {
         case "all":
             check = tx.executeSql(
@@ -527,7 +531,7 @@ function lessonControlINFO(course, type, status) {
             break
         case "new":
             check = tx.executeSql(
-                        "SELECT * FROM Lesson_Control WHERE coursenumber =? AND status = 0",
+                        "SELECT * FROM Lesson_Control WHERE coursenumber =? AND status < 2",
                         [course])
             break
         case "started":
@@ -551,7 +555,17 @@ function lessonControlINFO(course, type, status) {
                         [course])
             break
         }
+
+        } else {
+            console.log("using lesson ID")
+            check = tx.executeSql(
+                                    "SELECT * FROM Lesson_Control WHERE lessonID =?",
+                                    [lessonID])
+        }
+
         if (check.rows.length === 0) {
+
+
 
             switch (type) {
             case "lessonNumber":
@@ -608,6 +622,7 @@ function lessonControlADD(course) {
                               [course])
 
         if (check.rows.length !== 0) {
+
             var num = 0
             while (check.rows.length > num) {
                 var coursenumber = check.rows.item(num).coursenumber
@@ -620,8 +635,8 @@ function lessonControlADD(course) {
                 var dataSTR = "INSERT INTO Lesson_Control VALUES(?,?,?,?,?,?,?,?)"
 
                 var exists = tx.executeSql(
-                            "SELECT coursenumber FROM Lesson_Control WHERE coursenumber=?",
-                            [course])
+                            "SELECT coursenumber FROM Lesson_Control WHERE lessonID=?",
+                            [lessonID])
 
                 if (userID.length > 4 && userCode.length > 4
                         && exists.rows.length === 0) {
@@ -639,6 +654,8 @@ function lessonControlUpdate(lessonID, status) {
     var check = ""
     var returned = 0
     var d = new Date()
+    var data = []
+    var dataSTR =""
 
     db.transaction(function (tx) {
 
@@ -647,11 +664,20 @@ function lessonControlUpdate(lessonID, status) {
 
         if (check.rows.length === 1) {
 
-            var data = [status, userCode, d.getTime(), lessonID]
+            data = [status, userCode, d.getTime(), lessonID]
 
-            var dataSTR = "UPDATE Lesson_Control SET status = ?, educatorcode =? , editdate= ? WHERE lessonID= ?"
+            dataSTR = "UPDATE Lesson_Control SET status = ?, educatorcode =? , editdate= ? WHERE lessonID= ?"
 
             tx.executeSql(dataSTR, data)
+
+        } else if (check.rows.length === 0) {
+
+            data = [status, userCode, d.getTime(), lessonID]
+
+            dataSTR = "INSERT INTO Lesson_Control VALUES(?,?,?,?)"
+
+            tx.executeSql(dataSTR, data)
+
         }
     })
 }
@@ -694,3 +720,5 @@ function lessonControlNext(type) {
 
 return returned
 }
+
+

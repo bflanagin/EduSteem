@@ -14,9 +14,16 @@ ListView {
     id: thisView
     property string thedata: ""
     property double listItemHeight: 150
+    property bool edit: false
+
+    property string field: ""
+    property string where: ""
+    property real itemId: 0
+
     clip:true
     spacing:listItemHeight * 0.25
     model: thedata.split("\n")
+
 
     delegate: ESborder {
         clickable: true
@@ -45,7 +52,7 @@ ListView {
             anchors.verticalCenterOffset: 10
             anchors.left:parent.left
             anchors.leftMargin: parent.width * 0.01
-            width:parent.width * 0.4
+            width:parent.height * 0.9
             thedata: thisView.thedata.split("\n")[index].split("*")[1]
         }
 
@@ -76,7 +83,7 @@ ListView {
 
             Image {
                 anchors.centerIn: parent
-                width:parent.width * 0.4
+                width:parent.height * 0.9
                 fillMode: Image.PreserveAspectFit
                 source:"/icons/media-playback-start.svg"
             }
@@ -120,8 +127,13 @@ ListView {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                resourceView.media = thisView.thedata.split("\n")[index].split("*")[1]
+                resourceView.media = thisView.thedata.split("\n")[index]
                 resourceView.state = "Active"
+                resourceView.edit = edit
+                resourceView.fulldata = thedata
+                resourceView.where = thisView.where
+                resourceView.itemId = thisView.itemId
+                resourceView.field = thisView.field
             }
 
         }

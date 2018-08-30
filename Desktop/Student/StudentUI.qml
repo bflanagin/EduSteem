@@ -70,6 +70,13 @@ Item {
                         Students.loadStudentProfile(studentCode)
                     }
 
+    Timer {
+        interval: 5000
+        running:if(thisWindow.state == "Active") {true} else {false}
+        repeat: true
+        onTriggered:  Students.loadDay(d.getMonth(),d.getDate(),d.getDay(),studentCode)
+    }
+
     Rectangle {
         anchors.fill: parent
     }

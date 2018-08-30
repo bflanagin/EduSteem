@@ -28,9 +28,9 @@ function load_Day(month, day, weekday) {
                         if (classes[classnum].split(":")[1].split(
                                     ",")[week] === "true") {
 
-                            var subject = Schedule.pullField(
-                                        "course", "Subject",
-                                        coursenumber)
+                            var subject = Schedule.pullField("course",
+                                                             "Subject",
+                                                             coursenumber)
 
                             var color = "gray"
 
@@ -53,9 +53,9 @@ function load_Day(month, day, weekday) {
 
                             dayList.append({
                                                "coursenumber": coursenumber,
-                                               "name": pullField(
-                                                           "course", "Name",
-                                                           coursenumber),
+                                               "name": pullField("course",
+                                                                 "Name",
+                                                                 coursenumber),
                                                "coursecolor": color
                                            })
                         }
@@ -88,6 +88,9 @@ function load_Classes(month, day) {
                     if (theclass[selected_dow] !== "false") {
                         if (pullField("lesson", "Name",
                                       theclass[0]).length > 2) {
+
+
+
                             daysClasses.append({
                                                    "cnum": theclass[0],
                                                    "name": pullField(
@@ -105,9 +108,13 @@ function load_Classes(month, day) {
                                                    "duration": pullField(
                                                                    "lesson",
                                                                    "Duration",
-                                                                   theclass[0])
+                                                                   theclass[0]),
+                                                   "fullday":day[num].split(":")[1],
+                                                   "fulldata":pull.rows.item(0).day
                                                })
                         }
+                    } else {
+
                     }
                 }
 
@@ -178,8 +185,48 @@ function load_Class(classNum, month) {
     })
 }
 
-function save_schedule(month, day, repeatMode, editMode) {
-        var d = new Date()
+
+function move_Class(month,fullday,direction) {
+    var d = new Date()
+    var change = 0
+
+    if(direction === "up") {
+     change = -1
+    } else {
+        change = 1
+    }
+
+
+     db.transaction(function (tx) {
+         var dataSTR = "SELECT * FROM Schedule WHERE schoolcode ='" + schoolCode
+                 + "' AND month=" + month
+                var pull = tx.executeSql(dataSTR)
+
+                if(pull.rows.length === 1) {
+
+                    var dayToMove = "0:"+fullday
+                    var days = pull.rows.item(0).day.split(";")
+                    var currentIndex = days.indexOf(dayToMove)
+
+                    days.splice(currentIndex,1)
+                    days.splice(currentIndex+change,0,dayToMove)
+                    var newdays = days.join(";")
+
+                   if(currentIndex+change >= 0) {
+                    tx.executeSql("UPDATE Schedule SET day = ? , editdate = ? WHERE schoolcode = ? AND month = ?", [newdays,d.getTime(),schoolCode, month])
+                    }
+
+                }
+
+
+
+     })
+
+
+}
+
+function save_schedule(month, day, repeatMode, editMode, movement) {
+    var d = new Date()
     if (editMode === false) {
 
         if (repeatMode === 0) {
@@ -253,8 +300,7 @@ function save_schedule(month, day, repeatMode, editMode) {
     } else {
         //var d = new Date()
         db.transaction(function (tx) {
-            var data = [userID, num + schoolStartMonth, day
-                        + ";", schoolCode, userCode, d.getTime(
+            var data = [userID, num + schoolStartMonth, day + ";", schoolCode, userCode, d.getTime(
                             ), d.getTime()]
             var dtable = "INSERT INTO Schedule VALUES(?,?,?,?,?,?,?)"
 
@@ -262,32 +308,39 @@ function save_schedule(month, day, repeatMode, editMode) {
                     + schoolCode + "' AND month=" + (month)
 
             var pull = tx.executeSql(dataSTR)
-                var daysTasks = pull.rows.item(0).day.split(";")
-                    var classesBefore = []
-                    var classesAfter = []
-                    var before = 0
-                    var after = 0
-                    while(before < daysTasks.length -1) {
+            var daysTasks = pull.rows.item(0).day.split(";")
+            var classesBefore = []
+            var classesAfter = []
+            var before = 0
+            var after = 0
+            while (before < daysTasks.length - 1) {
 
-                        if(daysTasks[before].split(":")[1].split(",")[0] !== classNum.toString()) {
-                            classesBefore.push(daysTasks[before])
-                        } else {
-                            after = before + 1;
-                            break;
-                        }
-                        before = before+1
-                    }
-                    while(after < daysTasks.length -1) {
-                        classesAfter.push(daysTasks[after])
-                       after = after+1
-                    }
-
-                    tx.executeSql(
-                                "UPDATE Schedule SET day='" + classesBefore.join(";")+";"+day+";"+classesAfter.join(";")
-                                + ";' , editdate =" + d.getTime(
-                                    ) + " WHERE schoolcode ='" + schoolCode
-                                + "' AND month =" + month)
-            })
+                if (daysTasks[before].split(":")[1].split(
+                            ",")[0] !== classNum.toString()) {
+                    classesBefore.push(daysTasks[before])
+                } else {
+                    after = before + 1
+                    break
+                }
+                before = before + 1
+            }
+            while (after < daysTasks.length - 1) {
+                classesAfter.push(daysTasks[after])
+                after = after + 1
+            }
+            if (repeatMode !== 0) {
+                tx.executeSql(
+                            "UPDATE Schedule SET day='" + classesBefore.join(
+                                ";") + ";" + day + ";" + classesAfter.join(";")
+                            + ";' , editdate =" + d.getTime(
+                                ) + " WHERE schoolcode ='" + schoolCode + "' AND month =" + month)
+            } else {
+                tx.executeSql(
+                            "UPDATE Schedule SET day='" + classesBefore.join(
+                                ";") + ";" + classesAfter.join(";") + ";' , editdate =" + d.getTime(
+                                ) + " WHERE schoolcode ='" + schoolCode + "' AND month =" + month)
+            }
+        })
     }
 }
 

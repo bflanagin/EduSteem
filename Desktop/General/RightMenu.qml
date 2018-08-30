@@ -14,6 +14,8 @@ import "steemit.js" as Steem
 import "../plugins/markdown.js" as Marks
 import "./general.js" as Scripts
 
+import "../plugins/text.js" as Scrubber
+
 Item {
     id: thisWindow
 
@@ -352,7 +354,9 @@ Item {
                     font.bold: true
                     font.pointSize: 12
 
-                    onTextChanged: Schedule.load_Classes(selected_month, theday)
+                    onTextChanged: { console.log(theday)
+                                    Schedule.load_Classes(selected_month, theday)
+                                    }
                 }
 
                 ESButton {
@@ -456,12 +460,12 @@ Item {
                         Item {
                             width: parent.width * 0.98
                             anchors.right: parent.right
-                            height: if (listing.height > (thisWindow.height * 0.15)) {
+                            height: if (listing.height > (thisWindow.height * 0.20)) {
                                         listing.height
-                                    } else if (listing.height / (thisWindow.height * 0.15) > 0.60) {
-                                        (thisWindow.height * 0.15)
+                                    } else if (listing.height / (thisWindow.height * 0.20) > 0.60) {
+                                        (thisWindow.height * 0.20)
                                     } else {
-                                        listing.height + 5
+                                        listing.height + 15
                                     }
                             ESborder {
                                 id: listing
@@ -488,7 +492,7 @@ Item {
                                         anchors.top: parent.top
                                         anchors.left: parent.left
                                         anchors.margins: 4
-                                        text: name
+                                        text: Scrubber.recoverSpecial(name)
                                         horizontalAlignment: Text.AlignLeft
                                         width: parent.width * 0.65
                                         wrapMode: Text.WordWrap
@@ -538,18 +542,20 @@ Item {
                                         Text {
 
                                             anchors.margins: 10
-                                            text: unit
+                                            text: Scrubber.recoverSpecial(unit)
                                         }
 
                                         Text {
 
                                             anchors.margins: 10
-                                            text: about
+                                            text: Scrubber.recoverSpecial(about)
                                         }
                                     }
                                 }
                                 MouseArea {
                                     anchors.fill: parent
+                                    hoverEnabled: true
+
 
                                     onClicked: {
                                         classEdit.classNum = cnum
@@ -558,8 +564,46 @@ Item {
                                         classEdit.state = "Active"
 
 
-
                                     }
+                                }
+
+                                Row {
+                                    anchors.bottom:parent.bottom
+                                    anchors.right:parent.right
+                                    anchors.margins: 6
+                                    height:thisWindow.height * 0.02
+                                    spacing:thisWindow.height * 0.01
+
+                                    CircleButton {
+                                        height:parent.height
+                                        width:parent.height
+                                        icon:"/icons/minus.svg"
+
+                                        MouseArea {
+                                            anchors.fill: parent
+                                            onClicked: {console.log(theday)
+                                                        Schedule.move_Class(selected_month,fullday,"up")
+                                                        Schedule.load_Classes(selected_month, theday)
+                                                        }
+                                        }
+                                    }
+
+                                    CircleButton {
+                                        height:parent.height
+                                        width:parent.height
+                                        icon:"/icons/add.svg"
+
+                                        MouseArea {
+                                            anchors.fill: parent
+                                            onClicked: {Schedule.move_Class(selected_month,fullday,"down")
+                                                        Schedule.load_Classes(selected_month, theday)
+                                            }
+                                        }
+                                    }
+
+
+
+
                                 }
                             }
                         }

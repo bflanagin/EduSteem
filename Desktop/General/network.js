@@ -65,7 +65,7 @@ function checkOpenSeed(userid, code, editdate, type) {
 }
 
 function sendToOpenSeed(userid, code, type) {
-        console.log("Sending")
+
     /* Sends data to Server */
     var http = new XMLHttpRequest()
     var url = "https://openseed.vagueentertainment.com:8675/devs/Vag-01001011/vagEdu-053018/scripts/update.php"
@@ -143,8 +143,8 @@ function sendToOpenSeed(userid, code, type) {
 
 
                             /* leaving this here for debugging purposes */
-                            //console.log("From Sever on adding")
-                             //console.log(http.responseText)
+                           // console.log("From Sever on adding")
+                           //  console.log(http.responseText)
                         }
                     }
 
@@ -567,9 +567,9 @@ function sync(type, code) {
                     db.readTransaction(function (tx) {
 
                         var ids = http.responseText.split("\n")
+                            //console.log("from Sync Type:"+type+"\nCode: "+code+"\nResponse: "+ids[0]+" "+ids.length)
 
-
-                        if (ids[0] !== "0") {
+                        if (ids[0] !== ":0") {
                             while (ids.length > num) {
                                 if (type === "Students") {
                                     pull = tx.executeSql(
