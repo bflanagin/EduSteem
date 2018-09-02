@@ -4,7 +4,7 @@ import QtQuick.Controls 2.2
 import "../theme"
 import "../plugins"
 
-import "./course.js" as Scripts
+import "../Educator/course.js" as Courses
 
 import "../plugins/text.js" as Scrubber
 
@@ -134,7 +134,7 @@ ESborder {
             text: qsTr("Okay")
 
             onClicked: {
-                Scripts.saveUnit(userID, coursenumber, unitList.count+1,
+                Courses.saveUnit(userID, coursenumber, unitList.count+1,
                                  Scrubber.replaceSpecials(unitNameBox.text),
                                  Scrubber.replaceSpecials(unitObjectiveBox.text),
                                  Scrubber.replaceSpecials(unitAboutBox.text),0)

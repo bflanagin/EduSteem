@@ -5,7 +5,7 @@ import "../theme"
 import "../plugins"
 import "../General"
 
-import "./course.js" as Scripts
+import "../Educator/course.js" as Courses
 
 import "../General/network.js" as Network
 import "../plugins/text.js" as Scrubber
@@ -61,15 +61,15 @@ Item {
     state: "inActive"
 
     onStateChanged: if (state == "Active") {
-                        Scripts.loadCourse(userID, coursenumber)
-                        Scripts.loadUnits(userID, coursenumber)
+                        Courses.loadCourse(userID, coursenumber)
+                        Courses.loadUnits(userID, coursenumber)
                     } else {
 
                     }
 
     onCoursenumberChanged: if (state == "Active") {
-                               Scripts.loadCourse(userID, coursenumber)
-                               Scripts.loadUnits(userID, coursenumber)
+                               Courses.loadCourse(userID, coursenumber)
+                               Courses.loadUnits(userID, coursenumber)
                            } else {
 
                            }
@@ -323,7 +323,7 @@ Item {
         state: "inActive"
 
         onStateChanged: {
-            Scripts.loadUnits(userID, coursenumber)
+            Courses.loadUnits(userID, coursenumber)
         }
     }
 
@@ -335,7 +335,7 @@ Item {
         width: parent.width
         state: "inActive"
         onStateChanged: {
-            Scripts.loadUnits(userID, coursenumber)
+            Courses.loadUnits(userID, coursenumber)
         }
     }
 
@@ -348,7 +348,7 @@ Item {
         state: "inActive"
 
         onStateChanged: if (state == "inActive") {
-                            Scripts.loadLesson(userID, lessonNumber)
+                            Courses.loadLesson(userID, lessonNumber)
                         }
     }
 }

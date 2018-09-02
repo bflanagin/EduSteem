@@ -6,7 +6,7 @@ import "../theme"
 import "../plugins"
 import "../Educator"
 
-import "../Educator/course.js" as Scripts
+import "../Educator/course.js" as Courses
 import "../plugins/text.js" as Scrubber
 import "../plugins/markdown.js" as MD
 import "./ipfs.js" as IPFS
@@ -24,15 +24,15 @@ ESborder {
     property string newfile: ""
 
     onStateChanged: if (state == "Active") {
-                        existing = Scripts.pullField(field, where, itemId)
+                        existing = Courses.pullField(field, where, itemId)
                     }
 
     onFieldChanged: switch (field) {
                     case "rq":
-                        Scripts.loadQuestions(1)
+                        Courses.loadQuestions(1)
                         break
                     case "gq":
-                        Scripts.loadQuestions(0)
+                        Courses.loadQuestions(0)
                         break    
                     default:
                         break
@@ -290,15 +290,15 @@ ESborder {
 
                 switch (field) {
                 case "Title":
-                    Scripts.editField(field, where, itemId,
+                    Courses.editField(field, where, itemId,
                                       changeBox.text.replace(/ /g, "_").trim())
                     break
                 case "rq":
-                    Scripts.editField(field, where, itemId,
+                    Courses.editField(field, where, itemId,
                                       reviewQuestions.toString())
                     break
                 default:
-                    Scripts.editField(field, where, itemId,
+                    Courses.editField(field, where, itemId,
                                       Scrubber.replaceSpecials(changeBox.text))
                     break
                 }
@@ -317,7 +317,7 @@ ESborder {
         onStateChanged: if (state == "inActive") {
                             switch (field) {
                             case "rq":
-                                Scripts.loadQuestions(1)
+                                Courses.loadQuestions(1)
                                 break
                             }
                         }

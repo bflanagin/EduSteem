@@ -6,7 +6,7 @@ import "../theme"
 import "../plugins"
 import "../General"
 
-import "./course.js" as Scripts
+import "../Educator/course.js" as Courses
 import "../plugins/text.js" as Scrubber
 
 ESborder {
@@ -19,7 +19,7 @@ ESborder {
     clip:true
 
     onStateChanged: if (state == "Active") {
-                        Scripts.loadUnit(userID, unitNumber)
+                        Courses.loadUnit(userID, unitNumber)
                     } else {
 
                     }
@@ -341,7 +341,7 @@ ESborder {
         height: parent.height
         state: "inActive"
         onStateChanged: if (state == "inActive") {
-                            Scripts.loadLessons(userID, unitNumber)
+                            Courses.loadLessons(userID, unitNumber)
                         }
     }
 
@@ -353,7 +353,7 @@ ESborder {
         height: parent.height
         state: "inActive"
         onStateChanged: if (state == "inActive") {
-                            Scripts.loadLessons(userID, unitNumber)
+                            Courses.loadLessons(userID, unitNumber)
                         }
     }
 
@@ -365,7 +365,7 @@ ESborder {
         anchors.horizontalCenter: parent.horizontalCenter
         state: "inActive"
         onStateChanged: if (state == "inActive") {
-                            Scripts.loadUnit(userID, unitNumber)
+                            Courses.loadUnit(userID, unitNumber)
                         }
     }
 

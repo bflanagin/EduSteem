@@ -20,6 +20,8 @@ import "./General/general.js" as Standard
 
 import "./General/ipfs.js" as IPFS
 
+import "./Educator/course.js" as Courses
+
 Window {
     id: mainView
     visible: true
@@ -32,7 +34,7 @@ Window {
     /*App setup Variables */
     property string devId: "Vag-01001011"
     property string appId: "vagEduST-052308"
-    property string version: "0.21"
+    property string version: "0.22"
 
     property string userID: ""
     property var db: Sql.LocalStorage.openDatabaseSync("UserInfo", "1.0",
@@ -79,6 +81,7 @@ Window {
     property int selected_month: d.getMonth()
     property int selected_year: d.getFullYear()
     property int selected_dow: d.getDay()
+    property int monthoffset: 0
     property real timeupdate: d.getTime()
 
     property string steemAccount: "" /* Steem Account name */
@@ -197,7 +200,7 @@ Window {
 
     Timer {
         id: checkforUpdates
-        interval: 4000
+        interval: 40000
         repeat: true
         running: true
         onTriggered: if (schoolCode.length > 2) {
@@ -214,7 +217,7 @@ Window {
                          Network.sync("Lesson_Control",schoolCode)
                          Network.sync("Assignment_Notes",schoolCode)
 
-                         checkforUpdates.interval = 10000
+                         checkforUpdates.interval = 80000
                      }
     }
 

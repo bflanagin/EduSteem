@@ -25,8 +25,8 @@ function loadDay(month, day, weekday, studentCode) {
                         if (classes[classnum].split(":")[1].split(
                                     ",")[week] === "true") {
 
-                            var subject = Schedule.pullField(
-                                        "course", "Subject",
+                            var subject = Courses.pullField(
+                                        "Subject","course",
                                         classes[classnum].split(
                                             ":")[1].split(",")[0])
 
@@ -47,23 +47,23 @@ function loadDay(month, day, weekday, studentCode) {
                             }
 
                             todaysClasses.append({
-                                                     classtitle: Schedule.pullField(
+                                                     classtitle: Courses.pullField(
+                                                                     "Title",
                                                                      "course",
-                                                                     "Name",
                                                                      classes[classnum].split(
                                                                          ":")[1].split(
                                                                          ",")[0]),
                                                      classColor: color,
-                                                     unitName: Schedule.pullField(
+                                                     unitName: Courses.pullField(
+                                                                   "Title",
                                                                    "unit",
-                                                                   "Name",
                                                                    classes[classnum].split(
                                                                        ":")[1].split(
                                                                        ",")[0]),
                                                      lessonName: "",
-                                                     discription: Schedule.pullField(
+                                                     discription: Courses.pullField(
+                                                                      "Title",
                                                                       "course",
-                                                                      "About",
                                                                       classes[classnum].split(
                                                                           ":")[1].split(
                                                                           ",")[0])

@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.0
 import Qt.labs.calendar 1.0
 import "./scheduler.js" as Schedule
+import "./course.js" as Courses
 
 import "../theme"
 import "../plugins"
@@ -13,6 +14,8 @@ import "../General/network.js" as Network
 
 Item {
     id: thisWindow
+
+    property bool updated: false
     states: [
 
         State {
@@ -22,6 +25,7 @@ Item {
                 target: thisWindow
                 opacity: 1
                 x: 0
+                updated:true
             }
         },
 
@@ -32,6 +36,7 @@ Item {
                 target: thisWindow
                 opacity: 0
                 x: -parent.width
+                updated:false
             }
         }
     ]
@@ -54,7 +59,7 @@ Item {
     state: "inActive"
 
    // property var d: new Date()
-    property int monthoffset: 0
+
 
     onStateChanged: if (state === "Active") {
                         monthoffset = 0
@@ -283,6 +288,7 @@ Item {
                 Column {
                     width: parent.width
                     spacing: parent.width * 0.01
+
                     Text {
                         id: dayText
                         text: model.day
@@ -300,13 +306,17 @@ Item {
                     }
 
                     Repeater {
+                        visible: updated
+                        onVisibleChanged:if(updated === false){dayList.clear()}
 
                         model: DayList {
+                            id:dayList
                             day: model.day
                             month: model.month
                             weekday: calNum
                         }
                         Item {
+
                             width: parent.width
                             height: classname.height + 5
                             Text {
@@ -327,7 +337,8 @@ Item {
                     anchors.fill: parent
                     onClicked: {
                         theday = model.day
-                        selected_dow = (calNum % 7)
+                        selected_dow = calNum
+
                     }
                 }
             }

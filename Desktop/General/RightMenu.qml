@@ -340,7 +340,7 @@ Item {
                      } else {
                          false
                      }
-
+            onVisibleChanged: if(visible === true) {Schedule.load_Classes(selected_month, theday)}
             Item {
                 width: parent.width
                 height: selectedday.height
@@ -354,7 +354,7 @@ Item {
                     font.bold: true
                     font.pointSize: 12
 
-                    onTextChanged: { console.log(theday)
+                    onTextChanged: {
                                     Schedule.load_Classes(selected_month, theday)
                                     }
                 }
@@ -542,7 +542,7 @@ Item {
                                         Text {
 
                                             anchors.margins: 10
-                                            text: Scrubber.recoverSpecial(unit)
+                                            text: Scrubber.recoverSpecial(Courses.pullField("Title","unit",unit))
                                         }
 
                                         Text {
@@ -581,7 +581,7 @@ Item {
 
                                         MouseArea {
                                             anchors.fill: parent
-                                            onClicked: {console.log(theday)
+                                            onClicked: {
                                                         Schedule.move_Class(selected_month,fullday,"up")
                                                         Schedule.load_Classes(selected_month, theday)
                                                         }
@@ -886,31 +886,5 @@ Item {
 
     ListModel {
         id: daysClasses
-
-        ListElement {
-            name: "Class 1"
-            duration: 45
-            unit: "Unit Number"
-            about: "About the class"
-        }
-
-        ListElement {
-            name: "Class 2"
-            duration: 60
-            unit: "Unit Number"
-            about: "About the class"
-        }
-        ListElement {
-            name: "Class 3"
-            duration: 10
-            unit: "Unit Number"
-            about: "About the class"
-        }
-        ListElement {
-            name: "Class 4"
-            duration: 120
-            unit: "Unit Number"
-            about: "About the class"
-        }
     }
 }

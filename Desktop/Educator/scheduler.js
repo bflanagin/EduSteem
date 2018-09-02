@@ -28,8 +28,9 @@ function load_Day(month, day, weekday) {
                         if (classes[classnum].split(":")[1].split(
                                     ",")[week] === "true") {
 
-                            var subject = Schedule.pullField("course",
+                            var subject = Courses.pullField(
                                                              "Subject",
+                                                             "course",
                                                              coursenumber)
 
                             var color = "gray"
@@ -49,12 +50,13 @@ function load_Day(month, day, weekday) {
                                 }
                             }
 
-                            Scripts.lessonControlADD(coursenumber)
+                            Courses.lessonControlADD(coursenumber)
 
                             dayList.append({
                                                "coursenumber": coursenumber,
-                                               "name": pullField("course",
+                                               "name": Courses.pullField(
                                                                  "Name",
+                                                                 "course",
                                                                  coursenumber),
                                                "coursecolor": color
                                            })
@@ -69,6 +71,7 @@ function load_Day(month, day, weekday) {
 }
 
 function load_Classes(month, day) {
+    console.log("pulling in list for: "+(selected_dow % 7) + 1)
 
     daysClasses.clear()
     db.readTransaction(function (tx) {
@@ -85,29 +88,29 @@ function load_Classes(month, day) {
 
                 if (day[num].split(":")[0] === "0") {
                     var theclass = day[num].split(":")[1].split(",")
-                    if (theclass[selected_dow] !== "false") {
-                        if (pullField("lesson", "Name",
+                    if (theclass[(selected_dow % 7)+1] !== "false") {
+                        if (Courses.pullField( "Name","lesson",
                                       theclass[0]).length > 2) {
 
 
 
                             daysClasses.append({
                                                    "cnum": theclass[0],
-                                                   "name": pullField(
-                                                               "lesson",
+                                                   "name": Courses.pullField(
                                                                "Name",
-                                                               theclass[0]),
-                                                   "about": pullField(
-                                                                "lesson",
-                                                                "About",
-                                                                theclass[0]),
-                                                   "unit": pullField(
                                                                "lesson",
-                                                               "Unit",
                                                                theclass[0]),
-                                                   "duration": pullField(
-                                                                   "lesson",
+                                                   "about": Courses.pullField(
+                                                                "About",
+                                                                "lesson",   
+                                                                theclass[0]),
+                                                   "unit": Courses.pullField(
+                                                               "Unit",
+                                                               "lesson",
+                                                               theclass[0]),
+                                                   "duration": Courses.pullField(
                                                                    "Duration",
+                                                                   "lesson",
                                                                    theclass[0]),
                                                    "fullday":day[num].split(":")[1],
                                                    "fulldata":pull.rows.item(0).day
@@ -140,7 +143,7 @@ function load_Class(classNum, month) {
 
                 var theclass = days[num].split(":")[1].split(",")
 
-                className = pullField("course", "Name", theclass[0])
+                className = Courses.pullField("Name", "course",  theclass[0])
 
                 if (theclass[1] === "true") {
                     sunday.checked = true
@@ -268,26 +271,24 @@ function save_schedule(month, day, repeatMode, editMode, movement) {
                 }
 
                 db.transaction(function (tx) {
-                    var data = [userID, num + schoolStartMonth, day
+                    var data = [userID, monthnum, day
                                 + ";", schoolCode, userCode, d.getTime(
                                     ), d.getTime()]
                     var dtable = "INSERT INTO Schedule VALUES(?,?,?,?,?,?,?)"
 
                     var dataSTR = "SELECT * FROM Schedule WHERE schoolcode ='"
-                            + schoolCode + "' AND month=" + (num + schoolStartMonth)
+                            + schoolCode + "' AND month=" + monthnum
 
                     var pull = tx.executeSql(dataSTR)
                     if (pull.rows.length === 0) {
                         tx.executeSql(dtable, data)
                     } else {
                         var daysTasks = pull.rows.item(0).day
-
+                            console.log(daysTasks.search(day.split(":")[1]))
                         if (daysTasks.search(day.split(":")[1]) === -1) {
-                            tx.executeSql(
-                                        "UPDATE Schedule SET day='" + daysTasks
-                                        + day + ";' , editdate =" + d.getTime(
-                                            ) + " WHERE schoolcode ='" + schoolCode
-                                        + "' AND month =" + num + schoolStartMonth)
+                            console.log(monthnum,day)
+                            tx.executeSql("UPDATE Schedule SET day=? , editdate =? WHERE schoolcode =? AND month = ?"
+                                          ,[daysTasks + day+ ";", d.getTime(), schoolCode, monthnum])
                         } else {
                             console.log("Class already added")
                         }
@@ -305,7 +306,7 @@ function save_schedule(month, day, repeatMode, editMode, movement) {
             var dtable = "INSERT INTO Schedule VALUES(?,?,?,?,?,?,?)"
 
             var dataSTR = "SELECT * FROM Schedule WHERE schoolcode ='"
-                    + schoolCode + "' AND month=" + (month)
+                    + schoolCode + "' AND month=" + month
 
             var pull = tx.executeSql(dataSTR)
             var daysTasks = pull.rows.item(0).day.split(";")
@@ -344,121 +345,3 @@ function save_schedule(month, day, repeatMode, editMode, movement) {
     }
 }
 
-function pullField(where, type, id) {
-
-    var table = ""
-    var field = ""
-
-    var returned = ""
-
-    switch (where) {
-    case "course":
-        table = "Courses"
-        break
-    case "unit":
-        table = "Units"
-        break
-    case "lesson":
-        table = "Lessons"
-        break
-    }
-
-    db.readTransaction(function (tx) {
-        var dataSTR = ""
-        if (table !== "Lessons") {
-            dataSTR = "SELECT * FROM " + table + " WHERE creationdate =" + id
-        } else {
-            dataSTR = "SELECT * FROM " + table + " WHERE coursenumber =" + parseInt(
-                        id)
-        }
-
-        var pull = tx.executeSql(dataSTR)
-
-        if (pull.rows.length !== 0) {
-            switch (type) {
-            case "Name":
-                returned = pull.rows.item(0).name.replace(/_/g, " ")
-                break
-            case "About":
-                returned = pull.rows.item(0).about
-                break
-            case "Objective":
-                returned = pull.rows.item(0).objective
-                break
-            case "Resources":
-                returned = pull.rows.item(0).resources
-                break
-            case "Unit":
-                returned = pull.rows.item(0).unitnumber
-                break
-            case "Duration":
-                returned = pull.rows.item(0).duration
-                break
-            case "Supplies":
-                returned = pull.rows.item(0).supplies
-                break
-            case "gq":
-                returned = pull.rows.item(0).guidingQuestions
-                break
-            case "Sequence":
-                returned = pull.rows.item(0).lessonSequence
-                break
-            case "rq":
-                returned = pull.rows.item(0).reviewQuestions
-                break
-            case "Product":
-                returned = pull.rows.item(0).studentProduct
-                break
-            case "Subject":
-                returned = pull.rows.item(0).subject
-                break
-            }
-        } else {
-            switch (id) {
-            case "12":
-                switch (type) {
-                case "Name":
-                    returned = "Lunch"
-                    break
-                case "About":
-                    returned = "Food Time"
-                    break
-                case "Duration":
-                    returned = 60
-                    break
-                }
-                break
-            case "10":
-                switch (type) {
-                case "Name":
-                    returned = "Read to Self"
-                    break
-                case "About":
-                    returned = "Read for pleasure"
-                    break
-                case "Duration":
-                    returned = 45
-                    break
-                }
-                break
-            case "8":
-                switch (type) {
-                case "Name":
-                    returned = "P.E."
-                    break
-                case "About":
-                    returned = "Morning Walk"
-                    break
-                case "Duration":
-                    returned = 90
-                    break
-                case "Subject":
-                    returned = "8"
-                }
-                break
-            }
-        }
-    })
-
-    return returned
-}

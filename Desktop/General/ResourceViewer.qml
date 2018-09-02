@@ -9,7 +9,7 @@ import QtWebEngine 1.7
 import "../theme"
 import "../plugins"
 import "../plugins/markdown.js" as Marks
-import "../Educator/course.js" as Scripts
+import "../Educator/course.js" as Courses
 import "../plugins/text.js" as Scrubber
 
 ESborder {
@@ -174,7 +174,7 @@ ESborder {
                         var fd = fulldata.split("\n")
                         var remove = fd.indexOf(media)
                         fd.splice(remove, 1)
-                        Scripts.editField(field, where, itemId,
+                        Courses.editField(field, where, itemId,
                                           Scrubber.replaceSpecials(
                                               fd.join("\n")))
                         thisWindow.state = "inActive"

@@ -133,7 +133,7 @@ Item {
                    } else {
                        (thisWindow.width - leftMenu.width) * 0.98
                    }
-            anchors.horizontalCenter: thisWindow.horizontalCenter
+
             spacing: 8
 
             Text {
@@ -157,11 +157,12 @@ Item {
                 width: parent.width * 0.99
                 height: thisWindow.height * 0.3
                 anchors.horizontalCenter: parent.horizontalCenter
-                curtainColor:Courses.pullField("Color","subject",subjectNumber)
-                title: qsTr("Start Lesson ")
+
+                title: Courses.pullField("Title","course",Courses.lessonControlNext("courseNumber"))
                 subjectNumber:Courses.pullField("Subject","course",Courses.lessonControlNext("courseNumber"))
-                unit: Courses.pullField("Title","unit",Courses.lessonControlNext("unitNumber"))
-                lesson: Courses.pullField("Title","lesson",lessonID)
+                curtainColor:Courses.pullField("Color","subject",subjectNumber)
+                unit: Courses.lessonControlNext("unitName")
+                lesson: Courses.lessonControlNext("lessonName")
                 lessonID: Courses.lessonControlNext("lessonNumber")
             }
 
@@ -262,32 +263,8 @@ Item {
                     }
                 }
             }
-
-            Text {
-                font.pointSize: 18
-                text: qsTr("Project")
-                font.bold: true
-                anchors.left: parent.left
-                anchors.leftMargin: 10
-            }
-            Rectangle {
-                color: seperatorColor
-                width: parent.width * 0.98
-                anchors.horizontalCenter: parent.horizontalCenter
-
-                height: 2
-            }
-
-            Card {
-                width: parent.width * 0.99
-                height: thisWindow.height * 0.3
-                anchors.horizontalCenter: parent.horizontalCenter
-                curtainColor: "LightBlue"
-                title: "Project"
-                unit: "Unit"
-                lesson: "Test Project"
-            }
         }
+
     }
 
     ListModel {

@@ -6,7 +6,7 @@ import "../theme"
 import "../plugins"
 import "../Educator"
 
-import "../Educator/course.js" as Scripts
+import "../Educator/course.js" as Courses
 import "../plugins/text.js" as Scrubber
 import "../plugins/markdown.js" as MD
 

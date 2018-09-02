@@ -6,7 +6,7 @@ import QtGraphicalEffects 1.0
 import "../theme"
 import "../plugins"
 
-import "./course.js" as Scripts
+import "../Educator/course.js" as Courses
 import "../plugins/text.js" as Scrubber
 import "../plugins/markdown.js" as MD
 
@@ -785,7 +785,7 @@ ESborder {
             if (view.currentIndex < view.count - 1) {
                 view.currentIndex = view.currentIndex + 1
             } else {
-                Scripts.saveLesson(
+                Courses.saveLesson(
                             userID, coursenumber, unitNumber, Scrubber.replaceSpecials(
                                 nameBox.text), numberIn.text, duration.text, Scrubber.replaceSpecials(
                                 aboutBox.text), Scrubber.replaceSpecials(objectiveBox.text), Scrubber.replaceSpecials(
