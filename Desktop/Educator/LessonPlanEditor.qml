@@ -7,7 +7,7 @@ import "../plugins"
 import "../General"
 import "../Templates"
 
-import "./course.js" as Scripts
+import "../Educator/course.js" as Courses
 import "../plugins/text.js" as Scrubber
 
 ESborder {
@@ -34,12 +34,12 @@ ESborder {
     property int lessonPublished: 0
 
     onStateChanged: if (state == "Active") {
-                        Scripts.loadLesson(userID, lessonNumber)
+                        Courses.loadLesson(userID, lessonNumber)
                     } else {
 
                     }
     onLessonNumberChanged: {
-        Scripts.loadLesson(userID, lessonNumber)
+        Courses.loadLesson(userID, lessonNumber)
     }
 
     Text {
@@ -686,7 +686,7 @@ ESborder {
         anchors.horizontalCenter: parent.horizontalCenter
         state: "inActive"
         onStateChanged: if (state === "inActive") {
-                            Scripts.loadLesson(userID, lessonNumber)
+                            Courses.loadLesson(userID, lessonNumber)
                         }
     }
 
@@ -698,7 +698,7 @@ ESborder {
         anchors.horizontalCenter: parent.horizontalCenter
         state: "inActive"
         onStateChanged: if (state === "inActive") {
-                            Scripts.loadLesson(userID, lessonNumber)
+                            Courses.loadLesson(userID, lessonNumber)
                         }
     }
 
@@ -710,7 +710,7 @@ ESborder {
         anchors.horizontalCenter: parent.horizontalCenter
         state: "inActive"
         onStateChanged: if (state === "inActive") {
-                            Scripts.loadLesson(userID, lessonNumber)
+                            Courses.loadLesson(userID, lessonNumber)
                         }
 
     }

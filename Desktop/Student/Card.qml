@@ -18,7 +18,7 @@ import "../Student/student.js" as Student
 ESborder {
     property string curtainColor: "gray"
     property string title:"Class Name"
-    property string unit:"Unit"
+    property var unit:"Unit"
     property string lesson: "Lesson Name"
     property string discription: "Lesson Discription"
     property string subjectNumber: "000"
@@ -130,7 +130,7 @@ ESborder {
                 wrapMode: Text.WordWrap
             }
 
-            Text {
+           Text {
                 text: qsTr("Unit: ") + unit
                 font.pointSize: 10
                 anchors.left: parent.left

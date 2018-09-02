@@ -6,6 +6,7 @@ import "../Educator/course.js" as Courses
 import "../Educator/students.js" as Students
 import "../Educator/scheduler.js" as Schedule
 import "../General/general.js" as Scripts
+import "../plugins/text.js" as Scrubber
 
 Item {
     id: thisWindow
@@ -61,7 +62,7 @@ Item {
 
     Timer {
         interval: 5000
-        running:if(thisWindow.state === "Active") {true} else {false}
+        running:if(thisWindow.state === "Active" && schedule.state !=="Active") {true} else {false}
         repeat: true
         onTriggered: Schedule.load_Classes(d.getMonth(), d.getDay())
     }
@@ -171,7 +172,7 @@ Item {
                             Text {
                                 anchors.left:parent.left
                                 anchors.leftMargin: parent.width * 0.02
-                                text:Courses.lessonControlINFO(coursenumber,"unitName","new")
+                                text:Scrubber.recoverSpecial(Courses.lessonControlINFO(coursenumber,"unitName","new"))
                                 width:parent.width
                                 wrapMode: Text.WordWrap
                             }
@@ -179,7 +180,7 @@ Item {
                             Text {
                                 anchors.left:parent.left
                                 anchors.leftMargin: parent.width * 0.04
-                                text:Courses.lessonControlINFO(coursenumber,"lessonName","new")
+                                text:Scrubber.recoverSpecial(Courses.lessonControlINFO(coursenumber,"lessonName","new"))
                                 width:parent.width
                                 wrapMode: Text.WordWrap
                             }
@@ -187,7 +188,7 @@ Item {
                             Text {
                                 anchors.right:parent.right
                                 anchors.rightMargin: parent.width * 0.04
-                                text:Courses.lessonControlINFO(coursenumber,"status","new")
+                                text:Scrubber.recoverSpecial(Courses.lessonControlINFO(coursenumber,"status","new"))
 
                                 wrapMode: Text.WordWrap
                             }

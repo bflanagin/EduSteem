@@ -4,7 +4,7 @@ import QtQuick.Controls 2.2
 import "../theme"
 import "../plugins"
 
-import "./course.js" as Scripts
+import "../Educator/course.js" as Courses
 import "../plugins/text.js" as Scrubber
 import "../General/general.js" as General
 
@@ -174,7 +174,7 @@ ESborder {
 
             onClicked: {
 
-                 Scripts.saveCourse(
+                 Courses.saveCourse(
                             userID,
                             Scrubber.replaceSpecials(courseNameBox.text),
                             coursesBox.value, languageBox.currentText,

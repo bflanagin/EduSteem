@@ -355,6 +355,9 @@ function pullField(type, where, id) {
             case "Title":
                 returned = pull.rows.item(0).name.replace(/_/g, " ")
                 break
+            case "Name":
+                returned = pull.rows.item(0).name.replace(/_/g, " ")
+                break
             case "About":
                 returned = pull.rows.item(0).about
                 break
@@ -363,6 +366,12 @@ function pullField(type, where, id) {
                 break
             case "Resources":
                 returned = pull.rows.item(0).resources
+                break
+            case "Unit":
+                returned = pull.rows.item(0).unitnumber
+                break
+            case "Duration":
+                returned = pull.rows.item(0).duration
                 break
             case "Supplies":
                 returned = pull.rows.item(0).supplies
@@ -379,6 +388,9 @@ function pullField(type, where, id) {
             case "studentProduct":
                 returned = pull.rows.item(0).studentProduct
                 break
+            case "Product":
+                returned = pull.rows.item(0).studentProduct
+                break
             case "Subject":
                 returned = pull.rows.item(0).subject
                 break
@@ -389,6 +401,51 @@ function pullField(type, where, id) {
                  returned = pull.rows.item(0).firstname+" "+pull.rows.item(0).lastname
                 break
             }
+        } else {
+            switch (id) {
+            case "12":
+                switch (type) {
+                case "Name":
+                    returned = "Lunch"
+                    break
+                case "About":
+                    returned = "Food Time"
+                    break
+                case "Duration":
+                    returned = 60
+                    break
+                }
+                break
+            case "10":
+                switch (type) {
+                case "Name":
+                    returned = "Read to Self"
+                    break
+                case "About":
+                    returned = "Read for pleasure"
+                    break
+                case "Duration":
+                    returned = 45
+                    break
+                }
+                break
+            case "8":
+                switch (type) {
+                case "Name":
+                    returned = "P.E."
+                    break
+                case "About":
+                    returned = "Morning Walk"
+                    break
+                case "Duration":
+                    returned = 90
+                    break
+                case "Subject":
+                    returned = "8"
+                }
+                break
+            }
+
         }
     })
 
@@ -690,6 +747,8 @@ function lessonControlNext(type) {
     db.readTransaction(function (tx) {
 
         check = tx.executeSql("SELECT * FROM Lesson_Control WHERE status= 1")
+
+        console.log("from Lesson Control Next:" + check.rows.length)
 
         if (check.rows.length === 1) {
 

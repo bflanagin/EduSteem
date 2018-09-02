@@ -4,8 +4,9 @@ import QtQuick.Controls 2.2
 import "../theme"
 import "../plugins"
 
-import "../Educator/course.js" as Scripts
+import "../Educator/course.js" as Courses
 import "../Educator/scheduler.js" as Schedule
+
 
 ListModel {
     id: dayList

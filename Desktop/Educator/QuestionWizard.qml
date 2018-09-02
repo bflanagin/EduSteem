@@ -4,8 +4,7 @@ import QtQuick.Controls 2.2
 import "../theme"
 import "../plugins"
 
-import "./course.js" as Scripts
-
+import "../Educator/course.js" as Courses
 import "../plugins/text.js" as Scrubber
 
 ESborder {
@@ -142,14 +141,14 @@ ESborder {
                                 Scrubber.replaceSpecials(
                                     questionBox.text) + ":::" + Scrubber.replaceSpecials(
                                     questionAnswerBox.text))
-                    // Scripts.loadQuestions(type)
+                    // Courses.loadQuestions(type)
                 } else {
 
                     reviewQuestions.push(
                                 Scrubber.replaceSpecials(
                                     questionBox.text) + ":::" + Scrubber.replaceSpecials(
                                     questionAnswerBox.text))
-                    // Scripts.loadQuestions(type)
+                    // Courses.loadQuestions(type)
                 }
 
                 thisWindow.state = "inActive"

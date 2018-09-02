@@ -258,8 +258,8 @@ Item {
         onStateChanged: if(state === "inActive") {
                             monthoffset = 0
                             selected_month = d.getMonth()
-                            Network.checkOpenSeed(userID, cdate, edate,"Schedule")
-                            //Schedule.load_Classes(selected_month,theday)
+                            //Network.checkOpenSeed(userID, cdate, edate,"Schedule")
+                            Schedule.load_Classes(selected_month,theday)
                         }
     }
 

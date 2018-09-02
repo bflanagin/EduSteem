@@ -4,7 +4,7 @@ import QtQuick.Controls 2.4
 
 import "../theme"
 import "../plugins"
-import "./course.js" as Scripts
+import "../Educator/course.js" as Courses
 import "./scheduler.js" as Schedule
 
 import "../theme"
@@ -21,7 +21,7 @@ ESborder {
 
     onStateChanged: if (state == "Active") {
 
-                        Scripts.loadCourses(userID)
+                        Courses.loadCourses(userID)
                         courseList.append({
                                               name: "Lunch",
                                               cdate: 12
