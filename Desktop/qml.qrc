@@ -112,5 +112,6 @@
         <file>General/ResourceViewer.qml</file>
         <file>icons/Audio.svg</file>
         <file>icons/trash.svg</file>
+        <file>icons/copy.svg</file>
     </qresource>
 </RCC>

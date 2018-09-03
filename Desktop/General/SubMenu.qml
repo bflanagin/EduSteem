@@ -83,7 +83,7 @@ Item {
         anchors.topMargin: 10
         width: parent.width
         //height:if(contentHeight < 210) {contentHeight} else {210}
-        height: contentHeight
+        height: contentHeight - addButton.height
         spacing: 20
         clip: true
         model: courseList
@@ -179,6 +179,7 @@ Item {
     }
 
     ESButton {
+        id:addButton
         anchors.bottom:parent.bottom
         anchors.right: parent.right
         width:parent.width * 0.3

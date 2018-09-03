@@ -76,55 +76,54 @@ function sendToOpenSeed(userid, code, type) {
         switch (type) {
         case "School":
             pull = tx.executeSql(
-                        "SELECT * FROM Schools WHERE id='" + userid + "'")
+                        "SELECT * FROM Schools WHERE id=?",[userid])
             break
         case "Educator":
             pull = tx.executeSql(
-                        "SELECT * FROM Users WHERE id='" + userid + "'")
+                        "SELECT * FROM Users WHERE id=?",[userid])
             break
         case "Courses":
             pull = tx.executeSql(
-                        "SELECT * FROM Courses WHERE id='" + userid + "' AND creationdate=" + code)
+                        "SELECT * FROM Courses WHERE id= ? AND creationdate= ?",[userid,code])
             break
         case "Units":
             pull = tx.executeSql(
-                        "SELECT * FROM Units WHERE id='" + userid + "' AND creationdate=" + code)
+                        "SELECT * FROM Units WHERE id= ? AND creationdate= ?",[userid,code])
             break
         case "Lessons":
             pull = tx.executeSql(
-                        "SELECT * FROM Lessons WHERE id='" + userid + "' AND creationdate=" + code)
+                        "SELECT * FROM Lessons WHERE id= ? AND creationdate= ?",[userid,code])
             break
         case "Students":
             pull = tx.executeSql(
-                        "SELECT * FROM Students WHERE id='" + userid + "' AND code=" + code)
+                        "SELECT * FROM Students WHERE id= ? AND code=?",[userid,code])
             break
         case "Schedule":
             pull = tx.executeSql(
-                        "SELECT * FROM Schedule WHERE id='" + userid + "' AND creationdate=" + code)
+                        "SELECT * FROM Schedule WHERE id= ? AND creationdate= ?",[userid,code])
             break
         case "Lesson_Control":
-            pull = tx.executeSql(
-                        "SELECT * FROM Lesson_Control WHERE id='" + userid + "' AND creationdate=" + code)
+            pull = tx.executeSql("SELECT * FROM Lesson_Control WHERE iid= ? AND creationdate= ?",[userid,code])
             break
         case "Student_Assignments":
             pull = tx.executeSql(
-                        "SELECT * FROM Student_Assignments WHERE creationdate=" + code)
+                        "SELECT * FROM Student_Assignments WHERE creationdate=?" [code])
             break
         case "Student_Daily_Review":
             pull = tx.executeSql(
-                        "SELECT * FROM Student_Daily_Review WHERE creationdate=" + code)
+                        "SELECT * FROM Student_Daily_Review WHERE creationdate=?" [code])
             break
         case "Subjects":
             pull = tx.executeSql(
-                        "SELECT * FROM Subjects WHERE creationdate=" + code)
+                        "SELECT * FROM Subjects WHERE creationdate=?" [code])
             break
         case "Media":
             pull = tx.executeSql(
-                        "SELECT * FROM Media WHERE creationdate=" + code)
+                        "SELECT * FROM Media WHERE creationdate=?" [code])
             break
         case "Assignment_Notes":
             pull = tx.executeSql(
-                        "SELECT * FROM Assignment_Notes WHERE creationdate=" + code)
+                        "SELECT * FROM Assignment_Notes WHERE creationdate=?" [code])
             break
         }
 
@@ -132,22 +131,21 @@ function sendToOpenSeed(userid, code, type) {
 
             http.onreadystatechange = function () {
 
-                    if (http.readyState === XMLHttpRequest.DONE) {
+                if (http.readyState === XMLHttpRequest.DONE) {
 
-                        if (http.responseText == "100") {
+                    if (http.responseText == "100") {
 
-                            console.log("Incorrect DevID")
-                        } else if (http.responseText === "101") {
-                            console.log("Incorrect AppID")
-                        } else {
+                        console.log("Incorrect DevID")
+                    } else if (http.responseText === "101") {
+                        console.log("Incorrect AppID")
+                    } else {
 
 
-                            /* leaving this here for debugging purposes */
-                           // console.log("From Sever on adding")
-                           //  console.log(http.responseText)
-                        }
+                        /* leaving this here for debugging purposes */
+                        // console.log("From Sever on adding")
+                        //  console.log(http.responseText)
                     }
-
+                }
             }
             http.open('POST', url.trim(), true)
 
@@ -157,182 +155,121 @@ function sendToOpenSeed(userid, code, type) {
             switch (type) {
             case "School":
                 http.send("devid=" + devId + "&appid=" + appId
-                          + "&userid=" + userid
-                          + "&name=" + pull.rows.item(0).name
-                          + "&email=" + pull.rows.item(0).email
-                          + "&phone=" + pull.rows.item(0).phone
-                          + "&country="+ pull.rows.item(0).country
-                          + "&state=" + pull.rows.item(0).state
-                          + "&about=" + pull.rows.item(0).about
-                          + "&code=" + pull.rows.item(0).code
-                          + "&editdate="+ pull.rows.item(0).editdate
-                          + "&type=" + type)
+                          + "&userid=" + userid + "&name=" + pull.rows.item(
+                              0).name + "&email=" + pull.rows.item(0).email
+                          + "&phone=" + pull.rows.item(0).phone + "&country="
+                          + pull.rows.item(0).country + "&state=" + pull.rows.item(
+                              0).state + "&about=" + pull.rows.item(0).about
+                          + "&code=" + pull.rows.item(0).code + "&editdate="
+                          + pull.rows.item(0).editdate + "&type=" + type)
                 break
             case "Educator":
                 http.send("devid=" + devId + "&appid=" + appId
-                          + "&userid=" + userid
-                          + "&firstname=" + pull.rows.item(0).firstname
-                          + "&lastname=" + pull.rows.item(0).lastname
-                          + "&email=" + pull.rows.item(0).email
-                          + "&phone="+ pull.rows.item(0).phone
-                          + "&country=" + pull.rows.item(0).country
-                          + "&state=" + pull.rows.item(0).state
-                          + "&about=" + pull.rows.item(0).about
-                          + "&code="+ pull.rows.item(0).code
-                          + "&editdate=" + pull.rows.item(0).editdate
-                          + "&type=" + type)
+                          + "&userid=" + userid + "&firstname=" + pull.rows.item(
+                              0).firstname + "&lastname=" + pull.rows.item(0).lastname
+                          + "&email=" + pull.rows.item(0).email + "&phone="
+                          + pull.rows.item(0).phone + "&country=" + pull.rows.item(
+                              0).country + "&state=" + pull.rows.item(0).state
+                          + "&about=" + pull.rows.item(0).about + "&code="
+                          + pull.rows.item(0).code + "&editdate=" + pull.rows.item(
+                              0).editdate + "&type=" + type)
                 break
             case "Courses":
                 http.send("devid=" + devId + "&appid=" + appId
-                          + "&userid=" + userid
-                          + "&name=" + pull.rows.item(0).name
-                          + "&subject=" + pull.rows.item(0).subject
-                          + "&about=" + pull.rows.item(0).about
-                          + "&code="+ pull.rows.item(0).creationdate
-                          + "&language=" + pull.rows.item(0).language
-                          + "&schoolCode=" + schoolCode
-                          + "&educatorCode="+ userCode
-                          + "&editdate=" + pull.rows.item(0).editdate
-                          + "&type=" + type)
+                          + "&userid=" + userid + "&name=" + pull.rows.item(
+                              0).name + "&subject=" + pull.rows.item(0).subject
+                          + "&about=" + pull.rows.item(0).about + "&code="
+                          + pull.rows.item(0).creationdate + "&language=" + pull.rows.item(
+                              0).language + "&schoolCode=" + schoolCode + "&educatorCode="
+                          + userCode + "&editdate=" + pull.rows.item(0).editdate + "&type=" + type)
                 break
             case "Units":
                 http.send("devid=" + devId + "&appid=" + appId
-                          + "&userid=" + userid
-                          + "&unitNum=" + pull.rows.item(0).unitNum
-                          + "&name=" + pull.rows.item(0).name
-                          + "&about=" + pull.rows.item(0).about
-                          + "&objective=" + pull.rows.item(0).objective
-                          + "&code="+ pull.rows.item(0).creationdate
-                          + "&course=" + pull.rows.item(0).coursenumber
-                          + "&schoolCode=" + schoolCode
-                          + "&educatorCode="+ userCode
-                          + "&editdate=" + pull.rows.item(0).editdate
-                          + "&type=" + type)
+                          + "&userid=" + userid + "&unitNum=" + pull.rows.item(
+                              0).unitNum + "&name=" + pull.rows.item(0).name
+                          + "&about=" + pull.rows.item(0).about + "&objective="
+                          + pull.rows.item(0).objective + "&code=" + pull.rows.item(
+                              0).creationdate + "&course=" + pull.rows.item(0).coursenumber
+                          + "&schoolCode=" + schoolCode + "&educatorCode=" + userCode
+                          + "&editdate=" + pull.rows.item(0).editdate + "&type=" + type)
                 break
             case "Students":
                 http.send("devid=" + devId + "&appid=" + appId
-                          + "&userid=" + userid
-                          + "&firstname=" + pull.rows.item(0).firstname
-                          + "&lastname=" + pull.rows.item(0).lastname
-                          + "&age=" + pull.rows.item(0).age
-                          + "&bday="+ pull.rows.item(0).bday
-                          + "&email=" + pull.rows.item(0).email
-                          + "&phone=" + pull.rows.item(0).phone
-                          + "&about=" + pull.rows.item(0).about
-                          + "&code="+ pull.rows.item(0).code
-                          + "&schoolCode=" + schoolCode
-                          + "&editdate=" + pull.rows.item(0).editdate
-                          + "&type=" + type)
+                          + "&userid=" + userid + "&firstname=" + pull.rows.item(
+                              0).firstname + "&lastname=" + pull.rows.item(0).lastname
+                          + "&age=" + pull.rows.item(0).age + "&bday="
+                          + pull.rows.item(0).bday + "&email=" + pull.rows.item(
+                              0).email + "&phone=" + pull.rows.item(0).phone
+                          + "&about=" + pull.rows.item(0).about + "&code="
+                          + pull.rows.item(0).code + "&schoolCode=" + schoolCode
+                          + "&editdate=" + pull.rows.item(0).editdate + "&type=" + type)
                 break
             case "Schedule":
                 http.send("devid=" + devId + "&appid=" + appId
-                          + "&userid=" + userid
-                          + "&month=" + pull.rows.item(0).month
-                          + "&day=" + pull.rows.item(0).day
-                          + "&code=" + pull.rows.item(0).creationdate 
-                          + "&schoolCode="+ schoolCode
-                          + "&educatorCode=" + userCode
-                          + "&editdate="+ pull.rows.item(0).editdate
-                          + "&type=" + type)
+                          + "&userid=" + userid + "&month=" + pull.rows.item(
+                              0).month + "&day=" + pull.rows.item(0).day
+                          + "&code=" + pull.rows.item(
+                              0).creationdate + "&schoolCode="
+                          + schoolCode + "&educatorCode=" + userCode + "&editdate="
+                          + pull.rows.item(0).editdate + "&type=" + type)
                 break
             case "Lessons":
-                http.send("devid=" + devId + "&appid=" + appId
-                          + "&userid=" + userid
-                          + "&course=" + pull.rows.item(0).coursenumber
-                          + "&unit=" + pull.rows.item(0).unitnumber
-                          + "&name=" + pull.rows.item(0).name
-                          + "&lessonNum=" + pull.rows.item(0).lessonNum
-                          + "&duration=" + pull.rows.item(0).duration
-                          + "&about=" + pull.rows.item(0).about
-                          + "&objective=" + pull.rows.item(0).objective
-                          + "&supplies=" + pull.rows.item(0).supplies
-                          + "&resources=" + pull.rows.item(0).resources
-                          + "&guidingQuestions=" + pull.rows.item(0).guidingQuestions
-                          + "&sequence=" + pull.rows.item(0).lessonSequence
-                          + "&product=" + pull.rows.item(0).studentProduct
-                          + "&reviewQuestions=" + pull.rows.item(0).reviewQuestions
-                          + "&code=" + pull.rows.item(0).creationdate
-                          + "&schoolCode=" + schoolCode
-                          + "&educatorCode=" + userCode
-                          + "&editdate=" + pull.rows.item(0).editdate
-                          + "&type=" + type)
+                http.send("devid=" + devId + "&appid=" + appId + "&userid=" + userid + "&course=" + pull.rows.item(
+                              0).coursenumber + "&unit=" + pull.rows.item(0).unitnumber + "&name=" + pull.rows.item(0).name + "&lessonNum=" + pull.rows.item(0).lessonNum + "&duration=" + pull.rows.item(0).duration + "&about=" + pull.rows.item(0).about + "&objective=" + pull.rows.item(0).objective + "&supplies=" + pull.rows.item(0).supplies + "&resources=" + pull.rows.item(
+                              0).resources + "&guidingQuestions=" + pull.rows.item(0).guidingQuestions + "&sequence=" + pull.rows.item(0).lessonSequence + "&product=" + pull.rows.item(0).studentProduct + "&reviewQuestions=" + pull.rows.item(0).reviewQuestions + "&code=" + pull.rows.item(0).creationdate + "&schoolCode=" + schoolCode + "&educatorCode=" + userCode + "&editdate=" + pull.rows.item(0).editdate + "&type=" + type)
                 break
-
             case "Subjects":
                 http.send("devid=" + devId + "&appid=" + appId
-                          + "&userid=" + userid
-                          + "&schoolCode="+ pull.rows.item(0).schoolCode
-                          + "&subjectNumber=" + pull.rows.item(0).subjectNumber
-                          + "&name="+ pull.rows.item(0).subjectName
-                          + "&subjectColor=" + pull.rows.item(0).subjectColor
-                          + "&subjectBg="+ pull.rows.item(0).subjectBg
-                          + "&code"+ pull.rows.item(0).creationdate
+                          + "&userid=" + userid + "&schoolCode=" + pull.rows.item(
+                              0).schoolCode + "&subjectNumber=" + pull.rows.item(0).subjectNumber
+                          + "&name=" + pull.rows.item(0).subjectName + "&subjectColor="
+                          + pull.rows.item(0).subjectColor + "&subjectBg=" + pull.rows.item(
+                              0).subjectBg + "&code" + pull.rows.item(0).creationdate
                           + "&type=" + type)
                 break
-
             case "Lesson_Control":
                 http.send("devid=" + devId + "&appid=" + appId
-                          + "&userid=" + userid
-                          + "&course=" + pull.rows.item(0).coursenumber
-                          + "&unit="+ pull.rows.item(0).unitnumber
-                          + "&lesson=" + pull.rows.item(0).lessonID
-                          + "&status="+ pull.rows.item(0).status
-                          + "&educatorCode=" + pull.rows.item(0).educatorcode
-                          + "&code="+ pull.rows.item(0).creationdate
-                          + "&editdate=" + pull.rows.item(0).editdate
-                          + "&type=" + type)
+                          + "&userid=" + userid + "&course=" + pull.rows.item(
+                              0).coursenumber + "&unit=" + pull.rows.item(0).unitnumber
+                          + "&lesson=" + pull.rows.item(0).lessonID + "&status="
+                          + pull.rows.item(0).status + "&educatorCode=" + pull.rows.item(
+                              0).educatorcode + "&code=" + pull.rows.item(0).creationdate
+                          + "&editdate=" + pull.rows.item(0).editdate + "&type=" + type)
                 break
-
             case "Student_Assignments":
                 http.send("devid=" + devId + "&appid=" + appId
-                          + "&userid=" + userid
-                          + "&schoolCode="+ pull.rows.item(0).schoolCode
-                          + "&studentCode=" + pull.rows.item(0).studentCode
-                          + "&lesson="+ pull.rows.item(0).lessonID
-                          + "&status=" + pull.rows.item(0).status
-                          + "&qalist="+ pull.rows.item(0).qaList
-                          + "&code="+ pull.rows.item(0).creationdate
-                          + "&editdate=" + pull.rows.item(0).editdate
-                          + "&type=" + type)
+                          + "&userid=" + userid + "&schoolCode=" + pull.rows.item(
+                              0).schoolCode + "&studentCode=" + pull.rows.item(0).studentCode
+                          + "&lesson=" + pull.rows.item(0).lessonID + "&status="
+                          + pull.rows.item(0).status + "&qalist=" + pull.rows.item(
+                              0).qaList + "&code=" + pull.rows.item(0).creationdate
+                          + "&editdate=" + pull.rows.item(0).editdate + "&type=" + type)
                 break
-
             case "Student_Daily_Review":
                 http.send("devid=" + devId + "&appid=" + appId
-                          + "&userid=" + userid
-                          + "&schoolCode=" + pull.rows.item(0).schoolCode
-                          + "&studentCode=" + pull.rows.item(0).studentCode
-                          + "&qalist=" + pull.rows.item(0).qaList
-                          + "&date=" + pull.rows.item(0).date
-                          + "&type=" + type)
+                          + "&userid=" + userid + "&schoolCode=" + pull.rows.item(
+                              0).schoolCode + "&studentCode="
+                          + pull.rows.item(0).studentCode + "&qalist=" + pull.rows.item(
+                              0).qaList + "&date=" + pull.rows.item(0).date + "&type=" + type)
                 break
-
             case "Media":
                 http.send("devid=" + devId + "&appid=" + appId
-                          + "&userid=" + userid
-                          + "&schoolCode=" + pull.rows.item(0).schoolCode
-                          + "&owner=" + pull.rows.item(0).owner
-                          + "&filetype=" + pull.rows.item(0).type
-                          + "&filename=" + pull.rows.item(0).filename
-                          + "&hash=" + pull.rows.item(0).hash
-                          + "&code=" + pull.rows.item(0).creationdate
-                          + "&type=" + type)
+                          + "&userid=" + userid + "&schoolCode=" + pull.rows.item(
+                              0).schoolCode + "&owner=" + pull.rows.item(0).owner
+                          + "&filetype=" + pull.rows.item(0).type + "&filename="
+                          + pull.rows.item(0).filename + "&hash=" + pull.rows.item(
+                              0).hash + "&code=" + pull.rows.item(0).creationdate + "&type=" + type)
                 break
-
             case "Assignment_Notes":
                 http.send("devid=" + devId + "&appid=" + appId
-                          + "&userid=" + userid
-                          + "&schoolCode=" + pull.rows.item(0).schoolCode
-                          + "&studentCode=" + pull.rows.item(0).studentCode
-                          + "&lesson=" + pull.rows.item(0).lessonID
-                          + "&educatorCode=" + pull.rows.item(0).teacherCode
-                          + "&response=" + pull.rows.item(0).response
-                          + "&note=" + pull.rows.item(0).creationdate
-                          + "&code=" + pull.rows.item(0).creationdate
-                          + "&editdate=" + pull.rows.item(0).editdate
-                          + "&type=" + type)
+                          + "&userid=" + userid + "&schoolCode=" + pull.rows.item(
+                              0).schoolCode + "&studentCode=" + pull.rows.item(0).studentCode
+                          + "&lesson=" + pull.rows.item(0).lessonID + "&educatorCode="
+                          + pull.rows.item(0).teacherCode + "&response=" + pull.rows.item(
+                              0).response + "&note=" + pull.rows.item(0).creationdate
+                          + "&code=" + pull.rows.item(0).creationdate + "&editdate="
+                          + pull.rows.item(0).editdate + "&type=" + type)
                 break
-
-
             }
         }
     })
@@ -367,20 +304,19 @@ function retrieveFromOpenSeed(id, code, type, update) {
                             switch (type) {
                             case "School":
                                 pull = tx.executeSql(
-                                            "SELECT * FROM Schools WHERE code='" + id + "'")
+                                            "SELECT * FROM Schools WHERE code=?",[id])
                                 break
                             case "Students":
                                 pull = tx.executeSql(
-                                            "SELECT * FROM Students WHERE code='" + id + "'")
+                                            "SELECT * FROM Students WHERE code=?",[id])
                                 break
                             case "Educator":
                                 pull = tx.executeSql(
-                                            "SELECT * FROM Users WHERE id='" + id + "'")
+                                            "SELECT * FROM Users WHERE id=?",[id])
                                 break
                             default:
                                 pull = tx.executeSql(
-                                            "SELECT * FROM " + type
-                                            + " WHERE creationdate='" + id + "'")
+                                            "SELECT * FROM "+ +" WHERE creationdate=?",[type,id])
                                 break
                             }
 
@@ -401,7 +337,7 @@ function retrieveFromOpenSeed(id, code, type, update) {
                                                     "INSERT INTO Users VALUES (?,?,?,?,?,?,?,?,?,?,?)",
                                                     [userID, 1, info[2], info[3], info[4], info[5], info[6], info[7], info[8], info[0], info[9]])
 
-                                        if (schoolSetup.state == "Active") {
+                                        if (schoolSetup.state === "Active") {
                                             isEducator.checked = 1
                                             view.currentIndex = 1
                                         }
@@ -432,43 +368,34 @@ function retrieveFromOpenSeed(id, code, type, update) {
                                                     "INSERT INTO Lessons VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                                                     [userID, info[15], info[17], info[4], info[5], info[1], info[6], info[7], info[2], info[3], info[9], info[8], info[10], info[11], info[12], info[13], info[0], info[16]])
                                         break
-
                                     case "Lesson_Control":
 
                                         tx.executeSql(
-                                            "INSERT INTO Lesson_Control VALUES(?,?,?,?,?,?,?,?)",
-                                             [userID, info[1], info[2], info[3], info[4],info[5],info[0],info[6]]
-                                        )
+                                                    "INSERT INTO Lesson_Control VALUES(?,?,?,?,?,?,?,?)",
+                                                    [userID, info[1], info[2], info[3], info[4], info[5], info[0], info[6]])
                                         break
+                                    case "Student_Assignments":
 
-                                     case "Student_Assignments":
-
-                                         tx.executeSql(
-                                                  "INSERT INTO Student_Assignments VALUES(?,?,?,?,?,?,?)",
-                                                      [info[1], info[2], info[3], info[4],info[5],info[0],info[6]]
-                                                     )
-                                         break
-
+                                        tx.executeSql(
+                                                    "INSERT INTO Student_Assignments VALUES(?,?,?,?,?,?,?)",
+                                                    [info[1], info[2], info[3], info[4], info[5], info[0], info[6]])
+                                        break
                                     case "Subjects":
 
                                         tx.executeSql(
-                                            "INSERT INTO Subjects VALUES(?,?,?,?,?,?)",
-                                             [info[1], info[2], info[3], info[4],info[5],info[0]]
-                                        )
+                                                    "INSERT INTO Subjects VALUES(?,?,?,?,?,?)",
+                                                    [info[1], info[2], info[3], info[4], info[5], info[0]])
                                         break
-
                                     case "Media":
 
                                         tx.executeSql(
-                                            "INSERT INTO Media VALUES(?,?,?,?,?,?)",
-                                             [info[1], info[2], info[3], info[4],info[5],info[0]]
-                                        )
+                                                    "INSERT INTO Media VALUES(?,?,?,?,?,?)",
+                                                    [info[1], info[2], info[3], info[4], info[5], info[0]])
                                         break
-
                                     }
                                 }
                             } else {
-                                console.log("Updating "+info)
+                                console.log("Updating " + info)
                                 switch (type) {
                                 case "School":
                                     schoolName = info[1]
@@ -510,25 +437,21 @@ function retrieveFromOpenSeed(id, code, type, update) {
                                 case "Lessons":
 
                                     tx.executeSql(
-                                                "UPDATE Lessons SET educatorID=?,published=?,coursenumber=?,unitnumber=?,name=?,lessonNum=?,duration=?,about=?,objective=?,supplies=?,resources=?,guidingQuestions=?,lessonSequence=?,studentProduct=?,reviewQuestions=?,editdate=? WHERE creationdate=?",
-                                                [info[15], info[17], info[4], info[5], info[1], info[6], info[7], info[2], info[3], info[9], info[8], info[10], info[11], info[12], info[13], info[16], info[0]])
+                                                "UPDATE Lessons SET educatorID=?,published=?,coursenumber=?,unitnumber=?,name=?,lessonNum=?,duration=?,about=?,\
+objective=?,supplies=?,resources=?,guidingQuestions=?,lessonSequence=?,studentProduct=?,reviewQuestions=?,editdate=?
+WHERE creationdate=?", [info[15], info[17], info[4], info[5], info[1], info[6], info[7], info[2], info[3], info[9], info[8], info[10], info[11], info[12], info[13], info[16], info[0]])
                                     break
-
-
                                 case "Lesson_Control":
 
                                     tx.executeSql(
-                                        "UPDATE Lesson_Control SET status =?, educatorcode = ?, editdate= ? WHERE creationdate = ?",
-                                         [info[2], info[3], info[5],info[0]]
-                                    )
+                                                "UPDATE Lesson_Control SET status =?, educatorcode = ?, editdate= ? WHERE creationdate = ?",
+                                                [info[2], info[3], info[5], info[0]])
                                     break
-
-                                 case "Student_Assignments":
-                                     tx.executeSql(
-                                              "UPDATE Student_Assignments SET status = ?, qaList =?, editdate = ? WHERE creationdate = ?",
-                                                  [info[4],info[5],info[6],info[0]]
-                                                 )
-                                     break
+                                case "Student_Assignments":
+                                    tx.executeSql(
+                                                "UPDATE Student_Assignments SET status = ?, qaList =?, editdate = ? WHERE creationdate = ?",
+                                                [info[4], info[5], info[6], info[0]])
+                                    break
                                 }
                             }
                         })
@@ -554,89 +477,77 @@ function sync(type, code) {
 
     http.onreadystatechange = function () {
 
+        if (http.readyState === XMLHttpRequest.DONE) {
+            if (http.responseText == "100") {
+                console.log("Incorrect DevID")
+            } else if (http.responseText == "101") {
+                console.log("Incorrect AppID")
+            } else {
+                var pull = ""
+                var num = 0
 
-            if (http.readyState === XMLHttpRequest.DONE) {
-                if (http.responseText == "100") {
-                    console.log("Incorrect DevID")
-                } else if (http.responseText == "101") {
-                    console.log("Incorrect AppID")
-                } else {
-                    var pull = ""
-                    var num = 0
+                db.readTransaction(function (tx) {
 
-                    db.readTransaction(function (tx) {
+                    var ids = http.responseText.split("\n")
 
-                        var ids = http.responseText.split("\n")
-                            //console.log("from Sync Type:"+type+"\nCode: "+code+"\nResponse: "+ids[0]+" "+ids.length)
-
-                        if (ids[0] !== ":0") {
-                            while (ids.length > num) {
-                                if (type === "Students") {
-                                    pull = tx.executeSql(
-                                                "SELECT * FROM " + type
-                                                + " WHERE code=" + ids[num].split(
-                                                    "::")[0] + "")
-                                } else {
-                                    pull = tx.executeSql(
-                                                "SELECT * FROM " + type
-                                                + " WHERE creationdate=" + ids[num].split(
-                                                    "::")[0] + "")
-                                }
-                                if (pull.rows.length === 0) {
-                                    console.log("Grabbing " + type + " from Server "
-                                                + ids[num].split("::")[0])
-                                    retrieveFromOpenSeed(ids[num],
-                                                         code, type, 0)
-                                } else {
-
-                                    var update = ""
-                                    if (type === "Students") {
-                                        update = tx.executeSql(
-                                                    "SELECT * FROM " + type
-                                                    + " WHERE code=" + ids[num].split(
-                                                        "::")[0] + " AND editdate <"
-                                                    + ids[num].split("::")[1])
-                                    } else {
-                                        update = tx.executeSql(
-                                                    "SELECT * FROM " + type
-                                                    + " WHERE creationdate=" + ids[num].split(
-                                                        "::")[0] + " AND editdate <"
-                                                    + ids[num].split("::")[1])
-                                    }
-
-                                    if (update.rows.length === 1) {
-                                       console.log (ids[num]+" Needs update")
-                                        retrieveFromOpenSeed(ids[num].split("::")[0],code, type, 1)
-                                    }
-                                }
-
-                                num = num + 1
+                    if (ids[0] !== ":0") {
+                        while (ids.length > num) {
+                            var data = ids[num].split("::")[0]
+                            var edate = ids[num].split("::")[1]
+                            console.log(data)
+                            if (type === "Students") {
+                                pull = tx.executeSql("SELECT * FROM "+type+" WHERE code= ?",[data])
+                            } else {
+                                console.log(type,data)
+                                pull = tx.executeSql("SELECT * FROM "+type+" WHERE creationdate=?",[data])
                             }
-                        } else {
-                            console.log("Checking for local data")
-                            var sendnum = 0
-                            pull = tx.executeSql(
-                                        "SELECT * FROM " + type + " WHERE 1")
-                            console.log("We have " + pull.rows.length + " " + type + " locally")
+                            if (pull.rows.length === 0) {
+                                console.log("Grabbing " + type + " from Server " + ids[num].split(
+                                                "::")[0])
+                                retrieveFromOpenSeed(ids[num], code, type, 0)
+                            } else {
 
-                            while (pull.rows.length > sendnum) {
-
+                                var update = ""
                                 if (type === "Students") {
-                                    sendToOpenSeed(userID, pull.rows.item(
-                                                       sendnum).code, type)
+                                    update = tx.executeSql(
+                                                "SELECT * FROM "+type +" WHERE code= ? AND editdate < ?",[data,edate])
                                 } else {
-
-                                    sendToOpenSeed(userID, pull.rows.item(
-                                                       sendnum).creationdate,
-                                                   type)
+                                    update = tx.executeSql(
+                                                "SELECT * FROM "+type +" WHERE creationdate=? AND editdate < ?",[data,edate])
                                 }
 
-                                sendnum = sendnum + 1
+                                if (update.rows.length === 1) {
+                                    console.log(ids[num] + " Needs update")
+                                    retrieveFromOpenSeed(data, code, type, 1)
+                                }
                             }
+
+                            num = num + 1
                         }
-                    })
-                }
+                    } else {
+                        console.log("Checking for local data")
+                        var sendnum = 0
+                        pull = tx.executeSql("SELECT * FROM "+type+" WHERE 1")
+                        console.log("We have " + pull.rows.length + " " + type + " locally")
+
+                        while (pull.rows.length > sendnum) {
+
+                            if (type === "Students") {
+                                sendToOpenSeed(userID,
+                                               pull.rows.item(sendnum).code,
+                                               type)
+                            } else {
+
+                                sendToOpenSeed(userID, pull.rows.item(
+                                                   sendnum).creationdate, type)
+                            }
+
+                            sendnum = sendnum + 1
+                        }
+                    }
+                })
             }
+        }
     }
     http.open('POST', url.trim(), true)
 
@@ -646,6 +557,74 @@ function sync(type, code) {
     gc()
 }
 
+function oneTime(id, action, forwhat) {
 
+    var code = ""
+    var http = new XMLHttpRequest()
+    var carddata = ""
+    var url = ""
 
+    var pull = ""
 
+    url = "https://openseed.vagueentertainment.com:8675/corescripts/onetime.php?devid="
+            + devId + "&appid=" + appId + "&cardid=" + id + "&create=" + action
+
+    var d = new Date()
+    http.onreadystatechange = function () {
+        if (http.readyState == 4) {
+            carddata = http.responseText
+
+            if (http.responseText == "100") {
+
+                console.log("Incorrect DevID")
+            } else if (http.responseText == "101") {
+                console.log("Incorrect AppID")
+            } else {
+                carddata = http.responseText
+                code = carddata
+                if (forwhat === "school") {
+
+                    db.transaction(function (tx) {
+
+                        pull = tx.executeSql(
+                                    "SELECT * FROM Schools WHERE id= ?",
+                                    [userID])
+                        if (pull.rows.length === 1) {
+
+                            if (pull.rows.item(0).code === null
+                                    || pull.rows.item(0).code.length < 2) {
+                                tx.executeSql(
+                                            "UPDATE Schools SET code=?, editdate=? WHERE id=?",
+                                            [code, d.getTime(), userID])
+                            }
+                        }
+
+                        schoolCode = code
+                        schoolEditDate = d.getTime()
+                    })
+                } else {
+
+                    db.transaction(function (tx) {
+
+                        pull = tx.executeSql("SELECT * FROM Users WHERE id=?",
+                                             [userID])
+                        if (pull.rows.length === 1) {
+
+                            if (pull.rows.item(0).code === null
+                                    || pull.rows.item(0).code.length < 2) {
+                                tx.executeSql(
+                                            "UPDATE Users SET code=?, editdate=? WHERE id=?",
+                                            [code, d.getTime(), userID])
+                            }
+                        }
+
+                        userCode = code
+                        userEditDate = d.getTime()
+                    })
+                }
+            }
+        }
+    }
+    http.open('GET', url.trim(), true)
+    http.send(null)
+}

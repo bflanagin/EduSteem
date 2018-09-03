@@ -4,9 +4,9 @@ function loadStudents(schoolcode) {
     studentList.clear()
     db.readTransaction(function (tx) {
 
-        var dataSTR = "SELECT * FROM Students WHERE schoolcode ='" + schoolcode + "'"
+        var dataSTR = "SELECT * FROM Students WHERE schoolcode =?"
 
-        var pull = tx.executeSql(dataSTR)
+        var pull = tx.executeSql(dataSTR,schoolcode)
 
         while (pull.rows.length > num) {
 
@@ -28,9 +28,9 @@ function loadStudent(code) {
 
     db.readTransaction(function (tx) {
 
-        var dataSTR = "SELECT * FROM Students WHERE code ='" + code + "'"
+        var dataSTR = "SELECT * FROM Students WHERE code =?"
 
-        var pull = tx.executeSql(dataSTR)
+        var pull = tx.executeSql(dataSTR,code)
 
         if (pull.rows.length === 1) {
             //var d = new Date(pull.rows.item(0).bday)
@@ -53,10 +53,9 @@ function saveStudent(userid, firstName, lastName, age, bday, about, schoolID, co
                         ), d.getTime()]
         var dtable = "INSERT INTO Students VALUES(?,?,?,?,?,?,?,?,?,?,?,?)"
 
-        var dataSTR = "SELECT * FROM Students WHERE firstname ='" + firstName
-                + "' AND lastname ='" + lastName + "'"
-
-        var pull = tx.executeSql(dataSTR)
+        var dataSTR = "SELECT * FROM Students WHERE firstname =? AND lastname =?"
+        var str = [firstName,lastName]
+        var pull = tx.executeSql(dataSTR,str)
         if (pull.rows.length < 1) {
             tx.executeSql(dtable, data)
         }
@@ -70,9 +69,9 @@ function assignment_list() {
         turnedin.clear()
     db.readTransaction(function(tx) {
 
-        var dataSTR = "SELECT * FROM Student_Assignments WHERE schoolCode ='" + schoolCode + "' AND status= 3"
+        var dataSTR = "SELECT * FROM Student_Assignments WHERE schoolCode =? AND status= 3"
 
-        var pull = tx.executeSql(dataSTR)
+        var pull = tx.executeSql(dataSTR,schoolCode)
 
         console.log("from Assignment List "+schoolCode, pull.rows.length)
 

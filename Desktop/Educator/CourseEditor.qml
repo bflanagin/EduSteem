@@ -6,9 +6,9 @@ import "../theme"
 ESborder {
     id: thisWindow
 
-    property string UnitTitle: "Title"
-    property string UnitAbout: "About"
-    property string UnitObjective: "Objective"
+    property string unitTitle: "Title"
+    property string unitAbout: "About"
+    property string unitObjective: "Objective"
 
     Row {
         width: parent.width
@@ -25,18 +25,18 @@ ESborder {
                 spacing: parent.width * 0.01
 
                 Text {
-                    text: UnitTitle
+                    text: unitTitle
                     font.bold: true
                 }
 
                 Text {
-                    text: UnitObjective
+                    text: unitObjective
                     width: parent.width
                     wrapMode: Text.WordWrap
                 }
 
                 Text {
-                    text: UnitAbout
+                    text: unitAbout
                     width: parent.width
                     wrapMode: Text.WordWrap
                 }

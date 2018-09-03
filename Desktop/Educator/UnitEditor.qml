@@ -321,13 +321,60 @@ ESborder {
                         }
                     }
 
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            lessonEdit.lessonNumber = cdate
-                            lessonEdit.state = "Active"
+                    Row {
+                        id:actions
+                        anchors.bottom:parent.bottom
+                        anchors.right:parent.right
+                        anchors.margins: 10
+
+                        height:24
+                        spacing: height / 2
+
+                        CircleButton {
+                            icon:"../icons/edit.svg"
+                            height:parent.height
+                            width:height
+
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    lessonEdit.lessonNumber = cdate
+                                    lessonEdit.state = "Active"
+                                }
+                            }
+
                         }
+                        CircleButton {
+                            icon:"../icons/copy.svg"
+                            height:parent.height
+                            width:height
+
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    lessonEdit.lessonNumber = cdate
+                                    lessonEdit.state = "Active"
+                                }
+                            }
+                        }
+                        CircleButton {
+                            icon:"../icons/trash.svg"
+                            height:parent.height
+                            width:height
+
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    lessonEdit.lessonNumber = cdate
+                                    lessonEdit.state = "Active"
+                                }
+                            }
+                        }
+
+
                     }
+
+
                 }
             }
         }
