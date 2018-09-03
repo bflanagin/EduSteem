@@ -57,15 +57,14 @@ function saveSteem(userid, type, steemAccount, steemKey) {
 
     db.transaction(function (tx) {
 
-        pull = tx.executeSql("SELECT * FROM Steem WHERE id='" + userid + "'")
+        pull = tx.executeSql("SELECT * FROM Steem WHERE id=?",[userid])
 
         if (pull.rows.length !== 1) {
 
             tx.executeSql(dtable, data)
         } else {
             tx.executeSql(
-                        "UPDATE Steem SET data1='" + steemAccount + "', data2='"
-                        + steemKey + "' WHERE id='" + userid + "'")
+                        "UPDATE Steem SET data1=?, data2=? WHERE id=?",[steemAccount,steemKey,userid])
         }
     })
 }
@@ -79,7 +78,7 @@ function loadschool(userid) {
         /*pulling general school information*/
         if (userid !== "") {
             pull = tx.executeSql(
-                        "SELECT * FROM Schools WHERE id='" + userid + "'")
+                        "SELECT * FROM Schools WHERE id= ?",[userid])
         } else {
             pull = tx.executeSql("SELECT * FROM Schools WHERE 1")
         }
@@ -88,8 +87,7 @@ function loadschool(userid) {
 
             if (pull.rows.item(0).code === null || pull.rows.item(
                         0).code.length < 2) {
-                tx.executeSql("UPDATE Schools SET code='" + schoolCode
-                              + "' WHERE id='" + userid + "'")
+                tx.executeSql("UPDATE Schools SET code= ? WHERE id= ?",[schoolCode,userid])
                 oneTime(userid, 1, "school")
             }
 
@@ -133,11 +131,10 @@ function loadschool(userid) {
             var num = 0
             while (num < generic.length) {
 
-                var checkSTR = "SELECT * FROM Subjects WHERE schoolCode='"
-                        + schoolCode + "' AND subjectNumber=" + generic[num].split(
-                            " - ")[0]
+                var checkSTR = "SELECT * FROM Subjects WHERE schoolCode= ? AND subjectNumber=?"
+                var tocheck = [schoolCode,generic[num].split(" - ")[0]]
 
-                var check = tx.executeSql(checkSTR)
+                var check = tx.executeSql(checkSTR,tocheck)
 
                 if (check.rows.length === 0) {
                     var dataSTR = "INSERT INTO Subjects VALUES(?,?,?,?,?,?)"
@@ -163,14 +160,13 @@ function loaduser(userid) {
     var exists = false
     db.readTransaction(function (tx) {
 
-        pull = tx.executeSql("SELECT * FROM Users WHERE id='" + userid + "'")
+        pull = tx.executeSql("SELECT * FROM Users WHERE id= ?",[userid])
 
         if (pull.rows.length === 1) {
 
             if (pull.rows.item(0).code === null || pull.rows.item(
                         0).code.length < 2) {
-                tx.executeSql("UPDATE Users SET code='" + oneTime(
-                                  userid, 1) + "' WHERE id='" + userid + "'")
+                tx.executeSql("UPDATE Users SET code= ? WHERE id= ?",[oneTime(userid, 1),userid])
                 oneTime(userid, 1, "user")
             }
 
@@ -180,7 +176,7 @@ function loaduser(userid) {
             userEditDate = pull.rows.item(0).editdate
         }
 
-        pull1 = tx.executeSql("SELECT * FROM Steem WHERE id='" + userCode + "'")
+        pull1 = tx.executeSql("SELECT * FROM Steem WHERE id= ?",[userCode])
 
         if (pull1.rows.length === 1) {
 
@@ -197,8 +193,8 @@ function loadprofile(userid) {
     var exists = false
     db.readTransaction(function (tx) {
 
-        pull = tx.executeSql("SELECT * FROM Users WHERE code='" + userid + "'")
-        pull1 = tx.executeSql("SELECT * FROM Steem WHERE id='" + userid + "'")
+        pull = tx.executeSql("SELECT * FROM Users WHERE code= ?",[userid])
+        pull1 = tx.executeSql("SELECT * FROM Steem WHERE id= ?",[userid])
         if (pull.rows.length === 1) {
 
             userFirstName = pull.rows.item(0).firstname
@@ -220,78 +216,7 @@ function loadprofile(userid) {
     })
 }
 
-function oneTime(id, action, forwhat) {
 
-    var code = ""
-    var http = new XMLHttpRequest()
-    var carddata = ""
-    var url = ""
-
-    var pull = ""
-
-    url = "https://openseed.vagueentertainment.com:8675/corescripts/onetime.php?devid="
-            + devId + "&appid=" + appId + "&cardid=" + id + "&create=" + action
-
-    var d = new Date()
-    http.onreadystatechange = function () {
-        if (http.readyState == 4) {
-            carddata = http.responseText
-
-            if (http.responseText == "100") {
-
-                console.log("Incorrect DevID")
-            } else if (http.responseText == "101") {
-                console.log("Incorrect AppID")
-            } else {
-                carddata = http.responseText
-                code = carddata
-                if (forwhat === "school") {
-
-                    db.transaction(function (tx) {
-
-                        pull = tx.executeSql(
-                                    "SELECT * FROM Schools WHERE id='" + userID + "'")
-                        if (pull.rows.length === 1) {
-
-                            if (pull.rows.item(0).code === null
-                                    || pull.rows.item(0).code.length < 2) {
-                                tx.executeSql(
-                                            "UPDATE Schools SET code='" + code
-                                            + "', editdate=" + d.getTime(
-                                                ) + " WHERE id='" + userID + "'")
-                            }
-                        }
-
-                        schoolCode = code
-                        schoolEditDate = d.getTime()
-                    })
-                } else {
-
-                    db.transaction(function (tx) {
-
-                        pull = tx.executeSql(
-                                    "SELECT * FROM Users WHERE id='" + userID + "'")
-                        if (pull.rows.length === 1) {
-
-                            if (pull.rows.item(0).code === null
-                                    || pull.rows.item(0).code.length < 2) {
-                                tx.executeSql(
-                                            "UPDATE Users SET code='" + code
-                                            + "', editdate=" + d.getTime(
-                                                ) + " WHERE id='" + userID + "'")
-                            }
-                        }
-
-                        userCode = code
-                        userEditDate = d.getTime()
-                    })
-                }
-            }
-        }
-    }
-    http.open('GET', url.trim(), true)
-    http.send(null)
-}
 
 function studentCred(info1, info2, type) {
 
@@ -301,11 +226,9 @@ function studentCred(info1, info2, type) {
 
     db.readTransaction(function (tx) {
         if (type === "name") {
-            pull = tx.executeSql("SELECT * FROM Students WHERE lastname='"
-                                 + info2 + "' AND firstname='" + info1 + "'")
+            pull = tx.executeSql("SELECT * FROM Students WHERE lastname=? AND firstname=?",[info2,info1])
         } else {
-            pull = tx.executeSql(
-                        "SELECT * FROM Students WHERE code LIKE '%" + info1 + "'")
+            pull = tx.executeSql("SELECT * FROM Students WHERE code LIKE ?",['%'+info1])
         }
 
         if (pull.rows.length === 1) {
@@ -349,7 +272,7 @@ function load_Subjects() {
     subjects.clear()
     db.readTransaction(function (tx) {
 
-        var pull = tx.executeSql("SELECT * FROM Subjects WHERE schoolCode='" + schoolCode + "' ORDER BY subjectNumber ASC")
+        var pull = tx.executeSql("SELECT * FROM Subjects WHERE schoolCode=? ORDER BY subjectNumber ASC",[schoolCode])
         var num = 0
         while(pull.rows.length > num) {
 

@@ -34,9 +34,9 @@ function loadDay(month, day, weekday, studentCode) {
 
                             if (subject !== "") {
 
-                                var getSubjectInfo = "SELECT * FROM Subjects WHERE schoolCode='"+schoolCode+"' AND subjectNumber="+subject
-
-                                var info = tx.executeSql(getSubjectInfo)
+                                var getSubjectInfo = "SELECT * FROM Subjects WHERE schoolCode=? AND subjectNumber= ?"
+                                var str = [schoolCode,subject]
+                                var info = tx.executeSql(getSubjectInfo,str)
 
                                 if(info.rows.length === 1) {
                                     if(info.rows.item(0).subjectColor !== null ) {
@@ -82,9 +82,8 @@ function loadTask(studentCode, taskId) {
 
     db.readTransaction(function (tx) {
 
-        var dataSTR = "SELECT * FROM Lessons WHERE creationdate =" + taskId
-
-        var pull = tx.executeSql(dataSTR)
+        var dataSTR = "SELECT * FROM Lessons WHERE creationdate =?"
+        var pull = tx.executeSql(dataSTR,taskId)
 
         if (pull.rows.length === 1) {
 
@@ -103,9 +102,10 @@ function loadTask(studentCode, taskId) {
             lessonSP = Scrubber.recoverSpecial(pull.rows.item(0).studentProduct)
         }
 
-        var studentSTR = "SELECT * FROM Student_Assignments WHERE lessonID="+taskId+" AND studentCode="+studentCode
+        var studentSTR = "SELECT * FROM Student_Assignments WHERE lessonID=? AND studentCode= ?"
+        var strStudent = [taskId,studentCode]
 
-        var studentpull = tx.executeSql(studentSTR)
+        var studentpull = tx.executeSql(studentSTR,strStudent)
 
         if(studentpull.rows.length === 1) {
 
@@ -135,8 +135,9 @@ function updateTask(studentCode, taskId, state, qa) {
 
     db.transaction(function (tx) {
 
-        var dataSTR = "SELECT * FROM Student_Assignments WHERE lessonID ="+taskId+" AND studentCode="+studentCode
-        var pull = tx.executeSql(dataSTR)    
+        var dataSTR = "SELECT * FROM Student_Assignments WHERE lessonID = ? AND studentCode= ? "
+        var str = [taskId,studentCode]
+        var pull = tx.executeSql(dataSTR,str)
         var table = ""
         var data = []
 
@@ -163,10 +164,10 @@ function publishTask(studentCode, taskId) {}
 
 function loadStudentProfile(studentCode) {
 
-    var dataSTR = "SELECT * FROM Students WHERE code =" + studentCode
+    var dataSTR = "SELECT * FROM Students WHERE code = ?"
 
      db.readTransaction(function(tx) {
-            var studentinfo = tx.executeSql(dataSTR)
+            var studentinfo = tx.executeSql(dataSTR,studentCode)
          if(studentinfo.rows.length === 1) {
 
             studentFirstName = studentinfo.rows.item(0).firstname
@@ -186,7 +187,8 @@ function addNote(schoolCode,studentID,lessonID,userCode,response,note) {
 
     db.transaction(function (tx) {
 
-        var dataSTR = "SELECT * FROM Assignment_Notes WHERE lessonID ="+lessonID+" AND studentCode="+studentID+" AND schoolCode='"+schoolCode+"'"
+        var dataSTR = "SELECT * FROM Assignment_Notes WHERE lessonID = ? AND studentCode=? AND schoolCode=?"
+        var str = [lessonID,studentID,schoolCode]
         var pull = tx.executeSql(dataSTR)
         var table = ""
         var data = []
@@ -203,7 +205,8 @@ function listNotes(schoolCode,studentID,lessonID) {
 
     db.readTransaction(function (tx) {
 
-        var dataSTR = "SELECT * FROM Assignment_Notes WHERE lessonID ="+lessonID+" AND studentCode="+studentID+" AND schoolCode='"+schoolCode+"'"
+        var dataSTR = "SELECT * FROM Assignment_Notes WHERE lessonID =? AND studentCode=? AND schoolCode=?"
+        var str = [lessonID,studentID,schoolCode]
         var pull = tx.executeSql(dataSTR)
 
 

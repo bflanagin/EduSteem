@@ -27,8 +27,7 @@ function mediaRetrieve(hash) {
 
     db.readTransaction(function (tx) {
 
-        var check = tx.executeSql(
-                    "SELECT * from Media WHERE hash = '" + hash + "'")
+        var check = tx.executeSql("SELECT * from Media WHERE hash = ?",[hash])
 
         if (check.rows.length === 1) {
 
@@ -45,8 +44,7 @@ function grabImage(userCode,type) {
 
     db.readTransaction(function (tx) {
 
-        var check = tx.executeSql(
-                    "SELECT * from Media WHERE owner = '"+userCode+"' AND type = '" + type + "' ORDER BY creationdate DESC")
+        var check = tx.executeSql("SELECT * from Media WHERE owner = ? AND type = ? ORDER BY creationdate DESC",[userCode,type])
 
             if(check.rows.length !==0) {
                 switch(type) {

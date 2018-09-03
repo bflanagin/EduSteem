@@ -149,18 +149,17 @@ function save_local(userid, type, firstname, lastname, email, phone, country, st
         var data = [userid, type, firstname, lastname, email, phone, country, state, about, teachercode, d.getTime(
                         )]
         var dtable = "INSERT INTO Users VALUES(?,?,?,?,?,?,?,?,?,?,?)"
-        var update = "UPDATE Users SET type=" + type + ", firstname='"
-                + firstname + "', lastname='" + lastname + "', email='" + email + "', phone='"
-                + phone + "', country='" + country + "', state='" + state + "', about='"
-                + about + "', editdate=" + d.getTime() + " WHERE id='" + userid + "'"
+        var update = "UPDATE Users SET type=?, firstname=?, lastname=?, email=?, phone=?, country=?, state=?, about=?, editdate=? WHERE id=?"
 
-        var dataSTR = "SELECT * FROM Users WHERE id ='" + userid + "'"
+        var updatestr = [type,firstname,lastname,email,phone,country,state,about,d.getTime(),userid]
 
-        var pull = tx.executeSql(dataSTR)
+        var dataSTR = "SELECT * FROM Users WHERE id =?"
+
+        var pull = tx.executeSql(dataSTR,userid)
         if (pull.rows.length !== 1) {
             tx.executeSql(dtable, data)
         } else {
-            tx.executeSql(update)
+            tx.executeSql(update,updatestr)
         }
     })
 }

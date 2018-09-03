@@ -35,6 +35,7 @@ Item {
     property string lessonSP: ""
 
     property string lessonUpdate: ""
+    property string studentAnswers: ""
 
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.verticalCenter: parent.verticalCenter

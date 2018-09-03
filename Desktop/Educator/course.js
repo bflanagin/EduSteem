@@ -6,10 +6,9 @@ function saveCourse(userid, name, subject, language, about, creationdate) {
         var data = [userid, name.replace(/ /g, "_"), subject, language, about, d.getTime(), d.getTime()]
         var dtable = "INSERT INTO Courses VALUES(?,?,?,?,?,?,?)"
 
-        var dataSTR = "SELECT * FROM Courses WHERE id ='" + userid
-                + "' AND creationdate =" + creationdate
-
-        var pull = tx.executeSql(dataSTR)
+        var dataSTR = "SELECT * FROM Courses WHERE id = ? AND creationdate =?"
+        var str = [userid,creationdate]
+        var pull = tx.executeSql(dataSTR,str)
         if (pull.rows.length !== 1) {
             tx.executeSql(dtable, data)
         }
@@ -29,10 +28,10 @@ function saveUnit(userid, coursenumber, unitnum, name, objective, about, creatio
         console.log(data)
         var dtable = "INSERT INTO Units VALUES(?,?,?,?,?,?,?,?)"
 
-        var dataSTR = "SELECT * FROM Units WHERE id ='" + userid
-                + "' AND creationdate =" + creationdate
+        var dataSTR = "SELECT * FROM Units WHERE id =? AND creationdate = ?"
+        var str = [userid,creationdate]
+        var pull = tx.executeSql(dataSTR,str)
 
-        var pull = tx.executeSql(dataSTR)
         if (pull.rows.length !== 1) {
             tx.executeSql(dtable, data)
         }
@@ -50,10 +49,11 @@ function saveLesson(userid, coursenumber, unitnumber, name, lessonNum, duration,
                         ), d.getTime()]
         var dtable = "INSERT INTO Lessons VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
 
-        var dataSTR = "SELECT * FROM Lessons WHERE id ='" + userid
-                + "' AND creationdate =" + creationdate
+        var dataSTR = "SELECT * FROM Lessons WHERE id =? AND creationdate = ?"
 
-        var pull = tx.executeSql(dataSTR)
+        var str = [userid,creationdate]
+        var pull = tx.executeSql(dataSTR,str)
+
         if (pull.rows.length !== 1) {
             tx.executeSql(dtable, data)
         }
@@ -64,9 +64,10 @@ function loadCourses(userid) {
     db.readTransaction(function (tx) {
         courseList.clear()
 
-        var dataSTR = "SELECT * FROM Courses WHERE id ='" + userid + "'"
+        var dataSTR = "SELECT * FROM Courses WHERE id =?"
 
-        var pull = tx.executeSql(dataSTR)
+        var str = [userid]
+        var pull = tx.executeSql(dataSTR,str)
         var num = 0
         while (pull.rows.length > num) {
 
@@ -114,10 +115,10 @@ function loadUnits(userid, coursenumber) {
     db.readTransaction(function (tx) {
         unitList.clear()
 
-        var dataSTR = "SELECT * FROM Units WHERE id ='" + userid
-                + "' AND coursenumber =" + coursenumber + " ORDER BY unitNum ASC"
+        var dataSTR = "SELECT * FROM Units WHERE id =? AND coursenumber =? ORDER BY unitNum ASC"
 
-        var pull = tx.executeSql(dataSTR)
+        var str = [userid,coursenumber]
+        var pull = tx.executeSql(dataSTR,str)
         var num = 0
         while (pull.rows.length > num) {
 
@@ -138,10 +139,11 @@ function loadLessons(userid, unitnumber) {
     db.readTransaction(function (tx) {
         lessonList.clear()
 
-        var dataSTR = "SELECT * FROM Lessons WHERE id ='" + userid
-                + "' AND unitnumber =" + unitnumber + " ORDER BY lessonNum ASC"
+        var dataSTR = "SELECT * FROM Lessons WHERE id =? AND unitnumber =? ORDER BY lessonNum ASC"
 
-        var pull = tx.executeSql(dataSTR)
+        var str = [userid,unitnumber]
+        var pull = tx.executeSql(dataSTR,str)
+
         var num = 0
         while (pull.rows.length > num) {
 
@@ -171,10 +173,10 @@ function loadCourse(userid, coursenumber) {
 
     db.readTransaction(function (tx) {
 
-        var dataSTR = "SELECT * FROM Courses WHERE id ='" + userid
-                + "' AND creationdate =" + coursenumber
+        var dataSTR = "SELECT * FROM Courses WHERE id =? AND creationdate =?"
 
-        var pull = tx.executeSql(dataSTR)
+        var str = [userid,coursenumber]
+        var pull = tx.executeSql(dataSTR,str)
 
         if (pull.rows.length === 1) {
 
@@ -191,10 +193,10 @@ function loadUnit(userid, unitnumber) {
 
     db.transaction(function (tx) {
 
-        var dataSTR = "SELECT * FROM Units WHERE id ='" + userid
-                + "' AND creationdate =" + unitnumber
+        var dataSTR = "SELECT * FROM Units WHERE id =? AND creationdate =?"
 
-        var pull = tx.executeSql(dataSTR)
+        var str = [userid,unitnumber]
+        var pull = tx.executeSql(dataSTR,str)
 
         if (pull.rows.length === 1) {
 
@@ -209,10 +211,10 @@ function loadLesson(userid, lessonnumber) {
 
     db.readTransaction(function (tx) {
 
-        var dataSTR = "SELECT * FROM Lessons WHERE id ='" + userid
-                + "' AND creationdate =" + lessonnumber
+        var dataSTR = "SELECT * FROM Lessons WHERE id =? AND creationdate =?"
 
-        var pull = tx.executeSql(dataSTR)
+        var str = [userid,lessonnumber]
+        var pull = tx.executeSql(dataSTR,str)
 
         if (pull.rows.length === 1) {
 
@@ -296,17 +298,14 @@ function editField(type, where, id, change) {
 
     db.transaction(function (tx) {
 
-        var dataSTR = "SELECT * FROM " + table + " WHERE id ='" + userID
-                + "' AND creationdate =" + id
-        var pull = tx.executeSql(dataSTR)
+        var dataSTR = "SELECT * FROM "+table+" WHERE id =? AND creationdate = ?"
+        var str = [userID,id]
+        var pull = tx.executeSql(dataSTR,str)
 
         if (pull.rows.length === 1) {
             console.log(pull.rows.item(0).name)
 
-            tx.executeSql(
-                        "UPDATE " + table + " SET " + field + "='" + change
-                        + "', editdate=" + d.getTime(
-                            ) + " WHERE id ='" + userID + "' AND creationdate =" + id)
+            tx.executeSql("UPDATE "+table+" SET ?=?, editdate=? WHERE id =? AND creationdate =?" ,[table,field,change,d.getTime(),userID,id])
         }
     })
 }
@@ -338,17 +337,24 @@ function pullField(type, where, id) {
     db.readTransaction(function (tx) {
 
         var dataSTR = ""
+        var str = []
+        var pull = ""
         switch (table) {
-        case "Subjects":dataSTR = "SELECT * FROM " + table + " WHERE schoolCode ='" + schoolCode
-                    + "' AND subjectNumber =" + id
+        case "Subjects":dataSTR = "SELECT * FROM "+table+" WHERE schoolCode =? AND subjectNumber = ?"
+                        str = [schoolCode,id]
+                     pull = tx.executeSql(dataSTR,str)
                  break
-        case "Users":dataSTR = "SELECT * FROM " + table + " WHERE  code ='" + id+"'"
+        case "Users":dataSTR = "SELECT * FROM "+table+" WHERE  code = ?"
+
+                    pull = tx.executeSql(dataSTR,id)
+
                 break
-        default: dataSTR = "SELECT * FROM " + table + " WHERE id ='" + userID
-                + "' AND creationdate =" + id
+        default: dataSTR = "SELECT * FROM "+table+" WHERE id= ? AND creationdate =?"
+                    str = [userID,id]
+                    pull = tx.executeSql(dataSTR,str)
+
             break
         }
-        var pull = tx.executeSql(dataSTR)
 
         if (pull.rows.length === 1) {
             switch (type) {
@@ -405,6 +411,9 @@ function pullField(type, where, id) {
             switch (id) {
             case "12":
                 switch (type) {
+                case "Title":
+                    returned = "Lunch"
+                    break
                 case "Name":
                     returned = "Lunch"
                     break
@@ -418,6 +427,9 @@ function pullField(type, where, id) {
                 break
             case "10":
                 switch (type) {
+                case "Title":
+                    returned = "Read to Self"
+                    break
                 case "Name":
                     returned = "Read to Self"
                     break
@@ -431,6 +443,9 @@ function pullField(type, where, id) {
                 break
             case "8":
                 switch (type) {
+                case "Title":
+                    returned = "P.E."
+                    break
                 case "Name":
                     returned = "P.E."
                     break

@@ -340,7 +340,7 @@ Item {
             }
             Rectangle {
 
-                anchors.horizontalCenter: controlArea.horizontalCenter
+
                 width: controlArea.width * 0.97
                 height: 2
                 color: seperatorColor
@@ -366,7 +366,7 @@ Item {
             Rectangle {
                 anchors.top: parent.bottom
                 anchors.topMargin: parent.height * 0.04
-                anchors.horizontalCenter: controlArea.horizontalCenter
+
                 width: controlArea.width * 0.97
                 height: 2
                 color: seperatorColor
@@ -537,7 +537,7 @@ Item {
 
                     Rectangle {
 
-                        anchors.horizontalCenter: instructionsArea.horizontalCenter
+
                         width: instructionsArea.width * 0.95
                         height: 2
                         color: seperatorColor
@@ -645,7 +645,7 @@ Item {
 
                     Rectangle {
 
-                        anchors.horizontalCenter: guidedQuestionArea.horizontalCenter
+
                         width: guidedQuestionArea.width * 0.95
                         height: 2
                         color: seperatorColor
@@ -752,7 +752,7 @@ Item {
                     }
 
                     Rectangle {
-                        anchors.horizontalCenter: resourcesArea.horizontalCenter
+
                         width: resourcesArea.width * 0.95
                         height: 2
                         color: seperatorColor

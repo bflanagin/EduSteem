@@ -4,13 +4,13 @@ function load_Day(month, day, weekday) {
     db.readTransaction(function (tx) {
 
         var num = 0
-        var dataSTR = "SELECT day FROM Schedule WHERE schoolcode ='"
-                + schoolCode + "' AND month =" + month
-        var pull = tx.executeSql(dataSTR)
-
+        var dataSTR = "SELECT day FROM Schedule WHERE schoolcode =? AND month =?"
+        var str = [schoolCode,month]
+        var pull = tx.executeSql(dataSTR,str)
         while (pull.rows.length > num) {
 
             if (pull.rows.item(num).day.split(":")[0] === day) {
+
                 dayList.append({
                                    "name": pull.rows.item(num).day.split(":")[1]
                                })
@@ -20,27 +20,24 @@ function load_Day(month, day, weekday) {
                 var week = (weekday % 7) + 1
 
                 for (var classnum = 0; classnum < (classes.length - 1); classnum = classnum + 1) {
+
                     if (selected_month === month || educator === "login") {
 
                         var coursenumber = classes[classnum].split(
                                     ":")[1].split(",")[0]
 
-                        if (classes[classnum].split(":")[1].split(
-                                    ",")[week] === "true") {
-
-                            var subject = Courses.pullField(
-                                                             "Subject",
-                                                             "course",
-                                                             coursenumber)
+                        if (classes[classnum].split(":")[1].split(",")[week] === "true") {
+                            console.log(classes[classnum].split(":")[1].split(",")[week])
+                            console.log(coursenumber)
+                           var subject = Courses.pullField("Subject","course",coursenumber)
 
                             var color = "gray"
 
                             if (subject !== "") {
 
-                                var getSubjectInfo = "SELECT * FROM Subjects WHERE schoolCode='"
-                                        + schoolCode + "' AND subjectNumber=" + subject
-
-                                var info = tx.executeSql(getSubjectInfo)
+                                var getSubjectInfo = "SELECT * FROM Subjects WHERE schoolCode=? AND subjectNumber=?"
+                                var subStr = [schoolCode,subject]
+                                var info = tx.executeSql(getSubjectInfo,subStr)
 
                                 if (info.rows.length === 1) {
                                     if (info.rows.item(
@@ -51,13 +48,10 @@ function load_Day(month, day, weekday) {
                             }
 
                             Courses.lessonControlADD(coursenumber)
-
+                                var coursename = Courses.pullField("Name","course",coursenumber)
                             dayList.append({
                                                "coursenumber": coursenumber,
-                                               "name": Courses.pullField(
-                                                                 "Name",
-                                                                 "course",
-                                                                 coursenumber),
+                                               "name": coursename,
                                                "coursecolor": color
                                            })
                         }
@@ -76,10 +70,9 @@ function load_Classes(month, day) {
     daysClasses.clear()
     db.readTransaction(function (tx) {
 
-        var dataSTR = "SELECT * FROM Schedule WHERE schoolcode ='" + schoolCode
-                + "' AND month=" + month
-
-        var pull = tx.executeSql(dataSTR)
+        var dataSTR = "SELECT * FROM Schedule WHERE schoolcode =? AND month= ?"
+        var str = [schoolCode,month]
+        var pull = tx.executeSql(dataSTR,str)
 
         if (pull.rows.length === 1) {
             var day = pull.rows.item(0).day.split(";")
@@ -131,10 +124,10 @@ function load_Class(classNum, month) {
 
     db.readTransaction(function (tx) {
 
-        var dataSTR = "SELECT * FROM Schedule WHERE schoolcode ='" + schoolCode
-                + "' AND month=" + month
+        var dataSTR = "SELECT * FROM Schedule WHERE schoolcode =? AND month=?"
 
-        var pull = tx.executeSql(dataSTR)
+        var str = [schoolCode,month]
+        var pull = tx.executeSql(dataSTR,str)
         var days = pull.rows.item(0).day.split(";")
         var num = 0
 
@@ -201,9 +194,10 @@ function move_Class(month,fullday,direction) {
 
 
      db.transaction(function (tx) {
-         var dataSTR = "SELECT * FROM Schedule WHERE schoolcode ='" + schoolCode
-                 + "' AND month=" + month
-                var pull = tx.executeSql(dataSTR)
+         var dataSTR = "SELECT * FROM Schedule WHERE schoolcode =? AND month=?"
+
+                var str = [schoolCode,month]
+                var pull = tx.executeSql(dataSTR,str)
 
                 if(pull.rows.length === 1) {
 
@@ -239,20 +233,18 @@ function save_schedule(month, day, repeatMode, editMode, movement) {
                                 ), d.getTime()]
                 var dtable = "INSERT INTO Schedule VALUES(?,?,?,?,?,?,?)"
 
-                var dataSTR = "SELECT * FROM Schedule WHERE schoolcode ='"
-                        + schoolCode + "'AND month=" + month
+                var dataSTR = "SELECT * FROM Schedule WHERE schoolcode =? AND month=?"
+                var str = [schoolCode,month]
+                var pull = tx.executeSql(dataSTR,str)
 
-                var pull = tx.executeSql(dataSTR)
                 if (pull.rows.length !== 1) {
                     tx.executeSql(dtable, data)
                 } else {
                     var daysTasks = pull.rows.item(0).day
 
                     if (daysTasks.search(day.split(":")[1]) === -1) {
-                        tx.executeSql("UPDATE Schedule SET day='" + daysTasks
-                                      + day + ";' , editdate =" + d.getTime(
-                                          ) + " WHERE schoolcode ='"
-                                      + schoolCode + "' AND month =" + month)
+                        tx.executeSql("UPDATE Schedule SET day=? , editdate =? WHERE schoolcode = ? AND month = ?",[daysTasks
+                                      + day + ";", d.getTime(),schoolCode,month])
                     } else {
                         console.log("Class already added")
                     }
@@ -276,10 +268,9 @@ function save_schedule(month, day, repeatMode, editMode, movement) {
                                     ), d.getTime()]
                     var dtable = "INSERT INTO Schedule VALUES(?,?,?,?,?,?,?)"
 
-                    var dataSTR = "SELECT * FROM Schedule WHERE schoolcode ='"
-                            + schoolCode + "' AND month=" + monthnum
-
-                    var pull = tx.executeSql(dataSTR)
+                    var dataSTR = "SELECT * FROM Schedule WHERE schoolcode =? AND month=?"
+                    var str = [schoolCode,monthnum]
+                    var pull = tx.executeSql(dataSTR,str)
                     if (pull.rows.length === 0) {
                         tx.executeSql(dtable, data)
                     } else {
@@ -305,15 +296,15 @@ function save_schedule(month, day, repeatMode, editMode, movement) {
                             ), d.getTime()]
             var dtable = "INSERT INTO Schedule VALUES(?,?,?,?,?,?,?)"
 
-            var dataSTR = "SELECT * FROM Schedule WHERE schoolcode ='"
-                    + schoolCode + "' AND month=" + month
-
-            var pull = tx.executeSql(dataSTR)
+            var dataSTR = "SELECT * FROM Schedule WHERE schoolcode =? AND month=?"
+            var str = [schoolCode,month]
+            var pull = tx.executeSql(dataSTR,str)
             var daysTasks = pull.rows.item(0).day.split(";")
             var classesBefore = []
             var classesAfter = []
             var before = 0
             var after = 0
+            var newday = ""
             while (before < daysTasks.length - 1) {
 
                 if (daysTasks[before].split(":")[1].split(
@@ -330,16 +321,13 @@ function save_schedule(month, day, repeatMode, editMode, movement) {
                 after = after + 1
             }
             if (repeatMode !== 0) {
+                 newday =classesBefore.join(";") + ";" + day + ";" + classesAfter.join(";") + ";"
                 tx.executeSql(
-                            "UPDATE Schedule SET day='" + classesBefore.join(
-                                ";") + ";" + day + ";" + classesAfter.join(";")
-                            + ";' , editdate =" + d.getTime(
-                                ) + " WHERE schoolcode ='" + schoolCode + "' AND month =" + month)
+                            "UPDATE Schedule SET day=? , editdate =? WHERE schoolcode =? AND month = ?",[newday,d.getTime(),schoolCode,month])
             } else {
+                 newday = classesBefore.join(";") + ";" + classesAfter.join(";") + ";"
                 tx.executeSql(
-                            "UPDATE Schedule SET day='" + classesBefore.join(
-                                ";") + ";" + classesAfter.join(";") + ";' , editdate =" + d.getTime(
-                                ) + " WHERE schoolcode ='" + schoolCode + "' AND month =" + month)
+                            "UPDATE Schedule SET day=? , editdate =? WHERE schoolcode =? AND month =?",[newday, d.getTime(),schoolCode,month])
             }
         })
     }
