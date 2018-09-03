@@ -719,19 +719,22 @@ function lessonControlUpdate(lessonID, status) {
         check = tx.executeSql("SELECT * FROM Lesson_Control WHERE lessonID= ?",
                               [lessonID])
 
+        if(status === 1) {
+            var insession = tx.executeSql("SELECT * FROM Lesson_Control WHERE status= 1 ")
+            var repeats = 0
+            while(insession.rows.length > repeats) {
+                var lesson = insession.rows.item(repeats).lessonID
+                tx.executeSql("UPDATE Lesson_Control SET status = 0 WHERE lessonID=?",[lesson])
+                repeats = repeats + 1
+            }
+
+        }
+
         if (check.rows.length === 1) {
 
             data = [status, userCode, d.getTime(), lessonID]
 
             dataSTR = "UPDATE Lesson_Control SET status = ?, educatorcode =? , editdate= ? WHERE lessonID= ?"
-
-            tx.executeSql(dataSTR, data)
-
-        } else if (check.rows.length === 0) {
-
-            data = [status, userCode, d.getTime(), lessonID]
-
-            dataSTR = "INSERT INTO Lesson_Control VALUES(?,?,?,?)"
 
             tx.executeSql(dataSTR, data)
 
