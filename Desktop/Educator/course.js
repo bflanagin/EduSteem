@@ -305,7 +305,7 @@ function editField(type, where, id, change) {
         if (pull.rows.length === 1) {
             console.log(pull.rows.item(0).name)
 
-            tx.executeSql("UPDATE "+table+" SET ?=?, editdate=? WHERE id =? AND creationdate =?" ,[table,field,change,d.getTime(),userID,id])
+            tx.executeSql("UPDATE "+table+" SET "+field+"=?, editdate=? WHERE id =? AND creationdate =?" ,[change,d.getTime(),userID,id])
         }
     })
 }
@@ -798,4 +798,92 @@ function lessonControlNext(type) {
 return returned
 }
 
+function lessonCopy(unitNumber,lesson) {
+
+    var d = new Date()
+    var copied = []
+
+   db.transaction(function (tx) {
+       var unit = tx.executeSql("SELECT creationdate FROM Lessons WHERE unitnumber =?",[unitNumber])
+       var count = unit.rows.length
+
+    var pull = tx.executeSql("SELECT * FROM Lessons WHERE creationdate = ?",[lesson])
+
+       if(pull.rows.length === 1) {
+
+           copied = [pull.rows.item(0).id,
+            pull.rows.item(0).educatorID,
+            pull.rows.item(0).published,
+            pull.rows.item(0).coursenumber,
+            pull.rows.item(0).unitnumber ,
+            pull.rows.item(0).name+"-Copy-",
+            count ,
+            pull.rows.item(0).duration ,
+            pull.rows.item(0).about ,
+            pull.rows.item(0).objective ,
+            pull.rows.item(0).supplies ,
+            pull.rows.item(0).resources ,
+            pull.rows.item(0).guidingQuestions ,
+            pull.rows.item(0).lessonSequence ,
+            pull.rows.item(0).studentProduct ,
+            pull.rows.item(0).reviewQuestions ,
+            d.getTime() ,
+            d.getTime()]
+
+             var dtable = "INSERT INTO Lessons VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+              tx.executeSql(dtable,copied)
+       }
+   })
+
+    loadLessons(userID,unitNumber)
+}
+
+function lessonDelete(unitNumber,lesson) {
+    db.transaction(function (tx) {
+
+        var pull = tx.executeSql("SELECT * FROM Lessons WHERE creationdate = ?",[lesson])
+
+        var dtable = "DELETE FROM Lessons WHERE creationdate = ?"
+    if(pull.rows.length === 1) {
+        tx.executeSql(dtable,lesson)
+    }
+
+    })
+
+    loadLessons(userID,unitNumber)
+}
+
+function lessonMove(unitNumber,lesson,direction) {
+    var moveit = 0
+    if(direction === "up") {
+        moveit = -1
+    } else {
+        moveit = 1
+    }
+
+    db.transaction(function (tx) {
+
+        var unit = tx.executeSql("SELECT creationdate FROM Lessons WHERE unitnumber =?",[unitNumber])
+        var count = unit.rows.length
+
+        var pull = tx.executeSql("SELECT * FROM Lessons WHERE creationdate = ?",[lesson])
+
+        if(pull.rows.length === 1) {
+            var currentNum = pull.rows.item(0).lessonNum
+            var newNum = 0
+            /* Lets keep it from moving the lesson into the negatives */
+            if(currentNum + moveit > 0) {
+                newNum = currentNum + moveit
+            } else {
+                newNum = currentNum
+            }
+
+            tx.executeSql("UPDATE Lesson SET lessonNum= ? WHERE creationdate = ?",[newNum,lesson])
+
+        }
+
+    })
+
+    loadLessons(userID,unitNumber)
+}
 

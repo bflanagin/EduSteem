@@ -129,10 +129,9 @@ ESborder {
 
                         MarkDown {
                             id: objText
-                            //padding: 10
                             thedata: Scrubber.recoverSpecial(unitObjective)
                             width: parent.width * 0.98
-                            // wrapMode: Text.WordWrap
+
                         }
                     }
                     Image {
@@ -184,11 +183,9 @@ ESborder {
 
                         MarkDown {
                             id: aboutText
-
-                            //padding: 10
                             thedata: Scrubber.recoverSpecial(unitAbout)
                             width: parent.width * 0.98
-                            //wrapMode: Text.WordWrap
+
                         }
                     }
                     Image {
@@ -352,8 +349,7 @@ ESborder {
                             MouseArea {
                                 anchors.fill: parent
                                 onClicked: {
-                                    lessonEdit.lessonNumber = cdate
-                                    lessonEdit.state = "Active"
+                                    Courses.lessonCopy(unitNumber,cdate)
                                 }
                             }
                         }
@@ -365,8 +361,7 @@ ESborder {
                             MouseArea {
                                 anchors.fill: parent
                                 onClicked: {
-                                    lessonEdit.lessonNumber = cdate
-                                    lessonEdit.state = "Active"
+                                    Courses.lessonDelete(unitNumber,cdate)
                                 }
                             }
                         }
