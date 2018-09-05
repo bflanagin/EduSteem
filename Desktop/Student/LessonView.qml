@@ -96,6 +96,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
+        color:"#E0E0E0"
     }
 
     TopBar {
@@ -230,6 +231,17 @@ Item {
                      }
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
+            enabled: visible
+        }
+
+        Weekly_Review {
+            visible: if (lessonSP.split("::")[1] === "WeeklyReview") {
+                         true
+                     } else {
+                         false
+                     }
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top:parent.top
             enabled: visible
         }
     }

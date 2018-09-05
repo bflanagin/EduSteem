@@ -487,6 +487,9 @@ function pullAssignmentTypes(category) {
     case "Reading":
         assSelect = ["Simple", "Book+Notes", "Book+Questions"]
         break
+    case "Special":
+        assSelect = ["Project","WeeklyReview"]
+        break
     default:
         assSelect = []
         break
@@ -565,6 +568,16 @@ function assignmentInfo(category, type) {
             break
         }
         break
+    case "Special":
+        switch(type) {
+            case "Project": theinfo ="No info"
+            break
+            case "WeeklyReview": theinfo ="Weekly Review"
+            break
+          }
+          break
+
+
     default:
         switch (type) {
         default:

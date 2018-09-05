@@ -113,5 +113,6 @@
         <file>icons/Audio.svg</file>
         <file>icons/trash.svg</file>
         <file>icons/copy.svg</file>
+        <file>Templates/Weekly_Review.qml</file>
     </qresource>
 </RCC>
