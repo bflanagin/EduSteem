@@ -291,7 +291,7 @@ Item {
 
                     Text {
                         id: dayText
-                        text: model.day
+                        text: model.day + " "
                         color: model.day === theday ? seperatorColor : "black"
                         font.pointSize: 8
                         font.bold: true
@@ -323,7 +323,6 @@ Item {
                                 id: classname
                                 anchors.verticalCenter: parent.verticalCenter
                                 text: name
-
                                 width: parent.width
                                 wrapMode: Text.WordWrap
                                 maximumLineCount: 1
@@ -336,8 +335,9 @@ Item {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
+                        selected_dow = calNum % 7
                         theday = model.day
-                        selected_dow = calNum
+
 
                     }
                 }

@@ -22,7 +22,7 @@ ESborder {
     property real itemId: 0
     property string existing: ""
 
-    property var assType: ["None", "Journaling", "Writing", "Reading", "Web", "Video","Offline Work"]
+    property var assType: ["None", "Journaling", "Writing", "Reading", "Web", "Video","Special","Offline Work"]
     property var assSelect: []
 
     property string preview: ""
@@ -241,6 +241,18 @@ ESborder {
 
                 Video_Notes {
                     visible: if (templatePicker.currentText === "Video" && preview === "Video+Notes") {
+                                 true
+                             } else {
+                                 false
+                             }
+                    width: parent.width * 0.98
+                    height: parent.height * 0.70
+                    anchors.centerIn: parent
+                    clip:true
+                    enabled: false
+                }
+                Weekly_Review {
+                    visible: if (templatePicker.currentText === "Special" && preview === "WeeklyReview") {
                                  true
                              } else {
                                  false

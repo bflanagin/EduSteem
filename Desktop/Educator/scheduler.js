@@ -65,7 +65,6 @@ function load_Day(month, day, weekday) {
 }
 
 function load_Classes(month, day) {
-    console.log("pulling in list for: "+(selected_dow % 7) + 1)
 
     daysClasses.clear()
     db.readTransaction(function (tx) {
@@ -81,18 +80,28 @@ function load_Classes(month, day) {
 
                 if (day[num].split(":")[0] === "0") {
                     var theclass = day[num].split(":")[1].split(",")
+
                     if (theclass[(selected_dow % 7)+1] !== "false") {
-                        if (Courses.pullField( "Name","lesson",
-                                      theclass[0]).length > 2) {
 
+                        var dayslesson = Courses.pullField( "Name","lesson",theclass[0])
 
+                        if(dayslesson.length < 2) {
+                            dayslesson = "No lesson assigned"
+                        }
+
+                        var lessonDuration = Courses.pullField("Duration","lesson",theclass[0])
+
+                        if(lessonDuration === "") {
+                            lessonDuration = 30
+                        }
 
                             daysClasses.append({
                                                    "cnum": theclass[0],
-                                                   "name": Courses.pullField(
-                                                               "Name",
-                                                               "lesson",
-                                                               theclass[0]),
+                                                   "course":Courses.pullField(
+                                                                "Name",
+                                                                "course",
+                                                                theclass[0]),
+                                                   "name": dayslesson,
                                                    "about": Courses.pullField(
                                                                 "About",
                                                                 "lesson",   
@@ -101,14 +110,11 @@ function load_Classes(month, day) {
                                                                "Unit",
                                                                "lesson",
                                                                theclass[0]),
-                                                   "duration": Courses.pullField(
-                                                                   "Duration",
-                                                                   "lesson",
-                                                                   theclass[0]),
+                                                   "duration": lessonDuration,
                                                    "fullday":day[num].split(":")[1],
                                                    "fulldata":pull.rows.item(0).day
                                                })
-                        }
+
                     } else {
 
                     }

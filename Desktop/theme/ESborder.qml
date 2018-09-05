@@ -83,7 +83,7 @@ Item {
         radius: 10.0
         samples: 17
         horizontalOffset: 1
-        verticalOffset: 4
+        verticalOffset: 2
         color: "#80000000"
         opacity: bgOpacity
     }
@@ -97,7 +97,7 @@ Item {
                     shadow.verticalOffset = 10
                     }
         onExited: {shadow.horizontalOffset = 1
-                    shadow.verticalOffset = 4
+                    shadow.verticalOffset = 2
                     }
     }
 }

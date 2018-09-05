@@ -13,6 +13,7 @@ import "../Educator/course.js" as Courses
 import "../General/network.js" as Network
 import "./student.js" as Students
 import "../Educator/scheduler.js" as Schedule
+import "../General/general.js" as Scripts
 
 Item {
     id: thisWindow
@@ -65,14 +66,19 @@ Item {
 
     state: "inActive"
 
-    onStateChanged: if(state == "Active") {
+    onStateChanged: if(thisWindow.state === "Active") {
                         Students.loadDay(d.getMonth(),d.getDate(),d.getDay(),studentCode)
                         Students.loadStudentProfile(studentCode)
+                        studentFirstName = Scripts.studentCred(
+                                    studentCode, " ",
+                                    "firstname")
+                        studentLastName = Scripts.studentCred(
+                                    studentCode, " ", "lastname")
                     }
 
     Timer {
         interval: 5000
-        running:if(thisWindow.state == "Active") {true} else {false}
+        running:if(thisWindow.state === "Active") {true} else {false}
         repeat: true
         onTriggered:  Students.loadDay(d.getMonth(),d.getDate(),d.getDay(),studentCode)
     }
@@ -117,7 +123,7 @@ Item {
         anchors.top: topBar.bottom
         anchors.topMargin: 5
         anchors.left: leftMenu.right
-        width: if (rightMenu.state == "Active") {
+        width: if (rightMenu.state === "Active") {
                    thisWindow.width - leftMenu.width
                } else {
                    thisWindow.width - leftMenu.width
@@ -128,7 +134,7 @@ Item {
 
         Column {
             id: pageColumn
-            width: if (rightMenu.state == "Active") {
+            width: if (rightMenu.state === "Active") {
                        (thisWindow.width - leftMenu.width) * 0.98
                    } else {
                        (thisWindow.width - leftMenu.width) * 0.98

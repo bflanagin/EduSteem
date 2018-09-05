@@ -169,7 +169,7 @@ function loadStudentProfile(studentCode) {
      db.readTransaction(function(tx) {
             var studentinfo = tx.executeSql(dataSTR,studentCode)
          if(studentinfo.rows.length === 1) {
-
+            console.log(studentinfo.rows.item(0).firstname)
             studentFirstName = studentinfo.rows.item(0).firstname
             studentLastName = studentinfo.rows.item(0).lastname
 
