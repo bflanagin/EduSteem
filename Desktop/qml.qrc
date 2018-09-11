@@ -114,5 +114,32 @@
         <file>icons/trash.svg</file>
         <file>icons/copy.svg</file>
         <file>Templates/Weekly_Review.qml</file>
+        <file>plugins/spellcheck.js</file>
+        <file>plugins/Dictionary in csv/A.csv</file>
+        <file>plugins/Dictionary in csv/B.csv</file>
+        <file>plugins/Dictionary in csv/C.csv</file>
+        <file>plugins/Dictionary in csv/D.csv</file>
+        <file>plugins/Dictionary in csv/E.csv</file>
+        <file>plugins/Dictionary in csv/F.csv</file>
+        <file>plugins/Dictionary in csv/G.csv</file>
+        <file>plugins/Dictionary in csv/H.csv</file>
+        <file>plugins/Dictionary in csv/I.csv</file>
+        <file>plugins/Dictionary in csv/J.csv</file>
+        <file>plugins/Dictionary in csv/K.csv</file>
+        <file>plugins/Dictionary in csv/L.csv</file>
+        <file>plugins/Dictionary in csv/M.csv</file>
+        <file>plugins/Dictionary in csv/N.csv</file>
+        <file>plugins/Dictionary in csv/O.csv</file>
+        <file>plugins/Dictionary in csv/P.csv</file>
+        <file>plugins/Dictionary in csv/Q.csv</file>
+        <file>plugins/Dictionary in csv/R.csv</file>
+        <file>plugins/Dictionary in csv/S.csv</file>
+        <file>plugins/Dictionary in csv/T.csv</file>
+        <file>plugins/Dictionary in csv/U.csv</file>
+        <file>plugins/Dictionary in csv/V.csv</file>
+        <file>plugins/Dictionary in csv/W.csv</file>
+        <file>plugins/Dictionary in csv/X.csv</file>
+        <file>plugins/Dictionary in csv/Y.csv</file>
+        <file>plugins/Dictionary in csv/Z.csv</file>
     </qresource>
 </RCC>

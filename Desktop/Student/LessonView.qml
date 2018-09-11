@@ -537,7 +537,7 @@ Item {
                     MarkDown {
                         anchors.left: parent.left
                         anchors.margins: 8
-                        width: parent.width
+                        width: parent.width * 0.90
                         thedata: lessonSP.split("::")[2]
                     }
                 }

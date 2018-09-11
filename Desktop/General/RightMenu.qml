@@ -120,8 +120,8 @@ Item {
 
         Column {
             id: studentInfo
-            visible: if (student.state == "Active"
-                             || studentHome.state == "Active") {
+            visible: if (student.state === "Active"
+                             || studentHome.state === "Active") {
                          true
                      } else {
                          false
@@ -492,7 +492,7 @@ Item {
                                         anchors.top: parent.top
                                         anchors.left: parent.left
                                         anchors.margins: 4
-                                        text: Scrubber.recoverSpecial(name)
+                                        text: Scrubber.recoverSpecial(course+": "+name)
                                         horizontalAlignment: Text.AlignLeft
                                         width: parent.width * 0.65
                                         wrapMode: Text.WordWrap
@@ -615,7 +615,7 @@ Item {
         Column {
             id: studentAAG
             visible: if (studentHome.state !== "Active"
-                             && studentRoster.state == "Active"
+                             && studentRoster.state === "Active"
                              && studentID != 0) {
                          true
                      } else {
@@ -745,12 +745,12 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             width: parent.width * 0.98
             visible: if (studentHome.state !== "Active"
-                             && yourProfile.state == "Active") {
+                             && yourProfile.state === "Active") {
                          true
                      } else {
                          false
                      }
-            onVisibleChanged: if (yourProfile.state == "Active") {
+            onVisibleChanged: if (yourProfile.state === "Active") {
                                   Steem.get_follow(steemAccount)
                                   Steem.get_info(steemAccount)
                               }
@@ -846,11 +846,11 @@ Item {
 
         Item {
             anchors.fill: parent
-            visible: if (studentHome.state == "Active"
-                             || yourProfile.state == "Active"
+            visible: if (studentHome.state === "Active"
+                             || yourProfile.state === "Active"
                              && steemAccount !== "") {
                          false
-                     } else if (yourProfile.state == "inActive") {
+                     } else if (yourProfile.state === "inActive") {
                          false
                      } else {
                          true

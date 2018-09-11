@@ -24,6 +24,7 @@ Item {
 
     property string studentFirstName: ""
     property string studentLastName: ""
+    property int ticktock: 0
 
 
     states: [
@@ -80,7 +81,11 @@ Item {
         interval: 5000
         running:if(thisWindow.state === "Active") {true} else {false}
         repeat: true
-        onTriggered:  Students.loadDay(d.getMonth(),d.getDate(),d.getDay(),studentCode)
+        onTriggered: {
+                    if(ticktock === 0) { ticktock = 1} else {ticktock = 0}
+            Students.loadDay(d.getMonth(),d.getDate(),d.getDay(),studentCode)
+
+        }
     }
 
     Rectangle {
@@ -163,13 +168,23 @@ Item {
                 width: parent.width * 0.99
                 height: thisWindow.height * 0.3
                 anchors.horizontalCenter: parent.horizontalCenter
+                property int timed:thisWindow.ticktock
 
-                title: Courses.pullField("Title","course",Courses.lessonControlNext("courseNumber"))
-                subjectNumber:Courses.pullField("Subject","course",Courses.lessonControlNext("courseNumber"))
-                curtainColor:Courses.pullField("Color","subject",subjectNumber)
-                unit: Courses.lessonControlNext("unitName")
-                lesson: Courses.lessonControlNext("lessonName")
-                lessonID: Courses.lessonControlNext("lessonNumber")
+                title : Courses.pullField("Title","course",Courses.lessonControlNext("courseNumber"))
+                subjectNumber : Courses.pullField("Subject","course",Courses.lessonControlNext("courseNumber"))
+                curtainColor : Courses.pullField("Color","subject",subjectNumber)
+                unit : Courses.lessonControlNext("unitName")
+                lesson : Courses.lessonControlNext("lessonName")
+                lessonID : Courses.lessonControlNext("lessonNumber")
+
+                onTimedChanged: {
+                    title = Courses.pullField("Title","course",Courses.lessonControlNext("courseNumber"))
+                    subjectNumber = Courses.pullField("Subject","course",Courses.lessonControlNext("courseNumber"))
+                    curtainColor = Courses.pullField("Color","subject",subjectNumber)
+                    unit = Courses.lessonControlNext("unitName")
+                    lesson = Courses.lessonControlNext("lessonName")
+                    lessonID = Courses.lessonControlNext("lessonNumber")
+                    }
             }
 
             Row {

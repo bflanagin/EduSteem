@@ -14,6 +14,20 @@ Item {
     property string img1:""
     property string img2:""
 
+    Timer {
+        id:checker
+        interval: 2000
+        repeat: false
+        running: true
+        onTriggered: {
+            var thestring = lessonNotes.getText(0,lessonNotes.length).replace(/<font color='red'>/g,"").replace(/<\/font>/g,"")
+            lessonUpdate = lessonUpdate = img1+","+img2+","+Scrubber.replaceSpecials(thestring)
+            lessonNotes.text = Spelling.checkspelling(thestring)
+            lessonNotes.cursorPosition = lessonNotes.length
+        }
+    }
+
+
 
     ESborder {
         id:imgbox1
@@ -95,7 +109,9 @@ Item {
                 height: noteBlock.height * 0.98
                 wrapMode: Text.WordWrap
                 selectByMouse: true
-                onTextChanged: lessonUpdate = img1+","+img2+","+Scrubber.replaceSpecials(text)
+                textFormat: Text.RichText
+
+                 Keys.onReleased: checker.restart()
             }
         }
 

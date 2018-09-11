@@ -10,6 +10,7 @@ import "../Educator/course.js" as Courses
 import "../plugins/text.js" as Scrubber
 import "../plugins/markdown.js" as MD
 import "./ipfs.js" as IPFS
+import "../plugins/spellcheck.js" as Spelling
 
 ESborder {
     id: thisWindow
@@ -37,6 +38,23 @@ ESborder {
                     default:
                         break
                     }
+
+
+
+
+    Timer {
+        id:checker
+        interval: 2000
+        repeat: false
+        running: true
+        onTriggered: {
+            var thestring = changeBox.getText(0,changeBox.length).replace(/<font color='red'>/g,"").replace(/<\/font>/g,"")
+            changeBox.text = Spelling.checkspelling(thestring)
+            changeBox.cursorPosition = changeBox.length
+        }
+    }
+
+
 
     Column {
         id: cColumn
@@ -136,9 +154,11 @@ ESborder {
                 horizontalAlignment: Text.AlignLeft
                 wrapMode: Text.WordWrap
                 selectByMouse: true
-                text: Scrubber.recoverSpecial(existing)
+                text: Spelling.checkspelling(Scrubber.recoverSpecial(existing))
                 padding: 5
+                textFormat: Text.RichText
 
+                 Keys.onReleased: checker.restart()
             }
 
             ListView {
