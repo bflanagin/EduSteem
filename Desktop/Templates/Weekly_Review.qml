@@ -1,10 +1,14 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.2
+import QtQuick.LocalStorage 2.0 as Sql
+import QtGraphicalEffects 1.0
+
 import "../theme"
 import "../plugins"
 import "../General"
 
 import "../General/general.js" as Scripts
+import "../Student/student.js" as Students
 
 Item {
     id:thisWindow
@@ -19,7 +23,7 @@ Item {
                                       "firstname") + " " + Scripts.studentCred(
                                       studentCode, " ", "lastname")
 
-
+                            Students.loadTasks(5)
                       }
 
     Rectangle {
@@ -30,6 +34,8 @@ Item {
         width:parent.width
         height:parent.height
         contentHeight: cColumn.height + 10
+        clip:true
+
     Column {
             id:cColumn
         width:parent.width
@@ -56,8 +62,10 @@ Item {
         model:completedAssignments
 
         delegate: ESborder {
+            anchors.horizontalCenter: parent.horizontalCenter
             width:parent.width * 0.98
             height:100
+
         }
     }
 

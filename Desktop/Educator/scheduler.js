@@ -27,8 +27,8 @@ function load_Day(month, day, weekday) {
                                     ":")[1].split(",")[0]
 
                         if (classes[classnum].split(":")[1].split(",")[week] === "true") {
-                            console.log(classes[classnum].split(":")[1].split(",")[week])
-                            console.log(coursenumber)
+                          //  console.log(classes[classnum].split(":")[1].split(",")[week])
+                          //  console.log(coursenumber)
                            var subject = Courses.pullField("Subject","course",coursenumber)
 
                             var color = "gray"
@@ -281,9 +281,9 @@ function save_schedule(month, day, repeatMode, editMode, movement) {
                         tx.executeSql(dtable, data)
                     } else {
                         var daysTasks = pull.rows.item(0).day
-                            console.log(daysTasks.search(day.split(":")[1]))
+
                         if (daysTasks.search(day.split(":")[1]) === -1) {
-                            console.log(monthnum,day)
+
                             tx.executeSql("UPDATE Schedule SET day=? , editdate =? WHERE schoolcode =? AND month = ?"
                                           ,[daysTasks + day+ ";", d.getTime(), schoolCode, monthnum])
                         } else {

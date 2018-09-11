@@ -177,6 +177,7 @@ Item {
                     onClicked: {
                         thisWindow.state = "inActive"
                         studentHome.state = "Active"
+
                     }
                 }
 

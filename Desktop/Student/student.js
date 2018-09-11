@@ -118,7 +118,7 @@ function loadTask(studentCode, taskId) {
 
 function updateTask(studentCode, taskId, state, qa) {
 
-    console.log(studentCode)
+    var d = new Date()
 
    /*
     These are the valid modes for the status
@@ -147,8 +147,14 @@ function updateTask(studentCode, taskId, state, qa) {
             tx.executeSql(table,data)
 
         } else {
-           table = "UPDATE Student_Assignments SET status=?, qalist=?, editdate=? WHERE studentCode=? AND lessonID=? "
-           data = [state,qa,d.getTime(),studentCode,taskId]
+            if(qa === "") {
+                table = "UPDATE Student_Assignments SET status=?, editdate=? WHERE studentCode=? AND lessonID=? "
+                data = [state,d.getTime(),studentCode,taskId]
+            } else {
+               table = "UPDATE Student_Assignments SET status=?, qalist=?, editdate=? WHERE studentCode=? AND lessonID=? "
+                data = [state,qa,d.getTime(),studentCode,taskId]
+            }
+
            tx.executeSql(table,data)
 
         }
@@ -207,7 +213,7 @@ function listNotes(schoolCode,studentID,lessonID) {
 
         var dataSTR = "SELECT * FROM Assignment_Notes WHERE lessonID =? AND studentCode=? AND schoolCode=?"
         var str = [lessonID,studentID,schoolCode]
-        var pull = tx.executeSql(dataSTR)
+        var pull = tx.executeSql(dataSTR,str)
 
 
         var num = 0
@@ -224,6 +230,35 @@ function listNotes(schoolCode,studentID,lessonID) {
 
             num = num + 1
         }
+
+    })
+
+}
+
+function loadTasks(status) {
+
+     db.readTransaction(function (tx) {
+    var num = 0
+    var dataSTR = "SELECT * FROM Student_Assignments WHERE studentCode= ? AND status= ?"
+    var str = [studentCode,status]
+    var pull = tx.executeSql(dataSTR,str)
+    var table = ""
+    var data = []
+
+    completedAssignments.clear()
+
+
+
+    while(pull.rows.length > num) {
+
+        console.log("from loadTasks "+pull.rows.item(num).lessonID)
+        completedAssignments.append({
+
+                                    num:num
+                                    })
+
+        num = num + 1
+    }
 
     })
 

@@ -18,6 +18,20 @@ Item {
         width:parent.width * 0.24
         height:parent.height * 0.50
 
+        Timer {
+            id:checker
+            interval: 2000
+            repeat: false
+            running: true
+            onTriggered: {
+                var thestring = lessonNotes.getText(0,lessonNotes.length).replace(/<font color='red'>/g,"").replace(/<\/font>/g,"")
+                lessonUpdate = Scrubber.replaceSpecials(thestring)
+                lessonNotes.text = Spelling.checkspelling(thestring)
+                lessonNotes.cursorPosition = lessonNotes.length
+            }
+        }
+
+
         Text {
             id: prompttitle
             anchors.top: parent.top
@@ -103,7 +117,9 @@ Item {
                 height: noteBlock.height * 0.98
                 wrapMode: Text.WordWrap
                 selectByMouse: true
-                onTextChanged: lessonUpdate = Scrubber.replaceSpecials(text)
+                textFormat: Text.RichText
+
+                 Keys.onReleased: checker.restart()
             }
         }
 

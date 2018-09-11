@@ -494,11 +494,11 @@ function sync(type, code) {
                         while (ids.length > num) {
                             var data = ids[num].split("::")[0]
                             var edate = ids[num].split("::")[1]
-                            console.log(data)
+                         //   console.log(data)
                             if (type === "Students") {
                                 pull = tx.executeSql("SELECT * FROM "+type+" WHERE code= ?",[data])
                             } else {
-                                console.log(type,data)
+                              //  console.log(type,data)
                                 pull = tx.executeSql("SELECT * FROM "+type+" WHERE creationdate=?",[data])
                             }
                             if (pull.rows.length === 0) {

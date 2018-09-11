@@ -22,6 +22,8 @@ import "./General/ipfs.js" as IPFS
 
 import "./Educator/course.js" as Courses
 
+import "./plugins/spellcheck.js" as Spelling
+
 Window {
     id: mainView
     visible: true
@@ -89,6 +91,7 @@ Window {
 
     property bool ipfsDaemon: false
     property string ipfsfile: ""
+
 
     property string monthselect: switch (d.getMonth()) {
                                  case 0:
@@ -162,7 +165,6 @@ Window {
         Standard.createddbs()
         Standard.loadschool(userID)
         ipfsdaemon.start("ipfs", ['daemon'])
-        console.log(d.getTime())
     }
 
     onNumberOfStudentsChanged: if (numberOfStudents == 0) {
