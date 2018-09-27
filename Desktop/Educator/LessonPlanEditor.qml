@@ -423,6 +423,7 @@ ESborder {
 
                     MarkDown {
                         id: sequenceText
+                        logit: 1
                         thedata: Scrubber.recoverSpecial(lessonSequence)
                         width: parent.width
                     }

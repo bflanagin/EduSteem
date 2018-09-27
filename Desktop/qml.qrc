@@ -141,5 +141,23 @@
         <file>plugins/Dictionary in csv/X.csv</file>
         <file>plugins/Dictionary in csv/Y.csv</file>
         <file>plugins/Dictionary in csv/Z.csv</file>
+        <file>icons/insert-link.svg</file>
+        <file>icons/insert-image.svg</file>
+        <file>icons/format-text-underline.svg</file>
+        <file>icons/format-text-strikethrough.svg</file>
+        <file>icons/format-text-italic.svg</file>
+        <file>icons/format-text-direction-rtl.svg</file>
+        <file>icons/format-text-direction-ltr.svg</file>
+        <file>icons/format-text-bold.svg</file>
+        <file>icons/format-justify-right.svg</file>
+        <file>icons/format-justify-left.svg</file>
+        <file>icons/format-justify-fill.svg</file>
+        <file>icons/format-justify-center.svg</file>
+        <file>icons/format-indent-more.svg</file>
+        <file>icons/format-indent-less.svg</file>
+        <file>icons/edit-paste.svg</file>
+        <file>Templates/FreePost.qml</file>
+        <file>theme/EditorOpts.qml</file>
+        <file>icons/table.svg</file>
     </qresource>
 </RCC>

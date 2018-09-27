@@ -33,7 +33,7 @@ Column {
     } */
 
     Item {
-        width:if(label === "") {thisWindow.height * 0.7} else {thisWindow.height * 0.4}
+        width:if(label === "") {thisWindow.height} else {thisWindow.height * 0.4}
         height:width
         anchors.horizontalCenter: parent.horizontalCenter
     Image {

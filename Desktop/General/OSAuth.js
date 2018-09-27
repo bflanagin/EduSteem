@@ -15,9 +15,9 @@ function oseed_auth(name, email, passphrase) {
                 console.log("Incorrect AppID")
             } else {
 
-                userid = http.responseText
-
-                message = userid
+                userID = http.responseText
+                console.log(userID)
+                message = userID
             }
         }
     }

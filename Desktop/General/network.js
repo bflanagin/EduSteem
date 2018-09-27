@@ -47,11 +47,12 @@ function checkOpenSeed(userid, code, editdate, type) {
 
                     if (parseInt(http.responseText.trim()) === 0) {
                         console.log("Sending " + type + " to Openseed: " + editdate)
+                        if(code !==0) {
                         sendToOpenSeed(userid, code, type)
-                    } else if (type === "Educator"
-                               && schoolSetup.state == "Active") {
+                        }
+                    } else if (type === "Educator" && schoolSetup.state === "Active") {
                         console.log("Moving to Retrieve")
-                        retrieveFromOpenSeed(userid, code, type)
+                        retrieveFromOpenSeed(userid, code, type, 0)
                     }
                 }
             }
@@ -60,8 +61,10 @@ function checkOpenSeed(userid, code, editdate, type) {
     http.open('POST', url.trim(), true)
 
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+
     http.send("devid=" + devId + "&appid=" + appId + "&userid=" + userid
               + "&code=" + code + "&editdate=" + editdate + "&type=" + type)
+
 }
 
 function sendToOpenSeed(userid, code, type) {
@@ -70,6 +73,7 @@ function sendToOpenSeed(userid, code, type) {
     var http = new XMLHttpRequest()
     var url = "https://openseed.vagueentertainment.com:8675/devs/Vag-01001011/vagEdu-053018/scripts/update.php"
     var pull = ""
+
 
     db.readTransaction(function (tx) {
 
@@ -103,27 +107,26 @@ function sendToOpenSeed(userid, code, type) {
                         "SELECT * FROM Schedule WHERE id= ? AND creationdate= ?",[userid,code])
             break
         case "Lesson_Control":
-            pull = tx.executeSql("SELECT * FROM Lesson_Control WHERE iid= ? AND creationdate= ?",[userid,code])
+            pull = tx.executeSql("SELECT * FROM Lesson_Control WHERE id= ? AND creationdate= ?",[userid,code])
+
             break
         case "Student_Assignments":
-            pull = tx.executeSql(
-                        "SELECT * FROM Student_Assignments WHERE creationdate=?" [code])
+            pull = tx.executeSql("SELECT * FROM Student_Assignments WHERE creationdate=?", [code])
             break
         case "Student_Daily_Review":
-            pull = tx.executeSql(
-                        "SELECT * FROM Student_Daily_Review WHERE creationdate=?" [code])
+            pull = tx.executeSql("SELECT * FROM Student_Daily_Review WHERE creationdate=?", [code])
             break
         case "Subjects":
             pull = tx.executeSql(
-                        "SELECT * FROM Subjects WHERE creationdate=?" [code])
+                        "SELECT * FROM Subjects WHERE creationdate=?", [code])
             break
         case "Media":
             pull = tx.executeSql(
-                        "SELECT * FROM Media WHERE creationdate=?" [code])
+                        "SELECT * FROM Media WHERE creationdate=?", [code])
             break
         case "Assignment_Notes":
             pull = tx.executeSql(
-                        "SELECT * FROM Assignment_Notes WHERE creationdate=?" [code])
+                        "SELECT * FROM Assignment_Notes WHERE creationdate=?", [code])
             break
         }
 
@@ -143,7 +146,7 @@ function sendToOpenSeed(userid, code, type) {
 
                         /* leaving this here for debugging purposes */
                         // console.log("From Sever on adding")
-                        //  console.log(http.responseText)
+                        // console.log(http.responseText)
                     }
                 }
             }
@@ -316,7 +319,8 @@ function retrieveFromOpenSeed(id, code, type, update) {
                                 break
                             default:
                                 pull = tx.executeSql(
-                                            "SELECT * FROM "+ +" WHERE creationdate=?",[type,id])
+                                            "SELECT * FROM "+type+" WHERE creationdate=?",[id.split("::")[0]])
+                                    console.log("Looking for "+id.split("::")[0]+ " in "+ type+" "+pull.rows.length)
                                 break
                             }
 
@@ -371,7 +375,7 @@ function retrieveFromOpenSeed(id, code, type, update) {
                                     case "Lesson_Control":
 
                                         tx.executeSql(
-                                                    "INSERT INTO Lesson_Control VALUES(?,?,?,?,?,?,?,?)",
+                                                   "INSERT INTO Lesson_Control VALUES(?,?,?,?,?,?,?,?)",
                                                     [userID, info[1], info[2], info[3], info[4], info[5], info[0], info[6]])
                                         break
                                     case "Student_Assignments":
@@ -488,17 +492,26 @@ function sync(type, code) {
 
                 db.readTransaction(function (tx) {
 
-                    var ids = http.responseText.split("\n")
+                    var sendnum = 0
+
+                    var locals = tx.executeSql("SELECT * FROM "+type+" WHERE 1")
+
+                    console.log(type+ " local: "+ locals.rows.length)
+
+
+                    var ids = http.responseText.trim().split("\n")
+
+                    console.log(type+ " server: "+ ids.length)
 
                     if (ids[0] !== ":0") {
                         while (ids.length > num) {
                             var data = ids[num].split("::")[0]
                             var edate = ids[num].split("::")[1]
-                         //   console.log(data)
+
                             if (type === "Students") {
                                 pull = tx.executeSql("SELECT * FROM "+type+" WHERE code= ?",[data])
                             } else {
-                              //  console.log(type,data)
+
                                 pull = tx.executeSql("SELECT * FROM "+type+" WHERE creationdate=?",[data])
                             }
                             if (pull.rows.length === 0) {
@@ -524,9 +537,27 @@ function sync(type, code) {
 
                             num = num + 1
                         }
+
+                        if(locals.rows.length > ids.length) {
+                                console.log(type+" more Local")
+
+                            while (locals.rows.length > sendnum) {
+
+                                if (type === "Students") {
+                                    sendToOpenSeed(userID,
+                                                   locals.rows.item(sendnum).code,
+                                                   type)
+                                } else {
+
+                                    sendToOpenSeed(userID, locals.rows.item(sendnum).creationdate, type)
+                                }
+
+                                sendnum = sendnum + 1
+                            }
+                        }
                     } else {
                         console.log("Checking for local data")
-                        var sendnum = 0
+
                         pull = tx.executeSql("SELECT * FROM "+type+" WHERE 1")
                         console.log("We have " + pull.rows.length + " " + type + " locally")
 

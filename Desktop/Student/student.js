@@ -46,27 +46,26 @@ function loadDay(month, day, weekday, studentCode) {
 
                             }
 
+                            var coursenumber = classes[classnum].split(":")[1].split(",")[0]
+
                             todaysClasses.append({
                                                      classtitle: Courses.pullField(
                                                                      "Title",
                                                                      "course",
-                                                                     classes[classnum].split(
-                                                                         ":")[1].split(
-                                                                         ",")[0]),
+                                                                     coursenumber),
                                                      classColor: color,
                                                      unitName: Courses.pullField(
                                                                    "Title",
                                                                    "unit",
-                                                                   classes[classnum].split(
-                                                                       ":")[1].split(
-                                                                       ",")[0]),
+                                                                   coursenumber),
                                                      lessonName: "",
                                                      discription: Courses.pullField(
                                                                       "Title",
                                                                       "course",
-                                                                      classes[classnum].split(
-                                                                          ":")[1].split(
-                                                                          ",")[0])
+                                                                      coursenumber),
+
+                                                     lessonid:Courses.lessonControlINFO(coursenumber,"lessonNumber","new")
+
                                                  })
                         }
                     }
@@ -80,14 +79,22 @@ function loadDay(month, day, weekday, studentCode) {
 
 function loadTask(studentCode, taskId) {
 
-    db.readTransaction(function (tx) {
+    var d = new Date()
+
+    switch(taskId) {
+    case 999:lessonSP = "Special::FreePost:::::"
+        break
+    case 998:lessonSP = "Special::FreePost:::::"
+        break
+    default:db.readTransaction(function (tx) {
 
         var dataSTR = "SELECT * FROM Lessons WHERE creationdate =?"
         var pull = tx.executeSql(dataSTR,taskId)
 
         if (pull.rows.length === 1) {
 
-            var d = new Date(pull.rows.item(0).creationdate)
+             d = new Date(pull.rows.item(0).creationdate)
+
             lessonAuthor = pull.rows.item(0).educatorID
             lessonPublished = pull.rows.item(0).published
             lessonName = pull.rows.item(0).name.replace(/_/g, " ")
@@ -99,7 +106,13 @@ function loadTask(studentCode, taskId) {
 
             lessonDate = d.toLocaleDateString()
 
-            lessonSP = Scrubber.recoverSpecial(pull.rows.item(0).studentProduct)
+            if(pull.rows.item(0).studentProduct.length > 1) {
+                lessonSP = Scrubber.recoverSpecial(pull.rows.item(0).studentProduct)
+
+            } else {
+                lessonSP = "Special::FreePost:::::"
+            }
+
         }
 
         var studentSTR = "SELECT * FROM Student_Assignments WHERE lessonID=? AND studentCode= ?"
@@ -113,6 +126,8 @@ function loadTask(studentCode, taskId) {
         }
 
     })
+
+    }
 
 }
 
@@ -175,7 +190,7 @@ function loadStudentProfile(studentCode) {
      db.readTransaction(function(tx) {
             var studentinfo = tx.executeSql(dataSTR,studentCode)
          if(studentinfo.rows.length === 1) {
-            console.log(studentinfo.rows.item(0).firstname)
+            //console.log(studentinfo.rows.item(0).firstname)
             studentFirstName = studentinfo.rows.item(0).firstname
             studentLastName = studentinfo.rows.item(0).lastname
 
@@ -251,7 +266,7 @@ function loadTasks(status) {
 
     while(pull.rows.length > num) {
 
-        console.log("from loadTasks "+pull.rows.item(num).lessonID)
+      //  console.log("from loadTasks "+pull.rows.item(num).lessonID)
         completedAssignments.append({
 
                                     num:num

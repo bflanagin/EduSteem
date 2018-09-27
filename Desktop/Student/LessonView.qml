@@ -91,7 +91,7 @@ Item {
         interval: 5000
         running:if(thisWindow.state === "Active") {true} else {false}
         repeat: true
-        onTriggered: Student.loadTask(studentCode, lessonID)
+        onTriggered: if (lessonID !== 0) {Student.loadTask(studentCode, lessonID)}
     }
 
     Rectangle {
@@ -236,6 +236,17 @@ Item {
 
         Weekly_Review {
             visible: if (lessonSP.split("::")[1] === "WeeklyReview") {
+                         true
+                     } else {
+                         false
+                     }
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top:parent.top
+            enabled: visible
+        }
+
+        FreePost {
+            visible: if (lessonSP.split("::")[1] === "FreePost") {
                          true
                      } else {
                          false

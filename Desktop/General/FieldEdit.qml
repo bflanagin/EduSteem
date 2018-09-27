@@ -23,9 +23,16 @@ ESborder {
     property real itemId: 0
     property string existing: ""
     property string newfile: ""
+    property string thestring: ""
+
+    property double oldpos: 0
 
     onStateChanged: if (state == "Active") {
                         existing = Courses.pullField(field, where, itemId)
+                        changeBox.text = Scrubber.recoverSpecial(existing)
+                    } else {
+                        thestring == ""
+                        changeBox.text = thestring
                     }
 
     onFieldChanged: switch (field) {
@@ -34,43 +41,40 @@ ESborder {
                         break
                     case "gq":
                         Courses.loadQuestions(0)
-                        break    
+                        break
                     default:
                         break
                     }
 
-
-
-
     Timer {
-        id:checker
+        id: checker
         interval: 2000
         repeat: false
         running: true
         onTriggered: {
-            var thestring = changeBox.getText(0,changeBox.length).replace(/<font color='red'>/g,"").replace(/<\/font>/g,"")
+            oldpos = changeBox.cursorPosition
+            thestring = changeBox.text
+            console.log(thestring)
             changeBox.text = Spelling.checkspelling(thestring)
-            changeBox.cursorPosition = changeBox.length
+            changeBox.cursorPosition = oldpos
         }
     }
-
-
 
     Column {
         id: cColumn
         width: parent.width * 0.75
         anchors.left: parent.left
         anchors.leftMargin: 10
-        spacing: 10
-        padding:10
+        spacing: 5
+        padding: 10
 
         Item {
-            width: parent.width
+            width: view.width
             height: title.height
 
             Text {
                 id: title
-                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.left: parent.left
                 text: switch (field) {
                       case "gq":
                           "Guiding Questions"
@@ -110,30 +114,30 @@ ESborder {
                     newQuestion.state = "Active"
                 }
             }
+
+            EditorOpts {
+                id: editorOpts
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+            }
         }
 
-        Rectangle {
-
-            width: parent.width * 0.99
-            anchors.horizontalCenter: parent.horizontalCenter
-            height: 3
-            color: seperatorColor
-        }
         ScrollView {
             id: view
             anchors.horizontalCenter: parent.horizontalCenter
             width: parent.width * 0.98
             clip: true
             height: switch (field) {
-                    case "Title": if(contentHeight > 10) {
-                        contentHeight + 10
+                    case "Title":
+                        if (contentHeight > 10) {
+                            contentHeight + 10
                         } else {
                             40
                         }
 
                         break
                     default:
-                        thisWindow.height * 0.75
+                        thisWindow.height * 0.85
                         break
                     }
             background: ESTextField {
@@ -141,6 +145,8 @@ ESborder {
 
             TextArea {
                 id: changeBox
+
+                property bool controlDown: false
 
                 visible: switch (thisWindow.field) {
                          case "rq":
@@ -154,11 +160,43 @@ ESborder {
                 horizontalAlignment: Text.AlignLeft
                 wrapMode: Text.WordWrap
                 selectByMouse: true
-                text: Spelling.checkspelling(Scrubber.recoverSpecial(existing))
-                padding: 5
-                textFormat: Text.RichText
 
-                 Keys.onReleased: checker.restart()
+                text: Scrubber.recoverSpecial(existing)
+                padding: 5
+
+                Keys.onPressed: if (event.key === Qt.Key_Control) {
+                                    controlDown = true
+                                }
+                Keys.onReleased: {
+                    if (controlDown === true) {
+                        switch (event.key) {
+                        case Qt.Key_B:
+                            if (editorOpts.bold === true) {
+                                editorOpts.bold = false
+                            } else {
+                                editorOpts.bold = true
+                            }
+                            break
+                        case Qt.Key_I:
+                            if (editorOpts.italic === true) {
+                                editorOpts.italic = false
+                            } else {
+                                editorOpts.italic = true
+                            }
+                            break
+                        case Qt.Key_T:
+                            if (editorOpts.strike === true) {
+                                editorOpts.strike = false
+                            } else {
+                                editorOpts.strike = true
+                            }
+                            break
+                        }
+                        controlDown = false
+                    }
+
+                    // checker.restart()
+                }
             }
 
             ListView {
@@ -237,7 +275,8 @@ ESborder {
             }
         }
 
-        Rectangle {
+
+        /* Rectangle {
             anchors.left: parent.left
             anchors.leftMargin: 20
             width: parent.width
@@ -253,7 +292,7 @@ ESborder {
                 background: ESTextField {
                 }
             }
-        }
+        } */
     }
 
     Rectangle {
@@ -311,7 +350,7 @@ ESborder {
                 switch (field) {
                 case "Title":
                     Courses.editField(field, where, itemId,
-                                      changeBox.text.replace(/ /g, "_").trim())
+                                      Scrubber.replaceSpecials(changeBox.text))
                     break
                 case "rq":
                     Courses.editField(field, where, itemId,
@@ -320,6 +359,7 @@ ESborder {
                 default:
                     Courses.editField(field, where, itemId,
                                       Scrubber.replaceSpecials(changeBox.text))
+
                     break
                 }
 
@@ -348,7 +388,6 @@ ESborder {
         visible: false
     }
 
-
     Process {
         id: ipfs
         property string type: "general"
@@ -356,8 +395,8 @@ ESborder {
         property string media: "IMG"
         onReadyRead: {
             newfile = readAll()
-            changeBox.text = changeBox.text+"\n !["+media+"]("+IPFS.mediaAdd(newfile,type)+")"
+            changeBox.text = changeBox.text + "\n ![" + media + "](" + IPFS.mediaAdd(
+                        newfile, type) + ")"
         }
     }
-
 }

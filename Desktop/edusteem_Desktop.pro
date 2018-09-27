@@ -37,7 +37,10 @@ DISTFILES += \
     libs/libssl.so.1.0.0 \
     icon.png \
     eduSteem.Desktop \
-    removedCode
+    removedCode \
+    Templates/Weekly_Review.qml \
+    Templates/Weekly_Review.qml \
+    plugins/spellcheck.js
 
 HEADERS += \
     io.h \

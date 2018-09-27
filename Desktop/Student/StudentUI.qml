@@ -238,6 +238,7 @@ Item {
                         title: classtitle
                         unit: unitName
                         lesson: lessonName
+                        lessonID : lessonid
                     }
                 }
             }
@@ -281,9 +282,65 @@ Item {
                         title: classtitle
                         unit: unitName
                         lesson: lessonName
+                        lessonID : lessonid
                     }
                 }
             }
+
+            Text {
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                font.pointSize: 18
+                text: qsTr("Publish")
+                font.bold: true
+                width: parent.width * 0.5
+                horizontalAlignment: Text.AlignLeft
+            }
+            Rectangle {
+                color: seperatorColor
+                width: parent.width * 0.98
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                height: 2
+            }
+            Row {
+               // width: parent.width * 0.99
+                height: thisWindow.height * 0.3
+                anchors.horizontalCenter: parent.horizontalCenter
+                spacing:10
+            Card {
+                width: thisWindow.width * 0.46
+                height: thisWindow.height * 0.3
+
+                property int timed:thisWindow.ticktock
+
+                title : "Weekly Report" //Courses.pullField("Title","course",Courses.lessonControlNext("courseNumber"))
+                subjectNumber : "999" //Courses.pullField("Subject","course",Courses.lessonControlNext("courseNumber"))
+                curtainColor : "darkblue" //Courses.pullField("Color","subject",subjectNumber)
+              //  unit : //Courses.lessonControlNext("unitName")
+               // lesson : //Courses.lessonControlNext("lessonName")
+                //lessonID : //Courses.lessonControlNext("lessonNumber")
+                lessonID : 999
+
+            }
+
+            Card {
+                width: thisWindow.width * 0.46
+                height: thisWindow.height * 0.3
+
+                property int timed:thisWindow.ticktock
+
+                title : "Free Post" //Courses.pullField("Title","course",Courses.lessonControlNext("courseNumber"))
+                subjectNumber : "998" //Courses.pullField("Subject","course",Courses.lessonControlNext("courseNumber"))
+                curtainColor : "lightblue" //Courses.pullField("Color","subject",subjectNumber)
+              //  unit : //Courses.lessonControlNext("unitName")
+               // lesson : //Courses.lessonControlNext("lessonName")
+                lessonID : 998
+            }
+
+            }
+
+
         }
 
     }

@@ -1,11 +1,13 @@
 function checkspelling(string) {
     var num = 0
     var returned = ""
-    var words = string.trim().split(" ")
+    var words = string.split(" ")
     var checked = []
 
+    console.log(words)
+
     while (words.length > num) {
-        var newWord = words[num].toUpperCase()
+        var newWord = words[num].toUpperCase().trim()
 
         var url = ""
         var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
@@ -66,7 +68,7 @@ function checkspelling(string) {
                     if (foundAt !== -1) {
                         checked.push(words[num])
                     } else {
-                        checked.push("<font color='red'>" + words[num] + "</font>")
+                        checked.push(">" + words[num] + "<")
                     }
                 }
             }

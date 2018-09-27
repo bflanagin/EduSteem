@@ -5,6 +5,7 @@ import "../plugins"
 import "../General"
 
 import "../plugins/text.js" as Scrubber
+import "../plugins/spellcheck.js" as Spelling
 
 Item {
     id: thisWindow
