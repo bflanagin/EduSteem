@@ -131,7 +131,7 @@ Item {
                         controlDown = false
                     }
 
-                    // checker.restart()
+
                 }
             }
         }
@@ -154,9 +154,8 @@ Item {
 
             MarkDown {
                 id:formatedView
-                width: noteBlock.width * 0.48
-                //height: noteBlock.height * 0.50
-                thedata: changeBox.text
+                 width: noteBlock.width * 0.48
+                 thedata: changeBox.text
             }
         }
 

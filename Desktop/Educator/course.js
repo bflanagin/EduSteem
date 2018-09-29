@@ -650,7 +650,7 @@ function lessonControlINFO(course, type, status, lessonID) {
 
         if (check.rows.length === 0) {
 
-
+            lessonControlADD(course)
 
             switch (type) {
             case "lessonNumber":
@@ -724,8 +724,8 @@ function lessonControlADD(course) {
                 var dataSTR = "INSERT INTO Lesson_Control VALUES(?,?,?,?,?,?,?,?)"
 
                 var exists = tx.executeSql(
-                            "SELECT coursenumber,lessonID FROM Lesson_Control WHERE lessonID=?",
-                            [lessonID])
+                            "SELECT coursenumber,lessonID FROM Lesson_Control WHERE coursenumber=? AND lessonID=?",
+                            [course,lessonID])
 
                 if (userID.length > 4 && userCode.length > 4
                         && exists.rows.length === 0) {
