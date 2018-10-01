@@ -78,7 +78,7 @@ function loadCourses(userid) {
                                   "edate": pull.rows.item(num).editdate
                               })
 
-            lessonControlADD(pull.rows.item(num).creationdate)
+            //lessonControlADD(pull.rows.item(num).creationdate)
 
             num = num + 1
         }
@@ -650,7 +650,7 @@ function lessonControlINFO(course, type, status, lessonID) {
 
         if (check.rows.length === 0) {
 
-
+            lessonControlADD(course)
 
             switch (type) {
             case "lessonNumber":
@@ -701,6 +701,10 @@ function lessonControlADD(course) {
     var returned = 0
     var d = new Date()
 
+    /* Check network first */
+
+
+
     db.transaction(function (tx) {
 
         check = tx.executeSql("SELECT * FROM Lessons WHERE coursenumber= ?",
@@ -720,8 +724,8 @@ function lessonControlADD(course) {
                 var dataSTR = "INSERT INTO Lesson_Control VALUES(?,?,?,?,?,?,?,?)"
 
                 var exists = tx.executeSql(
-                            "SELECT coursenumber FROM Lesson_Control WHERE lessonID=?",
-                            [lessonID])
+                            "SELECT coursenumber,lessonID FROM Lesson_Control WHERE coursenumber=? AND lessonID=?",
+                            [course,lessonID])
 
                 if (userID.length > 4 && userCode.length > 4
                         && exists.rows.length === 0) {

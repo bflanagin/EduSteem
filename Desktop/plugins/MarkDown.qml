@@ -9,8 +9,8 @@ Item {
     id: thisWindow
     property string thedata: ""
     height: markeddownList.height
-
-    onThedataChanged: MarkDown.md2qml(thedata)
+    property int logit: 0
+    onThedataChanged: MarkDown.md2qml(thedata,logit)
 
     ListView {
         id: markeddownList
@@ -88,17 +88,24 @@ Item {
             }
 
              /* If the data is --- the Code line Item is displayed */
-            Rectangle {
+            Item {
                 id: seperator
                 anchors.centerIn: parent
                 width: parent.width
-                height: 2
-                color: seperatorColor
+                height: 6
+
                 visible: if (type == "seperator") {
                              true
                          } else {
                              false
                          }
+
+                Rectangle {
+                    anchors.centerIn: parent
+                    width: parent.width
+                    height: 2
+                    color: seperatorColor
+                }
             }
         }
     }

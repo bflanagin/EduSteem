@@ -27,8 +27,7 @@ function load_Day(month, day, weekday) {
                                     ":")[1].split(",")[0]
 
                         if (classes[classnum].split(":")[1].split(",")[week] === "true") {
-                          //  console.log(classes[classnum].split(":")[1].split(",")[week])
-                          //  console.log(coursenumber)
+
                            var subject = Courses.pullField("Subject","course",coursenumber)
 
                             var color = "gray"
@@ -47,7 +46,7 @@ function load_Day(month, day, weekday) {
                                 }
                             }
 
-                            Courses.lessonControlADD(coursenumber)
+                            //Courses.lessonControlADD(coursenumber)
                                 var coursename = Courses.pullField("Name","course",coursenumber)
                             dayList.append({
                                                "coursenumber": coursenumber,

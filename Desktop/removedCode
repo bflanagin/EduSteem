@@ -257,3 +257,147 @@ From GeneralInfoDashBoard
           }
       }
   } */
+
+From Student UI
+
+Text {
+    font.pointSize: 18
+    text: qsTr("Project")
+    font.bold: true
+    anchors.left: parent.left
+    anchors.leftMargin: 10
+}
+Rectangle {
+    color: seperatorColor
+    width: parent.width * 0.98
+    anchors.horizontalCenter: parent.horizontalCenter
+
+    height: 2
+}
+
+Card {
+    width: parent.width * 0.99
+    height: thisWindow.height * 0.3
+    anchors.horizontalCenter: parent.horizontalCenter
+    curtainColor: "LightBlue"
+    title: "Project"
+    unit: "Unit"
+    lesson: "Test Project"
+}
+
+
+From scheduler.js
+
+/*function pullField(where, type, id) {
+
+    var table = ""
+    var field = ""
+
+    var returned = ""
+
+    switch (where) {
+    case "course":
+        table = "Courses"
+        break
+    case "unit":
+        table = "Units"
+        break
+    case "lesson":
+        table = "Lessons"
+        break
+    }
+
+    db.readTransaction(function (tx) {
+        var dataSTR = ""
+        if (table !== "Lessons") {
+            dataSTR = "SELECT * FROM " + table + " WHERE creationdate =" + id
+        } else {
+            dataSTR = "SELECT * FROM " + table + " WHERE coursenumber =" + parseInt(
+                        id)
+        }
+
+        var pull = tx.executeSql(dataSTR)
+
+        if (pull.rows.length !== 0) {
+            switch (type) {
+            case "Name":
+                returned = pull.rows.item(0).name.replace(/_/g, " ")
+                break
+            case "About":
+                returned = pull.rows.item(0).about
+                break
+            case "Objective":
+                returned = pull.rows.item(0).objective
+                break
+            case "Resources":
+                returned = pull.rows.item(0).resources
+                break
+            case "Supplies":
+                returned = pull.rows.item(0).supplies
+                break
+            case "gq":
+                returned = pull.rows.item(0).guidingQuestions
+                break
+            case "Sequence":
+                returned = pull.rows.item(0).lessonSequence
+                break
+            case "rq":
+                returned = pull.rows.item(0).reviewQuestions
+                break
+
+            case "Subject":
+                returned = pull.rows.item(0).subject
+                break
+            }
+        } else {
+            switch (id) {
+            case "12":
+                switch (type) {
+                case "Name":
+                    returned = "Lunch"
+                    break
+                case "About":
+                    returned = "Food Time"
+                    break
+                case "Duration":
+                    returned = 60
+                    break
+                }
+                break
+            case "10":
+                switch (type) {
+                case "Name":
+                    returned = "Read to Self"
+                    break
+                case "About":
+                    returned = "Read for pleasure"
+                    break
+                case "Duration":
+                    returned = 45
+                    break
+                }
+                break
+            case "8":
+                switch (type) {
+                case "Name":
+                    returned = "P.E."
+                    break
+                case "About":
+                    returned = "Morning Walk"
+                    break
+                case "Duration":
+                    returned = 90
+                    break
+                case "Subject":
+                    returned = "8"
+                }
+                break
+            }
+        }
+    })
+
+    return returned
+} */
+
+
+

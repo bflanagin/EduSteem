@@ -14,13 +14,12 @@ ESborder {
     id: thisWindow
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.verticalCenter: parent.verticalCenter
-    onStateChanged: if (state == "Active") {
+    onStateChanged: if (state === "Active") {
                         if (Scripts.checklocal("user") === true) {
-
                             view.currentIndex = 1
                         } else {
                             console.log("Checking for Educator based on " + userID)
-                            Network.checkOpenSeed(userID, userCode, "Educator")
+                            Network.checkOpenSeed(userID, userCode, 0, "Educator")
                         }
                     } else {
 
@@ -446,6 +445,7 @@ ESborder {
                        view.currentIndex = view.currentIndex + 1
                    } else {
                        educatorHome.state = "Active"
+                       thisWindow.state = "inActive"
                    }
     }
 
@@ -516,8 +516,7 @@ ESborder {
                 background: ESTextField {
                 }
                 placeholderText: qsTr("Enter School Code")
-                onTextChanged: Network.retrieveFromOpenSeed(text,
-                                                            text, "School")
+                onTextChanged: Network.retrieveFromOpenSeed(text,text,"School",0)
             }
 
             Row {

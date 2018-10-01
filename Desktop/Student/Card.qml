@@ -93,10 +93,21 @@ ESborder {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                Student.updateTask(studentCode,lessonID,1,"")
-                studentHome.state = "inActive"
-                lessonView.lessonID = lessonID
-                lessonView.state = "Active"
+                switch(lessonID) {
+                case 998:studentHome.state = "inActive"
+                    lessonView.lessonID = lessonID
+                    lessonView.state = "Active"
+                    break
+                case 999:  studentHome.state = "inActive"
+                    lessonView.lessonID = lessonID
+                    lessonView.state = "Active"
+                    break
+                default:Student.updateTask(studentCode,lessonID,1,"")
+                    studentHome.state = "inActive"
+                    lessonView.lessonID = lessonID
+                    lessonView.state = "Active"
+                    break
+                  }
             }
 
         }

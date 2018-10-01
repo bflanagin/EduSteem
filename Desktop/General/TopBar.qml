@@ -25,9 +25,10 @@ Item {
     ESButton {
         id: logOut
         anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
         anchors.leftMargin: 8
-        width: parent.height
-        height: parent.height
+        width: parent.height * 0.7
+        height: parent.height * 0.7
         icon:  if (studentHome.state === "Active"
                        || educatorHome.state === "Active") {"/icons/close.svg"} else {"/icons/back.svg"}
 
@@ -88,15 +89,17 @@ Item {
         spacing: 3
 
         ESButton {
-            width: parent.height
-            height: parent.height
+            width: parent.height * 0.7
+            height: parent.height * 0.7
             icon: "/icons/message.svg"
+            anchors.verticalCenter: parent.verticalCenter
         }
 
         ESButton {
-            width: parent.height
-            height: parent.height
+            width: parent.height * 0.7
+            height: parent.height * 0.7
             icon: "/icons/menu.svg"
+            anchors.verticalCenter: parent.verticalCenter
 
             rotation: if (rightMenu.state == "Active") {
                           90
