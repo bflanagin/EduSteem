@@ -73,7 +73,7 @@ function assignment_list() {
 
         var pull = tx.executeSql(dataSTR,schoolCode)
 
-        console.log("from Assignment List "+schoolCode, pull.rows.length)
+        //console.log("from Assignment List "+schoolCode, pull.rows.length)
 
         while (pull.rows.length > num) {
 

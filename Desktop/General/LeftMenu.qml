@@ -108,13 +108,21 @@ Item {
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            schedule.state = "inActive"
+                            if(studentHome.state !== "Active") {
+                                 yourProfile.userid = userCode
+                                 yourProfile.type = "educator"
+                                 schedule.state = "inActive"
+                                general.state = "inActive"
+                                student.state = "inActive"
+                                studentRoster.state = "inActive"
+                            } else {
+                                yourProfile.type = "student"
+                                yourProfile.userid = studentCode
+
+                            }
                             rightMenu.state = "Active"
-                            general.state = "inActive"
-                            student.state = "inActive"
-                            studentRoster.state = "inActive"
                             yourProfile.state = "Active"
-                            yourProfile.userid = userCode
+
                         }
                     }
                 }

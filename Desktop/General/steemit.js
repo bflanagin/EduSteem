@@ -1,3 +1,18 @@
+
+//Retrieval functions
+
+function get_global() {
+    var url = "https://api.steemit.com/"
+    var tosend = '{"jsonrpc":"2.0","method":"condenser_api.get_dynamic_global_properties", "params":[], "id":1}'
+
+        var http = new XMLHttpRequest()
+        gc()
+        var pagedata = ""
+
+
+}
+
+
 function get_blog(account) {
     var url = "https://api.steemit.com/"
     var tosend = '{"jsonrpc":"2.0", "method":"follow_api.get_blog", "params":{"account":"'
@@ -13,16 +28,11 @@ function get_blog(account) {
 
         if (http.readyState === XMLHttpRequest.DONE) {
 
-            if (http.responseText == "100") {
-                console.log("Incorrect DevID")
-            } else if (http.responseText == "101") {
-                console.log("Incorrect AppID")
-            } else {
                 pagedata = http.responseText
 
                 var contents = pagedata.split('{"comment":')
 
-                banner = "../img/steemit-vector-icon.png"
+               // banner = "../img/steemit-vector-icon.png"
                 var num = 1
                 while (num < contents.length) {
                     var permlink = contents[num].split('"permlink":"')[1].split(
@@ -45,7 +55,6 @@ function get_blog(account) {
 
                     num = num + 1
                 }
-            }
         }
     }
     http.open('POST', url.trim(), true)
@@ -66,16 +75,11 @@ function get_follow(account) {
 
         if (http.readyState === XMLHttpRequest.DONE) {
 
-            if (http.responseText == "100") {
-                console.log("Incorrect DevID")
-            } else if (http.responseText == "101") {
-                console.log("Incorrect AppID")
-            } else {
+
                 pagedata = http.responseText
 
                 profileAbout = pagedata.split(",")
             }
-        }
     }
     http.open('POST', url.trim(), true)
     http.setRequestHeader("Content-type", "application/json")
@@ -95,11 +99,47 @@ function get_info(account) {
 
         if (http.readyState === XMLHttpRequest.DONE) {
 
-            if (http.responseText == "100") {
-                console.log("Incorrect DevID")
-            } else if (http.responseText == "101") {
-                console.log("Incorrect AppID")
-            } else {
+                pagedata = http.responseText
+               // console.log(pagedata)
+                var profile = pagedata.split('{\\"profile\\":{')[1].split(
+                            '\\"}}"')[0]
+                yourProfile.steemProfileInfo = profile.replace(/\\/g, "").split(",")
+
+                var alldata = pagedata.split('"}}"')[1].split(",")
+
+                for(var pnum = 0;alldata.length > pnum;pnum = pnum + 1) {
+                   // console.log(alldata[pnum])
+                switch(alldata[pnum].split(":")[0]) {
+                case '"post_count"' : console.log("post count: "+alldata[pnum].split(":")[1])
+                                    break
+                case '"voting_manabar"': console.log("mana: "+parseInt(alldata[pnum].split(":")[2].replace(/"/g,"")))
+                                    break
+                case '"balance"' : console.log(alldata[pnum].split(":")[1].replace(/"/g,""))
+                                    break
+
+                }
+
+                }
+            }
+    }
+    http.open('POST', url.trim(), true)
+    http.setRequestHeader("Content-type", "application/json")
+    http.send(tosend)
+}
+
+function get_comments(account) {
+    var url = "https://api.steemit.com/"
+    var tosend = '{"jsonrpc":"2.0", "method":"condenser_api.get_accounts", "params":[[ \
+"' + account.split("@")[1] + '"]], "id":1}'
+
+    var http = new XMLHttpRequest()
+    gc()
+    var pagedata = ""
+
+    http.onreadystatechange = function () {
+
+        if (http.readyState === XMLHttpRequest.DONE) {
+
                 pagedata = http.responseText
 
                 var profile = pagedata.split('{\\"profile\\":{')[1].split(
@@ -107,10 +147,13 @@ function get_info(account) {
 
                 steemProfileInfo = profile.replace(/\\/g, "").split(",")
                 //console.log(steemProfileInfo[4])
-            }
         }
     }
     http.open('POST', url.trim(), true)
     http.setRequestHeader("Content-type", "application/json")
     http.send(tosend)
 }
+
+//Sending functions
+
+

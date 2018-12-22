@@ -1,8 +1,8 @@
 import QtQuick 2.11
 import QtQuick.Window 2.11
-import QtQuick.Controls 2.3
+import QtQuick.Controls 2.4
 import QtQuick.Controls.Styles 1.4
-import QtQuick.Controls.Material 2.4
+import QtQuick.Controls.Material 2.2
 import QtQuick.LocalStorage 2.0 as Sql
 
 import Process 1.0
@@ -206,7 +206,7 @@ Window {
         repeat: true
         running: true
         onTriggered: if (schoolCode.length > 2) {
-                         console.log("Checking for updates")
+                         //console.log("Checking for updates")
                          Network.sync("Courses", schoolCode)
                          Network.sync("Units", schoolCode)
                          Network.sync("Lessons", schoolCode)

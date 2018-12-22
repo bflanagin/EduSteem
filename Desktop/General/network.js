@@ -496,12 +496,12 @@ function sync(type, code) {
 
                     var locals = tx.executeSql("SELECT * FROM "+type+" WHERE 1")
 
-                    console.log(type+ " local: "+ locals.rows.length)
+                   // console.log(type+ " local: "+ locals.rows.length)
 
 
                     var ids = http.responseText.trim().split("\n")
 
-                    console.log(type+ " server: "+ ids.length)
+                   // console.log(type+ " server: "+ ids.length)
 
                     if (ids[0] !== ":0") {
                         while (ids.length > num) {
@@ -515,8 +515,7 @@ function sync(type, code) {
                                 pull = tx.executeSql("SELECT * FROM "+type+" WHERE creationdate=?",[data])
                             }
                             if (pull.rows.length === 0) {
-                                console.log("Grabbing " + type + " from Server " + ids[num].split(
-                                                "::")[0])
+                                //console.log("Grabbing " + type + " from Server " + ids[num].split("::")[0])
                                 retrieveFromOpenSeed(ids[num], code, type, 0)
                             } else {
 
@@ -530,7 +529,7 @@ function sync(type, code) {
                                 }
 
                                 if (update.rows.length === 1) {
-                                    console.log(ids[num] + " Needs update")
+                                    //console.log(ids[num] + " Needs update")
                                     retrieveFromOpenSeed(data, code, type, 1)
                                 }
                             }
@@ -539,7 +538,7 @@ function sync(type, code) {
                         }
 
                         if(locals.rows.length > ids.length) {
-                                console.log(type+" more Local")
+                              //  console.log(type+" more Local")
 
                             while (locals.rows.length > sendnum) {
 
@@ -556,10 +555,10 @@ function sync(type, code) {
                             }
                         }
                     } else {
-                        console.log("Checking for local data")
+                        //console.log("Checking for local data")
 
                         pull = tx.executeSql("SELECT * FROM "+type+" WHERE 1")
-                        console.log("We have " + pull.rows.length + " " + type + " locally")
+                    //    console.log("We have " + pull.rows.length + " " + type + " locally")
 
                         while (pull.rows.length > sendnum) {
 

@@ -24,6 +24,15 @@ Item {
     property string userid: ""
     property string userAbout: ""
     property string tempImg:""
+    property string type: "educator"
+
+    // steem data //
+
+    property double steem_Balance: 0
+    property double steem_sbdBalance: 0
+    property var steemProfileInfo: []
+
+
 
     states: [
 
@@ -66,7 +75,7 @@ Item {
     state: "inActive"
 
     onUseridChanged: {
-        Scripts.loadprofile(userid)
+        Scripts.loadprofile(type,userid)
     }
 
     Rectangle {
@@ -74,7 +83,7 @@ Item {
     }
 
     onStateChanged: {
-        profileImage.source = IPFS.grabImage(userCode,"profile")
+        profileImage.source = IPFS.grabImage(userid,"profile")
     }
 
     Text {
@@ -141,7 +150,7 @@ Item {
                 height: imageBlock.height
                 ESborder {
                     id: imageBlock
-                    width: if(parent.width * 0.3 >= 300) {300} else {parent.width * 0.3}
+                    width: if(parent.width * 0.2 >= 200) {200} else {parent.width * 0.2}
                     height: width
 
                     Image {
@@ -151,7 +160,7 @@ Item {
                         height: width
                         fillMode: Image.PreserveAspectCrop
                         visible: false
-                        source: IPFS.grabImage(userCode,"profile")
+                        source: IPFS.grabImage(userid,"profile")
 
                         Image {
                             anchors.fill: parent
@@ -264,7 +273,7 @@ Item {
             }
 
             ESborder {
-                width: parent.width
+                width: parent.width * 0.50
                 height: steemColumn.height + 40
 
                 Column {

@@ -123,8 +123,7 @@ Item {
         state: "inActive"
         where: "studentInfo"
     }
-
-    ScrollView {
+    Item {
         anchors.top: topBar.bottom
         anchors.topMargin: 5
         anchors.left: leftMenu.right
@@ -134,8 +133,12 @@ Item {
                    thisWindow.width - leftMenu.width
                }
         height: parent.height - topBar.height
+
+    ScrollView {
+        anchors.fill: parent
         contentHeight: pageColumn.height + 40
         clip: true
+        enabled: if(yourProfile.state === "Active") {false} else {true}
 
         Column {
             id: pageColumn
@@ -344,6 +347,18 @@ Item {
         }
 
     }
+
+
+    Profile {
+        id: yourProfile
+        anchors.top: topBar.bottom
+        anchors.topMargin: 5
+        width: parent.width * 0.80
+        height: parent.height
+        state: "inActive"
+    }
+
+}
 
     ListModel {
         id: todaysClasses

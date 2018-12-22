@@ -246,13 +246,8 @@ function save_schedule(month, day, repeatMode, editMode, movement) {
                     tx.executeSql(dtable, data)
                 } else {
                     var daysTasks = pull.rows.item(0).day
-
-                    if (daysTasks.search(day.split(":")[1]) === -1) {
                         tx.executeSql("UPDATE Schedule SET day=? , editdate =? WHERE schoolcode = ? AND month = ?",[daysTasks
-                                      + day + ";", d.getTime(),schoolCode,month])
-                    } else {
-                        console.log("Class already added")
-                    }
+                                      + day + ";", d.getTime(),schoolCode,month])         
                 }
             })
         } else {
@@ -261,7 +256,7 @@ function save_schedule(month, day, repeatMode, editMode, movement) {
             while (num < monthsInSchool) {
                 var monthnum = 0
 
-                if (num + schoolStartMonth > 12) {
+                if (num + schoolStartMonth < 12) {
                     monthnum = num + schoolStartMonth
                 } else {
                     monthnum = (num + schoolStartMonth) - 12

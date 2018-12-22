@@ -25,7 +25,7 @@ function saveUnit(userid, coursenumber, unitnum, name, objective, about, creatio
 
     db.transaction(function (tx) {
         var data = [userid, coursenumber, unitnum, name.replace(/ /g, "_"), objective, about, d.getTime(), d.getTime()]
-        console.log(data)
+        //console.log(data)
         var dtable = "INSERT INTO Units VALUES(?,?,?,?,?,?,?,?)"
 
         var dataSTR = "SELECT * FROM Units WHERE id =? AND creationdate = ?"
@@ -303,7 +303,7 @@ function editField(type, where, id, change) {
         var pull = tx.executeSql(dataSTR,str)
 
         if (pull.rows.length === 1) {
-            console.log(pull.rows.item(0).name)
+            //console.log(pull.rows.item(0).name)
 
             tx.executeSql("UPDATE "+table+" SET "+field+"=?, editdate=? WHERE id =? AND creationdate =?" ,[change,d.getTime(),userID,id])
         }
@@ -604,7 +604,7 @@ function lessonControlINFO(course, type, status, lessonID) {
     var check = ""
     var returned = ""
 
-    console.log(course, status, lessonID)
+    //console.log(course, status, lessonID)
     db.readTransaction(function (tx) {
 
         if(lessonID === undefined) {
@@ -642,7 +642,7 @@ function lessonControlINFO(course, type, status, lessonID) {
         }
 
         } else {
-            console.log("using lesson ID")
+            //console.log("using lesson ID")
             check = tx.executeSql(
                                     "SELECT * FROM Lesson_Control WHERE lessonID =?",
                                     [lessonID])
@@ -783,7 +783,7 @@ function lessonControlNext(type) {
 
         check = tx.executeSql("SELECT * FROM Lesson_Control WHERE status= 1")
 
-        console.log("from Lesson Control Next:" + check.rows.length)
+        //console.log("from Lesson Control Next:" + check.rows.length)
 
         if (check.rows.length === 1) {
 

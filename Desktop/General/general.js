@@ -186,11 +186,14 @@ function loaduser(userid) {
     })
 }
 
-function loadprofile(userid) {
+function loadprofile(type,userid) {
 
     var pull = ""
     var pull1 = ""
     var exists = false
+
+    console.log(type,userid)
+
     db.readTransaction(function (tx) {
 
         pull = tx.executeSql("SELECT * FROM Users WHERE code= ?",[userid])
@@ -212,6 +215,9 @@ function loadprofile(userid) {
 
             steemAccount = pull1.rows.item(0).data1
             steemShareKey = pull1.rows.item(0).data2
+        } else {
+            steemAccount = ""
+            steemShareKey = ""
         }
     })
 }

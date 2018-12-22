@@ -67,7 +67,7 @@ ESborder {
                      }
             onVisibleChanged: {
                 webview.url = media.split("](")[1].split(")")[0]
-                console.log(webview.url)
+                //console.log(webview.url)
             }
             WebEngineView {
                 id: webview

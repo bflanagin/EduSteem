@@ -55,7 +55,7 @@ function grabImage(userCode,type) {
 
                 }
             } else {
-                console.log("no image found")
+                //console.log("no image found")
             }
 
     })

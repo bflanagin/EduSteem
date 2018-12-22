@@ -54,7 +54,7 @@ ESborder {
         onTriggered: {
             oldpos = changeBox.cursorPosition
             thestring = changeBox.text
-            console.log(thestring)
+            //console.log(thestring)
             changeBox.text = Spelling.checkspelling(thestring)
             changeBox.cursorPosition = oldpos
         }

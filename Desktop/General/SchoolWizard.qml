@@ -18,7 +18,7 @@ ESborder {
                         if (Scripts.checklocal("user") === true) {
                             view.currentIndex = 1
                         } else {
-                            console.log("Checking for Educator based on " + userID)
+                            //console.log("Checking for Educator based on " + userID)
                             Network.checkOpenSeed(userID, userCode, 0, "Educator")
                         }
                     } else {

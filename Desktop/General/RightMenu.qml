@@ -103,7 +103,7 @@ Item {
     property string where: "default"
 
     property var profileAbout: []
-    property var steemProfileInfo: []
+
 
     onStudentIDChanged: {
         Students.loadStudent(studentID)
@@ -776,7 +776,7 @@ Item {
                     fillMode: Image.PreserveAspectCrop
                     visible: false
                     z: 1
-                    source: steemProfileInfo[4].split('":"')[1].replace(/"/g,
+                    source: yourProfile.steemProfileInfo[4].split('":"')[1].replace(/"/g,
                                                                         '')
 
                     Image {
@@ -796,7 +796,7 @@ Item {
 
             Text {
                 anchors.horizontalCenter: parent.horizontalCenter
-                text: steemProfileInfo[0].split('":"')[1].replace(/"/g, '')
+                text: yourProfile.steemProfileInfo[0].split('":"')[1].replace(/"/g, '')
                 font.bold: true
                 font.pointSize: 10
             }
@@ -836,12 +836,21 @@ Item {
             }
 
             Text {
-                text: steemProfileInfo[3].split(":")[1].replace(/"/g, '')
+                text: yourProfile.steemProfileInfo[3].split(":")[1].replace(/"/g, '')
                 width: parent.width * 0.98
                 wrapMode: Text.WordWrap
                 anchors.horizontalCenter: parent.horizontalCenter
                 horizontalAlignment: Text.AlignLeft
             }
+
+            Rectangle {
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width * 0.95
+                color: seperatorColor
+                height: 1
+            }
+
+
         }
 
         Item {
